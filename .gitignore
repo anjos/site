@@ -1,0 +1,7 @@
+*~
+*.swp
+*.swo
+*.pid
+output/
+.DS_Store
+__pycache__/

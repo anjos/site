@@ -1,0 +1,16 @@
+Interview for Radio-Télévision Suisse (RTS), 12h45
+--------------------------------------------------
+
+:date: 2016-11-22 12:45
+:slug: rts-1245
+:summary: I was interviewed for a document in the Swiss's RTS 12h45 news
+
+
+This short document was aired November, 22nd. 2016 and contains a quick
+overview of a CTI project I'm working on. The project is about biometric
+recognition using finger veins in 3-dimensions. Click `this link`_ to pop-up a
+video player with the document.
+
+
+.. Place your references here
+.. _this link: http://www.rts.ch/play/tv/popupvideoplayer?id=8184479&startTime=5.928
