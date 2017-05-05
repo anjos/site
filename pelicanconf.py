@@ -62,17 +62,29 @@ SOCIAL = (
     ('linkedin', 'https://www.linkedin.com/in/andreranjos/'),
     ('stack-overflow', 'http://stackoverflow.com/users/712525/andré-anjos'),
     ('github', 'https://github.com/anjos'),
-    ('gitlab', 'https://gitlab.idiap.ch/andre.anjos'),
+    ('gitlab', 'https://gitlab.idiap.ch/bob'),
     ('skype', 'skype:andrezito?call'),
     )
 GOOGLE_ANALYTICS = 'UA-22320747-1'
 
 # Plugins
+PLUGIN_PATHS = [
+    'plugins',
+    ]
 PLUGINS = [
     'pelican_youtube',
+    'deadlinks',
     ]
 
 DEFAULT_PAGINATION = False
 
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = True
+
+# Uncomment the following line to enable link-checking
+DEADLINK_VALIDATION = False
+DEADLINK_OPTS = {
+    'timeout_duration_ms': 5000,
+    'archive': False,
+    'classes': ['disabled'],
+    }

@@ -1,3 +1,6 @@
 [submodule "theme"]
 	path = theme
 	url = https://github.com/alexandrevicenzi/Flex.git
+[submodule "plugins/deadlinks"]
+	path = plugins/deadlinks
+	url = https://github.com/silentlamb/pelican-deadlinks.git

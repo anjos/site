@@ -39,7 +39,7 @@ Data-Acquisition system.
 
 
 I started studying electronics and computers in 1994, when I joined the
-`Electronics Engineering School`_ of the `Federal University of Rio de
+Electronics Engineering School of the `Federal University of Rio de
 Janeiro`_. I finished my basic electronic engineering studies in 1999, my
 masters degree in 2001, finally getting a Ph.D. in Signal Processing in 2006.
 During this time I have been affiliated to the `Signal Processing Laboratory`_.
@@ -75,12 +75,11 @@ hacked together, you should take a look at that link.
 .. _university of wisconsin, madison: http://www.wisc.edu
 .. _cern: http://www.cern.ch
 .. _atlas experiment: http://atlas.ch
-.. _electronics engineering school: http://www.del.ufrj.br
 .. _federal university of rio de janeiro: http://www.ufrj.br
 .. _signal processing laboratory: http://www.lps.ufrj.br
 .. _artificial neural networks: http://en.wikipedia.org/wiki/Artificial_neural_network
 .. _publications:
 .. _cv: {filename}/pdfs/cv.pdf
 .. _github: https://github.com/anjos
-.. _gitlab: https://gitlab.idiap.ch/andre.anjos
+.. _gitlab: https://gitlab.idiap.ch/bob
 .. _this website: http://github.com/anjos/prosite

@@ -39,6 +39,13 @@ necessary.
    You should regenerate it in case of problems.
 
 
+Checking for dead links
+=======================
+
+It is possible to automatically check for dead links using the configuration
+option ``DEADLINK_VALIDATION``, setting it to ``True`` in ``pelicanconf.py``.
+
+
 Deployment
 ----------
 
