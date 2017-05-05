@@ -16,7 +16,7 @@ you to install a Conda_-based environment for deployment with this command
 line::
 
   $ conda env create -f env.yml
-  $ source activate website
+  $ source activate site
 
 
 To compile a new version of the website, do::
