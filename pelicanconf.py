@@ -34,7 +34,7 @@ CC_LICENSE = {
     'name': 'Creative Commons Attribution-ShareAlike',
     'version': '4.0',
     'slug': 'by-sa'
-}
+    }
 
 PATH = 'content'
 DELETE_OUTPUT_DIRECTORY = True
@@ -74,6 +74,7 @@ PLUGIN_PATHS = [
 PLUGINS = [
     'pelican_youtube',
     'deadlinks',
+    'bibtex',
     ]
 
 DEFAULT_PAGINATION = False
@@ -81,10 +82,13 @@ DEFAULT_PAGINATION = False
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = True
 
-# Uncomment the following line to enable link-checking
+# Set to ``True`` the following line to enable link-checking
 DEADLINK_VALIDATION = False
 DEADLINK_OPTS = {
     'timeout_duration_ms': 5000,
     'archive': False,
     'classes': ['disabled'],
     }
+
+# Where is the location of your BibTeX database
+PUBLICATIONS_SRC = 'content/publications.bib'
