@@ -4,6 +4,7 @@ python:
   - "3.5"
 
 install:
+  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
   - git submodule update --init --recursive
 
   # We do this conditionally because it saves us some downloading if the
