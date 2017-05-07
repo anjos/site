@@ -1,8 +1,8 @@
-Interview for Radio-Télévision Suisse (RTS), 12h45
---------------------------------------------------
+Interview for Télévision Suisse-Romande (TSR), 12h45
+----------------------------------------------------
 
 :date: 2016-11-22 12:45
-:slug: rts-1245
+:slug: tsr-1245
 :summary: I was interviewed for a document in the Swiss's RTS 12h45 news
 
 

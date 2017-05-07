@@ -51,10 +51,16 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Links in the front page, aside from the static ``pages``
+EXTRA_TEMPLATES_PATHS = [
+    'templates',
+    ]
+DIRECT_TEMPLATES = [
+    'publications',
+    ]
 LINKS = (
     ('CV', '/pdfs/cv.pdf'),
     ('Videos', '/category/videos.html'),
-    ('Publications', '/category/publications.html'),
+    ('Publications', '/publications.html'),
     )
 
 # Social widget
