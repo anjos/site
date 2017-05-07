@@ -2,7 +2,7 @@ Short Biography
 ---------------
 
 :date: 2017-05-05 10:48
-:category: pages
+:slug: short-bio
 :summary: Short biography, for all purposes
 
 André Anjos received his Ph.D. degree in signal processing from the Federal

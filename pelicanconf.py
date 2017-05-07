@@ -51,17 +51,16 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Links in the front page, aside from the static ``pages``
-EXTRA_TEMPLATES_PATHS = [
-    'templates',
-    ]
 DIRECT_TEMPLATES = [
     'index',
     'publications',
     ]
 LINKS = (
     ('CV', '/pdfs/cv.pdf'),
+    ('Short Bio', '/pages/short-bio.html'),
     ('Videos', '/category/videos.html'),
     ('Publications', '/publications.html'),
+    ('About', '/pages/about.html'),
     )
 
 # Social widget
@@ -85,6 +84,8 @@ PLUGINS = [
     ]
 
 DEFAULT_PAGINATION = False
+DISABLE_URL_HASH = True #don't put hashes by the end of urls
+DISPLAY_PAGES_ON_MENU = False
 
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = True

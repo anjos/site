@@ -2,8 +2,6 @@ About me
 --------
 
 :date: 2017-05-03 17:47
-:modified: 2017-05-03 17:47
-:category: pages
 :slug: about
 :summary: Some information about me
 
