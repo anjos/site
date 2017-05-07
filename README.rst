@@ -49,7 +49,13 @@ option ``DEADLINK_VALIDATION``, setting it to ``True`` in ``pelicanconf.py``.
 Deployment
 ----------
 
-To deploy the website, do...
+Deployment is automatic, once you this repository and push the tag to github.
+
+
+Publications
+============
+
+In order to deploy a publication, make sure to place the PDF of the publication at Idiap, on your account, folder ``~/public/papers``. The name of the PDF should match the BibTeX publication entry identifier.
 
 
 
