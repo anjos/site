@@ -55,6 +55,7 @@ EXTRA_TEMPLATES_PATHS = [
     'templates',
     ]
 DIRECT_TEMPLATES = [
+    'index',
     'publications',
     ]
 LINKS = (
