@@ -86,6 +86,16 @@ PLUGINS = [
 DEFAULT_PAGINATION = False
 DISABLE_URL_HASH = True #don't put hashes by the end of urls
 DISPLAY_PAGES_ON_MENU = False
+DISPLAY_CATEGORIES_ON_MENU = False
+OUTPUT_RETENTION = [
+    'CNAME',
+    ]
+
+# URL organization
+ARTICLE_URL = 'posts/{category}/{slug}/'
+ARTICLE_SAVE_AS = 'posts/{category}/{slug}/index.html'
+CATEGORY_URL = 'posts/{slug}/'
+CATEGORY_SAVE_AS = 'posts/{slug}/index.html'
 
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = True
