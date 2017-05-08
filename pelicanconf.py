@@ -9,7 +9,7 @@ SITESUBTITLE = 'Signal Processing Engineer, Ph.D.'
 SITEDESCRIPTION = 'Professional Website'
 SITELOGO = '/images/profile_128.png'
 FAVICON = '/images/favicon.ico'
-SITEURL = 'https://anjos.github.io/prosite'
+SITEURL = 'http://andreanjos.org'
 
 # Theme setup
 THEME = 'theme'
