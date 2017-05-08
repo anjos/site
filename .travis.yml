@@ -16,6 +16,7 @@ install:
 
 script:
   - pelican
+  - echo 'andreanjos.org' > output/CNAME
 
 notifications:
   email:
