@@ -66,7 +66,7 @@ LINKS = (
 # Social widget
 SOCIAL = (
     ('linkedin', 'https://www.linkedin.com/in/andreranjos/'),
-    ('stack-overflow', 'http://stackoverflow.com/users/712525/andré-anjos'),
+    ('stack-overflow', 'https://stackoverflow.com/users/712525/andré-anjos'),
     ('github', 'https://github.com/anjos'),
     ('gitlab', 'https://gitlab.idiap.ch/bob'),
     ('skype', 'skype:andrezito?call'),
