@@ -19,11 +19,13 @@ certifications). I am one of the authors and architect of the platform an
 coordinate work on it at the `Idiap Research Institute`_.
 
 This video contains a beginners tutorial on some of the BEAT Platform's main
-features and concepts. For more information, visit the `BEAT platform`_
-website or get in touch via `our mailing list`_.
+features and concepts. For more information, visit the `BEAT platform`_ website
+or get in touch via `our mailing list`_. You can access the video using `this
+link`_.
 
+.. raw:: html
 
-.. youtube:: 2nPItQ5keM0
+   <iframe width="640" height="360" src="https://www.youtube.com/embed/2nPItQ5keM0?rel=0" frameborder="0" allowfullscreen></iframe>
 
 
 .. Place your references here
@@ -32,3 +34,4 @@ website or get in touch via `our mailing list`_.
 .. _open science: https://en.wikipedia.org/wiki/Open_science
 .. _reproducible research: https://en.wikipedia.org/wiki/Reproducibility
 .. _idiap research institute: https://www.idiap.ch
+.. _this link: https://www.youtube.com/watch?v=2nPItQ5keM0

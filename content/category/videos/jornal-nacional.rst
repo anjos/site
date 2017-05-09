@@ -10,10 +10,13 @@ Interview for Jornal Nacional
 This short document was aired September, 10th. 2008 as part of the CERN's LHC
 start up celebrations. The "Jornal Nacional" is Brazil's nationwide 20h00 news
 magazine. I appear by the end of the article, answering one of the
-interviewer's question - that was fun!
+interviewer's question - that was fun! You can access the video using `this
+link`_.
+
+.. raw:: html
+
+   <iframe width="640" height="360" src="https://www.youtube.com/embed/XHJWA6Cb7vs?rel=0" frameborder="0" allowfullscreen></iframe>
 
 
-.. youtube:: XHJWA6Cb7vs
-   :class: youtube-4x3
-   :allowfullscreen: no
-   :seamless: yes
+.. Place your references here
+.. _this link: https://www.youtube.com/watch?v=XHJWA6Cb7vs

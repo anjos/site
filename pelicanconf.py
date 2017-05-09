@@ -78,7 +78,6 @@ PLUGIN_PATHS = [
     'plugins',
     ]
 PLUGINS = [
-    'pelican_youtube',
     'deadlinks',
     'bibtex',
     ]
