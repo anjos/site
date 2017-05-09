@@ -58,8 +58,9 @@ DIRECT_TEMPLATES = [
 LINKS = (
     ('CV', '/pdfs/cv.pdf'),
     ('Short Bio', '/short-bio/'),
-    ('Videos', '/videos/'),
     ('Publications', '/publications/'),
+    ('Software', '/software/'),
+    ('Videos', '/videos/'),
     ('About', '/about/'),
     )
 
