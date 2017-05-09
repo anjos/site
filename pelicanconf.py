@@ -57,10 +57,10 @@ DIRECT_TEMPLATES = [
     ]
 LINKS = (
     ('CV', '/pdfs/cv.pdf'),
-    ('Short Bio', '/pages/short-bio.html'),
+    ('Short Bio', '/pages/short-bio/'),
     ('Videos', '/posts/videos/'),
-    ('Publications', '/publications.html'),
-    ('About', '/pages/about.html'),
+    ('Publications', '/pages/publications/'),
+    ('About', '/pages/about/'),
     )
 
 # Social widget
@@ -96,6 +96,9 @@ ARTICLE_URL = 'posts/{category}/{slug}/'
 ARTICLE_SAVE_AS = 'posts/{category}/{slug}/index.html'
 CATEGORY_URL = 'posts/{slug}/'
 CATEGORY_SAVE_AS = 'posts/{slug}/index.html'
+PAGE_URL = 'pages/{slug}/.html'
+PAGE_SAVE_AS = 'pages/{slug}/index.html'
+PUBLICATIONS_SAVE_AS = 'pages/publications/index.html'
 
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = True
@@ -109,4 +112,4 @@ DEADLINK_OPTS = {
     }
 
 # Where is the location of your BibTeX database
-PUBLICATIONS_SRC = 'content/publications.bib'
+PUBLICATIONS_SRC = 'content/pages/publications/index.bib'
