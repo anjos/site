@@ -57,10 +57,10 @@ DIRECT_TEMPLATES = [
     ]
 LINKS = (
     ('CV', '/pdfs/cv.pdf'),
-    ('Short Bio', '/pages/short-bio/'),
-    ('Videos', '/posts/videos/'),
-    ('Publications', '/pages/publications/'),
-    ('About', '/pages/about/'),
+    ('Short Bio', '/short-bio/'),
+    ('Videos', '/videos/'),
+    ('Publications', '/publications/'),
+    ('About', '/about/'),
     )
 
 # Social widget
@@ -92,13 +92,13 @@ OUTPUT_RETENTION = [
     ]
 
 # URL organization
-ARTICLE_URL = 'posts/{category}/{slug}/'
-ARTICLE_SAVE_AS = 'posts/{category}/{slug}/index.html'
-CATEGORY_URL = 'posts/{slug}/'
-CATEGORY_SAVE_AS = 'posts/{slug}/index.html'
-PAGE_URL = 'pages/{slug}/.html'
-PAGE_SAVE_AS = 'pages/{slug}/index.html'
-PUBLICATIONS_SAVE_AS = 'pages/publications/index.html'
+ARTICLE_URL = '{category}/{slug}/'
+ARTICLE_SAVE_AS = '{category}/{slug}/index.html'
+CATEGORY_URL = '{slug}/'
+CATEGORY_SAVE_AS = '{slug}/index.html'
+PAGE_URL = '{slug}/.html'
+PAGE_SAVE_AS = '{slug}/index.html'
+PUBLICATIONS_SAVE_AS = 'publications/index.html'
 
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = True
