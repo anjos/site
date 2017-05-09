@@ -59,6 +59,7 @@ LINKS = (
     ('CV', '/pdfs/cv.pdf'),
     ('Short Bio', '/short-bio/'),
     ('Publications', '/publications/'),
+    ('Courses', '/courses/'),
     ('Software', '/software/'),
     ('Videos', '/videos/'),
     ('About', '/about/'),

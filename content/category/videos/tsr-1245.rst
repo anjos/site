@@ -13,7 +13,7 @@ video player with the document.
 
 .. raw:: html
 
-   <a href="http:////www.rts.ch/play/tv/redirect/detail/8184479" target="_blank" rel="nofollow" tabindex="-1"><img jsname="HiaYvf" class="eSQvjf" src="//lh3.googleusercontent.com/proxy/oYEHighHo-d_4tjd9kVtSiBprU2Wlk7Q4uOv7f5gi-aREdsXEKxqXv7H96WgRf10aD9Qktnvzfgj37_loO4Auw17erR6NE91WY9MeZX9KzgThn3vhM3CuVs=w640-h360-p-k" width="640" height="360" alt=""></a>
+   <a href="http:////www.rts.ch/play/tv/redirect/detail/8184479" target="_blank" rel="nofollow" tabindex="-1"><img alt="Preview video" jsname="HiaYvf" class="eSQvjf" src="//lh3.googleusercontent.com/proxy/oYEHighHo-d_4tjd9kVtSiBprU2Wlk7Q4uOv7f5gi-aREdsXEKxqXv7H96WgRf10aD9Qktnvzfgj37_loO4Auw17erR6NE91WY9MeZX9KzgThn3vhM3CuVs=w640-h360-p-k" width="640" height="360"></a>
 
 
 .. Place your references here

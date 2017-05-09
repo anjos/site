@@ -1,4 +1,2 @@
 * Projects
-* Courses
-* Software
 * Photos
