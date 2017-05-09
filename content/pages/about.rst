@@ -76,7 +76,7 @@ hacked together, you should take a look at that link.
 .. _federal university of rio de janeiro: http://www.ufrj.br
 .. _signal processing laboratory: http://www.lps.ufrj.br
 .. _artificial neural networks: http://en.wikipedia.org/wiki/Artificial_neural_network
-.. _publications: /publications.html
+.. _publications: /publications/
 .. _cv: {filename}/pdfs/cv.pdf
 .. _github: https://github.com/anjos
 .. _gitlab: https://gitlab.idiap.ch/bob
