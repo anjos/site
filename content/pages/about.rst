@@ -8,7 +8,7 @@ About me
 
 .. figure:: {filename}/images/about/andreanjos-at-idiap.jpg
    :figwidth: 40 %
-   :align: right
+   :align: center
    :alt: André at Idiap
 
    Taken at the Idiap Research Institute, August 19th., 2010. At the photo we
@@ -45,6 +45,7 @@ I have studied different subjects during all these years ranging from digital
 filters to pattern recognition. Most of my research time during school years
 was dedicated to `Artificial Neural Networks`_. I keep a record of all my
 `publications`_ in this website.
+
 
 .. figure:: {filename}/images/about/andreanjos-minister.jpg
    :figwidth: 40 %
