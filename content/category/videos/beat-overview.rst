@@ -25,7 +25,7 @@ link`_.
 
 .. raw:: html
 
-   <iframe width="640" height="360" src="https://www.youtube.com/embed/2nPItQ5keM0?rel=0" frameborder="0" allowfullscreen></iframe>
+   <div class="video-container"><iframe width="640" height="360" src="https://www.youtube.com/embed/2nPItQ5keM0?rel=0" frameborder="0" allowfullscreen></iframe></div>
 
 
 .. Place your references here

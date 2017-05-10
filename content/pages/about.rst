@@ -7,8 +7,8 @@ About me
 
 
 .. figure:: {filename}/images/about/andreanjos-at-idiap.jpg
-   :width: 40 %
-   :align: center
+   :figwidth: 40 %
+   :align: right
    :alt: André at Idiap
 
    Taken at the Idiap Research Institute, August 19th., 2010. At the photo we
@@ -28,7 +28,7 @@ Data-Acquisition system.
 
 
 .. figure:: {filename}/images/about/andreanjos-at-atlas.jpg
-   :width: 40 %
+   :figwidth: 40 %
    :align: center
    :alt: André at ATLAS inauguration
 
@@ -47,7 +47,7 @@ was dedicated to `Artificial Neural Networks`_. I keep a record of all my
 `publications`_ in this website.
 
 .. figure:: {filename}/images/about/andreanjos-minister.jpg
-   :width: 40 %
+   :figwidth: 40 %
    :align: center
    :alt: André with the Brazilian Science Minister
 
