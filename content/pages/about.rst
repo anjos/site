@@ -7,6 +7,7 @@ About me
 
 
 .. figure:: {filename}/images/about/andreanjos-at-idiap.jpg
+   :width: 90 %
    :figwidth: 40 %
    :align: center
    :alt: André at Idiap
@@ -28,7 +29,8 @@ Data-Acquisition system.
 
 
 .. figure:: {filename}/images/about/andreanjos-at-atlas.jpg
-   :figwidth: 50 %
+   :width: 90 %
+   :figwidth: 40 %
    :align: center
    :alt: André at ATLAS inauguration
 
@@ -48,7 +50,8 @@ was dedicated to `Artificial Neural Networks`_. I keep a record of all my
 
 
 .. figure:: {filename}/images/about/andreanjos-minister.jpg
-   :figwidth: 50 %
+   :width: 90 %
+   :figwidth: 40 %
    :align: center
    :alt: André with the Brazilian Science Minister
 

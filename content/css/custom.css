@@ -19,20 +19,20 @@ ul.social a.sc-gitlab {
   width: 80%;
   height: 80%;
 }
-.responsive-image {
-  width: 80%;
-  height: auto;
-}
 .align-left {
-    float: left;
-    padding: 10px;
+  float: left;
+  padding: 10px;
 }
 .align-right {
-    float: right;
-    padding: 10px;
+  float: right;
+  padding: 10px;
 }
 .clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
+  content: "";
+  clear: both;
+  display: table;
+}
+p.caption {
+  font-style: italic;
+  color: #888;
 }
