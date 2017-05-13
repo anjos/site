@@ -48,7 +48,8 @@ option ``DEADLINK_VALIDATION``, setting it to ``True`` in ``pelicanconf.py``.
 Deployment
 ----------
 
-Deployment is automatic, once you this repository and push the tag to github.
+Deployment is automatic, once you push a tag to github. Deployment instructions
+are stored in ``.travis.yml``.
 
 
 Publications
@@ -57,7 +58,6 @@ Publications
 In order to deploy a publication, make sure to place the PDF of the publication
 at Idiap, on your account, folder ``~/public/papers``. The name of the PDF
 should match the BibTeX publication key entry identifier.
-
 
 
 .. Place your references after this line
