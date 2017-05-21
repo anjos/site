@@ -2,6 +2,7 @@ About me
 --------
 
 :date: 2017-05-03 17:47
+:modified: 2017-05-21 08:05
 :slug: about
 :summary: Some information about me
 
@@ -17,15 +18,16 @@ About me
    El-Shafey (on the computer).
 
 
-My name is André (Rabello dos) Anjos. I presently work for the `Idiap Research
+My name is André (Rabello dos) Anjos. I presently work at the `Idiap Research
 Institute`_ located in the nice town of Martigny, Wallis, Switzerland. Here, I
-conduct research in Biometrics (with applications to Face Recognition). My main
-research interests are Machine Learning, Pattern Classification, Face
-Recognition, Security and Computing. Previously, I used to work for the
-`University of Wisconsin, Madison`_, USA at `CERN`_, Switzerland, as a Software
-Engineer for at the `ATLAS experiment`_. During that time, I was one of the
-responsibles for the development and maintenance the experiment's Trigger and
-Data-Acquisition system.
+conduct `Reproducible Research`_ in Biometrics (with applications to Face and
+Vein Recognition and Presentation Attack Detection). My other research interests
+are Machine Learning, Pattern Classification, Face Recognition, Security and
+Computing. Previously, I used to work for the `University of Wisconsin,
+Madison`_, USA at `CERN`_, Switzerland, as a Software Engineer for at the
+`ATLAS experiment`_. During that time, I was one of the responsibles for the
+development and maintenance the experiment's Trigger and Data-Acquisition
+system.
 
 
 .. figure:: {filename}/images/about/andreanjos-at-atlas.jpg
@@ -85,3 +87,4 @@ hacked together, you should take a look at that link.
 .. _github: https://github.com/anjos
 .. _gitlab: https://gitlab.idiap.ch/bob
 .. _this website: http://github.com/anjos/site
+.. _reproducible research: http://reproducibleresearch.net
