@@ -3,6 +3,8 @@
 from __future__ import unicode_literals
 
 AUTHOR = 'André Anjos'
+COPYRIGHT_NAME = AUTHOR
+COPYRIGHT_YEAR = str(__import__('datetime').date.today().year)
 SITENAME = 'André Anjos'
 SITETITLE = 'André Anjos'
 SITESUBTITLE = 'Signal Processing Engineer, Ph.D.'
@@ -29,12 +31,6 @@ EXTRA_PATH_METADATA = {
 CUSTOM_CSS = 'css/custom.css'
 
 ROBOTS = 'index, follow'
-
-CC_LICENSE = {
-    'name': 'Creative Commons Attribution-ShareAlike',
-    'version': '4.0',
-    'slug': 'by-sa'
-    }
 
 PATH = 'content'
 DELETE_OUTPUT_DIRECTORY = True
