@@ -63,6 +63,7 @@ LINKS = (
     ('Software', '/software/'),
     ('Videos', '/videos/'),
     ('About', '/about/'),
+    ('Contact', '/contact/'),
     )
 
 # Social widget
