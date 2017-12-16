@@ -9,8 +9,7 @@ install:
   - export PATH="$HOME/conda/bin:$PATH"
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
-  # Temporary work-around (2017-12-16)
-  #- conda update -n root -q conda
+  - conda update -n root -q conda
   - conda info -a
   - conda env create -f env.yml
   - source activate site
