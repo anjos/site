@@ -11,7 +11,7 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -n root -q conda
   - conda info -a
-  - conda env create -f env.yml
+  - conda env create -q -f env.yml
   - source activate site
 
 script:
