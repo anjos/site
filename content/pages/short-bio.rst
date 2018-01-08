@@ -19,7 +19,7 @@ research in biometrics, anti-spoofing and recognition using faces, pattern
 recognition, image processing and machine learning. André currently leads the
 design and implementation of the BEAT platform for evaluation and testing. He
 teaches graduate-level machine learning courses at the École Polytechnique
-Fédérale de Lausanne (EPLF) and serves as reviewer for various scientific
+Fédérale de Lausanne (EPFL) and serves as reviewer for various scientific
 journals in pattern recognition, image processing and biometrics.
 
 
@@ -36,7 +36,7 @@ Institute in 2010 where he presently works with biometrics, security and
 computing. His current interests include reproducible research, pattern
 recognition, image processing and machine learning. André teaches
 graduate-level machine learning courses at the École Polytechnique Fédérale de
-Lausanne (EPLF) and serves as reviewer for various scientific journals in
+Lausanne (EPFL) and serves as reviewer for various scientific journals in
 pattern recognition, image processing and biometrics.
 
 

@@ -9,9 +9,9 @@ install:
   - export PATH="$HOME/conda/bin:$PATH"
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
-  - conda update -n root -q conda
+  - conda update --quiet -n root -q conda
   - conda info -a
-  - conda env create -q -f env.yml
+  - conda env create --quiet -f env.yml
   - source activate site
 
 script:
