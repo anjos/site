@@ -16,7 +16,7 @@ and developed several software components still in use today. In 2010, André
 joined the `Biometrics Security and Privacy Group`_ at the `Idiap Research
 Institute` where he worked mostly with face and vein biometrics, and
 presentation attack detection. Since 2018 André heads the `Biosignal Processing
-Group` at Idiap_. His current interests include reproducible research and
+Group`_ at Idiap_. His current interests include reproducible research and
 open-science for biomedical and biometrics applications, privacy and security,
 and the analysis of medical records through pattern recognition, image
 processing and machine learning. Among André's open-source contributions, one
