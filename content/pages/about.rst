@@ -13,8 +13,8 @@ About me
    :align: center
    :alt: André at Idiap
 
-   Taken at the Idiap Research Institute, August 19th., 2010. At the photo we
-   also find Sébastien Marcel (our group leader, standing) and Laurent
+   Taken at the `Idiap Research Institute`_, August 19th., 2010. At the photo
+   we also find Sébastien Marcel (our group leader, standing) and Laurent
    El-Shafey (on the computer).
 
 
@@ -83,7 +83,7 @@ hacked together, you should take a look at that link.
 .. _signal processing laboratory: http://www.lps.ufrj.br
 .. _artificial neural networks: http://en.wikipedia.org/wiki/Artificial_neural_network
 .. _publications: /publications/
-.. _cv: {filename}/pdfs/cv.pdf
+.. _cv: http://andreanjos.org/cv/cv.pdf
 .. _github: https://github.com/anjos
 .. _gitlab: https://gitlab.idiap.ch/bob
 .. _this website: http://github.com/anjos/site

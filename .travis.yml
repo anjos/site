@@ -13,6 +13,7 @@ install:
   - conda info -a
   - conda env create --quiet -f env.yml
   - source activate site
+  - culr
 
 script:
   - pelican

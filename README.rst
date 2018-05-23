@@ -23,6 +23,9 @@ line::
 
 To compile a new version of the website, do::
 
+  $ #this will fetch the latest version of the publications database
+  $ curl --create-dirs --output content/pages/publications/index.bib http://andreanjos.org/cv/publications.bib
+  $ #this will effectively create a static version of the website
   $ pelican
 
 To test the website, do::

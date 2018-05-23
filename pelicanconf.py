@@ -52,7 +52,7 @@ DIRECT_TEMPLATES = [
     'publications',
     ]
 LINKS = (
-    ('CV', '/pdfs/cv.pdf'),
+    ('CV', 'http://andreanjos.org/cv/cv.pdf'),
     ('Short Bio', '/short-bio/'),
     ('Publications', '/publications/'),
     ('Courses', '/courses/'),
