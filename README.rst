@@ -21,7 +21,8 @@ line::
   $ source activate site
 
 
-To compile a new version of the website, do::
+To compile a new version of the website, first make sure your CV is up-to-date
+by rebuilding `its repository <https://github.com/anjos/cv>`_, then do::
 
   $ #this will fetch the latest version of the publications database
   $ curl --create-dirs --output content/pages/publications/index.bib http://andreanjos.org/cv/publications.bib
