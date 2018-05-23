@@ -13,7 +13,7 @@ install:
   - conda info -a
   - conda env create --quiet -f env.yml
   - source activate site
-  - culr
+  - curl --create-dirs --output content/pages/publications/index.bib http://andreanjos.org/cv/publications.bib
 
 script:
   - pelican
