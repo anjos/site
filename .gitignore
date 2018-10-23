@@ -5,4 +5,4 @@
 output/
 .DS_Store
 __pycache__/
-content/pages/publications
+content/data/publications.bib

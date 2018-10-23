@@ -110,4 +110,4 @@ DEADLINK_OPTS = {
     }
 
 # Where is the location of your BibTeX database
-PUBLICATIONS_SRC = 'content/pages/publications/index.bib'
+PUBLICATIONS_SRC = 'content/data/publications.bib'
