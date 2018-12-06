@@ -64,6 +64,8 @@ LINKS = (
 
 # Social widget
 SOCIAL = (
+    ('orcid', 'https://orcid.org/0000-0001-7248-4014'),
+    ('google-scholar', 'https://scholar.google.ch/citations?user=pAfLhMoAAAAJ'),
     ('linkedin', 'https://www.linkedin.com/in/andreranjos/'),
     ('stack-overflow', 'https://stackoverflow.com/users/712525/andré-anjos'),
     ('github', 'https://github.com/anjos'),
