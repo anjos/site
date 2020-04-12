@@ -14,16 +14,16 @@ boson. During his time at CERN_, André studied the application of neural
 networks and statistical methods for particle recognition at the trigger level
 and developed several software components still in use today. In 2010, André
 joined the `Biometrics Security and Privacy Group`_ at the `Idiap Research
-Institute` where he worked mostly with face and vein biometrics, and
-presentation attack detection. Since 2018 André heads the `Biosignal Processing
-Group`_ at Idiap_. His current interests include reproducible research and
-open-science for biomedical and biometrics applications, privacy and security,
-and the analysis of medical records through pattern recognition, image
-processing and machine learning. Among André's open-source contributions, one
-can cite Bob_ and the the BEAT_ web platform for evaluation and testing. He
-teaches graduate-level `machine learning courses`_ at the École Polytechnique
-Fédérale de Lausanne (EPFL_) and serves as reviewer for various scientific
-journals in pattern recognition, image processing and biometrics.
+Institute` where he worked with face and vein biometrics, presentation attack
+detection, and reproducibility in research.  Since 2018 André heads the
+`Biosignal Processing Group`_ at Idiap_.  His current interests include
+reproducible research and open-science for medical applications, biometrics,
+image and signal processing, and machine learning. Among André's open-source
+contributions, one can cite Bob_ and the the BEAT_ web platform for evaluation
+and testing. He teaches graduate-level `machine learning courses`_ at the École
+Polytechnique Fédérale de Lausanne (EPFL_) and master courses at Idiap's
+`Master of AI`_.  He serves as reviewer for various scientific journals in
+pattern recognition, machine learning, and image.
 
 
 Shorter Version
@@ -36,10 +36,11 @@ application of neural nets and statistical methods for particle recognition in
 the context of High-Energy Physics experiments at Large Hadron Collider at
 CERN_, Switzerland. He joined the `Idiap Research Institute`_ in 2010 where he
 works with biosignal processing and biometrics applications. He currently heads
-the `Biosignal Processing Group`_ at Idiap_. Current interests include medical
-applications, reproducible research, pattern recognition, image processing and
-machine learning. André teaches graduate-level `machine learning courses`_ at
-the École Polytechnique Fédérale de Lausanne (EPFL_) and serves as reviewer for
+the `Biosignal Processing Group`_ at Idiap_. Current interests include
+reproducible research and open-science for medical applications, biometrics,
+image and signal processing, and machine learning.  André teaches
+graduate-level `machine learning courses`_ at the École Polytechnique Fédérale
+de Lausanne (EPFL_) and Idiap's `Master of AI`_ and serves as reviewer for
 various scientific journals in pattern recognition, image processing and
 biometrics.
 
@@ -68,3 +69,4 @@ Picture
 .. _machine learning courses: http://edu.epfl.ch/coursebook/en/fundamentals-in-statistical-pattern-recognition-EE-612
 .. _bob: https://www.idiap.ch/software/bob
 .. _beat: https://www.idiap.ch/software/beat
+.. _master of ai: https://master-ai.ch
