@@ -1,7 +1,7 @@
 Short Biography
 ---------------
 
-:date: 2017-05-05 10:48
+:date: 2020-04-12 15:39
 :slug: short-bio
 :summary: Short biography, for all purposes
 
@@ -16,14 +16,14 @@ and developed several software components still in use today. In 2010, André
 joined the `Biometrics Security and Privacy Group`_ at the `Idiap Research
 Institute` where he worked with face and vein biometrics, presentation attack
 detection, and reproducibility in research.  Since 2018 André heads the
-`Biosignal Processing Group`_ at Idiap_.  His current interests include
-reproducible research and open-science for medical applications, biometrics,
-image and signal processing, and machine learning. Among André's open-source
-contributions, one can cite Bob_ and the the BEAT_ web platform for evaluation
-and testing. He teaches graduate-level `machine learning courses`_ at the École
-Polytechnique Fédérale de Lausanne (EPFL_) and master courses at Idiap's
-`Master of AI`_.  He serves as reviewer for various scientific journals in
-pattern recognition, machine learning, and image.
+`Biosignal Processing Group`_ at Idiap_.  His current research interests
+include medical applications, biometrics, image and signal processing, machine
+learning, research reproducibility and open science. Among André's open-source
+contributions, one can cite Bob_ and the the BEAT_ framework for evaluation and
+testing of machine learning systems. He teaches graduate-level `machine
+learning courses`_ at the École Polytechnique Fédérale de Lausanne (EPFL_) and
+master courses at Idiap's `Master of AI`_.  He serves as reviewer for various
+scientific journals in pattern recognition, machine learning, and image.
 
 
 Shorter Version
