@@ -20,7 +20,6 @@ BROWSER_COLOR = '#333'
 # Static directories
 STATIC_PATHS = (
     'images',
-    'pdfs',
     'css',
     )
 
