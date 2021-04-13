@@ -78,7 +78,7 @@ hacked together, you should take a look at that link.
 .. _idiap research institute: http://www.idiap.ch
 .. _university of wisconsin, madison: http://www.wisc.edu
 .. _cern: http://www.cern.ch
-.. _atlas experiment: http://atlas.ch
+.. _atlas experiment: http://atlas.cern
 .. _federal university of rio de janeiro: http://www.ufrj.br
 .. _signal processing laboratory: http://www.lps.ufrj.br
 .. _artificial neural networks: http://en.wikipedia.org/wiki/Artificial_neural_network

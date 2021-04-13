@@ -65,7 +65,7 @@ Picture
 .. _biometrics security and privacy group: https://www.idiap.ch/en/scientific-research/biometrics-security-and-privacy
 .. _biosignal processing group: https://www.idiap.ch/en/scientific-research/biosignal-processing
 .. _epfl: https://www.epfl.ch
-.. _atlas experiment: https://atlas.ch
+.. _atlas experiment: https://atlas.cern
 .. _machine learning courses: http://edu.epfl.ch/coursebook/en/fundamentals-in-statistical-pattern-recognition-EE-612
 .. _bob: https://www.idiap.ch/software/bob
 .. _beat: https://www.idiap.ch/software/beat
