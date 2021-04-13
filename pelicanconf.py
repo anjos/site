@@ -69,7 +69,7 @@ SOCIAL = (
     ('stack-overflow', 'https://stackoverflow.com/users/712525/andré-anjos'),
     ('github', 'https://github.com/anjos'),
     ('gitlab', 'https://gitlab.idiap.ch/bob'),
-    ('skype', 'skype:andrezito?call'),
+    #('skype', 'skype:andrezito?call'),
     )
 GOOGLE_ANALYTICS = 'UA-22320747-1'
 
