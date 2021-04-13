@@ -25,8 +25,7 @@ and preservation of articles. This panorama slows down potential scientific
 development in at least two major aspects: (1) re-using ideas from different
 sources normally implies on the re-development of software leading to original
 results and (2) the reviewing process of candidate ideas is based on trust
-rather than on hard, verifiable evidence that can be thoroughly
-analyzed.
+rather than on hard, verifiable evidence that can be thoroughly analyzed.
 
 In this course, I introduce the concept of `Reproducible Research`_ (RR), a
 term that labels scientific work that provides not only a description of the
@@ -82,8 +81,11 @@ Learning and programming. Knowing the Python programming language is a plus.
 Here is a list of resources which can be interesting:
 
 * Theoretical:
+
   * Machine Learning Basics (e.g. use Bishop's book)
+
 * Practical:
+
   * `Dive into Python`_ (free tutorial)
   * Numerical and Scientific Programming in Python (numpy_, scipy_)
   * Bob_ framework for Signal Processing, Machine Learning and Biometrics

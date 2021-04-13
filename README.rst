@@ -31,7 +31,7 @@ by rebuilding `its repository <https://github.com/anjos/cv>`_, then do::
 
 To test the website, do::
 
-  $ pelican --listen
+  $ pelican --listen --autoreload
 
 
 Checking for dead links
