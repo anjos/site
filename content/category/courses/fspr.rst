@@ -8,7 +8,7 @@ Fundamentals of Statistical Pattern Recognition
           is given to post-grad (Ph.D.) students at the `École Polytechnique
           Fédérale de Lausanne`_, Switzerland.
 
-.. image:: {filename}/images/logos/epfl.png
+.. image:: {static}/images/logos/epfl.png
    :width: 200
    :align: center
    :alt: EPFL's logo

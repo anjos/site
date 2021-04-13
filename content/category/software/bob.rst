@@ -8,7 +8,7 @@ Bob
           in Switzerland.
 
 
-.. image:: {filename}/images/logos/bob.png
+.. image:: {static}/images/logos/bob.png
    :width: 128
    :align: center
    :alt: Bob's logo

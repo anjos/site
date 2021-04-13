@@ -7,7 +7,7 @@ About me
 :summary: Some information about me
 
 
-.. figure:: {filename}/images/about/andreanjos-at-idiap.jpg
+.. figure:: {static}/images/about/andreanjos-at-idiap.jpg
    :width: 90 %
    :figwidth: 40 %
    :align: center
@@ -30,7 +30,7 @@ development and maintenance the experiment's Trigger and Data-Acquisition
 system.
 
 
-.. figure:: {filename}/images/about/andreanjos-at-atlas.jpg
+.. figure:: {static}/images/about/andreanjos-at-atlas.jpg
    :width: 90 %
    :figwidth: 40 %
    :align: center
@@ -51,7 +51,7 @@ was dedicated to `Artificial Neural Networks`_. I keep a record of all my
 `publications`_ in this website.
 
 
-.. figure:: {filename}/images/about/andreanjos-minister.jpg
+.. figure:: {static}/images/about/andreanjos-minister.jpg
    :width: 90 %
    :figwidth: 40 %
    :align: center

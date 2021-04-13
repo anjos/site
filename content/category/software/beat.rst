@@ -9,7 +9,7 @@ The BEAT Platform
           protecting privacy and confidentiality
 
 
-.. image:: {filename}/images/logos/beat.png
+.. image:: {static}/images/logos/beat.png
    :width: 128
    :align: center
    :alt: BEAT's logo

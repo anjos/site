@@ -48,7 +48,7 @@ biometrics.
 Picture
 =======
 
-.. figure:: {filename}/images/pictures/andre-anjos-600x600.jpg
+.. figure:: {static}/images/pictures/andre-anjos-600x600.jpg
    :width: 40 %
    :align: center
    :alt: André Anjos (600x600)
