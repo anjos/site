@@ -27,19 +27,11 @@ by rebuilding `its repository <https://github.com/anjos/cv>`_, then do::
   $ #this will fetch the latest version of the publications database
   $ curl --create-dirs --output content/data/publications.bib http://andreanjos.org/cv/publications.bib
   $ #this will effectively create a static version of the website
-  $ pelican
+  $ pelican content
 
 To test the website, do::
 
-  $ ./develop_server.sh start 8000
-
-Use the application ``develop_server.sh`` to restart the server or stop it if
-necessary.
-
-.. note::
-
-   The application ``develop_server.sh`` is provided by ``pelican-quickstart``.
-   You should regenerate it in case of problems.
+  $ pelican --listen
 
 
 Checking for dead links
