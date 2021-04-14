@@ -114,6 +114,7 @@ DEADLINK_OPTS = {
 PUBLICATIONS_SRC = "content/data/publications.bib"
 
 # Theme configuration options
+#USE_LESS = True #set to "True" to test theme changes
 THEME_COLOR = "light"
 THEME_COLOR_AUTO_DETECT_BROWSER_PREFERENCE = True
 THEME_COLOR_ENABLE_USER_OVERRIDE = True
