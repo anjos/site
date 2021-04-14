@@ -3,13 +3,14 @@ Interview for Télévision Suisse-Romande (TSR), 12h45
 
 :date: 2016-11-22 12:45
 :slug: tsr-1245
-:summary: I was interviewed for a document in the Swiss's RTS 12h45 news
+:cover: images/covers/vein-recognition-rst-22.11.2016.png
+:summary: I was interviewed for a document on biometric vein recognition in the Swiss's RTS 12h45 news
 
 
 This short document was aired November, 22nd. 2016 and contains a quick
-overview of a CTI project I'm working on. The project is about biometric
-recognition using finger veins in 3-dimensions. Click `this link`_ to pop-up a
-video player with the document.
+overview of a CTI (now Innosuisse) project I was working on. The project is
+about biometric recognition using finger veins in 3-dimensions. Click `this
+link`_ to pop-up a video player with the document.
 
 .. raw:: html
 

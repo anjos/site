@@ -52,12 +52,13 @@ DIRECT_TEMPLATES = [
 ]
 LINKS = (
     ("CV", "http://andreanjos.org/cv/cv.pdf"),
-    ("Short Bio", "/short-bio/"),
+    ("Research", "/research/"),
     ("Publications", "/publications/"),
     ("Courses", "/courses/"),
     ("Software", "/software/"),
     ("Videos", "/videos/"),
     ("About", "/about/"),
+    ("Short Bio", "/short-bio/"),
     ("Contact", "/contact/"),
 )
 
@@ -80,6 +81,7 @@ PLUGIN_PATHS = [
 PLUGINS = [
     "deadlinks",
     "bibtex",
+    "bibcite",
 ]
 
 DEFAULT_PAGINATION = False

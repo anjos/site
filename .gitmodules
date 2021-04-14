@@ -10,3 +10,6 @@
 	path = theme
 	url = git@github.com:anjos/Flex
     branch = master
+[submodule "plugins/bibcite"]
+	path = plugins/bibcite
+	url = https://github.com/VorpalBlade/pelican-cite

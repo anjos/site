@@ -3,6 +3,7 @@ Fundamentals of Statistical Pattern Recognition
 
 :date: 2021-04-13 21:15
 :slug: fspr
+:cover: images/covers/epfl.svg
 :summary: This course (EE-612) presents fundamental tools used in Machine
           Learning ranging from the most basic to more advanced. It is given to
           post-grad (Ph.D.) students at the `École Polytechnique Fédérale de

@@ -3,20 +3,25 @@ Fundamentals of Machine Learning
 
 :date: 2021-04-13 21:30
 :slug: fml
+:cover: images/covers/ai.png
 :summary: This course, divided in two trimesters (modules M06 and M08),
           presents fundamental tools used in machine learning ranging from the
           most basic to more advanced. It is given to master students at the
           `Master in AI`_ by the Idiap Research Institute, Switzerland.
 
-.. image:: {static}/images/logos/idiap.png
+.. |pic1| image:: {static}/images/logos/idiap.png
    :height: 100
-   :align: center
+   :align: middle
    :alt: Idiap's logo
 
-.. image:: {static}/images/logos/unidistance.png
+.. |pic2| image:: {static}/images/logos/unidistance.png
    :height: 100
-   :align: center
+   :align: middle
    :alt: Unidistance's logo
+
+.. class:: center
+
+   |pic1| |pic2|
 
 
 This course, divided in two trimesters (modules M06 and M08), present

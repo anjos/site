@@ -3,6 +3,7 @@ Overview of the BEAT Platform
 
 :date: 2016-03-16 14:00
 :slug: beat-overview
+:cover: images/covers/beat-toolchain.png
 :summary: Introductory video to the `BEAT Platform`_ for `Open Science`_ and
           `Reproducible Research`
 

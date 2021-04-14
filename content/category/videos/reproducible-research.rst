@@ -3,6 +3,7 @@ Talk at Valais/Wallis AI Workshop - Reproducibility in research
 
 :date: 2017-03-24 10:30
 :slug: rr-wallis
+:cover: images/covers/reproducibility-24.03.2017.png
 :summary: My talk at the Valais/Wallis AI workshop on reproducible research
 
 

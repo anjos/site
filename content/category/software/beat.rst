@@ -3,6 +3,7 @@ The BEAT Platform
 
 :date: 2016-03-16 14:00
 :slug: beat
+:cover: images/logos/beat.png
 :summary: The BEAT platform is a European computing e-infrastructure for `Open
           Science`_ proposing a solution for open access, scientific
           information sharing and re-use including data and source code while
@@ -10,7 +11,7 @@ The BEAT Platform
 
 
 .. image:: {static}/images/logos/beat.png
-   :width: 128
+   :width: 256
    :align: center
    :alt: BEAT's logo
 

@@ -3,6 +3,7 @@ Bob
 
 :date: 2021-04-13 22:30
 :slug: bob
+:cover: images/covers/bob.svg
 :summary: Bob_ is a signal-processing and machine learning toolbox originally
           developed by the `Biometrics Security and Privacy Group`_, the
           `Biosignal Processing Group`_, and the `Research and Development

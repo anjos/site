@@ -3,6 +3,7 @@ Interview for Jornal Nacional
 
 :date: 2008-09-10 20:00
 :slug: jornal-nacional
+:cover: images/covers/jornal-nacional-10.09.2008.png
 :summary: I was interviewed for a document in Jornal Nacional, one of the most
           viewed brazilian 20h00 news program.
 
