@@ -1,15 +1,15 @@
 [submodule "plugins/deadlinks"]
 	path = plugins/deadlinks
-	url = https://github.com/silentlamb/pelican-deadlinks
+	url = ../../silentlamb/pelican-deadlinks
     branch = master
 [submodule "plugins/bibtex"]
 	path = plugins/bibtex
-	url = git@github.com:anjos/pelican-bibtex
+	url = ../pelican-bibtex
     branch = master
 [submodule "theme"]
 	path = theme
-	url = git@github.com:anjos/Flex
+	url = ../Flex
     branch = master
 [submodule "plugins/bibcite"]
 	path = plugins/bibcite
-	url = https://github.com/VorpalBlade/pelican-cite
+	url = ../../VorpalBlade/pelican-cite
