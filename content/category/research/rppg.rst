@@ -16,6 +16,7 @@ Remote Photoplethysmography
           experimental evaluation in various settings, it is shown that none of
           the selected algorithms is precise enough to be used in a real-world
           scenario.
+:keywords: Image analysis, Remote photoplethysmography, Reproducible research, Vital signs monitoring
 
 
 .. |pic1| image:: {static}/images/pictures/cohface-db-face-frontal.jpg

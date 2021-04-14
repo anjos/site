@@ -31,11 +31,18 @@ Semantical Segmentation: Retinography
    high-resolution HRF test-set. True positives, false positives and false
    negatives are displayed in green, blue and red respectively.*
 
-.. note:: **Reproducibility Checklist**
+.. note::
+
+   **Reproducibility Checklist**
 
    * All datasets used in this study are public
    * `Software is open-source <https://gitlab.idiap.ch/bob/bob.ip.binseg>`_
    * `Complete documentation is available <https://www.idiap.ch/software/bob/docs/bob/bob.ip.binseg/master/index.html>`_
+
+   **Partnership**
+
+   Part of this study was conducted in partnership with the Department of
+   Ophthalmology at University Hospital of Grenoble Alpes.
 
 
 Since the introduction of U-Nets in 2015, the field of medical image

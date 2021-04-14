@@ -1,5 +1,5 @@
-Vital Sign Analysis: Decompensation
------------------------------------
+WIP: Vital Sign Analysis: Decompensation
+----------------------------------------
 
 :date: 2019-09-20 08:00
 :slug: vital-sign
@@ -27,6 +27,18 @@ necessary for training a reliable prediction system).  We conclude our analysis
 with a inference-only study on the effect of the number of measurements
 preceding the prediction (does having more measurements improve prediction?).
 
+.. note::
+
+   **Reproducibility Checklist**
+
+   * All datasets used in this study are public
+   * A software package will be made available when work is published
+
+   **Partnership**
+
+   Part of this study was conducted in partnership with VTULS_.
+
+
 .. figure:: {static}/images/pictures/vital-sign-roc-all.png
    :align: center
    :alt: ROC with all methods
@@ -36,11 +48,6 @@ preceding the prediction (does having more measurements improve prediction?).
    denoted by a green dot, represents the performance with a portable device
    with only the last vital signs measurement of a given sample.
 
-.. note:: **Reproducibility Checklist**
-
-   * All datasets used in this study are public
-   * A software package will be made available when work is published
-
-
 .. links here:
 .. _mimic-iii: https://mimic.physionet.org
+.. _vtuls: https://www.vtuls.com

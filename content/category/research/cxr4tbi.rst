@@ -1,9 +1,9 @@
-Soon: Intepretable Classification: Chest X-Rays
------------------------------------------------
+WIP: Intepretable Classification: Chest X-Rays
+----------------------------------------------
 
 :date: 2021-04-14 17:30
 :slug: cxr4tb
-:cover: images/pictures/ptb-healthy-cxr.jpg
+:cover: images/covers/ptb-cxr.jpg
 :summary: Tuberculosis (TB) is one of the leading causes of death from a single
           infectious agent.  In many high-burden regions around the world,
           which often lack specialized healthcare professionals, Chest X-Ray
@@ -16,16 +16,19 @@ Soon: Intepretable Classification: Chest X-Rays
    :align: center
    :alt: Radiological signs
 
-   Radiological signs on healthy (left) and PTB-affected lungs (right).
+   Radiological signs on healthy (left) and Activte Pulmonary TB-affected lungs
+   (right).
 
-.. note:: **Reproducibility Checklist**
+.. note::
+
+   **Reproducibility Checklist**
 
    * All datasets used in this study are public
    * `Software will be open-sourced soon <https://gitlab.idiap.ch/bob/bob.med.tb>`_
    * `Complete documentation will be availabe available <https://www.idiap.ch/software/bob/docs/bob/bob.med.tb/master/index.html>`_
 
 
-.. note:: **Partnership**
+   **Partnership**
 
    This study was conducted in partnership with TB specialists from the Federal
    University of Rio de Janeiro and Rede TB in Brazil.
