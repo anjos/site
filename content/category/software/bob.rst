@@ -38,7 +38,7 @@ A few links of interest:
 
 .. Place your references here
 .. _bob: https://www.idiap.ch/software/bob/
-.. _our mailing list: https://groups.google.com/forum/#!forum/bob-devel
+.. _our mailing list: https://www.idiap.ch/software/bob/discuss
 .. _reproducible research: https://en.wikipedia.org/wiki/Reproducibility
 .. _idiap research institute: https://www.idiap.ch
 .. _this link: https://www.youtube.com/watch?v=2nPItQ5keM0

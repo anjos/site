@@ -34,10 +34,10 @@ A few links of interest:
 * `Installation instructions`_: if you want to give it a spin
 
 .. Place your references here
-.. _beat platform: https://www.beat-eu.org/platform/
-.. _our mailing list: https://groups.google.com/forum/#!forum/beat-devel
+.. _beat platform: https://www.idiap.ch/software/beat/platform/
+.. _our mailing list: https://www.idiap.ch/software/beat/discuss
 .. _open science: https://en.wikipedia.org/wiki/Open_science
 .. _idiap research institute: https://www.idiap.ch
 .. _this link: https://www.youtube.com/watch?v=2nPItQ5keM0
 .. _gitlab group repository: https://gitlab.idiap.ch/beat
-.. _installation instructions: https://gitlab.idiap.ch/beat/beat.web/blob/master/README.rst
+.. _installation instructions: https://www.idiap.ch/software/beat/install
