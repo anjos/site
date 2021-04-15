@@ -1,7 +1,7 @@
 Reproducible Research
 ---------------------
 
-:date: 2018-04-14 10:00
+:date: 2020-01-01 10:00
 :slug: reproducibility
 :cover: images/covers/reproducible-research.png
 :summary: Reproducible research not only leads to proper scientific conduct but

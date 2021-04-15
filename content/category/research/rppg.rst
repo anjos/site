@@ -1,7 +1,7 @@
 Remote Photoplethysmography
 ---------------------------
 
-:date: 2017-09-20 08:00
+:date: 2018-11-20 08:00
 :slug: rppg
 :cover: images/covers/rppg-manhob-hci-tagging.png
 :summary: We address the problem of reproducible research in remote
@@ -43,7 +43,7 @@ Remote Photoplethysmography
    :class: note
 
    * All datasets used in this study are public
-   * A new public dataset was released (`COHFACE Database`_)
+   * A new public dataset was released (`COHFACE Database`_), DOI: `10.34777/ff3f-ba56 <https://doi.org/10.34777/ff3f-ba56>`_
    * `Software is open-source <https://gitlab.idiap.ch/bob/bob.rppg.base>`_,
      extensible and tested on a regular basis
    * `Complete documentation is available <https://www.idiap.ch/software/bob/docs/bob/bob.rppg.base/master/index.html>`_
@@ -68,4 +68,4 @@ approaches. The data, the experimental protocols and the implementation of the
 algorithms
 
 .. links here:
-.. _cohface database: https://idiap.ch/dataset/cohface
+.. _cohface database: https://doi.org/10.34777/ff3f-ba56
