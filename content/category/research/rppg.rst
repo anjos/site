@@ -43,7 +43,8 @@ Remote Photoplethysmography
 
    * All datasets used in this study are public
    * A new public dataset was released (`COHFACE Database`_)
-   * `Software is open-source <https://gitlab.idiap.ch/bob/bob.rppg.base>`_
+   * `Software is open-source <https://gitlab.idiap.ch/bob/bob.rppg.base>`_,
+     extensible and tested on a regular basis
    * `Complete documentation is available <https://www.idiap.ch/software/bob/docs/bob/bob.rppg.base/master/index.html>`_
 
 

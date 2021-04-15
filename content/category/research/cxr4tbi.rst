@@ -24,7 +24,7 @@ WIP: Intepretable Classification: Chest X-Rays
    **Reproducibility Checklist**
 
    * All datasets used in this study are public
-   * `Software will be open-sourced soon <https://gitlab.idiap.ch/bob/bob.med.tb>`_
+   * `Software will be open-sourced soon <https://gitlab.idiap.ch/bob/bob.med.tb>`_. It is extensible and tested on a regular basis
    * `Complete documentation will be availabe available <https://www.idiap.ch/software/bob/docs/bob/bob.med.tb/master/index.html>`_
 
 

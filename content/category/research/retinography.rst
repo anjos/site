@@ -36,7 +36,8 @@ Semantical Segmentation: Retinography
    **Reproducibility Checklist**
 
    * All datasets used in this study are public
-   * `Software is open-source <https://gitlab.idiap.ch/bob/bob.ip.binseg>`_
+   * `Software is open-source <https://gitlab.idiap.ch/bob/bob.ip.binseg>`_,
+     extensible and tested on a regular basis
    * `Complete documentation is available <https://www.idiap.ch/software/bob/docs/bob/bob.ip.binseg/master/index.html>`_
 
    **Partnership**

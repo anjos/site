@@ -32,7 +32,7 @@ preceding the prediction (does having more measurements improve prediction?).
    **Reproducibility Checklist**
 
    * All datasets used in this study are public
-   * A software package will be made available when work is published
+   * A software package will be made available when work is published.
 
    **Partnership**
 
