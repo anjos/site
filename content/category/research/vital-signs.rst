@@ -27,9 +27,8 @@ necessary for training a reliable prediction system).  We conclude our analysis
 with a inference-only study on the effect of the number of measurements
 preceding the prediction (does having more measurements improve prediction?).
 
-.. note::
-
-   **Reproducibility Checklist**
+.. admonition:: Reproducibility Checklist
+   :class: note
 
    * All datasets used in this study are public
    * A software package will be made available when work is published.

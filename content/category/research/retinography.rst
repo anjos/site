@@ -23,17 +23,18 @@ Semantical Segmentation: Retinography
    :align: middle
    :alt: Image with vessels segmented
 
-.. class:: center
+.. class:: figure center
 
    |pic1| |pic2|
 
-   *Predicted vessel maps vs. ground truths for a DL model evaluated on the
-   high-resolution HRF test-set. True positives, false positives and false
-   negatives are displayed in green, blue and red respectively.*
+   .. class:: caption
 
-.. note::
+      *Predicted vessel maps vs. ground truths for a DL model evaluated on the
+      high-resolution HRF test-set. True positives, false positives and false
+      negatives are displayed in green, blue and red respectively.*
 
-   **Reproducibility Checklist**
+.. admonition:: Reproducibility Checklist
+   :class: note
 
    * All datasets used in this study are public
    * `Software is open-source <https://gitlab.idiap.ch/bob/bob.ip.binseg>`_,

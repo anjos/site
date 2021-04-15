@@ -19,7 +19,7 @@ Fundamentals of Machine Learning
    :align: middle
    :alt: Unidistance's logo
 
-.. class:: center
+.. class:: figure center
 
    |pic1| |pic2|
 

@@ -19,9 +19,8 @@ WIP: Intepretable Classification: Chest X-Rays
    Radiological signs on healthy (left) and Activte Pulmonary TB-affected lungs
    (right).
 
-.. note::
-
-   **Reproducibility Checklist**
+.. admonition:: Reproducibility Checklist
+   :class: note
 
    * All datasets used in this study are public
    * `Software will be open-sourced soon <https://gitlab.idiap.ch/bob/bob.med.tb>`_. It is extensible and tested on a regular basis

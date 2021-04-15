@@ -21,7 +21,7 @@ Open Science and Ethics
    :align: middle
    :alt: Unidistance's logo
 
-.. class:: center
+.. class:: figure center
 
    |pic1| |pic2|
 

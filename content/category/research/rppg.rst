@@ -39,7 +39,8 @@ Remote Photoplethysmography
    vary substantially while reconstructing the PPG signal from each of these
    cases.*
 
-.. note:: **Reproducibility Checklist**
+.. admonition:: Reproducibility Checklist
+   :class: note
 
    * All datasets used in this study are public
    * A new public dataset was released (`COHFACE Database`_)
