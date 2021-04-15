@@ -16,11 +16,6 @@ The BEAT Platform
    :alt: BEAT's logo
 
 
-After 4 years of development, the `BEAT platform`_ is now available for
-download as an open-source project, under the Affero GNU GPL version 3. It is
-composed of a few packages which can be reached on this `gitlab group
-repository`, hosted at Idiap.
-
 The BEAT platform is a European computing e-infrastructure for `Open Science`_
 proposing a solution for open access, scientific information sharing and re-use
 including data and source code while protecting privacy and confidentiality. It
