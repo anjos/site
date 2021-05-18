@@ -56,7 +56,7 @@ LINKS = (
     ("Publications", "/publications/"),
     ("Courses", "/courses/"),
     ("Software", "/software/"),
-    ("Videos", "/videos/"),
+    ("Talks & Media", "/media/"),
     ("About", "/about/"),
     ("Short Bio", "/short-bio/"),
     ("Contact", "/contact/"),

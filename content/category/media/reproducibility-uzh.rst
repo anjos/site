@@ -33,6 +33,8 @@ presentation about key motivation factors and issues in building reproducible
 code.  I end-up show casing tools, and a strategy for building a reproducible
 research ecosystem.
 
+You may access the slides_ here.
+
 
 .. Place here your references
 .. _slides: http://www.idiap.ch/~aanjos/talks/uzh-reproducibility-29.04.2021.pdf
