@@ -6,7 +6,7 @@ Reproducible Research for Pattern Recognition
 :cover: images/covers/reproducible-research.png
 :summary: This is a course on Reproducible Research (RR) for research engineers
           working with software applications in Pattern Recognition (PR) and
-          Machine Learning (ML). It motivates and explains con- cepts behind
+          Machine Learning (ML). It motivates and explains concepts behind
           RR, an increasing trend in scientific publications in this niche, its
           implications and tools for implementing it on an individual or group
           levels. It is a hands-on course in the sense students will be
