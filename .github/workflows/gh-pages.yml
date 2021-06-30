@@ -1,4 +1,4 @@
-name: github pages
+name: deploy to anjos.github.io
 
 on:
   push:
