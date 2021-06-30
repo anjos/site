@@ -3,7 +3,7 @@ name: deploy to anjos.github.io
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
   workflow_dispatch:
 
