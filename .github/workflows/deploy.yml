@@ -22,11 +22,11 @@ jobs:
           activate-environment: site
           environment-file: env.yml
 
-      - run: |
+      - name: build
+        shell: bash -l {0}
+        run: |
           conda info -a
-          conda env list
           curl --create-dirs --output content/data/publications.bib http://andreanjos.org/cv/publications.bib
-          conda activate site
           pelican
 
       - name: Deploy
