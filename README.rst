@@ -1,4 +1,4 @@
-.. image:: https://github.com/anjos/site/actions/workflows/deploy/badge.svg
+.. image:: https://github.com/anjos/site/actions/workflows/deploy.yml/badge.svg
    :target: https://github.com/anjos/site/actions/workflows/deploy.yml
 
 ----------------------
