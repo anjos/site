@@ -25,7 +25,7 @@ To compile a new version of the website, first make sure your CV is up-to-date
 by rebuilding `its repository <https://github.com/anjos/cv>`_, then do::
 
   $ #this will fetch the latest version of the publications database
-  $ curl --create-dirs --output content/data/publications.bib http://andreanjos.org/cv/publications.bib
+  $ curl --create-dirs --output content/data/publications.bib https://raw.githubusercontent.com/anjos/cv/master/publications.bib
   $ #this will effectively create a static version of the website
   $ pelican
 

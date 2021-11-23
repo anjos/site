@@ -31,7 +31,7 @@ jobs:
         shell: bash -l {0}
         run: |
           conda info -a
-          curl --create-dirs --output content/data/publications.bib http://andreanjos.org/cv/publications.bib
+          curl --create-dirs --output content/data/publications.bib https://raw.githubusercontent.com/anjos/cv/master/publications.bib
           pelican
 
       - name: Deploy
