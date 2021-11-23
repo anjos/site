@@ -27,7 +27,7 @@ by rebuilding `its repository <https://github.com/anjos/cv>`_, then do::
   $ #this will fetch the latest version of the publications database
   $ curl --create-dirs --output content/data/publications.bib http://andreanjos.org/cv/publications.bib
   $ #this will effectively create a static version of the website
-  $ pelican content
+  $ pelican
 
 To test the website, do::
 
