@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
 
       - name: Checkout
@@ -20,9 +20,10 @@ jobs:
       - name: Setup
         uses: conda-incubator/setup-miniconda@v2
         with:
-          miniconda-version: "latest"
           auto-update-conda: true
           auto-activate-base: false
+          miniforge-variant: Mambaforge
+          miniforge-version: latest
           activate-environment: site
           environment-file: env.yml
 

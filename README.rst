@@ -1,5 +1,5 @@
-.. image:: https://travis-ci.org/anjos/site.svg?branch=master
-   :target: https://travis-ci.org/anjos/site
+.. image:: https://github.com/anjos/site/actions/workflows/deploy/badge.svg
+   :target: https://github.com/anjos/site/actions/workflows/deploy.yml
 
 ----------------------
  Professional Website
@@ -17,7 +17,7 @@ GitHub (which will case the site to be re-compiled and re-deployed). I advise
 you to install a Conda_-based environment for deployment with this command
 line::
 
-  $ conda env create -f env.yml
+  $ conda env create -f env.yml -n site
   $ source activate site
 
 
@@ -45,7 +45,7 @@ Deployment
 ----------
 
 Deployment is automatic, once you push a tag to github. Deployment instructions
-are stored in ``.travis.yml``.
+are stored in deploy.yml_.
 
 
 Publications
@@ -57,6 +57,6 @@ should match the BibTeX publication key entry identifier.
 
 
 .. Place your references after this line
-.. _conda: http://conda.pydata.org/miniconda.html
+.. _conda: https://github.com/conda-forge/miniforge
 .. _pelican: http://getpelican.com
-.. _travis: https://docs.travis-ci.com
+.. _deploy.yml: .github/workflows/deploy.yml
