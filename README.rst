@@ -6,7 +6,7 @@
 ----------------------
 
 Generator code using Pelican_, for my professional web site. The website is
-re-built at every commit and re-deployed as Github Pages via Travis_.
+re-built at every commit and re-deployed as Github Pages via Github Actions.
 
 
 Local Testing
