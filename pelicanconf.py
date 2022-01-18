@@ -11,7 +11,7 @@ SITESUBTITLE = "Machine Learning, Computer Vision, Medical Imaging & Health Data
 SITEDESCRIPTION = "Professional Website"
 SITELOGO = "/images/profile_128.png"
 FAVICON = "/images/favicon.ico"
-SITEURL = "http://andreanjos.org"
+SITEURL = "https://andreanjos.org"
 
 # Theme setup
 THEME = "theme"
@@ -51,7 +51,7 @@ DIRECT_TEMPLATES = [
     "publications",
 ]
 LINKS = (
-    ("CV", "http://andreanjos.org/cv/cv.pdf"),
+    ("CV", "https://andreanjos.org/cv/cv.pdf"),
     ("Research", "/research/"),
     ("Publications", "/publications/"),
     ("Courses", "/courses/"),
