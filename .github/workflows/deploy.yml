@@ -41,4 +41,4 @@ jobs:
             publish_dir: ./output
             external_repository: anjos/anjos.github.io
             publish_branch: master
-            cname: andreanjos.org
+            cname: anjos.ai

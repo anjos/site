@@ -91,7 +91,7 @@ together, you should take a look at that link.
 .. _signal processing laboratory: http://www.lps.ufrj.br
 .. _artificial neural networks: http://en.wikipedia.org/wiki/Artificial_neural_network
 .. _publications: /publications/
-.. _cv: http://andreanjos.org/cv/cv.pdf
+.. _cv: https://anjos.ai/cv/cv.pdf
 .. _github: https://github.com/anjos
 .. _gitlab: https://gitlab.idiap.ch/bob
 .. _this website: http://github.com/anjos/site
