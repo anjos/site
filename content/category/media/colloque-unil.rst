@@ -1,5 +1,5 @@
-Is Computer-Aided Diagnosis **fair** towards minorities?
---------------------------------------------------------
+Is Computer-Aided Diagnosis fair towards minorities?
+----------------------------------------------------
 
 :date: 2022-02-10 15:45
 :slug: colloque-unil
