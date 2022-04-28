@@ -7,3 +7,4 @@ deploy-keys/
 .DS_Store
 __pycache__/
 content/data/publications.bib
+.envrc
