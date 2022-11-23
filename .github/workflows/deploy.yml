@@ -3,7 +3,7 @@ name: deploy to anjos.github.io
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
   workflow_dispatch:
 
@@ -31,7 +31,7 @@ jobs:
         shell: bash -l {0}
         run: |
           conda info -a
-          curl --create-dirs --output content/data/publications.bib https://raw.githubusercontent.com/anjos/cv/master/publications.bib
+          curl --create-dirs --output content/data/publications.bib https://raw.githubusercontent.com/anjos/cv/main/publications.bib
           pelican
 
       - name: Deploy
@@ -40,5 +40,5 @@ jobs:
             deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
             publish_dir: ./output
             external_repository: anjos/anjos.github.io
-            publish_branch: master
+            publish_branch: main
             cname: anjos.ai
