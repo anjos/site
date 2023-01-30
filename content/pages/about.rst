@@ -18,12 +18,15 @@ Trigger and Data-Acquisition system.
 
 .. image:: {static}/images/about/idiap-30-andre-1.jpg
    :width: 32%
+   :alt: André Anjos, July 2021
 
 .. image:: {static}/images/about/idiap-30-andre-2.jpg
    :width: 32%
+   :alt: André Anjos, July 2021
 
 .. image:: {static}/images/about/idiap-30-andre-3.jpg
    :width: 32%
+   :alt: André Anjos, July 2021
 
 I started studying electronics and computers in 1994, when I joined the
 Electronics Engineering School of the `Federal University of Rio de Janeiro`_.
