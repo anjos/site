@@ -11,6 +11,7 @@ SITESUBTITLE = "Machine Learning, Computer Vision, Medical Imaging & Health Data
 SITEDESCRIPTION = "Professional Website"
 SITELOGO = "/images/profile_128.png"
 FAVICON = "/images/favicon.ico"
+APPLE_TOUCH_ICON = "/images/profile_128.png"
 SITEURL = "https://anjos.ai"
 
 # Theme setup
@@ -70,7 +71,6 @@ SOCIAL = (
     ("stack-overflow", "https://stackoverflow.com/users/712525/andré-anjos"),
     ("github", "https://github.com/anjos"),
     ("gitlab", "https://gitlab.idiap.ch/bob"),
-    # ('skype', 'skype:andrezito?call'),
 )
 GOOGLE_ANALYTICS = "UA-22320747-1"
 
