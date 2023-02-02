@@ -55,6 +55,7 @@ LINKS = (
     ("CV", "https://anjos.ai/cv/cv.pdf"),
     ("Research", "/research/"),
     ("Publications", "/publications/"),
+    ("Supervised Students", "/theses/"),
     ("Courses", "/courses/"),
     ("Software", "/software/"),
     ("Talks & Media", "/media/"),
@@ -82,6 +83,7 @@ PLUGINS = [
     "deadlinks",
     "bibtex",
     "bibcite",
+    "pelican_fontawesome",
 ]
 
 DEFAULT_PAGINATION = False
