@@ -1,5 +1,5 @@
-Maxime Délitroz:
----------------------------------------------------------------------------
+Maxime Délitroz: Automated Segmentation of High-content Fluorescent Microscopy Data of Developing MN in Culture
+---------------------------------------------------------------------------------------------------------------
 
 :date: 2022-08-30
 :slug: maxime-delitroz
