@@ -31,8 +31,11 @@ training data. We shown that both our method outperformed other segmentation
 tools used in the literature and shed light on important requirements for
 training neural network on segmentation tasks.
 
-:fa:`fa-file-pdf-o` `Access the full thesis text from this link`_.
+.. admonition:: Available Materials
+   :class: note
+
+   :fa:`fa-file-pdf` `Thesis report`_
 
 
 .. Place your references here
-.. _access the full thesis text from this link: https://publidiap.idiap.ch/attachments/internals/2022/
+.. _thesis report: https://publidiap.idiap.ch/attachments/internals/2022/

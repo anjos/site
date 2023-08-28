@@ -73,7 +73,7 @@ SOCIAL = (
     ("github", "https://github.com/anjos"),
     ("gitlab", "https://gitlab.idiap.ch/bob"),
 )
-GOOGLE_ANALYTICS = "UA-22320747-1"
+# GOOGLE_ANALYTICS = "UA-22320747-1"
 
 # Plugins
 PLUGIN_PATHS = [

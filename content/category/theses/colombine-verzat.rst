@@ -56,8 +56,12 @@ dataset. The improvement of the model may require a larger and less imbalanced
 dataset, possibly along further explanatory variables permitting a better
 characterization of the patient.
 
-:fa:`fa-file-pdf-o` `Access the full thesis text from this link`_.
+.. admonition:: Available Materials
+   :class: note
+
+   :fa:`fa-file-pdf` `Thesis report`_
+
 
 .. Place your references here
 .. _a study by campbell et al.: https://doi.org/10.1016/s1473-3099(19)30575-4
-.. _access the full thesis text from this link: http://publications.idiap.ch/attachments/reports/2020/Verzat_Idiap-Com-02-2020.pdf
+.. _thesis report: http://publications.idiap.ch/attachments/reports/2020/Verzat_Idiap-Com-02-2020.pdf

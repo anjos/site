@@ -61,12 +61,18 @@ truth from the best epoch failed to help the model converge and caused even a
 higher loss than the baseline method.
 
 
-:fa:`fa-file-pdf-o` `Access the full thesis text from this link`_.
+.. admonition:: Reproducibility Checklist
+   :class: note
 
+   :fa:`fa-file-pdf` `Thesis report`_
 
-:fa:`fa-brands fa-python` `Access to Python source code`_ (git repository).
+   :fa:`fa-brands fa-python` `Software`_ is based on the open-source deepdraw_
+   library. *N.B.: Software leading to these results was only partially
+   integrated into the deepdraw_ software stack.*
 
+   :fa:`fa-database` All databases are publicly available.
 
 .. Place your references here
-.. _access the full thesis text from this link: https://publidiap.idiap.ch/attachments/internals/2022/Khalil_Idiap-Internal-RR-58-2022.pdf
-.. _access to python source code: https://gitlab.idiap.ch/bob/bob.ip.binseg/-/tree/mtl_changes
+.. _thesis report: https://publidiap.idiap.ch/attachments/internals/2022/Khalil_Idiap-Internal-RR-58-2022.pdf
+.. _deepdraw: {filename}../software/deepdraw.rst
+.. _software: https://gitlab.idiap.ch/biosignal/software/deepdraw/-/tree/mtl_changes

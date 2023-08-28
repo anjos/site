@@ -54,17 +54,16 @@ Finally, we propose a visual overview of the radiological signs predictions
 over radiographs using grad-CAMs and highlight the importance of annotating PTB
 datasets to study the reliability of these visualizations.
 
-Our work is made `open source`_ and fully reproducible in the hopes it becomes
-useful to further explore the application of Deep Learning to PTB screening.
+.. admonition:: Reproducibility Checklist
+   :class: note
 
+   :fa:`fa-file-pdf` `Thesis report`_
 
-:fa:`fa-file-pdf-o` `Access the full thesis text from this link`_.
+   :fa:`fa-brands fa-python` `Software`_ with preset configurations to
+   reproduce published findings.
 
-
-:fa:`fa-brands fa-python` `Access to Python source code`_ (git repository).
-
+   :fa:`fa-database` All databases are publicly available
 
 .. Place your references here
-.. _access the full thesis text from this link: http://publications.idiap.ch/attachments/reports/2021/Raposo_Idiap-Com-01-2021.pdf
-.. _access to python source code: https://gitlab.idiap.ch/bob/bob.med.tb
-.. _open source: https://pypi.org/project/bob.med.tb
+.. _thesis report: http://publications.idiap.ch/attachments/reports/2021/Raposo_Idiap-Com-01-2021.pdf
+.. _software: {filename}../software/mednet.rst

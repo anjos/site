@@ -45,13 +45,19 @@ k-fold cross-validation. Finally we will conclude with a small discussion about
 what we could do with dependent samples.
 
 
+.. admonition:: Reproducibility Checklist
+   :class: note
 
-:fa:`fa-file-pdf-o` `Access the full thesis text from this link`_.
+   :fa:`fa-file-pdf` `Thesis report`_
 
+   :fa:`fa-brands fa-python` `Software`_ is based on the open-source bob.measure_
+   library. *N.B.: Software leading to these results was only partially
+   integrated into the bob.measure_ software stack.*
 
-:fa:`fa-brands fa-python` `Access to Python source code`_ (git repository).
-
+   :fa:`fa-database` No databases are required to reproduced results, which
+   rely on Monte-Carlo simulations only.
 
 .. Place your references here
-.. _access the full thesis text from this link: https://publidiap.idiap.ch/attachments/reports/2022/Morais_Idiap-Com-01-2023.pdf
-.. _access to python source code: https://gitlab.idiap.ch/bob/bob.measure/-/merge_requests/103
+.. _thesis report: https://publidiap.idiap.ch/attachments/reports/2022/Morais_Idiap-Com-01-2023.pdf
+.. _software: https://gitlab.idiap.ch/bob/bob.measure/-/merge_requests/103
+.. _bob.measure: https://gitlab.idiap.ch/bob/bob.measure/
