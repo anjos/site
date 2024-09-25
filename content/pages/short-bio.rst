@@ -1,7 +1,7 @@
 Short Biography
 ---------------
 
-:date: 2020-04-12 15:39
+:date: 2024-09-25 10:59
 :slug: short-bio
 :summary: Short biography, for all purposes
 
@@ -16,7 +16,7 @@ and developed several software components still in use today. In 2010, André
 joined the `Biometrics Security and Privacy Group`_ at the `Idiap Research
 Institute` where he worked with face and vein biometrics, presentation attack
 detection, and reproducibility in research.  Since 2018 André heads the
-`Biosignal Processing Group`_ at Idiap_.  His current research interests
+`Medical AI Group`_ at Idiap_.  His current research interests
 include medical applications, biometrics, image and signal processing, machine
 learning, research reproducibility and open science. Among André's open-source
 contributions, one can cite Bob_ and the the BEAT_ framework for evaluation and
@@ -35,8 +35,8 @@ André Anjos received his Ph.D. degree in signal processing in 2006 studying the
 application of neural nets and statistical methods for particle recognition in
 the context of High-Energy Physics experiments at Large Hadron Collider at
 CERN_, Switzerland. He joined the `Idiap Research Institute`_ in 2010 where he
-works with biosignal processing and biometrics applications. He currently heads
-the `Biosignal Processing Group`_ at Idiap_. Current interests include
+works with medical AI and biometrics applications. He currently heads
+the `Medical AI Group`_ at Idiap_. Current interests include
 reproducible research and open-science for medical applications, biometrics,
 image and signal processing, and machine learning.  André teaches
 graduate-level `machine learning courses`_ at the École Polytechnique Fédérale
@@ -63,7 +63,7 @@ Picture
 .. _idiap: https://www.idiap.ch
 .. _idiap research institute: https://www.idiap.ch
 .. _biometrics security and privacy group: https://www.idiap.ch/en/scientific-research/biometrics-security-and-privacy
-.. _biosignal processing group: https://www.idiap.ch/en/scientific-research/biosignal-processing
+.. _medical ai group: https://www.idiap.ch/en/scientific-research/medical-artificial-intelligence/
 .. _epfl: https://www.epfl.ch
 .. _atlas experiment: https://atlas.cern
 .. _machine learning courses: http://edu.epfl.ch/coursebook/en/fundamentals-in-statistical-pattern-recognition-EE-612

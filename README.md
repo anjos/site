@@ -2,44 +2,41 @@
 
 # Professional Website
 
-Generator code using [Pelican](http://getpelican.com), for my professional web
-site. The website is re-built at every commit and re-deployed as Github Pages
-via Github Actions.
+Generator code using [Pelican](http://getpelican.com), for my professional web site. The
+website is re-built at every commit and re-deployed as Github Pages via Github Actions.
 
 
 ### Local Testing
 
-It is possible to locally test the web site before commit/pushing it back to
-GitHub (which will case the site to be re-compiled and re-deployed). I advise
-you to install a [Conda](https://github.com/conda-forge/miniforge)-based
-environment for deployment with this command line:
+It is possible to locally test the web site before commit/pushing it back to GitHub
+(which will case the site to be re-compiled and re-deployed). I advise you to install a
+[Pixi](https://pixi.sh)-based environment for deployment with this command line:
 
 ```sh
-$ conda env create -f env.yml -n site
-$ source activate site
+$ pixi install
 ```
 
 To compile a new version of the website, first make sure your CV is up-to-date
 by rebuilding [its repository](https://github.com/anjos/cv), then do:
 
 ```sh
-$ #this will fetch the latest version of the publications database
-$ curl --create-dirs --output content/data/publications.bib https://raw.githubusercontent.com/anjos/cv/main/publications.bib
-$ #this will effectively create a static version of the website
-$ pelican
+# this will fetch the latest version of the publications database
+$ pixi run bib
+# this will effectively create a static version of the website
+$ pixi run build
 ```
 
 To test the website, do:
 
 ```sh
-$ pelican --listen --autoreload
+$ pixi run serve
 ```
 
 
 ### Checking for dead links
 
 It is possible to automatically check for dead links using the configuration
-option `DEADLINK_VALIDATION`, setting it to `True` in `pelicanconf.py`.
+option `DEADLINKS_VALIDATION`, setting it to `True` in `pelicanconf.py`.
 
 
 ### Deployment

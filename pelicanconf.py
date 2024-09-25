@@ -1,13 +1,11 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*- #
-from __future__ import unicode_literals
 
 AUTHOR = "André Anjos"
 COPYRIGHT_NAME = AUTHOR
 COPYRIGHT_YEAR = str(__import__("datetime").date.today().year)
 SITENAME = "André Anjos"
 SITETITLE = "André Anjos"
-SITESUBTITLE = "Machine Learning, Computer Vision, Medical Imaging & Health Data Analysis, Reproducibility, Ph.D."
+SITESUBTITLE = "Machine Learning, Computer Vision, Medical Artificial Intelligence, Reproducibility, Ph.D."
 SITEDESCRIPTION = "Professional Website"
 SITELOGO = "/images/profile_128.png"
 FAVICON = "/images/favicon.ico"
@@ -71,7 +69,7 @@ SOCIAL = (
     ("linkedin", "https://www.linkedin.com/in/andreranjos/"),
     ("stack-overflow", "https://stackoverflow.com/users/712525/andré-anjos"),
     ("github", "https://github.com/anjos"),
-    ("gitlab", "https://gitlab.idiap.ch/bob"),
+    ("gitlab", "https://gitlab.idiap.ch/biosignal/software"),
 )
 # GOOGLE_ANALYTICS = "UA-22320747-1"
 
@@ -107,10 +105,10 @@ PUBLICATIONS_SAVE_AS = "publications/index.html"
 RELATIVE_URLS = True
 
 # Set to ``True`` the following line to enable link-checking
-DEADLINK_VALIDATION = False
-DEADLINK_OPTS = {
-    "timeout_duration_ms": 5000,
+DEADLINKS_VALIDATION = False
+DEADLINKS_OPTS = {
     "archive": False,
+    "timeout_duration_ms": 10000,
     "classes": ["disabled"],
 }
 

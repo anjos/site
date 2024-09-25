@@ -101,10 +101,10 @@ Material
 
 .. Place your references here
 .. _reproducible research: http://reproducibleresearch.net/
-.. _beat platform: https://www.beat-eu.org/
+.. _beat platform: https://www.idiap.ch/software/beat/platform/
 .. _bob: https://www.idiap.ch/software/bob/
-.. _dive into python: http://www.diveintopython.net/toc/index.html
-.. _numpy: http://www.numpy.org/
+.. _dive into python: https://diveintopython3.net
+.. _numpy: https://www.numpy.org/
 .. _scipy: http://www.scipy.org/
-.. _syllabus: http://www.idiap.ch/~aanjos/courses/reproducible-research/syllabus.pdf
-.. _slides: http://www.idiap.ch/~aanjos/courses/reproducible-research/slides.pdf
+.. _syllabus: https://www.idiap.ch/~aanjos/courses/reproducible-research/syllabus.pdf
+.. _slides: https://www.idiap.ch/~aanjos/courses/reproducible-research/slides.pdf

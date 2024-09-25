@@ -1,0 +1,38 @@
+[project]
+name = "site"
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-arm64"]
+
+[dependencies]
+python = "3.*"
+pelican = "*"
+curl = "*"
+markdown = "*"
+docutils = "*"
+requests = "*"
+nodejs = "*"
+pybtex = "*"
+bs4 = "*"
+
+[tasks]
+bib = "curl --create-dirs --output content/data/publications.bib https://raw.githubusercontent.com/anjos/cv/main/publications.bib"
+init = { cmd = "git submodule update --init --recursive", depends-on = ["bib"] }
+clean = "rm -rf output"
+build = "pelican"
+gh-action = { depends-on = ["bib", "build"] }
+# using --log-handler=plain until https://github.com/getpelican/pelican/pull/3398 makes
+# to a release of pelican
+serve = { cmd = "pelican --log-handler=plain --listen --autoreload", depends-on = ["build"] }
+
+[feature.qa.dependencies]
+pre-commit = "*"
+
+[feature.debug.dependencies]
+pdbpp = "*"
+
+[pypi-dependencies]
+pelican-fontawesome = "*"
+pelican-deadlinks = { git = "https://github.com/pelican-plugins/deadlinks" }
+
+[environments]
+default = { features = ["qa", "debug"] }

@@ -1,7 +1,3 @@
-[submodule "plugins/deadlinks"]
-	path = plugins/deadlinks
-	url = ../../silentlamb/pelican-deadlinks
-    branch = master
 [submodule "plugins/bibtex"]
 	path = plugins/bibtex
 	url = ../pelican-bibtex

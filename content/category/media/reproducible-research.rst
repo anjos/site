@@ -19,5 +19,5 @@ reproducible research in data sciences. Click on `this link`_ to see the talk.
 
 .. Place here your references
 .. _this link: https://portal.klewel.com/watch/webcast/valaiswallis-ai-workshop-reproducibility-in-research/talk/4
-.. _beat: https://www.beat-eu.org/platform
+.. _beat: https://www.idiap.ch/software/beat/platform/
 .. _bob: https://www.idiap.ch/software/bob/

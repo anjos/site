@@ -14,7 +14,7 @@ including data and source code while protecting privacy and confidentiality. It
 allows easy online access to experimentation and testing in computational
 science. You define what data and modules you would like to use, we make sure
 the system runs and provides you with a result. Data from different experiments
-can be easily compared and searched. The platform also provides an attestation
+can be easily compared and searched. The platform also provides an attestatiof
 mechanism for your reports (scientific papers, technical documents or
 certifications). I am one of the authors and architect of the platform. I
 coordinate work on it at the `Idiap Research Institute`_.
@@ -30,8 +30,8 @@ link`_.
 
 
 .. Place your references here
-.. _beat platform: https://www.beat-eu.org/platform/
-.. _our mailing list: https://groups.google.com/forum/#!forum/beat-devel
+.. _beat platform: https://www.idiap.ch/software/beat/platform/
+.. _our mailing list: https://groups.google.com/g/beat-devel
 .. _open science: https://en.wikipedia.org/wiki/Open_science
 .. _reproducible research: https://en.wikipedia.org/wiki/Reproducibility
 .. _idiap research institute: https://www.idiap.ch
