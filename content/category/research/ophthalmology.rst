@@ -91,14 +91,12 @@ of existing approaches and the potential for domain adaptation techniques. Overa
 work showcases efficient and effective solutions for retinal vessel segmentation tasks
 that align with current state-of-the-art results while reducing model complexity.
 
-**Demographic Fairness**: In [@@miccai-2024] we tackled the challenge of ensuring
-consistent performance and fairness in machine learning models for medical image
-diagnostics, with a focus on chest X-ray images. We proposed using Foundation Models as
-an embedding extractor to create groups representing protected attributes, such as
-gender and age. This approach can effectively group individuals by gender in both in-
-and out-of-distribution scenarios, reducing bias by up to 6.2%. However, the model's
-robustness in handling age attributes is limited, highlighting a need for more
-fundamentally fair and robust Foundation models. These findings contribute to the
-development of more equitable medical diagnostics, particularly where protected
-attribute information is lacking.
-
+**Demographic Fairness**: Our study in [@@eccv-2024] investigates the fairness and bias
+of Foundation models when applied to medical imaging datasets. By fine-tuning a
+Foundation model on the Brazilian Multilabel Ophthalmological Dataset (BRSET),
+researchers found that it had potential to reduce disparities in accuracy between
+different gender and age groups, compared to traditional supervised learning. However,
+as data availability decreased, the model's bias actually increased, suggesting that
+fairness issues may arise when deploying such models in real-world settings with limited
+data. These findings highlight the need to consider bias and fairness implications when
+using Foundation models in practical applications.
