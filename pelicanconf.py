@@ -44,11 +44,10 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
+# Pages that should be rendered
+DIRECT_TEMPLATES = ["index"]
+
 # Links in the front page, aside from the static ``pages``
-DIRECT_TEMPLATES = [
-    "index",
-    "publications",
-]
 LINKS = (
     ("CV", "https://anjos.ai/cv/cv.pdf"),
     ("Research", "/research/"),
@@ -69,19 +68,13 @@ SOCIAL = (
     ("linkedin", "https://www.linkedin.com/in/andreranjos/"),
     ("stack-overflow", "https://stackoverflow.com/users/712525/andré-anjos"),
     ("github", "https://github.com/anjos"),
-    ("gitlab", "https://gitlab.idiap.ch/biosignal/software"),
+    ("gitlab", "https://gitlab.idiap.ch/medai/software"),
 )
-# GOOGLE_ANALYTICS = "UA-22320747-1"
 
-# Plugins
-PLUGIN_PATHS = [
-    "plugins",
-]
 PLUGINS = [
     "deadlinks",
-    "bibtex",
-    "bibcite",
     "pelican_fontawesome",
+    "pybtex",
 ]
 
 DEFAULT_PAGINATION = False
@@ -113,7 +106,9 @@ DEADLINKS_OPTS = {
 }
 
 # Where is the location of your BibTeX database
-PUBLICATIONS_SRC = "content/data/publications.bib"
+PYBTEX_SOURCES = ["content/data/publications.bib"]
+PYBTEX_ADD_ENTRY_FIELDS = ["pdf", "poster"]
+THEME_TEMPLATES_OVERRIDES = ["templates"]
 
 # Theme configuration options
 #USE_LESS = True #set to "True" to test theme changes

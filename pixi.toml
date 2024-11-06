@@ -5,18 +5,20 @@ platforms = ["linux-64", "osx-arm64"]
 
 [dependencies]
 python = "3.*"
-pelican = ">=4.10.1"  # fixes: getpelican/pelican#2674
+pelican = ">=4.10.1" # fixes: getpelican/pelican#2674
 curl = "*"
 markdown = "*"
 docutils = "*"
 requests = "*"
 nodejs = "*"
 pybtex = "*"
+pygments = ">=2.2"
 bs4 = "*"
 
 [pypi-dependencies]
 pelican-fontawesome = "*"
 pelican-deadlinks = { git = "https://github.com/pelican-plugins/deadlinks" }
+pelican-pybtex = ">=1.0.0b4"
 
 [tasks]
 bib = "curl --create-dirs --output content/data/publications.bib https://raw.githubusercontent.com/anjos/cv/main/publications.bib"

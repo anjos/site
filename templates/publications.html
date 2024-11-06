@@ -1,0 +1,31 @@
+{% extends "!pybtex/publications.html" %}
+
+{% block before_content %}
+<p>This is a complete list of publications I have authored or co-authored. You can find
+    my h-index and i10-index information at <a href="http://scholar.google.com/citations?user=pAfLhMoAAAAJ"
+        target="_blank">Google Scholar</a>. Clicking on the text of an entry will show
+    you the BibTeX citation for such an entry, together with a download link, if one is
+    available.
+</p>
+{% endblock %}
+
+{% block content_pybtex %}
+<div id="pybtex">
+    {% for group in publications|groupby(attribute="year")|reverse %}
+    <h3 id="{{ group.grouper }}">{{ group.grouper }}</h3>
+        {% for item in group.list|sort(attribute="month")|reverse %}
+        <details id="pybtex-{{ item.key }}">
+            <summary>{{ item.html }}</summary>
+
+            {% if item.pdf %}<br/><a href="{{ item.pdf }}" target="_blank"><b>Article:</b> <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>{% endif %}
+            {% if item.poster %}{% if item.pdf %}&nbsp;|&nbsp;{% endif %}<a href="{{ poster }}" target="_blank"><b>Poster:</b> <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>{% endif %}
+
+            <br/>
+
+            {{ item.bibtex }}
+
+        </details>
+        {% endfor %}
+    {% endfor %}
+</div>
+{% endblock %}
