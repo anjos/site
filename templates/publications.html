@@ -17,8 +17,8 @@
         <details id="pybtex-{{ item.key }}">
             <summary>{{ item.html }}</summary>
 
-            {% if item.pdf %}<br/><a href="{{ item.pdf }}" target="_blank"><b>Article:</b> <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>{% endif %}
-            {% if item.poster %}{% if item.pdf %}&nbsp;|&nbsp;{% endif %}<a href="{{ poster }}" target="_blank"><b>Poster:</b> <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>{% endif %}
+            {% if item.pdf %}<br/><a href="{{ item.pdf }}" target="_blank"><span class="fa fa-file-pdf"></span> <b>Article</b></a>{% endif %}
+            {% if item.poster %}{% if item.pdf %}&nbsp;|&nbsp;{% endif %}<a href="{{ poster }}" target="_blank"><span class="fa fa-file-pdf" aria-hidden="true"></span> <b>Poster</b></a>{% endif %}
 
             <br/>
 
