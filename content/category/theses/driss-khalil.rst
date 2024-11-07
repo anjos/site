@@ -75,4 +75,4 @@ higher loss than the baseline method.
 .. Place your references here
 .. _thesis report: https://publidiap.idiap.ch/attachments/internals/2022/Khalil_Idiap-Internal-RR-58-2022.pdf
 .. _deepdraw: {filename}../software/deepdraw.rst
-.. _software: https://gitlab.idiap.ch/biosignal/software/deepdraw/-/tree/mtl_changes
+.. _software: https://gitlab.idiap.ch/medai/software/deepdraw/-/tree/mtl_changes

@@ -53,7 +53,7 @@ angiograms.
 
 .. Place your references here
 .. _pytorch: https://pytorch.org
-.. _mednet: https://gitlab.idiap.ch/biosignal/software/ptbench
-.. _gitlab project page: https://gitlab.idiap.ch/biosignal/software/ptbench
-.. _documentation: https://www.idiap.ch/software/biosignal/docs/biosignal/software/ptbench/main/sphinx/
+.. _mednet: https://gitlab.idiap.ch/medai/software/mednet
+.. _gitlab project page: https://gitlab.idiap.ch/medai/software/mednet
+.. _documentation: https://mednet.readthedocs.io/en/stable/
 .. _pypi: https://pypi.org/project/mednet/

@@ -62,9 +62,9 @@ of the Signal Processing and Machine Learning Library bob_.
 
 .. Place your references here
 .. _pytorch: https://pytorch.org
-.. _deepdraw: https://gitlab.idiap.ch/biosignal/software/deepdraw
-.. _gitlab project page: https://gitlab.idiap.ch/biosignal/software/deepdraw
-.. _documentation: https://www.idiap.ch/software/biosignal/docs/biosignal/software/deepdraw/master/sphinx/
+.. _deepdraw: https://gitlab.idiap.ch/medai/software/deepdraw
+.. _gitlab project page: https://gitlab.idiap.ch/medai/software/deepdraw
+.. _documentation: https://www.idiap.ch/software/bob/docs/medai/software/deepdraw/main/sphinx/index.html
 .. _pypi: https://pypi.org/project/bob.ip.binseg/
 .. _image segmentation: https://en.wikipedia.org/wiki/Image_segmentation
 .. _bob: {filename}bob.rst

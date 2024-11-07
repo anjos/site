@@ -6,9 +6,9 @@ Bob
 :cover: images/covers/bob.svg
 :summary: Bob_ is a signal-processing and machine learning toolbox originally
           developed by the `Biometrics Security and Privacy Group`_, the
-          `Biosignal Processing Group`_, and the `Research and Development
-          Engineers Group`_ at the `Idiap Research Institute`_, in Switzerland.
-          Bob is primarily developed through GitLab_.
+          `Medical AI Group`_, and the `Research and Development Engineers
+          Group`_ at the `Idiap Research Institute`_, in Switzerland. Bob is
+          primarily developed through GitLab_.
 
 .. image:: {static}/images/logos/bob.png
    :height: 100
@@ -16,10 +16,9 @@ Bob
    :alt: Bob's logo
 
 Bob_ is a signal-processing and machine learning toolbox originally developed
-by the `Biometrics Security and Privacy Group`_, the `Biosignal Processing
-Group`_, and the `Research and Development Engineers Group`_ at the `Idiap
-Research Institute`_, in Switzerland.  Bob is primarily developed through
-GitLab_.
+by the `Biometrics Security and Privacy Group`_, the `Medical AI Group`_, and
+the `Research and Development Engineers Group`_ at the `Idiap Research
+Institute`_, in Switzerland.  Bob is primarily developed through GitLab_.
 
 The framework is composed of various packages for signal, audio and video
 processing, object detection, keypoint localization, machine learning and
@@ -47,5 +46,5 @@ A few links of interest:
 .. _installation instructions: https://www.idiap.ch/software/bob/install
 .. _available packages: https://www.idiap.ch/software/bob/packages
 .. _biometrics security and privacy group: https://www.idiap.ch/en/scientific-research/biometrics-security-and-privacy
-.. _biosignal processing group: http://www.idiap.ch/en/scientific-research/biosignal-processing
+.. _medical ai group: http://www.idiap.ch/en/scientific-research/medical-artificial-intelligence
 .. _Research and Development Engineers group: https://www.idiap.ch/en/people/development-engineers-group

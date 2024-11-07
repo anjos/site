@@ -93,4 +93,4 @@ attribute information is lacking.
 
 .. links here:
 
-.. _euvip24_tb: https://biosignal.pages.idiap.ch/software/paper/euvip24-refine-cad-tb/
+.. _euvip24_tb: https://medai.pages.idiap.ch/software/paper/euvip24-refine-cad-tb/

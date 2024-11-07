@@ -53,12 +53,12 @@ performance.
 
    :fa:`fa-brands fa-python` `Software`_ is based on the open-source deepdraw_
    library. *N.B.: Software leading to these results was only partially
-   integrated into the Biosignal Processing Group software stack.*
+   integrated into the Medical AI Group software stack.*
 
    :fa:`fa-database` All databases are publicly available
 
 
 .. Place your references here
 .. _thesis report: https://www.merlin.uzh.ch/publication/show/23611
-.. _software: https://gitlab.idiap.ch/biosignal/software/deepdraw/-/merge_requests/59
+.. _software: https://gitlab.idiap.ch/medai/software/deepdraw/-/merge_requests/59
 .. _deepdraw: {filename}../software/deepdraw.rst

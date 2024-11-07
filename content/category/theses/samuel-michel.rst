@@ -63,7 +63,7 @@ described in the same paper emerged as the best model.
 .. Place your references here
 .. _thesis report: https://publications.idiap.ch/publications/show/5127
 .. _software: {filename}../software/sleepless.rst
-.. _sleepless: https://gitlab.idiap.ch/biosignal/software/sleepless/
+.. _sleepless: https://gitlab.idiap.ch/medai/software/sleepless/
 .. [Chambon-2018] *S. Chambon, M. N. Galtier, P. J. Arnal, G. Wainrib, et A.
    Gramfort*. **A Deep Learning Architecture for Temporal Sleep Stage
    Classification Using Multivariate and Multimodal Time Series**. IEEE Trans.

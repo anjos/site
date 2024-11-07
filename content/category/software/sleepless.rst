@@ -49,7 +49,7 @@ or insomnia_.
 .. _hypnograms: https://en.wikipedia.org/wiki/Hypnogram
 .. _sleep apnea: https://en.wikipedia.org/wiki/Sleep_apnea
 .. _insomnia: https://en.wikipedia.org/wiki/Insomnia
-.. _sleepless: https://gitlab.idiap.ch/biosignal/software/sleepless
-.. _gitlab project page: https://gitlab.idiap.ch/biosignal/software/sleepless
+.. _sleepless: https://gitlab.idiap.ch/medai/software/sleepless
+.. _gitlab project page: https://gitlab.idiap.ch/medai/software/sleepless
 .. _documentation: https://sleepless.readthedocs.io/en/latest/
 .. _pypi: https://pypi.org/project/sleepless/
