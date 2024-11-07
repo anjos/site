@@ -7,6 +7,7 @@ Samuel Michel: Generalizable Automatic Classification of Sleep Stages
 :summary: This thesis develops stateless methods for sleep-phase detection from
           polysomnographs (PSG), while exploring techniques to improve
           cross-database generalisation.
+:pybtex_sources: samuel-michel.bib
 
 
 .. figure:: {static}/images/covers/samuel-michel.png
@@ -44,7 +45,7 @@ data coming from different sleep centers. We scoped this study to stateless
 models that do not take into account temporal context. We investigated both
 hand-crafted and learnable feature extractors. In terms of intra-database
 performance, our best model was the CNN Chambon model proposed by Chambon et
-al. in their paper [Chambon-2018]_. However, when evaluating generalization
+al. in their paper [@@chambon-2018]. However, when evaluating generalization
 across different setups, the random forest model with manually chosen features
 described in the same paper emerged as the best model.
 
@@ -64,8 +65,3 @@ described in the same paper emerged as the best model.
 .. _thesis report: https://publications.idiap.ch/publications/show/5127
 .. _software: {filename}../software/sleepless.rst
 .. _sleepless: https://gitlab.idiap.ch/medai/software/sleepless/
-.. [Chambon-2018] *S. Chambon, M. N. Galtier, P. J. Arnal, G. Wainrib, et A.
-   Gramfort*. **A Deep Learning Architecture for Temporal Sleep Stage
-   Classification Using Multivariate and Multimodal Time Series**. IEEE Trans.
-   Neural Syst. Rehabil. Eng., vol. 26, nᵒ 4, p. 758–769, avr. 2018,
-   https://doi.org/10.1109/TNSRE.2018.2813138.

@@ -1,0 +1,47 @@
+@article{chambon-2018,
+    title = {A {Deep} {Learning} {Architecture} for {Temporal} {Sleep} {Stage} {
+             Classification} {Using} {Multivariate} and {Multimodal} {Time} {
+             Series}},
+    volume = {26},
+    issn = {1534-4320, 1558-0210},
+    doi = {10.1109/TNSRE.2018.2813138},
+    abstract = {Sleep stage classiﬁcation constitutes an important preliminary
+                exam in the diagnosis of sleep disorders. It is traditionally
+                performed by a sleep expert who assigns to each 30 s of signal a
+                sleep stage, based on the visual inspection of signals such as
+                electroencephalograms (EEG), electrooculograms (EOG),
+                electrocardiograms (ECG) and electromyograms (EMG). We introduce
+                here the ﬁrst deep learning approach for sleep stage
+                classiﬁcation that learns end-to-end without computing
+                spectrograms or extracting hand-crafted features, that exploits
+                all multivariate and multimodal Polysomnography (PSG) signals
+                (EEG, EMG and EOG), and that can exploit the temporal context of
+                each 30 s window of data. For each modality the ﬁrst layer learns
+                linear spatial ﬁlters that exploit the array of sensors to
+                increase the signal-to-noise ratio, and the last layer feeds the
+                learnt representation to a softmax classiﬁer. Our model is
+                compared to alternative automatic approaches based on
+                convolutional networks or decisions trees. Results obtained on 61
+                publicly available PSG records with up to 20 EEG channels
+                demonstrate that our network architecture yields state-of-the-art
+                performance. Our study reveals a number of insights on the
+                spatio-temporal distribution of the signal of interest: a good
+                trade-off for optimal classiﬁcation performance measured with
+                balanced accuracy is to use 6 EEG with 2 EOG (left and right) and
+                3 EMG chin channels. Also exploiting one minute of data before
+                and after each data segment offers the strongest improvement when
+                a limited number of channels is available. As sleep experts, our
+                system exploits the multivariate and multimodal nature of PSG
+                signals in order to deliver state-of-the-art classiﬁcation
+                performance with a small computational cost.},
+    language = {en},
+    number = {4},
+    journal = {IEEE Transactions on Neural Systems and Rehabilitation
+               Engineering},
+    author = {Chambon, Stanislas and Galtier, Mathieu N. and Arnal, Pierrick J.
+              and Wainrib, Gilles and Gramfort, Alexandre},
+    month = apr,
+    year = {2018},
+    pages = {758--769},
+}
+
