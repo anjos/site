@@ -18,8 +18,8 @@ BROWSER_COLOR = "#333"
 
 # Static directories
 STATIC_PATHS = (
-    "images",
     "css",
+    "images",
 )
 
 # Extra CSS customization
@@ -111,7 +111,7 @@ PYBTEX_ADD_ENTRY_FIELDS = ["pdf", "poster"]
 THEME_TEMPLATES_OVERRIDES = ["templates"]
 
 # Theme configuration options
-#USE_LESS = True #set to "True" to test theme changes
+# USE_LESS = True #set to "True" to test theme changes
 THEME_COLOR = "light"
 THEME_COLOR_AUTO_DETECT_BROWSER_PREFERENCE = True
 THEME_COLOR_ENABLE_USER_OVERRIDE = True

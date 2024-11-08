@@ -1,4 +1,0 @@
-[submodule "theme"]
-	path = theme
-	url = ../Flex
-    branch = master

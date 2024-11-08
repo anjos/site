@@ -1,45 +1,110 @@
+div.admonition {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
 ul.social a.sc-stack-overflow {
-  background-color:#f48024
+    background-color: #f48024
 }
+
 ul.social a.sc-skype {
-  background-color:#00aff0
+    background-color: #00aff0
 }
+
 ul.social a.sc-gitlab {
-  background-color:#554488
+    background-color: #554488
 }
+
+ul.social a.sc-orcid {
+    background-color: #a6ce39;
+}
+
+ul.social a.sc-google-scholar {
+    background-color: #4885ed;
+}
+
 .video-container {
-  position: relative;
-  padding-bottom: 56.25%;
-  padding-top: 30px; height: 0; overflow: hidden;
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
 }
-.video-container iframe, .video-container object, .video-container embed {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 80%;
-  height: 80%;
+
+.video-container iframe,
+.video-container object,
+.video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80%;
+    height: 80%;
 }
+
 .align-left {
-  float: left;
-  padding: 10px;
+    float: left;
+    padding: 10px;
 }
+
 .align-right {
-  float: right;
-  padding: 10px;
+    float: right;
+    padding: 10px;
 }
+
 .clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
+    content: "";
+    clear: both;
+    display: table;
 }
+
 p.caption {
-  font-style: italic;
-  color: #888;
+    font-style: italic;
+    color: #888;
 }
-pre.bibtex {
-  white-space: -moz-pre-wrap; /* Mozilla, supported since 1999 */
-  white-space: -pre-wrap; /* Opera */
-  white-space: -o-pre-wrap; /* Opera */
-  white-space: pre-wrap; /* CSS3 - Text module (Candidate Recommendation) http://www.w3.org/TR/css3-text/#white-space */
-  word-wrap: break-word; /* IE 5.5+ */
+
+main article img.cover {
+    float: left;
+    margin: 0.5em;
+    width: 7em;
+    height: 7em;
+    align: top;
+    object-fit: contain;
+}
+
+/** handles the special case in which we have a "caption" after a series of
+images in a "center" container **/
+p.figure.center {
+    margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    aside {
+        background-color: #1a1a1a;
+    }
+}
+
+/** change the orange theme color to blue **/
+a {
+    color: #0091cd;
+}
+
+a:hover {
+    color: #c4dff6
+}
+
+.tag-cloud a {
+    background-color: #0091cd;
+}
+
+.tag-cloud a:hover {
+    background-color: #c4dff6
+}
+
+a.btn,
+section#isso-thread section.auth-section p.post-action input {
+    background-color: #0091cd;
+}
+
+a.btn:hover {
+    background-color: #c4dff6
 }
