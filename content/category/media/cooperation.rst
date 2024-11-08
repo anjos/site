@@ -22,7 +22,7 @@ Here is the published photo, in full resolution:
 
    Taken at the `Idiap Research Institute <idiap_>`_, around June 2018.  You
    can find more about our `work on retinal images in here
-   <{filename}../research/retinography.rst>`_.
+   <{filename}../research/ophthalmology.rst>`_.
 
 .. Place here your references
 .. _cooperation: https://epaper.cooperation.ch/
