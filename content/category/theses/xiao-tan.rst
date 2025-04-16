@@ -59,6 +59,6 @@ performance.
 
 
 .. Place your references here
-.. _thesis report: https://www.merlin.uzh.ch/publication/show/23611
+.. _thesis report: https://capuana.ifi.uzh.ch/publications/PDFs/23611_Xiao%20Tan_thesis.pdf
 .. _software: https://gitlab.idiap.ch/medai/software/deepdraw/-/merge_requests/59
 .. _deepdraw: {filename}../software/deepdraw.rst
