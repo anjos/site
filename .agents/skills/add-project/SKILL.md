@@ -87,9 +87,9 @@ all from Zotero), and supervised theses.
    Idiap" in `AGENTS.md`. Any other image, figure, or PDF the page links to goes
    to `idiap-public/` and is referenced by its full
    `https://www.idiap.ch/~aanjos/...` URL, never committed.
-7. Run the gates and fix anything they report (`idiap-push` first if you added
-   anything to `idiap-public/`, otherwise `linkcheck` 404s on the new URLs):
+7. Run the gate and fix anything it reports (`idiap-push` first if you added
+   anything to `idiap-public/`, otherwise the link check 404s on the new URLs):
    ```sh
    pixi run idiap-push   # only if idiap-public/ changed
-   pixi run validate && pixi run build && pixi run linkcheck
+   pixi run validate     # the whole gate: tests, content, build, links
    ```

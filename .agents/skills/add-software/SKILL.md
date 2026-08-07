@@ -47,7 +47,7 @@ only the `--links` that exist; add `--archived` for retired packages (Bob, BEAT)
 
 ```sh
 pixi run outputs                                  # regenerate data/outputs.json
-pixi run validate && pixi run build && pixi run linkcheck
+pixi run validate                                 # tests, content, build, links
 ```
-`linkcheck` confirms every Docs/PyPI/conda-forge/Source link resolves. The package
+Its `check-links` step confirms every Docs/PyPI/conda-forge/Source link resolves. The package
 now appears under Research Outputs, filterable at `/outputs/software/`.

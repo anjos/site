@@ -21,7 +21,7 @@ in "My Publications" and continue.
 
 ```sh
 pixi run outputs                       # regenerate data/outputs.json from Zotero
-pixi run validate && pixi run build && pixi run linkcheck
+pixi run validate                      # the whole gate: tests, content, build, links
 ```
 `pubs` reads the public Zotero feed. The publications page lists everything by
 year with Type/Year filters; André is highlighted; public PDFs and DOIs are

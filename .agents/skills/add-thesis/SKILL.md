@@ -73,7 +73,7 @@ partners:
   university library, etc.). With no external link, put the manuscript in
   `idiap-public/pdfs/theses/<slug>.pdf`, set `report:` to
   `https://www.idiap.ch/~aanjos/pdfs/theses/<slug>.pdf`, and `pixi run idiap-push`
-  before `linkcheck`. See "Large assets live on Idiap" in `AGENTS.md`.
+  before the gate. See "Large assets live on Idiap" in `AGENTS.md`.
 - **The cover is the one image that lives in the repo**, optimised: long edge
   1000 px, same format, under 300 KB (`pixi run validate` enforces this). Any
   other figure from the thesis goes to `idiap-public/` and is referenced by its
@@ -113,7 +113,7 @@ Keep it scientific but readable for a non-specialist who is looking André up.
 ## Finish
 
 ```sh
-pixi run idiap-push   # only if idiap-public/ changed; must precede linkcheck
-pixi run validate && pixi run build && pixi run linkcheck
+pixi run idiap-push   # only if idiap-public/ changed; must precede the gate
+pixi run validate     # the whole gate: tests, content, build, links
 ```
 Confirm the thesis appears at `/theses/` and under `/projects/<project-id>/`.

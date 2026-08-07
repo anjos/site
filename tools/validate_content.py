@@ -75,7 +75,7 @@ def check_static(errors: list[str]) -> None:
 def check_idiap_refs(errors: list[str]) -> None:
     """Every Idiap URL used in content must exist in the local mirror, so typos
     surface before `pixi run idiap-push`. Skipped where the mirror is absent
-    (CI), which is fine: linkcheck catches genuinely dead URLs there."""
+    (CI), which is fine: check-links catches genuinely dead URLs there."""
     if not IDIAP_LOCAL.is_dir():
         return
     pattern = re.compile(re.escape(IDIAP_URL) + r'[^"\')<>\s]+')

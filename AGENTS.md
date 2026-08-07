@@ -146,8 +146,8 @@ Adding an asset:
    passes absolute URLs through untouched, so this works in front-matter
    (`cover:`, `report:`), in Markdown links, in `{{< figure >}}`, and in the raw
    HTML the gallery pages use.
-3. Publish it, **before** running `pixi run linkcheck` (which fetches the real
-   URLs and will 404 otherwise):
+3. Publish it, **before** running `pixi run validate` (whose `check-links` step
+   fetches the real URLs and will 404 otherwise):
    ```sh
    pixi run idiap-push   # rsync idiap-public/ -> idiap:public/
    pixi run idiap-pull   # the other direction, to refresh the local mirror

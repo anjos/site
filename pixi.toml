@@ -53,7 +53,6 @@ build = { cmd = "hugo --minify --cleanDestinationDir" }
 # Local preview with drafts and live reload. Deliberately has NO dependencies:
 # preview must never wait on a Zotero round-trip.
 serve = "hugo server -D"
-linkcheck = { depends-on = ["check-links"] }   # kept: skills and docs use this name
 clean = "rm -rf public resources/_gen"
 # Publish the large assets (PDFs, raw images) to ~/public on the Idiap web
 # server, where they are served as https://www.idiap.ch/~aanjos/<path>.

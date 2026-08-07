@@ -26,10 +26,10 @@ description: Add a talk, interview, or press item to the Media section of anjos.
    `AGENTS.md`. Slides, a press PDF, or any other image go to `idiap-public/`
    and are referenced by their full `https://www.idiap.ch/~aanjos/...` URL,
    never committed.
-4. Run the gates (`idiap-push` first if you added anything to `idiap-public/`,
-   otherwise `linkcheck` 404s on the new URLs):
+4. Run the gate (`idiap-push` first if you added anything to `idiap-public/`,
+   otherwise the link check 404s on the new URLs):
    ```sh
    pixi run idiap-push   # only if idiap-public/ changed
-   pixi run validate && pixi run build && pixi run linkcheck
+   pixi run validate     # the whole gate: tests, content, build, links
    ```
-   `linkcheck` will flag a dead external link — fix or replace it.
+   Its `check-links` step will flag a dead external link — fix or replace it.
