@@ -209,3 +209,60 @@ Markdown body: an SNSF-style "major achievements" narrative. External datasets
 
 The project's **id** is its folder name (`content/projects/<id>/`). A thesis
 links to it with `projects: [<id>]`.
+
+## Coding Style & Naming Conventions
+
+Skills to reuse:
+
+- Use `python-design-patterns` as basis for writing or refactoring code.
+- Use `repomix` when larger overviews, refactoring, or third-party remote repositories
+  need to be inspected.
+
+Particularities for this package:
+
+- Python: 4-space indentation, `snake_case` for functions/modules, `PascalCase` for
+  classes.
+- Keep lines near 88 chars (Ruff config target) and let `ruff-format` normalize
+  formatting.
+- You should always add docstrings to public methods, variables, enumerations, etc. You
+  should avoid docstrings that only contain a sentence, and really write that first
+  sentence, then a more detailed explanation of the method, a description of the
+  parameters, the returned objects and any exceptions each method/function may throw, if
+  applicable.
+- If you create or edit Python docstrings, use the numpydoc style formatting
+- Use ruff and ty to check the code and try to comply as much as possible with errors,
+  warnings and tips from these tools
+- All files should have a valid SPDX header with the following:
+  ```text
+  SPDX-FileCopyrightText: Copyright © 2026 Idiap Research Institute <contact@idiap.ch>
+
+  SPDX-License-Identifier: BSD-3-Clause
+  ```
+- In Python code, you should avoid imports like `from module import function`, and just
+  `import module` and use the function as `module.function(...)`. You should also avoid
+  the `as` particle as in `from module import function as another_name`. Just call
+  things what they are, with their full (Python) path.
+- While importing within the package code itself, use relative imports for own code.
+- Code from tests or documentation should use full module imports (never relative).
+- By default, all methods should be private and start with a single underscore
+  `def _private_method(...)`, unless it must be made public.
+- Type annotations should be as permissive as possible on function/method inputs, and as
+  specific as possible on function/method returns.
+- Regarding type annotations, do not add aliases, just name types verbosely everywhere.
+  Do not come up with aliases such as `PathLike = str | pathlib.Path` to then use
+  `PathLike` everywhere. Just use `str | pathlib.Path` where needed.
+- You may still add specific type aliases if, and only if, actual types would be
+  ridiculously long (e.g. occupying 40 or more characters), in which case you should
+  also properly document such type aliases.
+- I prefer functional programming to classes. If you can find elegant ways to keep a
+  functional programming style, go for it unless a class/object-oriented style is more
+  elegant and will translate to less code.
+
+## Commit & Merge Request Guidelines
+
+- Use the shell command `wt step commit` to commit.
+- Always create branches for new features and fixes -- avoid committing to the `main`
+  branch directly, unless the user explicitly requests to do so.
+- Branch names should not contain slashes (`/`). They should be of the format
+  `<verb>-<object>` like `add-new-feature` or `fix-weird-behaviour`. The actual branch
+  name should be as compact as possible to save typing.
