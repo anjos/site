@@ -1,0 +1,96 @@
+baseURL = "https://anjos.ai/"
+defaultContentLanguage = "en"
+title = "André Anjos"
+enableGitInfo = false
+enableEmoji = true
+
+# Fail the build on broken internal ref/relref links (integration test).
+refLinksErrorLevel = "ERROR"
+
+# Pretty, hash-free URLs (parity with the old Pelican DISABLE_URL_HASH setup).
+disableKinds = ["rss"]
+summaryLength = 40
+
+[params]
+  subtitle = "Machine Learning · Computer Vision · Medical Artificial Intelligence · Reproducibility"
+  description = "Professional website of André Anjos — Medical AI, computer vision, reproducible research."
+  author = "André Anjos"
+  orcid = "0000-0001-7248-4014"
+  email = "andre.anjos@idiap.ch"
+  cvURL = "https://anjos.ai/cv/cv.pdf"
+  # Footer social links (icon key -> URL). Icons resolved as inline SVGs.
+  [[params.social]]
+    name = "orcid"
+    url = "https://orcid.org/0000-0001-7248-4014"
+  [[params.social]]
+    name = "google-scholar"
+    url = "https://scholar.google.ch/citations?user=pAfLhMoAAAAJ"
+  [[params.social]]
+    name = "linkedin"
+    url = "https://www.linkedin.com/in/andreranjos/"
+  [[params.social]]
+    name = "github"
+    url = "https://github.com/anjos"
+  [[params.social]]
+    name = "gitlab"
+    url = "https://gitlab.idiap.ch/medai/software"
+
+# Projects are a normal content section (leaf bundles). Theses link to a project
+# via a plain `projects: [<id>]` front-matter list, matched on the project's `id`.
+# An empty table disables Hugo's default tags/categories taxonomies.
+[taxonomies]
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.highlight]
+    noClasses = false
+    lineNos = false
+    tabWidth = 2
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+
+[menus]
+  [[menus.main]]
+    name = "Projects"
+    pageRef = "/projects"
+    weight = 10
+  [[menus.main]]
+    name = "Research Outputs"
+    identifier = "outputs"
+    pageRef = "/outputs"
+    weight = 20
+  [[menus.main]]
+    name = "Theses"
+    pageRef = "/theses"
+    weight = 30
+  [[menus.main]]
+    name = "Teaching"
+    pageRef = "/teaching"
+    weight = 40
+  [[menus.main]]
+    name = "About"
+    identifier = "about"
+    pageRef = "/about"
+    weight = 60
+  [[menus.main]]
+    name = "Biography"
+    parent = "about"
+    pageRef = "/about"
+    weight = 61
+  [[menus.main]]
+    name = "Contact"
+    parent = "about"
+    pageRef = "/contact"
+    weight = 62
+  [[menus.main]]
+    name = "Media"
+    parent = "about"
+    pageRef = "/media"
+    weight = 63
+  [[menus.main]]
+    name = "Photos"
+    parent = "about"
+    pageRef = "/gallery"
+    weight = 64

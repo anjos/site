@@ -1,0 +1,41 @@
+{{- $labels := dict
+    "orcid" "ORCID"
+    "google-scholar" "Google Scholar"
+    "linkedin" "LinkedIn"
+    "github" "GitHub"
+    "gitlab" "GitLab"
+    "stack-overflow" "Stack Overflow" -}}
+<footer class="site-footer">
+  <div class="wrap">
+    <nav class="social" aria-label="Elsewhere">
+      {{- range site.Params.social }}
+      <a href="{{ .url }}" rel="me noopener" target="_blank">{{ index $labels .name | default (.name | title) }}</a>
+      {{- end }}
+    </nav>
+    <p class="colophon">
+      © {{ now.Year }} {{ site.Params.author }}.
+    </p>
+  </div>
+</footer>
+<script>
+(function () {
+  var root = document.documentElement;
+  var btn = document.getElementById("theme-toggle");
+  if (btn) {
+    btn.addEventListener("click", function () {
+      var mq = window.matchMedia("(prefers-color-scheme: dark)");
+      var current = root.getAttribute("data-theme") || (mq.matches ? "dark" : "light");
+      var next = current === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem("theme", next); } catch (e) {}
+    });
+  }
+  var nav = document.querySelector(".nav-toggle");
+  if (nav) {
+    nav.addEventListener("click", function () {
+      var open = document.body.classList.toggle("nav-open");
+      nav.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  }
+})();
+</script>

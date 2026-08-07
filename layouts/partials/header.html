@@ -1,0 +1,31 @@
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-title" href="{{ "/" | relURL }}">{{ site.Title }}</a>
+    <button id="theme-toggle" class="theme-toggle" type="button"
+            aria-label="Toggle light/dark theme" title="Toggle light/dark theme">
+      <span class="theme-toggle__icon" aria-hidden="true"></span>
+    </button>
+    <nav class="site-nav" aria-label="Main">
+      <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">≡</button>
+      <ul>
+        {{- range site.Menus.main }}
+        {{- $active := or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }}
+        {{- if .HasChildren }}
+        <li class="has-sub">
+          <a href="{{ .PageRef | relURL }}"{{ if $active }} aria-current="page"{{ end }}>{{ .Name }} <span class="caret" aria-hidden="true">▾</span></a>
+          <ul class="subnav">
+            {{- range .Children }}
+            <li><a href="{{ .PageRef | relURL }}"{{ if ($.IsMenuCurrent "main" .) }} aria-current="page"{{ end }}>{{ .Name }}</a></li>
+            {{- end }}
+          </ul>
+        </li>
+        {{- else }}
+        <li><a href="{{ .PageRef | relURL }}"{{ if $active }} aria-current="page"{{ end }}>{{ .Name }}</a></li>
+        {{- end }}
+        {{- end }}
+        <li><a href="{{ site.Params.cvURL }}" class="nav-cv">CV&nbsp;↗</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div class="prose">
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+  {{ $active := where .Pages.ByWeight "Params.archived" "!=" true }}
+  {{ $archived := where .Pages.ByWeight "Params.archived" true }}
+  <ul class="card-list">{{ partial "project-cards.html" $active }}</ul>
+  {{ with $archived }}
+  <h2 class="archive-heading">Earlier career</h2>
+  <ul class="card-list">{{ partial "project-cards.html" . }}</ul>
+  {{ end }}
+</div>
+{{ end }}

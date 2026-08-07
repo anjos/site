@@ -9,27 +9,40 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
 
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
-      - name: Build
+      - name: Set up pixi
         uses: prefix-dev/setup-pixi@v0.9.5
         with:
           pixi-version: v0.69.0
           cache: true
-      - run: pixi run gh-action
 
+      # Gates (all blocking): content + publication-data validation, unit tests,
+      # strict build, then a full broken-link check over the generated site.
+      # `validate` includes check-outputs, which verifies data/outputs.json still
+      # matches Zotero using the key-less public feed — so CI needs no secrets.
+      # A Zotero outage is treated as "unknown", not "stale", and does not fail.
+      - name: Validate content and publication data
+        run: pixi run validate
+      - name: Unit tests
+        run: pixi run test
+      - name: Build
+        run: pixi run build
+      - name: Check links
+        run: pixi run linkcheck
+
+      # Deploy only on pushes to main (not on pull requests).
       - name: Deploy
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4
         with:
-            deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-            external_repository: anjos/anjos.github.io
-            publish_dir: ./output
-            publish_branch: main
-            cname: anjos.ai
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: anjos/anjos.github.io
+          publish_dir: ./public
+          publish_branch: main
+          cname: anjos.ai

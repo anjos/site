@@ -5,33 +5,66 @@ platforms = ["linux-64", "osx-arm64"]
 
 [dependencies]
 python = "3.*"
-pelican = ">=4.10.1" # fixes: getpelican/pelican#2674
-curl = "*"
-markdown = "*"
-docutils = "*"
+hugo = ">=0.164"
 requests = "*"
-nodejs = "*"
-pybtex = "*"
-pygments = ">=2.2"
-bs4 = "*"
-
-[pypi-dependencies]
-pelican-fontawesome = "*"
-pelican-deadlinks = { git = "https://github.com/pelican-plugins/deadlinks" }
-pelican-pybtex = "*"
+pyyaml = "*"
+bibtexparser = "*"
+pyzotero = "*"
 
 [tasks]
-bib = "curl --create-dirs --output content/data/publications.bib https://raw.githubusercontent.com/anjos/cv/main/publications.bib"
-init = { cmd = "git submodule update --init --recursive", depends-on = ["bib"] }
-clean = "rm -rf output"
-build = "pelican"
-gh-action = { depends-on = ["bib", "build"] }
-# using --log-handler=plain until https://github.com/getpelican/pelican/pull/3398 makes
-# to a release of pelican
-serve = { cmd = "pelican --listen --autoreload", depends-on = ["build"] }
+# Regenerate data/outputs.json from Zotero (source of truth). Needs an API key —
+# without one it falls back to CHECK mode and only verifies. `--help` explains both.
+outputs = "python tools/update-site-outputs.py"
+# Compare Zotero (truth) with ORCID and write orcid-sync-report.md: works missing
+# from ORCID + a field-level "outdated" table. Read-only; never writes to ORCID.
+orcid-report = "python tools/update-orcid-outputs.py"
+
+# ---- Individual checks (each runnable on its own) ------------------------- #
+# Content front-matter, DOI/key references, thesis->project links, covers, and
+# the static/ size rule. Offline and instant.
+check-content = "python tools/validate_content.py"
+# data/outputs.json still matches Zotero. Key-less: verifies, never writes.
+check-outputs = "python tools/update-site-outputs.py --check"
+# Every link in the built site; fails on any dead link. Needs `build` first.
+# --root-dir lets lychee resolve root-relative (/foo) links against ./public.
+check-links = "lychee --config lychee.toml --root-dir \"$PIXI_PROJECT_ROOT/public\" public"
+# Everything in idiap-public/ is already published. Dry run; fails and names the
+# files if not. Local only (needs SSH), so it never runs in CI.
+check-sync = "sh tools/check-idiap-sync.sh"
+# Fast per-file hygiene: whitespace, TOML/JSON/YAML, >300 KB in static/, ruff.
+lint = "prek run --all-files"
+
+# Content + publication data. Both are quick; run after any content change.
+validate = { depends-on = ["check-content", "check-outputs"] }
+# Unit tests for the publications pipeline (offline, fixture-based).
+test = "pytest -q tools/tests"
+# Build the static site (broken internal refs fail via refLinksErrorLevel=ERROR).
+# --cleanDestinationDir removes stale output so link checks stay honest.
+build = { cmd = "hugo --minify --cleanDestinationDir" }
+# Local preview with drafts and live reload. Deliberately has NO dependencies:
+# preview must never wait on a Zotero round-trip.
+serve = "hugo server -D"
+linkcheck = { depends-on = ["check-links"] }   # kept: skills and docs use this name
+clean = "rm -rf public resources/_gen"
+# Publish the large assets (PDFs, raw images) to ~/public on the Idiap web
+# server, where they are served as https://www.idiap.ch/~aanjos/<path>.
+# Additive: no --delete, so it never removes anything already on the server.
+# -a preserves the local 644/755 modes, which is what the web server needs
+# (macOS ships openrsync, which has no --chmod).
+idiap-push = "rsync -avz idiap-public/ idiap:public/"
+# Refresh the local mirror from the server. Additive: never deletes locally.
+idiap-pull = "rsync -avz idiap:public/ idiap-public/"
+# Exactly what CI runs. No credentials needed: check-outputs verifies rather than
+# regenerates, so the Zotero API key stays on your machine.
+gh-action = { depends-on = ["validate", "test", "build", "check-links"] }
+# Everything, including the two checks CI cannot do: lint hooks and the SSH-based
+# Idiap sync dry-run. This is the pre-release sweep.
+qa = { depends-on = ["lint", "gh-action", "check-sync"] }
 
 [feature.qa.dependencies]
-pre-commit = "*"
+prek = "*"
+lychee = "*"
+pytest = "*"
 
 [feature.debug.dependencies]
 pdbpp = "*"

@@ -1,0 +1,82 @@
+{{ define "main" }}
+{{ $id := .File.ContentBaseName }}
+<article class="prose">
+  {{ with .Params.cover }}<img class="project-cover" src="{{ (relURL .) }}" alt="" loading="lazy">{{ end }}
+  <h1>{{ .Title }}</h1>
+  {{ with .Params.summary }}<p class="page-subtitle">{{ . }}</p>{{ end }}
+
+  {{ with .Params.partners }}
+  <div class="partners-block">
+    <p class="partners-label">Partnerships</p>
+    {{ partial "partners.html" . }}
+  </div>
+  {{ end }}
+
+  {{ .Content }}
+
+  {{/* Resolve research_outputs against data/outputs.json and split by type into
+       Key publications / Software / Datasets, each ordered newest first. Software
+       and Datasets get their own sections only when such standalone entries are
+       linked; a paper's companion code rides on that paper as a "Software" link. */}}
+  {{ $data := slice }}
+  {{ with hugo.Data.outputs }}{{ $data = .entries }}{{ end }}
+  {{ $pubs := slice }}{{ $sw := slice }}{{ $ds := slice }}
+  {{ range $ref := .Params.research_outputs }}
+    {{ $r := $ref | lower }}
+    {{ $match := where $data "doi" $r }}
+    {{ if not $match }}{{ $match = where $data "key" $r }}{{ end }}
+    {{ $entry := index $match 0 }}
+    {{ $sort := 0 }}{{ $type := "" }}
+    {{ with $entry }}{{ $sort = (add (mul (int (.year | default 0)) 100) (int (.month | default 0))) }}{{ $type = .type }}{{ end }}
+    {{ $item := dict "ref" $ref "entry" $entry "sort" $sort }}
+    {{ if eq $type "Software" }}{{ $sw = $sw | append $item }}
+    {{ else if eq $type "Dataset" }}{{ $ds = $ds | append $item }}
+    {{ else }}{{ $pubs = $pubs | append $item }}{{ end }}
+  {{ end }}
+
+  {{ with $pubs }}
+  <h2>{{ $.Params.publications_heading | default "Key publications" }}</h2>
+  <ul class="out-list">
+    {{ range (sort . "sort" "desc") }}
+    <li>{{ with .entry }}{{ partial "out-ref.html" . }}{{ else }}{{ partial "out-cite.html" (dict "ref" .ref "data" $data) }}{{ end }}</li>
+    {{ end }}
+  </ul>
+  {{ end }}
+
+  {{/* Supervised students linked to this project via `projects: [<id>]` */}}
+  {{ $theses := where (where site.RegularPages "Section" "theses") "Params.projects" "intersect" (slice $id) }}
+  {{ with $theses }}
+  <h2>Supervised theses</h2>
+  <ul class="card-list">
+    {{ range .ByDate.Reverse }}
+    <li class="card">
+      {{ with .Params.cover }}<img class="card__cover" src="{{ (relURL .) }}" alt="" loading="lazy">{{ end }}
+      <div>
+        <h3 class="card__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+        {{ with .Params.author }}<p class="card__meta">{{ . }}{{ with $.Date }}{{ end }}</p>{{ end }}
+        {{ with .Params.summary }}<p class="card__summary">{{ . }}</p>{{ end }}
+      </div>
+    </li>
+    {{ end }}
+  </ul>
+  {{ end }}
+
+  {{ with $sw }}
+  <h2>Software</h2>
+  <ul class="out-list">
+    {{ range (sort . "sort" "desc") }}
+    <li>{{ with .entry }}{{ partial "out-ref.html" . }}{{ else }}{{ partial "out-cite.html" (dict "ref" .ref "data" $data) }}{{ end }}</li>
+    {{ end }}
+  </ul>
+  {{ end }}
+
+  {{ with $ds }}
+  <h2>Datasets</h2>
+  <ul class="out-list">
+    {{ range (sort . "sort" "desc") }}
+    <li>{{ with .entry }}{{ partial "out-ref.html" . }}{{ else }}{{ partial "out-cite.html" (dict "ref" .ref "data" $data) }}{{ end }}</li>
+    {{ end }}
+  </ul>
+  {{ end }}
+</article>
+{{ end }}

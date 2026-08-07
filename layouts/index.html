@@ -1,0 +1,20 @@
+{{ define "main" }}
+<div class="prose">
+  <h1>{{ site.Title }}</h1>
+  <p class="page-subtitle">{{ site.Params.subtitle }}</p>
+
+  {{ .Content }}
+
+  {{ with site.GetPage "/projects" }}
+  {{ $projectsURL := .RelPermalink }}
+  {{/* Current work only; `archived` projects are shown under "Earlier career"
+       on the Projects page itself (layouts/projects/list.html). */}}
+  {{ with where .Pages.ByWeight "Params.archived" "!=" true }}
+  <h2>Selected projects</h2>
+  <p class="page-subtitle">Current lines of work — earlier-career projects are
+    listed on the <a href="{{ $projectsURL }}">Projects</a> page.</p>
+  <ul class="card-list">{{ partial "project-cards.html" . }}</ul>
+  {{ end }}
+  {{ end }}
+</div>
+{{ end }}

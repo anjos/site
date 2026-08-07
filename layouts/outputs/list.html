@@ -1,0 +1,12 @@
+{{ define "main" }}
+<div class="prose">
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+  {{ with hugo.Data.outputs }}
+  {{ partial "out-list.html" (dict "entries" .entries "showType" true) }}
+  {{ else }}
+  <p><em>Output data has not been generated yet. Run <code>pixi run outputs</code>
+  to fetch it from your Zotero “My Publications” library.</em></p>
+  {{ end }}
+</div>
+{{ end }}

@@ -1,0 +1,6 @@
+{{- $key := .Get 0 | default "short" -}}
+{{- with index hugo.Data.bio $key -}}
+{{- . | markdownify -}}
+{{- else -}}
+{{- errorf "bio shortcode: no bio variant %q in data/bio.yaml" $key -}}
+{{- end -}}

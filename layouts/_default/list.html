@@ -1,0 +1,30 @@
+{{ define "main" }}
+<div class="prose">
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+  {{- /* Card date label; a section can widen it, e.g. "January 2006". */}}
+  {{- $fmt := .Params.card_date_format | default "2006" }}
+  {{ with .Pages.ByDate.Reverse }}
+  <ul class="card-list">
+    {{ range . }}
+    <li class="card">
+      {{- $page := . }}
+      {{- /* Cards crop covers to 4:3; `cover_position` re-aims that crop (any
+             CSS object-position value) so tall portraits keep the face. */}}
+      {{ with .Params.cover }}<img class="card__cover" src="{{ (relURL .) }}" alt="" loading="lazy"
+        {{- with $page.Params.cover_position }} style="object-position: {{ . }}"{{ end }}>{{ end }}
+      <div>
+        <h3 class="card__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+        {{- $meta := slice }}
+        {{- with .Params.institution }}{{ $meta = $meta | append . }}{{ end }}
+        {{- with .Params.author }}{{ $meta = $meta | append . }}{{ end }}
+        {{- with .Params.years }}{{ $meta = $meta | append . }}{{ else }}{{ with .Date }}{{ $meta = $meta | append (.Format $fmt) }}{{ end }}{{ end }}
+        {{- with $meta }}<p class="card__meta">{{ delimit . " · " }}</p>{{ end }}
+        {{ with .Params.summary }}<p class="card__summary">{{ . }}</p>{{ end }}
+      </div>
+    </li>
+    {{ end }}
+  </ul>
+  {{ end }}
+</div>
+{{ end }}

@@ -1,0 +1,9 @@
+{{- /* Emoji icon for a partner type: hospital | university | industry | research */ -}}
+{{- $t := . -}}
+<span class="partner-emoji" aria-hidden="true">
+{{- if eq $t "hospital" -}}🏥
+{{- else if eq $t "university" -}}🎓
+{{- else if eq $t "industry" -}}🏭
+{{- else -}}🔬
+{{- end -}}
+</span>

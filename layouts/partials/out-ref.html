@@ -1,0 +1,49 @@
+{{- /* Render one research-output entry (a map from data/outputs.json). André Anjos
+       is highlighted; a type tag and any related-item links are shown. Software
+       (type "Software") renders name + license + description + link row. */ -}}
+{{- $e := . -}}
+{{- if eq $e.type "Software" -}}
+<span class="out-ref">
+  <span class="ptitle">{{ $e.title }}.</span>
+  {{- with $e.summary }} {{ . }}{{ end -}}
+  {{- with $e.type }} <span class="out-type">{{ . }}</span>{{ end -}}
+  {{- with $e.license }} <span class="out-type">{{ . }}</span>{{ end -}}
+  {{- if $e.archived }} <span class="out-archived">archived</span>{{ end -}}
+  {{- with $e.links -}}
+    {{- with .docs }} · <a href="{{ . }}" target="_blank" rel="noopener">Docs</a>{{ end -}}
+    {{- with .pypi }} · <a href="{{ . }}" target="_blank" rel="noopener">PyPI</a>{{ end -}}
+    {{- with .conda }} · <a href="{{ . }}" target="_blank" rel="noopener">conda-forge</a>{{ end -}}
+    {{- with .repo }} · <a href="{{ . }}" target="_blank" rel="noopener">Source</a>{{ end -}}
+  {{- end -}}
+</span>
+{{- else -}}
+<span class="out-ref">
+  {{- with $e.authors -}}
+  {{- $n := len . -}}
+  {{- $max := 8 -}}
+  <span class="authors">
+    {{- if le $n $max -}}
+      {{- range $i, $a := . -}}
+        {{- if $i }}{{ if eq $i (sub $n 1) }} and {{ else }}, {{ end }}{{ end -}}
+        {{- if eq $a "André Anjos" }}<strong class="me">{{ $a }}</strong>{{ else }}{{ $a }}{{ end -}}
+      {{- end -}}.
+    {{- else -}}
+      {{- $head := first $max . -}}
+      {{- range $i, $a := $head -}}
+        {{- if $i }}, {{ end -}}
+        {{- if eq $a "André Anjos" }}<strong class="me">{{ $a }}</strong>{{ else }}{{ $a }}{{ end -}}
+      {{- end -}}
+      {{- if and (not (in $head "André Anjos")) (in . "André Anjos") }}, … <strong class="me">André Anjos</strong>{{ end -}}
+      {{- ` et al.` -}}
+    {{- end -}}</span> {{ end -}}
+  <span class="ptitle">{{ $e.title }}.</span>
+  {{ with $e.container }}<span class="venue">{{ . }}</span>{{ end -}}
+  {{ with $e.year }}, {{ . }}{{ end }}.
+  {{- with $e.type }} <span class="out-type">{{ . }}</span>{{ end -}}
+  {{- with $e.doi }} · <a href="https://doi.org/{{ . }}" target="_blank" rel="noopener">doi:{{ . }}</a>{{ end -}}
+  {{- with $e.url }} · <a href="{{ . }}" target="_blank" rel="noopener">Homepage</a>{{ end -}}
+  {{- with $e.pdf }} · <a href="{{ . }}" target="_blank" rel="noopener">PDF</a>{{ end -}}
+  {{- with $e.software }} · <a href="{{ . }}" target="_blank" rel="noopener">Software</a>{{ end -}}
+  {{- range $e.related }} · <span class="out-rel"><em>Related</em> <span class="out-type">{{ .type }}</span> {{ if .doi }}<a href="https://doi.org/{{ .doi }}" target="_blank" rel="noopener">doi:{{ .doi }}</a>{{ else }}<a href="{{ .href }}" target="_blank" rel="noopener">link</a>{{ end }}</span>{{ end -}}
+</span>
+{{- end -}}

@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div class="prose">
+  <h1>{{ .Title }}</h1>
+  <p class="page-subtitle"><a href="{{ "/outputs/" | relURL }}">← All research outputs</a></p>
+  {{ $slug := .Params.typeslug }}
+  {{ with hugo.Data.outputs }}
+  {{ $entries := where .entries "typeslug" $slug }}
+  {{ partial "out-list.html" (dict "entries" $entries "showType" false) }}
+  {{ else }}
+  <p><em>Output data has not been generated yet. Run <code>pixi run outputs</code>.</em></p>
+  {{ end }}
+</div>
+{{ end }}
