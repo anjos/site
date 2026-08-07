@@ -33,7 +33,13 @@ IDIAP_LOCAL = ROOT / "idiap-public"
 
 # What may live in static/: optimised front-matter covers, plus site chrome.
 STATIC_ALLOWED_DIRS = ("images/covers",)
-STATIC_ALLOWED_FILES = ("images/favicon.ico", "images/profile_128.png")
+STATIC_ALLOWED_FILES = (
+    # Site icons, generated from the Medical AI group logo (latex/tikz/medai.svg).
+    "images/favicon.svg",
+    "images/favicon.ico",
+    "images/apple-touch-icon.png",
+    "images/profile_128.png",
+)
 STATIC_MAX_BYTES = 300 * 1024
 
 
