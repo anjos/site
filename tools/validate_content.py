@@ -38,7 +38,6 @@ STATIC_ALLOWED_FILES = (
     "images/favicon.svg",
     "images/favicon.ico",
     "images/apple-touch-icon.png",
-    "images/profile_128.png",
 )
 STATIC_MAX_BYTES = 300 * 1024
 
