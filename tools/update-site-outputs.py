@@ -74,18 +74,30 @@ def compare(committed: list[dict], fresh: list[dict]) -> tuple[list, list, list]
     return sorted(fm.keys() - cm.keys()), sorted(cm.keys() - fm.keys()), changed
 
 
-def do_check(fresh: list[dict], verbose: bool) -> int:
+def sound_entries() -> list[dict] | None:
+    """The committed entries, or None (having said why) when the file is missing,
+    empty, or self-inconsistent. Both the freshness check and the offline path
+    need this much to be true before they can say anything useful."""
     committed = load_committed()
     if committed is None:
         print(f"! {zc.OUTPUT_FILE.relative_to(zc.ROOT)} is missing — run "
               "`pixi run outputs` with a Zotero API key and commit it.", file=sys.stderr)
-        return 1
-
+        return None
     entries = committed.get("entries", [])
+    if not entries:
+        print("! committed file has no entries.", file=sys.stderr)
+        return None
     try:
         zc.assert_unique_keys(entries)
     except ValueError as exc:
         print(f"! committed file has {exc}", file=sys.stderr)
+        return None
+    return entries
+
+
+def do_check(fresh: list[dict], verbose: bool) -> int:
+    entries = sound_entries()
+    if entries is None:
         return 1
 
     added, removed, changed = compare(entries, fresh)
@@ -141,18 +153,8 @@ def offline(exc: Exception) -> int:
     """Unreachable Zotero proves nothing about freshness. Validate what we can
     and succeed, so an upstream outage never breaks the build."""
     print(f"! Zotero unreachable ({exc}); cannot verify freshness.", file=sys.stderr)
-    committed = load_committed()
-    if committed is None:
-        print(f"! and {zc.OUTPUT_FILE.relative_to(zc.ROOT)} is missing.", file=sys.stderr)
-        return 1
-    entries = committed.get("entries", [])
-    if not entries:
-        print("! committed file has no entries.", file=sys.stderr)
-        return 1
-    try:
-        zc.assert_unique_keys(entries)
-    except ValueError as exc2:
-        print(f"! committed file has {exc2}", file=sys.stderr)
+    entries = sound_entries()
+    if entries is None:
         return 1
     print(f"  Committed file looks sound: {len(entries)} entries, unique keys. "
           "Proceeding.", file=sys.stderr)

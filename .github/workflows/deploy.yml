@@ -22,19 +22,26 @@ jobs:
           pixi-version: v0.69.0
           cache: true
 
-      # Gates (all blocking): content + publication-data validation, unit tests,
-      # strict build, then a full broken-link check over the generated site.
-      # `validate` includes check-outputs, which verifies data/outputs.json still
-      # matches Zotero using the key-less public feed — so CI needs no secrets.
-      # A Zotero outage is treated as "unknown", not "stale", and does not fail.
-      - name: Validate content and publication data
+      # setup-pixi caches the pixi environment, not prek's hook environments —
+      # without this, every run re-clones the hook repos and rebuilds their venvs.
+      # Keyed on the hook config, so it only rebuilds when the hooks change.
+      - name: Cache prek hook environments
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/prek
+            ~/.cache/uv
+          key: prek-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: prek-${{ runner.os }}-
+
+      # The one gate, identical to what runs locally:
+      #   lint + test + check-content + check-outputs + check-links
+      # check-links builds the site first, so ./public is ready to deploy below.
+      # check-outputs verifies data/outputs.json against Zotero's key-less public
+      # feed, so CI needs no secrets. A Zotero outage is treated as "unknown",
+      # not "stale", and does not fail the build.
+      - name: Validate
         run: pixi run validate
-      - name: Unit tests
-        run: pixi run test
-      - name: Build
-        run: pixi run build
-      - name: Check links
-        run: pixi run linkcheck
 
       # Deploy only on pushes to main (not on pull requests).
       - name: Deploy

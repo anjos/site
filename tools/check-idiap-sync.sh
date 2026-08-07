@@ -6,8 +6,8 @@
 # papers/ archive, posters/, index.php) are deliberately ignored — the mirror is
 # a subset, and `pixi run idiap-pull` is what fetches the rest.
 #
-# Needs SSH access to `idiap`, so this never runs in CI; it is part of
-# `pixi run qa`, not `pixi run gh-action`.
+# Needs SSH access to `idiap`, so this never runs in CI and is part of no
+# composite gate: run `pixi run check-sync` by hand after `pixi run idiap-push`.
 set -eu
 
 out=$(

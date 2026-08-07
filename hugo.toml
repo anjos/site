@@ -9,7 +9,6 @@ refLinksErrorLevel = "ERROR"
 
 # Pretty, hash-free URLs (parity with the old Pelican DISABLE_URL_HASH setup).
 disableKinds = ["rss"]
-summaryLength = 40
 
 [params]
   subtitle = "Machine Learning · Computer Vision · Medical Artificial Intelligence · Reproducibility"

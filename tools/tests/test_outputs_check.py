@@ -1,13 +1,12 @@
 """Tests for the update-or-check behaviour of tools/update-site-outputs.py.
 
 The drift tests are offline and fixture-based. The last one talks to the Zotero
-*public* feed to keep make_key() honest against the real BetterBibTeX keys; it
+*public* feed to confirm every real item carries a BetterBibTeX citation key; it
 skips itself when the network is unavailable.
 """
 
 import importlib.util
 import pathlib
-import re
 import sys
 
 import pytest
@@ -59,29 +58,17 @@ def test_added_and_removed_entries():
     assert added == ["new_2026"] and removed == ["gone_2020"]
 
 
-def test_bbt_key_parity():
-    """make_key() must reproduce Zotero's BetterBibTeX base key for every real
-    entry. It is only a fallback today, but this is what stops it drifting into
-    something that would generate different keys the day it is needed."""
+def test_every_zotero_item_has_a_citation_key():
+    """The site addresses a work by its BetterBibTeX key, so every item in My
+    Publications must carry one. Fails loudly (naming the items) rather than
+    letting a keyless work reach the site."""
     try:
         items = zc.fetch_public_items(zc.read_user_id())
     except Exception as exc:  # noqa: BLE001
         pytest.skip(f"Zotero public feed unavailable: {exc}")
 
     tops = [i for i in items if i["data"].get("itemType") not in ("attachment", "note")]
-    if not any(t["data"].get("citationKey") for t in tops):
-        pytest.skip("no citationKey in the feed to compare against")
-
-    mismatches = []
-    for t in tops:
-        d = t["data"]
-        bbt = d.get("citationKey")
-        if not bbt:
-            continue
-        # strip BBT's own a/b/c suffix: its ordering comes from dateAdded, which
-        # the public feed does not expose, so only the base key is comparable.
-        base = re.sub(r"(?<=\d{4})[a-z]$", "", bbt)
-        got = zc.make_key(zc.build_site_entry(t, None, "5992358"), d.get("creators"))
-        if got != base:
-            mismatches.append(f"{got} != {bbt}  ({d.get('title', '')[:50]})")
-    assert not mismatches, "make_key drifted from BetterBibTeX:\n  " + "\n  ".join(mismatches)
+    missing = [f"{t['key']}  {t['data'].get('title', '')[:60]}"
+               for t in tops if not (t["data"].get("citationKey") or "").strip()]
+    assert not missing, (
+        "Zotero items without a BetterBibTeX citation key:\n  " + "\n  ".join(missing))

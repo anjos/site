@@ -1,3 +1,22 @@
+{{- /* One renderer for the Key publications / Software / Datasets sections, which
+       differ only by heading. Input: dict "data" <entries> "groups" <slice of
+       dict "heading" <string> "items" <slice>>. Publications render above the
+       supervised theses and the other two below, hence the two call sites. */ -}}
+{{ define "outsections" }}
+  {{ $data := .data }}
+  {{ range .groups }}
+    {{ $heading := .heading }}
+    {{ with .items }}
+    <h2>{{ $heading }}</h2>
+    <ul class="out-list">
+      {{ range (sort . "sort" "desc") }}
+      <li>{{ with .entry }}{{ partial "out-ref.html" . }}{{ else }}{{ partial "out-cite.html" (dict "ref" .ref "data" $data) }}{{ end }}</li>
+      {{ end }}
+    </ul>
+    {{ end }}
+  {{ end }}
+{{ end }}
+
 {{ define "main" }}
 {{ $id := .File.ContentBaseName }}
 <article class="prose">
@@ -34,14 +53,8 @@
     {{ else }}{{ $pubs = $pubs | append $item }}{{ end }}
   {{ end }}
 
-  {{ with $pubs }}
-  <h2>{{ $.Params.publications_heading | default "Key publications" }}</h2>
-  <ul class="out-list">
-    {{ range (sort . "sort" "desc") }}
-    <li>{{ with .entry }}{{ partial "out-ref.html" . }}{{ else }}{{ partial "out-cite.html" (dict "ref" .ref "data" $data) }}{{ end }}</li>
-    {{ end }}
-  </ul>
-  {{ end }}
+  {{ template "outsections" (dict "data" $data "groups" (slice
+      (dict "heading" (.Params.publications_heading | default "Key publications") "items" $pubs))) }}
 
   {{/* Supervised students linked to this project via `projects: [<id>]` */}}
   {{ $theses := where (where site.RegularPages "Section" "theses") "Params.projects" "intersect" (slice $id) }}
@@ -61,22 +74,8 @@
   </ul>
   {{ end }}
 
-  {{ with $sw }}
-  <h2>Software</h2>
-  <ul class="out-list">
-    {{ range (sort . "sort" "desc") }}
-    <li>{{ with .entry }}{{ partial "out-ref.html" . }}{{ else }}{{ partial "out-cite.html" (dict "ref" .ref "data" $data) }}{{ end }}</li>
-    {{ end }}
-  </ul>
-  {{ end }}
-
-  {{ with $ds }}
-  <h2>Datasets</h2>
-  <ul class="out-list">
-    {{ range (sort . "sort" "desc") }}
-    <li>{{ with .entry }}{{ partial "out-ref.html" . }}{{ else }}{{ partial "out-cite.html" (dict "ref" .ref "data" $data) }}{{ end }}</li>
-    {{ end }}
-  </ul>
-  {{ end }}
+  {{ template "outsections" (dict "data" $data "groups" (slice
+      (dict "heading" "Software" "items" $sw)
+      (dict "heading" "Datasets" "items" $ds))) }}
 </article>
 {{ end }}

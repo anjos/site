@@ -20,7 +20,9 @@
   {{- else if or (in $n "University") (in $n "Universit") (in $n "EPFL") (in $n "UZH") (in $n "Grenoble") (in $n "EPF") -}}
     {{- $t = "university" -}}
   {{- end -}}
-  <span class="partner partner--{{ $t }}">{{ partial "partner-icon.html" $t }}<span>{{ $n }}</span>
+  <span class="partner partner--{{ $t }}"><span class="partner-emoji" aria-hidden="true">
+    {{- index (dict "hospital" "🏥" "university" "🎓" "industry" "🏭") $t | default "🔬" -}}
+  </span><span>{{ $n }}</span>
     {{- with $country }}<span class="partner-country">{{ with index $flags . }}{{ . }} {{ end }}{{ . }}</span>{{ end -}}
   </span>
   {{- end }}

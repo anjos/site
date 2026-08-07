@@ -19,6 +19,7 @@ ZOTERO_ITEMS = [
         "data": {
             "itemType": "conferencePaper",
             "title": "Fair Foundation Models for Medical Image Analysis",
+            "citationKey": "queiroz_fair_2026",
             "proceedingsTitle": "Proc. of MedAI",
             "DOI": "https://doi.org/10.1145/3793542",
             "url": "",
@@ -42,6 +43,7 @@ ZOTERO_ITEMS = [
         "data": {
             "itemType": "preprint",
             "title": "A Talk Without DOI",
+            "citationKey": "heusch_talk_2019",
             "repository": "arXiv",
             "date": "2019",
             "creators": [
@@ -137,60 +139,18 @@ def test_authors_and_venue():
     assert zc.venue_of(ZOTERO_ITEMS[2]["data"]) == "arXiv"  # repository fallback
 
 
-def test_make_key():
-    """BetterBibTeX shape: <auth>_<veryshorttitle>_<year>."""
-    e = {"authors": ["André Anjos"], "year": 2026, "title": "Fair Foundation Models"}
-    assert zc.make_key(e) == "anjos_fair_2026"
-
-
-def test_make_key_bbt_rules():
-    """The details that took measuring against the real library to get right."""
-    # accents folded; dots and hyphens kept in a surname, spaces dropped
-    assert zc.key_surname({"lastName": "Jimenez-del-Toro"}) == "jimenez-del-toro"
-    assert zc.key_surname({"lastName": "Z. Li"}) == "z.li"
-    assert zc.key_surname({"lastName": "Queiroz Neto"}) == "queirozneto"
-    assert zc.key_surname({"lastName": "Güler"}) == "guler"
-    # leading stop words skipped, but no minimum length: `um`, `how`, `2nd` stand
-    assert zc.key_titleword("The ATLAS Experiment") == "atlas"
-    assert zc.key_titleword("Towards lifelong diarization") == "lifelong"
-    assert zc.key_titleword("Um Protótipo do Sistema") == "um"
-    assert zc.key_titleword("How can we ensure safe AI") == "how"
-    assert zc.key_titleword("The 2nd Competition") == "2nd"
-    # hyphens join, but `/` and `:` split
-    assert zc.key_titleword("A Multi-Objective Framework") == "multiobjective"
-    assert zc.key_titleword("The DAQ/HLT system") == "daq"
-    # BBT keys off the first creator of ANY type (authors_of drops these roles)
-    e = {"year": 2024, "title": "mednet"}
-    assert zc.make_key(e, [{"creatorType": "programmer", "lastName": "Anjos"}]) == (
-        "anjos_mednet_2024"
-    )
-
-
-def test_citation_key_preferred_over_generated():
+def test_citation_key_is_required():
+    """Zotero's BetterBibTeX key is the only key: `research_outputs:` refs address
+    a work by it, so an item without one is an error to fix in Zotero, never
+    something to paper over with a generated key nobody could have linked to."""
     item = {"key": "CK000001", "data": {
         "itemType": "journalArticle", "title": "Some Paper", "date": "2020",
         "citationKey": "curated_key_2020",
         "creators": [{"creatorType": "author", "firstName": "A.", "lastName": "Anjos"}]}}
     assert zc.build_site_entry(item, None, "5992358")["key"] == "curated_key_2020"
     del item["data"]["citationKey"]
-    assert zc.build_site_entry(item, None, "5992358")["key"] == "anjos_some_2020"
-
-
-def test_generated_keys_are_disambiguated():
-    """Two works sharing a generated key get the bare key and an `a` suffix,
-    ordered by Zotero item key so the assignment is stable."""
-    def item(zkey, title):
-        return {"key": zkey, "data": {
-            "itemType": "conferencePaper", "title": title, "date": "2009",
-            "creators": [{"creatorType": "author", "lastName": "Collaboration"}]}}
-    entries = zc.build_entries(
-        [item("ZZZZ9999", "The ATLAS trigger for physics"),
-         item("AAAA0001", "The ATLAS online framework")], "5992358")
-    assert sorted(e["key"] for e in entries) == [
-        "collaboration_atlas_2009", "collaboration_atlas_2009a"]
-    # AAAA0001 sorts first, so it keeps the bare key
-    assert next(e for e in entries if "online" in e["title"])["key"] == (
-        "collaboration_atlas_2009")
+    with pytest.raises(ValueError, match="no BetterBibTeX citation key"):
+        zc.build_site_entry(item, None, "5992358")
 
 
 def test_duplicate_citation_keys_raise():
@@ -208,6 +168,7 @@ def test_duplicate_citation_keys_raise():
 def test_software_entry():
     item = {"key": "SW000001", "data": {
         "itemType": "computerProgram", "title": "mytool", "rights": "GPL-3.0",
+        "citationKey": "anjos_mytool_2023",
         "abstractNote": "Does useful things.", "url": "https://git/repo", "date": "2023",
         "extra": "Docs: https://d/\nPyPI: https://p/\nconda-forge: https://c/\nArchived: true"},
         "meta": {"parsedDate": "2023"}}
@@ -230,6 +191,7 @@ def test_publication_companion_software():
         "software": "https://git/uveai-validation"}
     item = {"key": "PUB00001", "data": {
         "itemType": "journalArticle", "title": "UveAI", "date": "2026",
+        "citationKey": "anjos_uveai_2026",
         "extra": "Software: https://git/uveai-validation",
         "creators": [{"creatorType": "author", "firstName": "A.", "lastName": "Anjos"}]},
         "meta": {"parsedDate": "2026"}}
@@ -238,7 +200,8 @@ def test_publication_companion_software():
     assert e["software"] == "https://git/uveai-validation"
     # a computerProgram is NOT given a companion-software field (it *is* the software)
     sw = zc.build_site_entry({"key": "SW1", "data": {
-        "itemType": "computerProgram", "title": "t", "url": "https://r"}, "meta": {}}, None, "x")
+        "itemType": "computerProgram", "title": "t", "url": "https://r",
+        "citationKey": "t_2020"}, "meta": {}}, None, "x")
     assert "software" not in sw
 
 
@@ -247,12 +210,12 @@ def test_paper_page_from_homepage():
     assert zc.parse_extra_links("Homepage: https://h/")["homepage"] == "https://h/"
     page = zc.build_site_entry({"key": "P1", "data": {
         "itemType": "journalArticle", "title": "x", "DOI": "10.1/abc",
-        "url": "https://publisher.example/junk",
+        "url": "https://publisher.example/junk", "citationKey": "x_page_2020",
         "extra": "Homepage: https://medai.example/paper"}, "meta": {}}, None, "u")
     assert page["url"] == "https://medai.example/paper"
     # no Homepage -> no paper page, even when the unreliable top-level url is set
     none = zc.build_site_entry({"key": "P2", "data": {
-        "itemType": "journalArticle", "title": "x",
+        "itemType": "journalArticle", "title": "x", "citationKey": "x_none_2020",
         "url": "https://publisher.example/junk"}, "meta": {}}, None, "u")
     assert none["url"] is None
 

@@ -117,83 +117,6 @@ def normalize_author_name(name: str) -> str:
     return raw
 
 
-# BetterBibTeX `veryshorttitle` skips these leading words. Derived from the live
-# library, where this set reproduces every real BBT key (see test_bbt_key_parity).
-# Note BBT does *not* skip short words as such: `um`, `how` and `2nd` all survive.
-_KEY_STOPWORDS = frozenset(
-    "a an the on of in for and to towards with at by from into is its it that "
-    "this their these was were as or be".split()
-)
-
-
-def _fold(text: str) -> str:
-    """Accent-folded text (é → e), case preserved."""
-    return "".join(
-        c for c in unicodedata.normalize("NFKD", text or "") if not unicodedata.combining(c)
-    )
-
-
-def key_surname(creator: dict) -> str:
-    """BBT `auth`: a creator's surname, folded and lowercased, spaces removed but
-    dots and hyphens kept — `Z. Li` → `z.li`, `Jimenez-del-Toro` →
-    `jimenez-del-toro`, `Queiroz Neto` → `queirozneto`."""
-    name = creator.get("lastName") or creator.get("name") or ""
-    return re.sub(r"[^a-z0-9.-]", "", _fold(name).lower())
-
-
-def key_titleword(title: str) -> str:
-    """BBT `veryshorttitle`: the first title token that is not a stop word.
-    Splits on whitespace and `/:;,()` before dropping the remaining punctuation,
-    so `Multi-Objective` → `multiobjective` but `DAQ/HLT` → `daq`."""
-    for token in re.split(r"[\s/:;,()]+", _fold(title or "")):
-        word = re.sub(r"[^a-z0-9]", "", token.lower())
-        if word and word not in _KEY_STOPWORDS:
-            return word
-    return ""
-
-
-def make_key(entry: dict, creators: list[dict] | None = None) -> str:
-    """BetterBibTeX-style `<auth>_<veryshorttitle>_<year>` citation key.
-
-    A *fallback* only: `build_site_entry` prefers Zotero's own `citationKey`.
-    `creators` is the raw Zotero list — BBT keys off the first creator of any
-    type, including the `programmer` and `inventor` roles that `authors_of`
-    filters out. Any a/b/c suffix is added collection-wide by
-    `disambiguate_keys`, not here.
-    """
-    year = entry.get("year") or "0000"
-    if creators:
-        auth = key_surname(creators[0])
-    else:
-        authors = entry.get("authors") or []
-        auth = key_surname({"lastName": authors[0].split()[-1]}) if authors else ""
-    key = f"{auth}_{key_titleword(entry.get('title'))}_{year}"
-    if key.strip("_") == str(year):  # neither a usable author nor a title word
-        return slug_title(entry.get("doi") or entry.get("title") or "pub") or "pub"
-    return key
-
-
-def disambiguate_keys(entries: list[dict]) -> None:
-    """Append `a`, `b`, `c`… to the second and later entries sharing a *generated*
-    key; the first keeps the bare key, as BetterBibTeX does. Ordered by Zotero
-    item key, which never changes, so suffixes stay put when metadata is edited.
-
-    ponytail: BBT orders by insertion date instead, and the public feed exposes no
-    `dateAdded`, so a suffix here can differ from BBT's. Unreachable while every
-    item has a `citationKey` — which is exactly why this stays a fallback path.
-    """
-    groups: dict[str, list[dict]] = {}
-    for e in entries:
-        if e.get("_generated_key"):
-            groups.setdefault(e["key"], []).append(e)
-    for key, group in groups.items():
-        if len(group) < 2:
-            continue
-        for n, e in enumerate(sorted(group, key=lambda x: x.get("zkey") or "")):
-            if n:
-                e["key"] = f"{key}{chr(ord('a') + n - 1)}"
-
-
 def assert_unique_keys(entries: list[dict]) -> None:
     """Every entry must be addressable by exactly one key — `research_outputs:`
     refs resolve by it, and a duplicate would silently pick the first match."""
@@ -342,11 +265,15 @@ def build_site_entry(top: dict, pdf_key: str | None, user_id: str) -> dict:
         # rendered as a "Software" link beside its DOI/PDF.
         entry["software"] = links.get("software")
     entry["zkey"] = top["key"]
-    # Zotero's own BetterBibTeX key is authoritative (and is exposed by the public
-    # feed); make_key only covers an item that has none.
-    citation_key = (d.get("citationKey") or "").strip()
-    entry["key"] = citation_key or make_key(entry, d.get("creators"))
-    entry["_generated_key"] = not citation_key
+    # Zotero's own BetterBibTeX key is authoritative, and the public feed exposes
+    # it. It is required: `research_outputs:` refs address a work by this key, so
+    # anything generated here would be a key nobody could predict or link to.
+    entry["key"] = (d.get("citationKey") or "").strip()
+    if not entry["key"]:
+        raise ValueError(
+            f"no BetterBibTeX citation key on item {top['key']}: {entry['title'][:60]!r}"
+            "\nSet one in Zotero (BetterBibTeX) — the site addresses works by it."
+        )
     return entry
 
 
@@ -375,11 +302,9 @@ def build_entries(items: list[dict], user_id: str, relmap: dict | None = None) -
             if o.get("doi") or href:
                 rel.append({"type": o["type"], "doi": o.get("doi"), "href": href})
         e["related"] = rel
-    disambiguate_keys(entries)
     assert_unique_keys(entries)
     for e in entries:
         e.pop("zkey", None)
-        e.pop("_generated_key", None)
     entries.sort(key=lambda e: (e.get("year") or 0, e.get("month") or 0), reverse=True)
     return entries
 

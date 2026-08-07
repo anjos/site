@@ -21,19 +21,18 @@ pixi run serve      # local preview at localhost:1313, drafts included
 
 ## Gates
 
-All three must pass before committing; CI runs the same ones:
+One command has to pass before committing, and CI runs that same one:
 
 ```sh
-pixi run validate   # content front-matter + covers + the Zotero data is current
-pixi run build      # strict Hugo build (broken internal refs fail)
-pixi run linkcheck  # no dead links in the built site
+pixi run validate   # hygiene hooks, content front-matter, covers, unit tests,
+                    # the Zotero data, a strict build and a dead-link check
 ```
 
-`pixi run gh-action` runs the full sequence exactly as CI does, unit tests
-included; `pixi run qa` adds the lint hooks and an Idiap sync check. Each step is
-also a task of its own: `check-content`, `check-outputs`, `check-links`,
-`check-sync`, `lint`. Commit and push hooks run the cheap ones automatically —
-install them once with `pixi run prek install --install-hooks`.
+Each step is also a task of its own: `lint`, `test`, `check-content`,
+`check-outputs`, `check-links`. `check-sync` (an Idiap publish dry-run) needs SSH,
+so it stays out of the gate — run it by hand after `idiap-push`. Commit hooks run
+the file-hygiene checks automatically; install them once with
+`pixi run prek install --install-hooks`.
 
 ## What lives outside this repository
 

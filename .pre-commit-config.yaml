@@ -1,20 +1,15 @@
 # Run with `prek` (a drop-in pre-commit replacement): `prek install --install-hooks`.
 #
-# Tier 1 (pre-commit) is offline and sub-second — file hygiene plus the two rules
-# that are expensive to discover late: no big files in static/, no submodules.
-# Tier 2 (pre-push) adds the checks that need the network.
-# The slow gates (build, link check, Idiap sync) stay in `pixi run qa` and CI.
-default_install_hook_types: [pre-commit, pre-push]
+# FILE HYGIENE ONLY — offline and sub-second. Every project-specific check
+# (check-content, check-outputs, check-links) is a pixi task under `pixi run
+# validate`, which also runs this file via the `lint` task. Nothing is declared
+# in both places, so there is exactly one definition of each gate.
+default_install_hook_types: [pre-commit]
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
-      # The static/-stays-small rule, caught at commit time instead of at the
-      # gate. Mirrors STATIC_MAX_BYTES in tools/validate_content.py.
-      - id: check-added-large-files
-        args: [--maxkb=300]
-        files: ^static/
       # We removed the Pelican theme submodule; keep it that way.
       - id: forbid-submodules
       - id: check-toml
@@ -33,28 +28,3 @@ repos:
       # Lint only, no reformatting: findings, not churn.
       - id: ruff-check
         files: ^tools/
-
-  - repo: local
-    hooks:
-      # Offline and instant, so it belongs at commit time.
-      - id: check-content
-        name: validate content front-matter and static/ layout
-        entry: pixi run check-content
-        language: system
-        pass_filenames: false
-        files: ^(content/|data/|static/)
-
-      # Network-bound: pushed to pre-push so commits stay fast.
-      - id: check-outputs
-        name: data/outputs.json matches Zotero
-        entry: pixi run check-outputs
-        language: system
-        pass_filenames: false
-        stages: [pre-push]
-
-      - id: tests
-        name: publication pipeline unit tests
-        entry: pixi run test
-        language: system
-        pass_filenames: false
-        stages: [pre-push]

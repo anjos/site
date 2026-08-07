@@ -8,15 +8,13 @@ add content correctly.
 ## Golden rules
 
 1. **Always work through `pixi`** — it provides Hugo, Python, and the checkers.
-2. **After any content change, run the gates:**
+2. **After any change, run the gate:**
    ```sh
-   pixi run validate   # front-matter, refs, covers, static/ rule + Zotero data is current
-   pixi run build      # strict Hugo build (broken internal refs fail)
-   pixi run linkcheck  # no dead links in the built site
+   pixi run validate   # hygiene + front-matter/refs/covers + unit tests + Zotero
+                       # data + a strict build and a dead-link check
    ```
-   All three must pass before committing. `pixi run gh-action` runs exactly what
-   CI runs; `pixi run qa` adds the lint hooks and the Idiap sync check. See
-   "Quality gates" below.
+   It must pass before committing, and it is exactly what CI runs — there is no
+   second, longer command to remember. See "Quality gates" below.
 3. **Publications come from Zotero "My Publications", not hand-edited.** Never edit
    `data/outputs.json` by hand — regenerate it with `pixi run outputs`, which needs
    your API key. Without a key the tool *verifies* instead of writing, which is how
@@ -89,21 +87,34 @@ data, add the work to Zotero and run `pixi run outputs`.
 
 ## Quality gates
 
-Checks are layered by cost, cheapest first. Install the hooks once with
-`pixi run prek install --install-hooks`.
+**Every gate is defined exactly once, as a pixi task.** `.pre-commit-config.yaml`
+holds file hygiene and nothing else; the project-specific checks are pixi tasks,
+and `lint` is what runs the hygiene hooks from inside `validate`. Install the
+hooks once with `pixi run prek install --install-hooks`.
 
 | when | what | cost |
 |---|---|---|
-| **pre-commit** | whitespace/TOML/JSON/YAML hygiene, no submodules, **no file >300 KB in `static/`**, `ruff` on `tools/`, `check-content` | offline, instant |
-| **pre-push** | `check-outputs` (Zotero freshness), `test` | network, seconds |
-| **`pixi run gh-action`** | `validate` + `test` + `build` + `check-links` — exactly what CI runs | tens of seconds |
-| **`pixi run qa`** | the above plus `lint` and `check-sync` | adds SSH |
+| **pre-commit** | whitespace/TOML/JSON/YAML hygiene, no submodules, `ruff` on `tools/` | offline, instant |
+| **`pixi run validate`** | `lint` + `test` + `check-content` + `check-outputs` + `check-links` (which builds first) — **exactly what CI runs** | network, ~10 s |
+
+The order makes failures fast and legible: offline before network, the build last,
+and `test` ahead of both checkers because it covers the code they run
+(`test_static_rule.py` → `validate_content.py`, `test_pipeline.py` →
+`zotero_common.py`). Broken tooling then fails as a named assertion rather than
+as a puzzling content error or Zotero diff.
 
 Each check also runs alone: `check-content`, `check-outputs`, `check-links`,
-`check-sync`, `lint`. `check-sync` is a `rsync --dry-run` proving everything in
-`idiap-public/` is already published; it needs your SSH key, so it never runs in
-CI. `pixi run serve` deliberately has **no** dependencies — preview must not wait
-on a Zotero round-trip.
+`check-sync`, `lint`. `check-links` declares `depends-on = ["build"]`, so it is
+correct standalone and never link-checks a stale `public/`. `check-sync` is a
+`rsync --dry-run` proving everything in `idiap-public/` is already published; it
+needs SSH, so it belongs to no composite gate — run it by hand after
+`idiap-push`. `pixi run serve` deliberately has **no** dependencies — preview
+must not wait on a Zotero round-trip.
+
+The `static/` rule (layout + the 300 KB cap) lives in `check-content`, not in a
+prek hook: that way it is enforced in CI, covers modified files and not just
+newly added ones, and gives the "re-encode it" message instead of a bare size
+error.
 
 ## Large assets live on Idiap
 

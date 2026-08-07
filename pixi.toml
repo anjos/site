@@ -8,7 +8,6 @@ python = "3.*"
 hugo = ">=0.164"
 requests = "*"
 pyyaml = "*"
-bibtexparser = "*"
 pyzotero = "*"
 
 [tasks]
@@ -25,19 +24,29 @@ orcid-report = "python tools/update-orcid-outputs.py"
 check-content = "python tools/validate_content.py"
 # data/outputs.json still matches Zotero. Key-less: verifies, never writes.
 check-outputs = "python tools/update-site-outputs.py --check"
-# Every link in the built site; fails on any dead link. Needs `build` first.
-# --root-dir lets lychee resolve root-relative (/foo) links against ./public.
-check-links = "lychee --config lychee.toml --root-dir \"$PIXI_PROJECT_ROOT/public\" public"
+# Every link in the built site; fails on any dead link. It reads ./public, so it
+# *builds* first — declared, not assumed, so it is correct standalone and in any
+# order inside `validate`. --root-dir resolves root-relative (/foo) links.
+check-links = { cmd = "lychee --config lychee.toml --root-dir \"$PIXI_PROJECT_ROOT/public\" public", depends-on = ["build"] }
 # Everything in idiap-public/ is already published. Dry run; fails and names the
-# files if not. Local only (needs SSH), so it never runs in CI.
+# files if not. Needs SSH, so it is never part of a composite gate and never runs
+# in CI — invoke it by hand after `idiap-push`.
 check-sync = "sh tools/check-idiap-sync.sh"
-# Fast per-file hygiene: whitespace, TOML/JSON/YAML, >300 KB in static/, ruff.
+# File hygiene only: whitespace, TOML/JSON/YAML, ruff, no submodules. Every
+# project-specific check is a pixi task in `validate`, never a prek hook, so
+# nothing is defined in two places.
 lint = "prek run --all-files"
 
-# Content + publication data. Both are quick; run after any content change.
-validate = { depends-on = ["check-content", "check-outputs"] }
+# THE gate — hygiene, unit tests, content, publication data, and a link check over
+# a freshly built site. Run it after any change; it is also exactly what CI runs.
+# Ordered so failures come back fast and legibly: offline before network, build
+# last, and `test` ahead of both checkers because it covers the code they run
+# (test_static_rule.py -> validate_content.py, test_pipeline.py -> zotero_common.py).
+# A broken tool then fails as a named assertion, not as a puzzling content error.
+validate = { depends-on = ["lint", "test", "check-content", "check-outputs", "check-links"] }
 # Unit tests for the publications pipeline (offline, fixture-based).
-test = "pytest -q tools/tests"
+# -v names each test as it runs, so a failure in the gate says what broke.
+test = "pytest -v tools/tests"
 # Build the static site (broken internal refs fail via refLinksErrorLevel=ERROR).
 # --cleanDestinationDir removes stale output so link checks stay honest.
 build = { cmd = "hugo --minify --cleanDestinationDir" }
@@ -54,20 +63,11 @@ clean = "rm -rf public resources/_gen"
 idiap-push = "rsync -avz idiap-public/ idiap:public/"
 # Refresh the local mirror from the server. Additive: never deletes locally.
 idiap-pull = "rsync -avz idiap:public/ idiap-public/"
-# Exactly what CI runs. No credentials needed: check-outputs verifies rather than
-# regenerates, so the Zotero API key stays on your machine.
-gh-action = { depends-on = ["validate", "test", "build", "check-links"] }
-# Everything, including the two checks CI cannot do: lint hooks and the SSH-based
-# Idiap sync dry-run. This is the pre-release sweep.
-qa = { depends-on = ["lint", "gh-action", "check-sync"] }
 
 [feature.qa.dependencies]
 prek = "*"
 lychee = "*"
 pytest = "*"
 
-[feature.debug.dependencies]
-pdbpp = "*"
-
 [environments]
-default = { features = ["qa", "debug"] }
+default = { features = ["qa"] }

@@ -210,10 +210,6 @@ th { color: var(--muted); font-weight: 600; }
 
 /* ---- Project page --------------------------------------------------------- */
 .project-cover { width: 100%; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 1.5rem; }
-.meta-block { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem; margin: 2rem 0; font-family: var(--font-ui); font-size: .95rem; }
-.meta-block h3 { margin-top: 0; }
-.pill-row { display: flex; flex-wrap: wrap; gap: .5rem; }
-.pill { display: inline-block; padding: .2rem .6rem; border: 1px solid var(--border); border-radius: 999px; font-size: .8rem; color: var(--muted); }
 
 /* Partnerships */
 .partners-block { margin: 1.5rem 0 0.5rem; }
@@ -252,20 +248,6 @@ th { color: var(--muted); font-weight: 600; }
 
 /* ---- Software entries (in Research Outputs) -------------------------------- */
 .out-archived { font-style: italic; color: var(--muted); font-size: .85em; }
-
-/* ---- Datasets page --------------------------------------------------------- */
-.ds-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.6rem; }
-.ds-item { border-bottom: 1px solid var(--border); padding-bottom: 1.4rem; }
-.ds-item:last-child { border-bottom: 0; }
-.ds-name { font-family: var(--font-ui); font-size: 1.12rem; margin: 0 0 .35rem; display: flex; align-items: baseline; flex-wrap: wrap; gap: .6rem; }
-.ds-type {
-  font-size: .68rem; letter-spacing: .03em; color: var(--muted);
-  border: 1px solid var(--border); border-radius: 999px; padding: .1rem .55rem;
-}
-.ds-summary { margin: 0 0 .5rem; }
-.ds-meta { display: flex; flex-wrap: wrap; gap: 1rem; align-items: baseline; margin: 0; font-family: var(--font-ui); font-size: .88rem; color: var(--muted); }
-.ds-meta a { color: var(--accent); }
-.ds-pending { font-style: italic; }
 
 /* ---- Publications page ---------------------------------------------------- */
 .out-year { font-family: var(--font-ui); margin-top: 2rem; color: var(--accent); }
