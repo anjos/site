@@ -1,11 +1,4 @@
 {{- /* Render project cards for a page collection (passed as the context). */ -}}
 {{- range . -}}
-<li class="card">
-  {{ with .Params.cover }}<img class="card__cover" src="{{ (relURL .) }}" alt="" loading="lazy">{{ end }}
-  <div>
-    <h3 class="card__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-    {{ with .Params.period }}<p class="card__period">{{ . }}</p>{{ end }}
-    {{ with .Params.summary }}<p class="card__summary">{{ . }}</p>{{ end }}
-  </div>
-</li>
+{{- partial "card.html" (dict "page" . "period" .Params.period) -}}
 {{- end -}}

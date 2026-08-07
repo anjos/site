@@ -1,0 +1,25 @@
+{{- /* Markdown tables scroll inside their own container instead of widening the
+       page — a wide table is otherwise the one thing that breaks the layout
+       horizontally on a phone. Styled by .table-scroll in assets/css/main.css. */ -}}
+<div class="table-scroll">
+  <table>
+    <thead>
+      {{- range .THead }}
+      <tr>
+        {{- range . }}
+        <th{{ with .Alignment }} style="text-align: {{ . }}"{{ end }}>{{ .Text }}</th>
+        {{- end }}
+      </tr>
+      {{- end }}
+    </thead>
+    <tbody>
+      {{- range .TBody }}
+      <tr>
+        {{- range . }}
+        <td{{ with .Alignment }} style="text-align: {{ . }}"{{ end }}>{{ .Text }}</td>
+        {{- end }}
+      </tr>
+      {{- end }}
+    </tbody>
+  </table>
+</div>

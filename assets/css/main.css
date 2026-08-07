@@ -2,8 +2,49 @@
    André Anjos — bespoke theme. Typography-first, sober, light/dark aware.
    Theme selection: default follows prefers-color-scheme; a header toggle sets
    [data-theme] on <html> and persists it in localStorage (override).
+
+   Layout is mobile-first: the nav is a disclosure menu by default and only
+   becomes a horizontal bar with hover dropdowns on wide *pointer* devices.
+   That ordering is deliberate — see "Header / nav" below.
    =========================================================================== */
 
+/* ---- Webfont -------------------------------------------------------------- */
+/* Source Serif 4.005 (SIL OFL-1.1, see LICENSE-source-serif.txt), self-hosted:
+   no CDN, no third-party request. Subset and built with:
+
+     pixi exec --spec fonttools --spec brotli-python -- \
+       fonttools varLib.instancer SourceSerif4Variable-<face>.otf.woff2 opsz=11 -o inst.ttf
+     pixi exec --spec fonttools --spec brotli-python -- \
+       pyftsubset inst.ttf --unicodes="<the range below>" \
+         --layout-features=kern,ccmp,mark,mkmk,locl,liga,onum,lnum,tnum,pnum,case,frac,sups,subs \
+         --flavor=woff2 --output-file=source-serif-4-<face>.woff2
+
+   opsz is pinned rather than kept variable because headings are set in
+   --font-ui (system sans), so the serif is only ever rendered at body size and
+   the 8-60 optical-size axis is dead weight — pinning halves each file
+   (190 KB -> 95 KB). wght stays variable (200-900). Small caps (smcp/c2sc) are
+   deliberately excluded: journal names use real italic, which is the scholarly
+   convention and costs nothing extra. */
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("../fonts/source-serif-4-roman.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-024F, U+0259, U+1E00-1EFF, U+2000-206F,
+                 U+2074, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("../fonts/source-serif-4-italic.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-024F, U+0259, U+1E00-1EFF, U+2000-206F,
+                 U+2074, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+
+/* ---- Tokens --------------------------------------------------------------- */
 :root {
   --bg: #fdfdfc;
   --surface: #f4f3ef;
@@ -14,43 +55,56 @@
   --accent-hover: #094f49;
   --code-bg: #f4f3ef;
   --selection: #cfe8e4;
+  --shadow: 0 6px 20px rgba(23, 25, 28, .07);
 
-  --measure: 68ch;
-  --font-body: "Charter", "Georgia", "Iowan Old Style", "Times New Roman", serif;
+  --measure: 66ch;            /* Source Serif runs a little narrower than Georgia */
+  --font-body: "Source Serif 4", Charter, Georgia, "Iowan Old Style", "Times New Roman", serif;
   --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace;
 
-  --step-0: 1.0625rem;
+  /* Fluid modular scale (~1.2). Type grows with the viewport instead of
+     stepping at breakpoints, which is most of what makes this responsive. */
+  --step--2: clamp(0.75rem, 0.73rem + 0.10vw, 0.80rem);
+  --step--1: clamp(0.84rem, 0.81rem + 0.14vw, 0.92rem);
+  --step-0:  clamp(1.00rem, 0.97rem + 0.18vw, 1.09rem);
+  --step-1:  clamp(1.13rem, 1.08rem + 0.26vw, 1.27rem);
+  --step-2:  clamp(1.33rem, 1.24rem + 0.42vw, 1.55rem);
+  --step-3:  clamp(1.65rem, 1.48rem + 0.80vw, 2.15rem);
+
   --line: 1.65;
   --space: 1.5rem;
+  --tap: 2.75rem;             /* 44 px minimum touch target */
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #16181c;
-    --surface: #1e2126;
-    --text: #e6e6e3;
-    --muted: #9aa1a9;
-    --border: #2c3037;
+    --bg: #18191a;
+    --surface: #202224;
+    --text: #e7e6e3;
+    --muted: #9ba1a7;
+    --border: #2e3134;
     --accent: #4dc4b8;
     --accent-hover: #74d3c9;
-    --code-bg: #1e2126;
+    --code-bg: #202224;
     --selection: #22443f;
+    --shadow: 0 6px 20px rgba(0, 0, 0, .45);
   }
 }
 
 :root[data-theme="dark"] {
-  --bg: #16181c;
-  --surface: #1e2126;
-  --text: #e6e6e3;
-  --muted: #9aa1a9;
-  --border: #2c3037;
+  --bg: #18191a;
+  --surface: #202224;
+  --text: #e7e6e3;
+  --muted: #9ba1a7;
+  --border: #2e3134;
   --accent: #4dc4b8;
   --accent-hover: #74d3c9;
-  --code-bg: #1e2126;
+  --code-bg: #202224;
   --selection: #22443f;
+  --shadow: 0 6px 20px rgba(0, 0, 0, .45);
 }
 
+/* ---- Base ----------------------------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
 
 html { -webkit-text-size-adjust: 100%; }
@@ -66,7 +120,14 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Author styles beat the UA's `[hidden] { display: none }`, so any rule that
+   sets `display` on an element the filter JS hides would resurrect it. This
+   guards .out-section (display: grid) and .out-list li. */
+[hidden] { display: none !important; }
+
 ::selection { background: var(--selection); }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
 
 .wrap { max-width: 52rem; margin-inline: auto; padding-inline: 1.25rem; }
 
@@ -82,6 +143,11 @@ a:hover { color: var(--accent-hover); text-decoration: underline; text-underline
 .skip-link:focus { left: .5rem; top: .5rem; }
 
 /* ---- Header / nav --------------------------------------------------------- */
+/* Mobile-first: the disclosure menu is the DEFAULT, and the horizontal bar with
+   hover dropdowns is opted into only at `(hover: hover) and (min-width: 48rem)`.
+   Written the other way round, a tablet fell through both branches — 768 px is
+   wider than the old 40 rem hamburger breakpoint yet reports `hover: none`, so
+   it got the full desktop nav with every submenu forced open inline. */
 .site-header {
   border-bottom: 1px solid var(--border);
   background: var(--bg);
@@ -89,60 +155,110 @@ a:hover { color: var(--accent-hover); text-decoration: underline; text-underline
   backdrop-filter: saturate(120%) blur(4px);
 }
 .site-header .wrap {
-  display: flex; align-items: center; gap: 1rem;
-  padding-block: .75rem;
+  display: flex; align-items: center; gap: .75rem;
+  padding-block: .5rem;
+  position: relative;          /* anchor for the open menu — no magic offsets */
 }
 .site-title {
-  font-family: var(--font-ui); font-weight: 650; font-size: 1.05rem;
+  font-family: var(--font-ui); font-weight: 650; font-size: var(--step-0);
   color: var(--text); letter-spacing: -0.01em;
 }
 .site-title:hover { text-decoration: none; color: var(--accent); }
 
-.site-nav { margin-left: auto; font-family: var(--font-ui); }
-.site-nav ul { display: flex; gap: 1.1rem; list-style: none; margin: 0; padding: 0; align-items: center; }
-.site-nav a { color: var(--muted); font-size: .92rem; }
+.site-nav { font-family: var(--font-ui); order: 4; }
+.site-nav ul { list-style: none; margin: 0; padding: 0; }
+.site-nav a { color: var(--muted); font-size: var(--step--1); }
 .site-nav a:hover { color: var(--accent); text-decoration: none; }
 .site-nav a[aria-current="page"] { color: var(--text); font-weight: 600; }
 .nav-cv { color: var(--accent) !important; }
-.nav-toggle { display: none; }
 
-/* Dropdown submenu (e.g. About ▸ Contact). The padding/negative-margin pair
-   keeps the parent hoverable across the visual gap down to the panel; without
-   it the pointer leaves .has-sub mid-way and the panel closes before you
-   reach an item. */
-.site-nav .has-sub { position: relative; padding-bottom: .55rem; margin-bottom: -.55rem; }
-.site-nav .caret { font-size: .7em; }
+.nav-toggle {
+  display: inline-grid; place-items: center;
+  min-width: var(--tap); min-height: var(--tap);
+  background: none; border: 0; color: var(--text);
+  font-size: 1.4rem; line-height: 1; cursor: pointer;
+}
+
+/* Closed disclosure panel, anchored to the header rather than a fixed offset. */
+.site-nav > ul {
+  display: none;
+  position: absolute; top: calc(100% + .5rem); right: 1.25rem;
+  flex-direction: column; gap: .15rem; z-index: 30;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+  padding: .5rem; min-width: 12rem; box-shadow: var(--shadow);
+}
+body.nav-open .site-nav > ul { display: flex; }
+.site-nav > ul > li > a {
+  display: block; padding: .6rem .75rem; border-radius: 8px;
+  min-height: var(--tap); line-height: 1.6;
+}
+.site-nav > ul > li > a:hover { background: var(--surface); }
+.site-nav .caret { display: none; }
+/* Children render inline and indented; a hover dropdown cannot be opened by
+   touch, so on this branch there is nothing to disclose. */
 .site-nav .subnav {
-  display: none; position: absolute; right: 0; top: 100%; margin: 0;
-  flex-direction: column; gap: .1rem; min-width: max-content; z-index: 30;
-  background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
-  padding: .35rem; box-shadow: 0 6px 20px rgba(0,0,0,.08);
+  display: flex; flex-direction: column;
+  padding: 0 0 .25rem .75rem; margin: 0;
 }
-/* Full-row hit targets rather than bare inline text. */
-.site-nav .subnav a { display: block; padding: .4rem .7rem; border-radius: 6px; white-space: nowrap; }
+.site-nav .subnav a {
+  display: block; padding: .5rem .75rem; border-radius: 8px;
+  min-height: var(--tap); line-height: 1.7;
+}
 .site-nav .subnav a:hover { background: var(--surface); color: var(--accent); }
-.site-nav .has-sub:hover .subnav,
-.site-nav .has-sub:focus-within .subnav { display: flex; }
-
-/* No hover to open on touch screens: show the submenu inline instead. */
-@media (hover: none) {
-  .site-nav .has-sub { padding-bottom: 0; margin-bottom: 0; }
-  .site-nav .subnav { position: static; display: flex; border: 0; box-shadow: none;
-    background: none; padding: .2rem 0 0 .8rem; }
-  .site-nav .caret { display: none; }
-}
 
 .theme-toggle {
   order: 3; margin-left: auto;
-  width: 2rem; height: 2rem; border-radius: 50%;
+  width: var(--tap); height: var(--tap); border-radius: 50%;
   border: 1px solid var(--border); background: var(--surface);
   color: var(--text); cursor: pointer; display: inline-grid; place-items: center;
 }
-.site-nav { order: 4; margin-left: 0; }
-.theme-toggle__icon { width: 1rem; height: 1rem; border-radius: 50%;
+.theme-toggle__icon {
+  width: 1rem; height: 1rem; border-radius: 50%;
   background:
     radial-gradient(circle at 65% 35%, var(--bg) 0 42%, transparent 43%),
     var(--text);
+}
+
+/* 56rem, not 48rem: six top-level items plus the CV link need ~460 px, and at
+   768 px they collide with the title and theme toggle. Pairing the width with
+   `hover: hover` means a tablet gets the disclosure menu on both counts. */
+@media (hover: hover) and (min-width: 56rem) {
+  .site-header .wrap { gap: 1rem; padding-block: .75rem; }
+  .nav-toggle { display: none; }
+  .site-nav { order: 4; margin-left: 0; }
+  .theme-toggle { order: 3; margin-left: auto; }
+
+  .site-nav > ul {
+    display: flex; flex-direction: row; align-items: center; gap: 1.1rem;
+    position: static; background: none; border: 0; border-radius: 0;
+    padding: 0; min-width: 0; box-shadow: none;
+  }
+  .site-nav > ul > li > a {
+    display: inline; padding: 0; min-height: 0; line-height: inherit;
+  }
+  .site-nav > ul > li > a:hover { background: none; }
+  .site-nav .caret { display: inline; font-size: .7em; }
+
+  /* An invisible bridge keeps the parent hoverable across the visual gap down
+     to the panel; without it the pointer leaves .has-sub mid-way and the panel
+     closes before you reach an item. Done with a pseudo-element rather than
+     padding-bottom + negative margin, which made this item taller than its
+     siblings and knocked "About" off the shared baseline. */
+  .site-nav .has-sub { position: relative; }
+  .site-nav .has-sub::after {
+    content: ""; position: absolute; inset-inline: 0; top: 100%; height: .7rem;
+  }
+  .site-nav .subnav {
+    display: none; position: absolute; right: 0; top: calc(100% + .55rem); margin: 0;
+    gap: .1rem; min-width: max-content; z-index: 30;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+    padding: .35rem; box-shadow: var(--shadow);
+  }
+  .site-nav .subnav a {
+    padding: .4rem .7rem; min-height: 0; line-height: inherit; white-space: nowrap;
+  }
+  .site-nav .has-sub:hover .subnav,
+  .site-nav .has-sub:focus-within .subnav { display: flex; }
 }
 
 /* ---- Layout / content ----------------------------------------------------- */
@@ -150,10 +266,14 @@ a:hover { color: var(--accent-hover); text-decoration: underline; text-underline
 .content > .wrap, .prose { max-width: var(--measure); }
 .prose { margin-inline: auto; padding-inline: 1.25rem; }
 
-h1, h2, h3, h4 { font-family: var(--font-ui); line-height: 1.25; letter-spacing: -0.015em; }
-h1 { font-size: 2rem; margin: 0 0 .5rem; }
-h2 { font-size: 1.4rem; margin: 2.4rem 0 .75rem; }
-h3 { font-size: 1.12rem; margin: 1.8rem 0 .5rem; }
+h1, h2, h3, h4 {
+  font-family: var(--font-ui); line-height: 1.2; letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+h1 { font-size: var(--step-3); margin: 0 0 .5rem; }
+h2 { font-size: var(--step-2); margin: 2.4rem 0 .75rem; }
+h3 { font-size: var(--step-1); margin: 1.8rem 0 .5rem; }
+p { text-wrap: pretty; }
 p, ul, ol { margin: 0 0 var(--space); }
 ul, ol { padding-left: 1.3rem; }
 li { margin-bottom: .3rem; }
@@ -167,10 +287,13 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 img { max-width: 100%; height: auto; }
 figure { margin: var(--space) 0; text-align: center; }
 figure img { border-radius: 6px; }
-figure figcaption { font-size: .875rem; color: var(--muted); margin-top: .5rem; font-family: var(--font-ui); }
+figure figcaption {
+  font-size: var(--step--1); color: var(--muted);
+  margin-top: .5rem; font-family: var(--font-ui);
+}
 
 /* Photo gallery: portraits linking to their full-resolution files. */
-.gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; margin: var(--space) 0; }
+.gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr)); gap: 1rem; margin: var(--space) 0; }
 .gallery img { border-radius: 6px; border: 1px solid var(--border); display: block; width: 100%; }
 
 code, pre, kbd { font-family: var(--font-mono); font-size: .875em; }
@@ -181,31 +304,81 @@ pre {
 }
 pre code { background: none; padding: 0; }
 
-table { width: 100%; border-collapse: collapse; margin: var(--space) 0; font-family: var(--font-ui); font-size: .92rem; }
+/* Markdown tables scroll inside their own container rather than widening the
+   page on a phone — see layouts/_default/_markup/render-table.html. */
+.table-scroll { overflow-x: auto; margin: var(--space) 0; }
+table { width: 100%; border-collapse: collapse; font-family: var(--font-ui); font-size: var(--step--1); }
+.table-scroll table { margin: 0; }
 th, td { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid var(--border); }
-th { color: var(--muted); font-weight: 600; }
+th { color: var(--muted); font-weight: 600; white-space: nowrap; }
 
-.page-subtitle { color: var(--muted); font-family: var(--font-ui); margin-top: -.25rem; }
+.page-subtitle {
+  color: var(--muted); font-family: var(--font-ui);
+  font-size: var(--step-0); margin-top: -.25rem; text-wrap: pretty;
+}
 
 /* ---- Cards / listings ----------------------------------------------------- */
-.card-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.75rem; }
-.card { display: grid; grid-template-columns: 7.5rem 1fr; gap: 1.1rem; align-items: start; }
+/* Whole-card links: the single <a> on the title is stretched over the card by
+   its ::after, so the cover image is part of the same hit area while the
+   accessibility tree still sees exactly one link per card. Anything genuinely
+   separate inside a card needs `position: relative; z-index: 1` to stay
+   clickable above that overlay. */
+.card-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .35rem; }
+.card {
+  position: relative;
+  display: grid; grid-template-columns: minmax(0, 7.5rem) 1fr;
+  gap: 1.1rem; align-items: start;
+  padding: .9rem; margin-inline: -.9rem;
+  border-radius: 12px;
+  background: transparent;
+}
 /* Cards without a cover span the full width instead of leaving an empty column. */
 .card:not(:has(.card__cover)) { grid-template-columns: 1fr; }
-.card__cover { border-radius: 8px; border: 1px solid var(--border); aspect-ratio: 4/3; object-fit: cover; width: 100%; }
-.card__title { font-family: var(--font-ui); font-size: 1.1rem; margin: 0 0 .25rem; }
-.card__meta { color: var(--muted); font-family: var(--font-ui); font-size: .85rem; margin: 0 0 .4rem; }
-.card__period { color: var(--muted); font-family: var(--font-ui); font-size: .8rem; letter-spacing: .02em; margin: 0 0 .35rem; }
-.card__summary { margin: 0; }
+.card:hover { background: var(--surface); box-shadow: var(--shadow); }
+.card:focus-within { background: var(--surface); }
+.card__frame {
+  overflow: hidden; border-radius: 8px;
+  box-shadow: 0 0 0 1px var(--border);   /* hairline that does not affect layout */
+  background: var(--surface);
+}
+.card__cover { display: block; aspect-ratio: 4/3; object-fit: cover; width: 100%; }
+.card__title { font-family: var(--font-ui); font-size: var(--step-1); margin: 0 0 .25rem; }
+.card__title a { color: var(--text); }
+.card:hover .card__title a { color: var(--accent); text-decoration: none; }
+.card__title a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.card__meta {
+  color: var(--muted); font-family: var(--font-ui);
+  font-size: var(--step--1); margin: 0 0 .4rem;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.card__period {
+  color: var(--muted); font-family: var(--font-ui);
+  font-size: var(--step--2); letter-spacing: .02em; margin: 0 0 .35rem;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+/* Even card heights in a list without clipping a one-line summary. */
+.card__summary {
+  margin: 0;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;
+  overflow: hidden;
+}
 /* Quiet divider introducing the earlier-career (archived) projects. */
 .archive-heading {
-  font-family: var(--font-ui); font-size: .78rem; font-weight: 600; letter-spacing: .1em;
+  font-family: var(--font-ui); font-size: var(--step--2); font-weight: 600; letter-spacing: .1em;
   text-transform: uppercase; color: var(--muted);
   margin: 2.75rem 0 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border);
 }
 @media (max-width: 34rem) {
   .card { grid-template-columns: 1fr; }
-  .card__cover { max-width: 12rem; }
+  .card__frame { max-width: 12rem; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card { transition: background-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+  .card__cover { transition: transform .45s ease; }
+  .card:hover { transform: translateY(-2px); }
+  .card:hover .card__cover { transform: scale(1.04); }
+  .card__title a { transition: color .2s ease; }
 }
 
 /* ---- Project page --------------------------------------------------------- */
@@ -214,7 +387,7 @@ th { color: var(--muted); font-weight: 600; }
 /* Partnerships */
 .partners-block { margin: 1.5rem 0 0.5rem; }
 .partners-label {
-  font-family: var(--font-ui); font-size: .72rem; letter-spacing: .08em;
+  font-family: var(--font-ui); font-size: var(--step--2); letter-spacing: .08em;
   text-transform: uppercase; color: var(--muted); margin: 0 0 .5rem;
 }
 .partners { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0; }
@@ -222,75 +395,102 @@ th { color: var(--muted); font-weight: 600; }
   display: inline-flex; align-items: center; gap: .5rem;
   border: 1px solid var(--border); border-radius: 9px;
   padding: .4rem .7rem; background: var(--surface);
-  font-family: var(--font-ui); font-size: .85rem; color: var(--text);
+  font-family: var(--font-ui); font-size: var(--step--1); color: var(--text);
 }
 .partner-emoji { font-size: 1.05rem; line-height: 1; flex: none; }
-.partner-country { color: var(--muted); font-size: .8rem; border-left: 1px solid var(--border); margin-left: .1rem; padding-left: .5rem; }
+.partner-country {
+  color: var(--muted); font-size: var(--step--2);
+  border-left: 1px solid var(--border); margin-left: .1rem; padding-left: .5rem;
+}
 
-.out-ref { margin: 0 0 .75rem; padding-left: 1.4rem; text-indent: -1.4rem; }
+/* ---- Research outputs: set as a bibliography ------------------------------ */
+/* The year is the one structural device here, and it earns its place: the list
+   genuinely is chronological. On wide screens each year sits in a rail beside
+   its entries and sticks while you scroll that year's block; below 46rem it
+   folds back into an ordinary heading. */
+.out-section {
+  display: grid; grid-template-columns: 4.5rem 1fr; gap: 0 1.5rem;
+  align-items: start; margin-top: 2.25rem;
+}
+.out-year {
+  grid-column: 1; margin: 0; font-family: var(--font-ui);
+  font-size: var(--step-1); color: var(--accent);
+  font-variant-numeric: tabular-nums lining-nums;
+  position: sticky; top: 4.5rem;
+}
+.out-section > .out-list { grid-column: 2; }
+
+.out-list { list-style: none; margin: 0; padding: 0; }
+/* Hanging indent belongs on the list item: .out-ref is a <span>, and inline
+   boxes ignore text-indent, so setting it there never actually indented. */
+.out-list li {
+  margin-bottom: 1rem;
+  padding-left: 1.4rem; text-indent: -1.4rem;
+}
 .out-ref .authors { color: var(--muted); }
 .out-ref .ptitle { font-weight: 600; }
-.out-ref .venue { font-style: italic; }
-
-/* ---- Thesis page ---------------------------------------------------------- */
-.thesis-byline { color: var(--muted); font-family: var(--font-ui); margin: -.25rem 0 1.25rem; }
-.thesis-meta {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
-  padding: 1.1rem 1.25rem; margin: 0 0 2rem; font-family: var(--font-ui); font-size: .92rem;
-}
-.tmeta-row { display: grid; grid-template-columns: 8rem 1fr; gap: .5rem 1rem; padding: .5rem 0; align-items: start; }
-.tmeta-row + .tmeta-row { border-top: 1px solid var(--border); }
-.tmeta-label { font-size: .72rem; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); padding-top: .15rem; }
-.tmeta-row .out-list { margin: 0; }
-.tmeta-row .out-list li { margin-bottom: .4rem; }
-.tmeta-row .partners { margin: 0; }
-@media (max-width: 34rem) { .tmeta-row { grid-template-columns: 1fr; gap: .25rem; } }
-
-/* ---- Software entries (in Research Outputs) -------------------------------- */
-.out-archived { font-style: italic; color: var(--muted); font-size: .85em; }
-
-/* ---- Publications page ---------------------------------------------------- */
-.out-year { font-family: var(--font-ui); margin-top: 2rem; color: var(--accent); }
-.out-list { list-style: none; margin: 0; padding: 0; }
-.out-list li { margin-bottom: 1rem; }
+.out-ref .venue { font-style: italic; }     /* scholarly convention for the venue */
 .out-ref .me { color: var(--text); font-weight: 700; }
 .out-type {
-  font-size: .68rem; letter-spacing: .03em; color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: var(--step--2); letter-spacing: .03em; color: var(--muted);
   border: 1px solid var(--border); border-radius: 999px; padding: .05rem .5rem;
-  white-space: nowrap;
+  white-space: nowrap; text-indent: 0;
 }
+.out-archived { font-style: italic; color: var(--muted); font-size: .85em; }
+.out-rel { font-style: italic; color: var(--muted); font-size: .9em; font-family: var(--font-ui); }
+.out-rel .out-type { font-style: normal; }
+
 .out-filters {
   display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center;
-  font-family: var(--font-ui); font-size: .88rem; margin: 1.5rem 0 .5rem;
+  font-family: var(--font-ui); font-size: var(--step--1); margin: 1.5rem 0 .5rem;
   padding-bottom: 1rem; border-bottom: 1px solid var(--border);
 }
 .out-filters label { display: inline-flex; align-items: center; gap: .45rem; color: var(--muted); }
 .out-filters select {
   font: inherit; color: var(--text); background: var(--surface);
-  border: 1px solid var(--border); border-radius: 6px; padding: .25rem .5rem;
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: .4rem .5rem; min-height: 2.25rem;
 }
-.out-count { color: var(--muted); margin-left: auto; }
-.out-rel { font-style: italic; color: var(--muted); font-size: .9em; font-family: var(--font-ui); }
-.out-rel .out-type { font-style: normal; }
+.out-count { color: var(--muted); margin-left: auto; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 46rem) {
+  .out-section { grid-template-columns: 1fr; gap: 0; }
+  .out-year { position: static; margin-bottom: .75rem; }
+  .out-section > .out-list { grid-column: 1; }
+}
+
+/* ---- Thesis page ---------------------------------------------------------- */
+.thesis-byline { color: var(--muted); font-family: var(--font-ui); margin: -.25rem 0 1.25rem; }
+.thesis-meta {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 1.1rem 1.25rem; margin: 0 0 2rem;
+  font-family: var(--font-ui); font-size: var(--step--1);
+}
+/* Intrinsic rather than a breakpoint flip: the label column takes what it needs
+   and the row stacks on its own when there is no room for both. */
+.tmeta-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(8rem, 100%), auto));
+  gap: .5rem 1rem; padding: .5rem 0; align-items: start;
+}
+.tmeta-row + .tmeta-row { border-top: 1px solid var(--border); }
+.tmeta-label {
+  font-size: var(--step--2); letter-spacing: .07em; text-transform: uppercase;
+  color: var(--muted); padding-top: .15rem;
+}
+.tmeta-row .out-list { margin: 0; }
+.tmeta-row .out-list li { margin-bottom: .4rem; padding-left: 0; text-indent: 0; }
+.tmeta-row .partners { margin: 0; }
 
 /* ---- Footer --------------------------------------------------------------- */
-.site-footer { border-top: 1px solid var(--border); margin-top: 4rem; padding-block: 2rem; font-family: var(--font-ui); }
-.site-footer .social { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: .75rem; }
-.site-footer .social a { color: var(--muted); font-size: .9rem; }
-.site-footer .social a:hover { color: var(--accent); text-decoration: none; }
-.colophon { color: var(--muted); font-size: .82rem; margin: 0; }
-
-/* ---- Mobile nav ----------------------------------------------------------- */
-@media (max-width: 40rem) {
-  .nav-toggle { display: inline-block; background: none; border: 0; color: var(--text); font-size: 1.4rem; cursor: pointer; }
-  .site-nav ul { display: none; position: absolute; right: 1.25rem; top: 3.4rem;
-    flex-direction: column; gap: .6rem; background: var(--bg);
-    border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; }
-  body.nav-open .site-nav ul { display: flex; }
-  /* Submenu shows inline (indented) rather than as a floating dropdown */
-  .site-nav .has-sub { padding-bottom: 0; margin-bottom: 0; }
-  .site-nav .subnav { position: static; display: flex; border: 0; box-shadow: none;
-    padding: .3rem 0 0 1rem; margin: .3rem 0 0; background: none; }
-  .site-nav .subnav a { padding: .15rem 0; }
-  .site-nav .caret { display: none; }
+.site-footer {
+  border-top: 1px solid var(--border); margin-top: 4rem;
+  padding-block: 2rem; font-family: var(--font-ui);
 }
+.site-footer .social { display: flex; flex-wrap: wrap; gap: .25rem 1rem; margin-bottom: .75rem; }
+.site-footer .social a {
+  color: var(--muted); font-size: var(--step--1);
+  display: inline-flex; align-items: center; min-height: var(--tap);
+}
+.site-footer .social a:hover { color: var(--accent); text-decoration: none; }
+.colophon { color: var(--muted); font-size: var(--step--2); margin: 0; }

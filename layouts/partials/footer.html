@@ -31,9 +31,26 @@
   }
   var nav = document.querySelector(".nav-toggle");
   if (nav) {
-    nav.addEventListener("click", function () {
-      var open = document.body.classList.toggle("nav-open");
+    var setOpen = function (open) {
+      document.body.classList.toggle("nav-open", open);
       nav.setAttribute("aria-expanded", open ? "true" : "false");
+    };
+    nav.addEventListener("click", function (e) {
+      e.stopPropagation();
+      setOpen(!document.body.classList.contains("nav-open"));
+    });
+    // An open disclosure menu must be dismissable without picking an item:
+    // tapping the page behind it, or Escape for keyboard users.
+    document.addEventListener("click", function (e) {
+      if (document.body.classList.contains("nav-open") && !e.target.closest(".site-nav")) {
+        setOpen(false);
+      }
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && document.body.classList.contains("nav-open")) {
+        setOpen(false);
+        nav.focus();
+      }
     });
   }
 })();

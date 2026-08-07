@@ -4,21 +4,14 @@
   {{ .Content }}
   {{ with .Pages.ByDate.Reverse }}
   <ul class="card-list">
-    {{ range . }}
-    <li class="card">
-      {{ with .Params.cover }}<img class="card__cover" src="{{ (relURL .) }}" alt="" loading="lazy">{{ end }}
-      <div>
-        <h3 class="card__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-        <p class="card__meta">
-          {{ with .Params.author }}{{ . }}{{ end }}
-          {{ with .Params.level }} · {{ if eq . "PhD" }}Ph.D.{{ else }}{{ . }}'s{{ end }} thesis{{ end }}
-          {{ with .Params.university }} · {{ index (split . ",") 0 }}{{ end }}
-          {{ with .Date }} · {{ .Format "January 2006" }}{{ end }}
-        </p>
-        {{ with .Params.summary }}<p class="card__summary">{{ . }}</p>{{ end }}
-      </div>
-    </li>
-    {{ end }}
+    {{- range . }}
+    {{- $meta := slice }}
+    {{- with .Params.author }}{{ $meta = $meta | append . }}{{ end }}
+    {{- with .Params.level }}{{ $meta = $meta | append (printf "%s thesis" (cond (eq . "PhD") "Ph.D." (printf "%s's" .))) }}{{ end }}
+    {{- with .Params.university }}{{ $meta = $meta | append (index (split . ",") 0) }}{{ end }}
+    {{- with .Date }}{{ $meta = $meta | append (.Format "January 2006") }}{{ end }}
+    {{- partial "card.html" (dict "page" . "meta" (delimit $meta " · ")) }}
+    {{- end }}
   </ul>
   {{ end }}
 </div>

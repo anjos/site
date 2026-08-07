@@ -1,0 +1,29 @@
+{{- /* One card in a `.card-list`. The single structure behind every listing:
+       Projects, Theses, the generic section list, and the supervised-theses
+       block on a project page. Previously this markup was repeated four times,
+       which meant the whole-card link below had to be kept in sync four times.
+
+       Input: dict
+         "page"   the Page to link to (required)
+         "meta"   optional pre-joined meta line (string), e.g. "Idiap · 2024"
+         "period" optional period string, rendered above the summary
+
+       The title's <a> is stretched over the whole card by CSS (.card__title
+       a::after), so the cover image is inside the same hit area while the
+       accessibility tree still sees one link per card. Do not add a second
+       link to the same target here. */ -}}
+{{- $p := .page -}}
+<li class="card">
+  {{- with $p.Params.cover }}
+  <div class="card__frame">
+    <img class="card__cover" src="{{ (relURL .) }}" alt="" loading="lazy"
+      {{- with $p.Params.cover_position }} style="object-position: {{ . }}"{{ end }}>
+  </div>
+  {{- end }}
+  <div>
+    <h3 class="card__title"><a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a></h3>
+    {{- with .period }}<p class="card__period">{{ . }}</p>{{ end }}
+    {{- with .meta }}<p class="card__meta">{{ . }}</p>{{ end }}
+    {{- with $p.Params.summary }}<p class="card__summary">{{ . }}</p>{{ end }}
+  </div>
+</li>

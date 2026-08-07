@@ -61,16 +61,9 @@
   {{ with $theses }}
   <h2>Supervised theses</h2>
   <ul class="card-list">
-    {{ range .ByDate.Reverse }}
-    <li class="card">
-      {{ with .Params.cover }}<img class="card__cover" src="{{ (relURL .) }}" alt="" loading="lazy">{{ end }}
-      <div>
-        <h3 class="card__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-        {{ with .Params.author }}<p class="card__meta">{{ . }}{{ with $.Date }}{{ end }}</p>{{ end }}
-        {{ with .Params.summary }}<p class="card__summary">{{ . }}</p>{{ end }}
-      </div>
-    </li>
-    {{ end }}
+    {{- range .ByDate.Reverse }}
+    {{- partial "card.html" (dict "page" . "meta" .Params.author) }}
+    {{- end }}
   </ul>
   {{ end }}
 

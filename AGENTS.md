@@ -38,6 +38,7 @@ data/
   outputs.json    GENERATED from Zotero "My Publications" — do not edit by hand
 layouts/               Bespoke theme (typography-first, light/dark)
 assets/css/main.css    Theme styles (CSS custom properties for both themes)
+assets/fonts/          Self-hosted Source Serif 4 (subset woff2) — see below
 tools/                 zotero_common.py (shared), update-site-outputs.py,
                        update-orcid-outputs.py, add_zotero_output.py,
                        edit_zotero_item.py, zotero_pdf.py (read a paper's PDF —
@@ -157,6 +158,22 @@ Adding an asset:
 `pixi run validate` fails on anything in `static/` that is not a cover, on any
 `static/` file over 300 KB, and (locally, where the mirror exists) on any Idiap
 URL with no matching file in `idiap-public/`.
+
+### Webfonts are the one exception, and they live in `assets/`
+
+The rule above is about `static/`. **Site webfonts belong in `assets/fonts/` and
+must not be moved to Idiap** — they are part of the theme, not content, and a
+third-party font request is exactly what self-hosting avoids. `assets/` is
+processed by Hugo Pipes and is outside `validate_content.py`'s remit, so the
+`static/` cover rule does not apply to it.
+
+`assets/fonts/` holds Source Serif 4 (SIL OFL-1.1) as two subset variable woff2
+files, ~180 KB total. They are deliberately **not** fingerprinted: `main.css`
+refers to them by the relative path `../fonts/<file>.woff2`, which only resolves
+if the published filename stays stable. The `@font-face` block at the top of
+`assets/css/main.css` documents the exact `pyftsubset` command, the unicode
+range, and why `opsz` is pinned — regenerate from there if the font is ever
+updated or the content gains a script the subset does not cover.
 
 ## Adding content
 
