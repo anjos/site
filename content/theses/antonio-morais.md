@@ -10,7 +10,8 @@ summary: >-
   On a small test set, is model A really better than model B, or did it just get
   lucky? This thesis expresses common performance measures as probability
   distributions so that comparisons come with honest uncertainty.
-projects: []
+projects:
+  - "reproducibility"
 report: "https://publidiap.idiap.ch/attachments/reports/2022/Morais_Idiap-Com-01-2023.pdf"
 research_outputs:
   - "anjos_credible_2023"
