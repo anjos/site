@@ -1,11 +1,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: deploy to anjos.github.io
 
+# Validate on every branch push; the Deploy step below is what gates on main.
 on:
   push:
-    branches:
-      - main
-  pull_request:
   workflow_dispatch:
 
 jobs:
