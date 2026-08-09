@@ -407,12 +407,7 @@ th { color: var(--muted); font-weight: 600; white-space: nowrap; }
   box-shadow: 0 0 0 1px var(--border);   /* hairline that does not affect layout */
   background: var(--surface);
 }
-/* min-width as well as width: a cover whose intrinsic size is narrower than the
-   card was rendering at its natural width, leaving dead space beside it. */
-.card__cover {
-  display: block; aspect-ratio: 4/3; object-fit: cover;
-  width: 100%; min-width: 100%;
-}
+.card__cover { display: block; aspect-ratio: 4/3; object-fit: cover; width: 100%; }
 .card__title { font-family: var(--font-ui); font-size: var(--step-1); margin: 0 0 .25rem; }
 .card__title a { color: var(--text); }
 .card:hover .card__title a { color: var(--accent); text-decoration: none; }
@@ -617,7 +612,10 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
   grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
 }
 .card--vertical {
-  display: flex; flex-direction: column; gap: 0;
+  /* stretch, not the `align-items: start` inherited from .card: in a column
+     flex container `start` packs children at their natural width, so a frame
+     holding a narrow image shrink-wrapped it and left dead space beside it. */
+  display: flex; flex-direction: column; align-items: stretch; gap: 0;
   padding: 0; margin-inline: 0; overflow: hidden;
   border-radius: .75rem;
   background: linear-gradient(160deg, var(--bg), var(--accent-wash));
