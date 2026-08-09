@@ -175,6 +175,63 @@ if the published filename stays stable. The `@font-face` block at the top of
 range, and why `opsz` is pinned — regenerate from there if the font is ever
 updated or the content gains a script the subset does not cover.
 
+## The theme
+
+A bespoke, typography-first theme in `layouts/` and `assets/css/main.css`. Not a
+Hugo theme or module — the reasoning is in the `theme:` commits. These are the
+invariants; breaking one has already caused a real bug, so they are worth
+keeping rather than rediscovering.
+
+**One width.** `--page: 52rem` is the site's only content width, matching the
+header from the title across to the CV link. Sections are `<div class="wide
+band">`. Do not introduce a second width: bands of differing widths were what
+made the page look misaligned.
+
+**One accent knob.** `--accent` is the single source of colour identity;
+`--accent-wash/soft/line/glow` and the hero stops all derive from it with native
+`color-mix()`. Changing that one value re-tints the whole site. It is internal —
+nothing in the UI exposes it. Two companions:
+
+- `--accent-2` — the teal the hero gradient ends on, also the pill tint.
+- `--on-accent` — the label colour *on* an accent fill. It exists because white
+  on the accent fails in dark mode.
+
+> **Gradients must be a hue shift at constant lightness, never a ramp toward
+> white.** Ramping put the CV button's label at 3.95:1 in light and 1.80:1 in
+> dark, against a 4.5:1 minimum. Held at one lightness, both stops clear 6:1.
+> `pixi run test` enforces this (`tools/tests/test_contrast.py`).
+
+**One card partial.** `layouts/partials/card.html` is the single card structure
+for Projects, Teaching, Theses, Media and the Gallery; pass `"variant"
+"vertical"` for grid cards. It was four copies once, which meant the link
+behaviour had to be kept in sync four times.
+
+> **Exactly one link per card.** The title's `<a>` is stretched over the whole
+> card by `.card__title a::after`, so the cover image is inside the same hit
+> area while the accessibility tree still sees one link. Never add a second
+> anchor to the same target; anything genuinely separate inside a card needs
+> `position: relative; z-index: 1`.
+
+Grid cards centre-crop their cover to **3:2** — see the cover note in the
+`add-*` skills.
+
+**Section headings** go through `layouts/partials/sec-head.html`, which pairs an
+icon with the text. It branches `h1`/`h2` explicitly: Go's `html/template`
+cannot parse a dynamic element name (`<{{ $level }}`) and silently escapes the
+whole partial into visible markup.
+
+**Icons** come from `layouts/partials/icon.html`, one inline `currentColor` SVG
+per name. Brand marks are the official simple-icons paths, except `linkedin`,
+which simple-icons dropped and which comes from Hugo Blox's `brands.json`. No
+icon font and no icon set is vendored.
+
+**The home page** is composed in `layouts/index.html`: hero, then the top four
+current projects, then the four most recent research outputs. That last section
+is recomputed from `data/outputs.json` on every build and needs no curation.
+**Featured works** on `/outputs/` is the opposite — a hand-written `featured:`
+list in `content/outputs/_index.md` mirroring the starred works on ORCID. Nothing
+syncs the two; update it by hand.
+
 ## Adding content
 
 Each content type has a skill under `.claude/skills/` — prefer them:
@@ -196,6 +253,8 @@ in `tools/validate_content.py`.
 title: "Retinal Image Analysis"
 weight: 10                       # ordering on the Projects page
 cover: "images/covers/foo.png"   # optional; must exist under static/
+cover_position: "50% 20%"        # optional CSS object-position; re-aims the 3:2
+                                 # centre-crop cards apply to the cover
 summary: "One-sentence overview."   # required
 partners: ["Hôpital ophtalmique Jules-Gonin (HOJG)"]
 research_outputs:                # linked outputs of any type, by DOI or citation key

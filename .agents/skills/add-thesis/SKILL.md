@@ -75,7 +75,8 @@ partners:
   `https://www.idiap.ch/~aanjos/pdfs/theses/<slug>.pdf`, and `pixi run idiap-push`
   before the gate. See "Large assets live on Idiap" in `AGENTS.md`.
 - **The cover is the one image that lives in the repo**, optimised: long edge
-  1000 px, same format, under 300 KB (`pixi run validate` enforces this). Any
+  1000 px, same format, under 300 KB (`pixi run validate` enforces this).
+  Listing pages render the cover in a card grid that centre-crops it to **3:2**, so prefer a landscape source and keep the subject away from the top and bottom edges. If the crop cuts something important, set `cover_position:` in the front matter to any CSS `object-position` value (e.g. `"50% 20%"`) to re-aim it. Any
   other figure from the thesis goes to `idiap-public/` and is referenced by its
   full `https://www.idiap.ch/~aanjos/...` URL.
 - Partners render with an emoji type icon (🏥 hospital, 🎓 university, 🏭 industry,

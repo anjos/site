@@ -84,7 +84,7 @@ all from Zotero), and supervised theses.
      `add-thesis`).
 6. If a cover is referenced, put it in `static/images/covers/` **optimised**
    (long edge 1000 px, same format, under 300 KB) — see "Large assets live on
-   Idiap" in `AGENTS.md`. Any other image, figure, or PDF the page links to goes
+   Idiap" in `AGENTS.md`. Listing pages render the cover in a card grid that centre-crops it to **3:2**, so prefer a landscape source and keep the subject away from the top and bottom edges. If the crop cuts something important, set `cover_position:` in the front matter to any CSS `object-position` value (e.g. `"50% 20%"`) to re-aim it. Any other image, figure, or PDF the page links to goes
    to `idiap-public/` and is referenced by its full
    `https://www.idiap.ch/~aanjos/...` URL, never committed.
 7. Run the gate and fix anything it reports (`idiap-push` first if you added
