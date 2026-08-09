@@ -41,16 +41,22 @@ across all architectures, and that a principled, ground-truth-based metric could
 identify the best model-and-explanation pairing rather than leaving it to
 guesswork.
 
-Adding TBX11K data measurably improved state-of-the-art, replicable classifiers.
-Faithfulness and localisation were then evaluated with the RemOve-and-Debias and
-Proportional-Energy metrics, and a new combined metric, the ROAD-Normalised
-PropEng Average, was proposed to rank pairings. The evaluation confirmed that no
-universal saliency method exists across architectures, and singled out a
-multi-label DenseNet-121 with Eigen-CAM as the best trade-off between
-faithfulness and correct localisation.
+Adding TBX11K data measurably improved state-of-the-art, replicable classifiers,
+settling the second question affirmatively. The explanations were then assessed
+along two axes that are easily confused: faithfulness, whether the heatmap really
+reflects what the model uses, measured by removing the highlighted evidence and
+observing the effect, and localisation, whether it points where the disease
+actually is, measured against the expert boxes. Because a method can score well on
+one and badly on the other, a combined metric was proposed to rank
+model-and-explanation pairings on both at once. The ranking confirmed that no
+single saliency method dominates across architectures, and identified a
+multi-label DenseNet-121 paired with Eigen-CAM as the best available trade-off.
 
-The thesis concluded that the choice of explanation method must be made together
-with the model, not in isolation, and recommended the DenseNet-121 with Eigen-CAM
-combination for accurate and correctly localised active-tuberculosis detection.
-The results were published at EuVIP 2024 and fed directly into the group's work
-on refining and de-biasing tuberculosis detection.
+The hypothesis holds in both parts: there is no universal explanation method, and
+a ground-truth-based metric can pick the right pairing rather than leaving it to
+habit. The practical consequence is a change in how such systems should be built —
+model and explanation must be chosen together, since a good classifier with the
+conventionally chosen heatmap may be justifying itself with evidence it does not
+use. The recommended pairing is offered for accurate and correctly localised
+active-tuberculosis detection. The results were published at EuVIP 2024 and fed
+directly into the group's work on refining and de-biasing tuberculosis detection.

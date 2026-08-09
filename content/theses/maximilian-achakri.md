@@ -40,16 +40,25 @@ specifically. The hypothesis was that three-dimensional convolutional networks,
 helped by first isolating the arteries, could flag abnormalities reliably even
 from a modest dataset.
 
-Working from a cohort of 126 contrast-enhanced CTA volumes focused on the renal
-arteries, three complementary approaches were evaluated, ranging from a baseline
-3D convolutional network trained from scratch for binary abnormality
-classification to variants that presegment the vasculature before classifying it.
-The convolutional architectures detected arterial abnormalities reliably despite
-the limited data, and focusing the model on the presegmented arteries improved
-its performance.
+Working from a cohort of 126 contrast-enhanced CTA volumes cropped to the renal
+region, three progressively more informed pipelines were compared under five-fold
+cross-validation: a baseline 3D convolutional network trained from scratch, the
+same network fed only presegmented vessels, and a frozen vascular foundation model
+used as a feature extractor. The baseline reached an area under the curve of
+0.849 ± 0.018. Presegmenting the vasculature raised this to 0.900, with average
+precision improving from 0.774 to 0.875 and accuracy from 0.746 to 0.831. The
+foundation model, by contrast, matched the baseline at 0.851 and did not approach
+the segmentation-based pipeline. Consistent mild overfitting was observed
+throughout, and with only five folds most differences fall short of statistical
+significance.
 
-The thesis showed that deep learning can flag FMD-related renal-artery
-abnormalities from CTA even with small cohorts, and that concentrating the model
-on the segmented arteries rather than the whole scan is what makes that possible.
-It carries the FMD collaboration a step further toward a usable diagnostic aid,
-complementing the group's earlier, interpretability-focused work on the disease.
+The hypothesis is supported in direction but not yet in strength. Deep learning
+does detect FMD-related abnormalities from modest cohorts, and isolating the
+arteries first is what makes the difference — the gain is best explained as
+anatomical inductive bias, since restricting the field of view removes the
+contextual confounders a small dataset invites a model to exploit. The negative
+half of the answer is equally useful: a pretrained vascular foundation model
+brought no benefit over training from scratch, so supplying vessel information
+directly beat inheriting it. The honest verdict is a promising direction on
+evidence too thin to be conclusive, with lesion-level annotation identified as
+the prerequisite for the next step.

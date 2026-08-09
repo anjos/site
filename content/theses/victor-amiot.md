@@ -68,10 +68,16 @@ onto the Tugal-Tuktun categories. A study set of 543 patients was prepared for
 expert annotation; on an initial 60-image subset annotated by a single grader, the
 pipeline detected diffuse staining well enough to grade cases correctly.
 
-The thesis showed that vasculitis-specific vascular leakage can be localised and
-graded automatically when the analysis is anchored to the retinal vasculature,
-and that careful, task-specific frame registration is what makes the downstream
-segmentation trustworthy. The results are preliminary and are expected to improve
-once the parameters are tuned against the fully annotated dataset. Beyond its own
-numbers, the project laid the methodological groundwork that the group's later,
-clinic-ready uveitis scoring system, UveAI, was built upon.
+The hypothesis is supported: anchoring the analysis on the vasculature does
+separate pathological leakage from the vessels themselves and from other
+fluorescent structures, and the opening question can be answered affirmatively,
+with the qualification that the evidence rests on a single grader and sixty
+images. The finding that generalises beyond this dataset is upstream of the
+segmentation, and was not the one the thesis set out to make: on unfiltered
+clinical data, registration is the binding constraint, since a leakage detector
+cannot be assessed at all on a study whose late frames could not be aligned, and
+a fifth of studies started out in that position. Getting the alignment right is
+therefore a precondition for trusting anything downstream of it. The results are
+preliminary and expected to improve once the parameters are tuned against the
+fully annotated set. Beyond its own numbers, the project laid the methodological
+groundwork for the group's later clinic-ready uveitis scoring system, UveAI.

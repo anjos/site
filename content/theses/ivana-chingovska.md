@@ -46,17 +46,25 @@ addressed both by designing effective face countermeasures and by building an
 evaluation methodology that quantifies a system's behaviour when it is actually
 attacked.
 
-To that end it released the public Replay-Attack database and a family of
-countermeasures, from texture descriptors based on local binary patterns to their
-spatiotemporal extensions and motion cues, reported with the Half Total Error Rate.
-It then went beyond isolated detectors: it introduced evaluation tools that expose
-a system's spoofability alongside its verification performance, and it studied how
-to fuse anti-spoofing with recognition at the score level, including anomaly and
-client-identity modelling that hold up better against attacks unseen during
-training.
+The integration was pursued at three distinct points. At the input, the identity
+the verification system already knows was made available to the detector,
+producing client-specific countermeasures in both generative and discriminative
+form that outperformed their client-independent equivalents and, more importantly,
+held up better against attacks unseen during training. At the output, the two
+systems' scores were fused as a multiple-expert problem, with several fusion rules
+compared on verification accuracy and robustness together. At the evaluation stage,
+the thesis proposed the Expected Performance and Spoofability framework, which
+treats the system as facing three kinds of input — genuine clients, zero-effort
+impostors and deliberate attacks — and its accompanying curve, which allows two
+systems to be compared without the bias that follows from tuning on the test set.
+All of it was released as free software alongside the public Replay-Attack
+database and a family of texture and motion countermeasures.
 
-The thesis established that trustworthy face verification needs two things at once,
-capable countermeasures and a rigorous, attack-aware way to evaluate them. Its
-database, software, and metrics became widely used reference points in
-presentation-attack detection, shaping how the community measures and reports
-biometric trustworthiness.
+The hypothesis is borne out at every one of the three points, and the answer to the
+opening question is that trustworthiness is not a property of the detector at all
+but of the pair. A countermeasure evaluated alone can look strong and still leave
+the system it protects vulnerable, because the relevant error rates only exist once
+attacks are admitted as a third class of input. The database, the software and the
+metrics became widely used reference points in presentation-attack detection, and
+the framing — evaluate the protected system, not the protection — is the thesis's
+most durable contribution to how the community reports biometric trustworthiness.

@@ -35,14 +35,24 @@ models, which classify each epoch without temporal context, to test the hypothes
 that even without modelling time such models can generalise across the differing
 setups of different sleep centres.
 
-Hand-crafted and learnable feature extractors were compared, with performance read
-through balanced accuracy and Cohen's kappa. Within a single database the best
-model was a convolutional network, but the picture changed under cross-setup
-evaluation: a random forest built on manually chosen features generalised best
-across clinics. The gap between those two findings is the point of the thesis.
+Hand-crafted and learnable feature extractors were compared across the Sleep-EDF
+and MASS databases, with performance read through balanced accuracy and Cohen's
+kappa. Within a single database the best model was a convolutional network, but
+the ranking inverted under cross-setup evaluation, where a random forest over
+manually chosen features combining electroencephalogram and eye-movement channels
+generalised best between clinics. The absolute level was equally informative: the
+best model reached a kappa of 0.67 to 0.72 on the intra-database test sets,
+against the 0.76 reported between two human scorers, so it did not reach expert
+agreement.
 
-The clear take-away is that peak in-domain accuracy does not imply robust
-deployment, and that generalisation across clinics must be measured directly rather
-than assumed. The methods were released through the open-source `sleepless`
-library, and the work is complemented by a companion thesis on stateful methods
-that add temporal context.
+The hypothesis is only partly borne out. Stateless models do generalise across
+setups well enough to be useful, but not by the route expected — the learnable
+extractor that ought to have won lost to hand-crafted features once the clinic
+changed. The answer to the opening question is therefore that automatic staging
+is faster and more consistent than manual scoring but not yet more accurate than
+a human expert, and that peak in-domain accuracy is no guide to how a model will
+behave elsewhere: cross-clinic generalisation must be measured directly rather
+than assumed. The fairness question the thesis set out with remains open, the
+tooling for it built but the experiments not run. The methods were released
+through the open-source `sleepless` library, and the work is complemented by a
+companion thesis on stateful methods that add temporal context.

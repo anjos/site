@@ -37,14 +37,24 @@ alternating between tasks and filling in the missing annotations with its own
 predictions from a previous training stage.
 
 A U-Net-based multi-task model was built to segment the two structures most
-affected by disease, the vessels and the optic disc, and evaluated with the
-F1-score. Two failure modes appeared, noisy training losses and poor convergence,
-and two remedies were tested against them. Gradient accumulation, updating the
-weights once per epoch, calmed the loss noise, whereas generating the missing
-labels from the best-epoch predictor proved counter-productive and produced an
-even higher loss than the single-task baseline.
+affected by disease, the vessels and the optic disc, and scored with the F1
+measure across four experiments varying the balance and the image quality of the
+disjoint training sets. It underperformed the single-task baselines on images
+matching the training data, and fell further behind on images of different
+quality. Two failure modes were isolated and attacked in turn. Training losses
+were noisy, because alternating between tasks updated the weights many times per
+epoch; accumulating gradients and updating once per epoch quietened this and
+improved on the baseline multi-task setup. Convergence, however, remained poor,
+and filling the missing annotations with the best epoch's own predictions made it
+worse still, ending at a higher loss than doing nothing.
 
-The thesis mapped out what does and does not work when training multi-task
-segmentation on disjoint datasets, a practical prerequisite for interpretable
-retinal screening. The segmentation methods were built on the open-source
-`mednet` library, leaving reusable foundations for later fundus-analysis work.
+The hypothesis was therefore refuted, and instructively so. Because the
+self-generated labels made matters worse rather than better, poor pseudo-labels
+cannot be the cause; the diagnostic evidence points instead to the two tasks
+interfering with one another in a network that shares almost all of its layers
+between them. The answer to the opening question is thus a qualified no — one
+model can be trained on disjoint datasets, but not with this degree of parameter
+sharing — and the thesis names the concrete next step, keeping gradient
+accumulation while giving each task more of its own layers. The segmentation
+methods were built on the open-source `mednet` library, leaving reusable
+foundations for later fundus-analysis work.

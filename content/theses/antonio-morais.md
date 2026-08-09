@@ -40,7 +40,11 @@ actually outperforms the first in 43 percent of simulated cases. The analysis al
 covered ROC and precision-recall curves, k-fold cross-validation, and the
 treatment of dependent samples.
 
-The thesis showed that probabilistic performance measures give a statistically
-sound basis for comparing models on small datasets, where point estimates quietly
-mislead. The methods live on in the open-source `credible` package,
-so the uncertainty around a score can be reported as a matter of routine.
+The hypothesis held. Treating a performance measure as a posterior distribution
+gives a statistically sound basis for comparing systems on small datasets, and
+the coverage study confirms the regions mean what they claim to. The answer to
+the opening question follows directly, and it is a demanding one: system A may
+be called better than system B only when their credible regions say so, a far
+higher bar than comparing two numbers, and one that a great many published
+comparisons would not clear. The methods live on in the open-source `credible`
+package, so reporting the uncertainty around a score costs a single call.

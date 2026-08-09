@@ -37,16 +37,24 @@ that consistency methods rely on must be chosen with care. The hypothesis was th
 extending the Mean Teacher model to retinal images, with augmentations suited to
 their structure, would let unlabelled data improve segmentation and generalisation.
 
-The Mean Teacher model was adapted to retinal vessel segmentation and the most
-effective augmentations identified, with performance measured by the F1 (Dice)
-score because vessel pixels are so heavily outnumbered. Across four public datasets
-the method significantly improved the labelled-and-unlabelled dataset pairs that
-generalise poorly under ordinary supervised learning. For a genuinely unseen
-dataset the choice of labelled training set mattered a great deal, and once that
-choice was good, adding more unlabelled data improved results further.
+The Mean Teacher model was adapted to retinal vessel segmentation and the
+augmentations were searched systematically, with performance measured by the F1
+(Dice) score because vessel pixels are so heavily outnumbered by background.
+Greyscale conversion and additive Gaussian noise proved the effective pair:
+strong enough to make the two branches disagree usefully, mild enough to leave
+thin vessels intact, where more aggressive transformations prevented the model
+from converging at all. Across four public datasets the gains were concentrated
+exactly where they matter, on the labelled-and-unlabelled pairs that generalise
+poorly under ordinary supervised training, and were negligible where supervised
+learning already transferred well. On a genuinely unseen dataset the choice of
+labelled training set dominated the outcome, and only once that choice was sound
+did adding further unlabelled data help.
 
-The thesis showed that consistency learning transfers to retinal vessels when the
-augmentations respect their sparse structure, turning unlabelled images into a
-real asset. Its lasting practical lesson is that, under weak supervision, choosing
-the labelled set well matters as much as adding unlabelled data. The methods live
-on in the open-source `mednet` library.
+The hypothesis holds, but conditionally. Consistency learning does transfer to
+retinal vessels and does turn unlabelled images into a real asset, provided the
+augmentations respect the sparse structure of the target — which answers the
+opening question affirmatively while naming the constraint that makes it work.
+The more useful finding is the one that was not anticipated: under weak
+supervision, choosing the labelled set well matters at least as much as adding
+unlabelled data, so annotation effort is better spent on which images to label
+than on how many. The methods live on in the open-source `mednet` library.

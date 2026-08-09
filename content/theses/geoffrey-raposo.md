@@ -49,9 +49,14 @@ on Shenzhen, and 0.93 on the Indian set, rising to 0.98, 0.98, and 0.93 when mor
 signs were made available. An analysis of sign importance showed that it is the
 combination of signs, rather than any single one, that makes detection reliable.
 
-The thesis established that interpretable, sign-based detection can match direct
-image scoring while generalising better, and it made the case for annotating
-tuberculosis datasets with radiological signs so that such reasoning, and its
-visual explanations, can be studied properly. The methods were released through
-the open-source `mednet` library and seeded the group's later work on trustworthy
-and bias-aware tuberculosis screening.
+The hypothesis is confirmed on both counts, which is the unusual part: the
+interpretable route did not cost accuracy to buy transparency, it improved
+generalisation as well, because the intermediate representation is one that
+transfers across populations in a way raw pixel statistics do not. The answer to
+the opening question is therefore yes, and the mechanism is identified — the
+diagnosis should be read off the signs rather than the image. The thesis's
+clearest recommendation follows from its own bottleneck: tuberculosis datasets
+should be annotated with radiological signs, since that annotation, not model
+capacity, is what limits how far this reasoning can be pushed. The methods were
+released through the open-source `mednet` library and seeded the group's later
+work on trustworthy and bias-aware tuberculosis screening.

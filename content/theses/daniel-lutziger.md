@@ -37,16 +37,22 @@ was that a single large encoder, pretrained without labels on diverse
 polysomnography, could learn representations general enough that new tasks need
 only a lightweight head rather than a model trained from scratch.
 
-A set-then-sequence Transformer encoder was pretrained contrastively on about
-13,000 subjects drawn from ten public cohorts, then frozen while lightweight
-sequence heads were trained on a held-out SHHS cohort for two downstream tasks,
-sleep staging and sleep-apnea detection. The frozen encoder reached 76.2 percent
-balanced accuracy for sleep staging from brain-activity signals on SHHS and kept
-competitive apnea detection, and a channel analysis showed that respiratory
-signals are essential for apnea but of limited value for staging.
+A multimodal set-then-sequence Transformer encoder was pretrained contrastively on
+about 13,000 subjects drawn from ten public cohorts, then frozen while lightweight
+sequence heads were trained on a held-out Sleep Heart Health Study cohort for two
+downstream tasks, sleep staging and sleep-apnoea detection. Pretraining scale,
+losses for class imbalance, downstream modality sets and contrastive objectives
+were each varied systematically. The frozen encoder reached 76.2 percent balanced
+accuracy for sleep staging from brain-activity channels alone while remaining
+competitive at apnoea detection, and the channel analysis produced the sharpest
+result: respiratory signals are indispensable for apnoea yet contribute little to
+staging, so the two tasks make genuinely different demands on the sensor set.
 
-The experiments indicate that large polysomnography foundation models can indeed
-be reused across tasks and montages, though how much they help depends on the
-pretraining and the downstream setup. The work is a concrete step toward scalable,
-general-purpose models for sleep medicine, on which later theses in the group can
-build.
+The hypothesis is supported with one important qualification. A single frozen
+encoder does serve several tasks through lightweight heads, which answers the
+opening question affirmatively — but how much it helps depends less on the
+pretraining recipe than on which modalities the downstream clinic actually
+records, so a foundation model does not free a deployment from thinking about its
+montage. The work leaves a concrete, reusable encoder and a systematic account of
+which design choices carry weight, and is the step on which later theses in the
+group build.

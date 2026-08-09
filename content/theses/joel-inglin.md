@@ -37,15 +37,23 @@ was that these could match or beat traditional hand-crafted features on the two
 properties that matter together, stability under changing scanner settings and
 discriminative power on real disease.
 
-Stability was quantified with the intraclass correlation coefficient on
-anthropomorphic phantom CT acquired under varied scanner settings, and
-discriminative power with the AUC of models trained on real patient data. The
-single highest-ranked features turned out to be traditional ones, yet a substantial
-number of Gabor and deep features possessed better radiomic qualities than most
-traditional features, and on the external test set the deep-feature models
-performed best overall.
+Stability was quantified on anthropomorphic phantom CT acquired under varied
+scanner settings, where the same physical object is imaged repeatedly so that any
+change in a feature's value can only come from the acquisition; discriminative
+power was measured separately as the area under the curve of models trained on
+real patient data. The result splits cleanly. The single highest-ranked features
+were traditional ones, so the hypothesis fails at its strongest reading. Yet a
+substantial number of Gabor and deep features possessed better combined radiomic
+qualities than most traditional features, and the decisive test — models applied
+to the external phantom data, standing in for an unseen scanner — put the
+deep-feature models ahead of every alternative.
 
-The thesis concluded that learned features are a promising route to robust,
-transferable imaging biomarkers, especially where models must hold up on data from
-unseen scanners. It provides a principled, phantom-based way to weigh stability
-against discriminative power when choosing which features to trust.
+The hypothesis is thus confirmed in the sense that matters. Learned features do
+not win every individual comparison, but they hold their value when the
+acquisition changes, which is the condition under which a biomarker has to
+survive to be clinically useful at all. The answer to the opening question is
+that features stable *and* discriminative do exist, and that they are more often
+learned than hand-designed. Beyond the ranking itself, the thesis leaves a
+principled, phantom-based procedure for weighing stability against discriminative
+power, so that future studies can choose features on evidence rather than on
+convention.

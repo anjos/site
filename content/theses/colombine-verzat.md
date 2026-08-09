@@ -36,14 +36,22 @@ better able to capture complex interactions, might improve on that baseline and
 turn adverse-event prediction into something clinically actionable.
 
 Working from a clinical dataset of 6,485 treated latent-TB patients, the
-logistic-regression baseline was first reproduced, reaching an AUC of 0.65 plus or
-minus 0.04. Non-linear models were then trained and compared against it. They
-matched the baseline but did not significantly beat it, and inspection showed why:
-patients with and without adverse events overlap heavily in the feature space,
-leaving little separable signal.
+published logistic regression was first reproduced and then given something it
+had lacked, an unbiased evaluation protocol separating the data used to fit the
+model from the data used to judge it; on that footing the baseline reached an
+area under the curve of 0.65 ± 0.04. Two non-linear models were then trained and
+compared against it. Both matched the baseline and neither significantly beat it.
+The reason is visible in the data rather than the models: the cohort is severely
+imbalanced, with adverse events numbering in the tens against thousands of
+patients, and those who suffered them do not separate from those who did not in
+the recorded clinical variables.
 
-The thesis concluded that reliable adverse-event detection is not achievable from
-this dataset alone, and that progress would require a larger, less imbalanced
-cohort described by richer explanatory variables. The clear-eyed negative result,
-with its baseline and its diagnosis of why prediction is hard, is itself a useful
-guide for the design of future studies.
+The hypothesis was not supported: added model capacity bought nothing, because
+the limitation lies in the data and not in the linearity of the baseline. The
+answer to the opening question is accordingly negative — reliable advance
+warning of adverse events is not achievable from this cohort — and the useful
+part of that answer is its diagnosis, which tells the designers of the next
+study what to change: a larger and less imbalanced cohort, described by richer
+explanatory variables than routine clinical records provide. The reproducible
+database interface and evaluation package built along the way mean the next
+attempt starts from a verified baseline rather than a published number.

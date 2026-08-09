@@ -34,14 +34,20 @@ image-processing pipeline, then training a convolutional network on the masks th
 pipeline produces, so that the network generalises beyond its imperfect teacher
 without any hand-drawn ground truth.
 
-Both pipelines were built and evaluated on the microscopy dataset. The classical
-pipeline provided the automatic labels, and the fully convolutional network,
-trained on those labels, learned to correct many of the first pipeline's errors.
-Both methods outperformed segmentation tools commonly used in the literature on
-this kind of imagery.
+Both pipelines were built and evaluated on the high-content microscopy dataset. The
+classical pipeline supplied the automatic labels, and the fully convolutional
+network trained on them did not merely reproduce its teacher: it learned to correct
+a substantial share of the first pipeline's errors, which is the outcome the
+strategy depends on, since a network that only imitated its imperfect labels would
+have no reason to exist. Both methods outperformed the segmentation tools commonly
+applied to this kind of imagery, with the network ahead of the classical pipeline
+that trained it.
 
-The thesis showed that bootstrapping a neural network from a classical pipeline can
-remove the manual-labelling barrier while improving segmentation quality, and it
-clarified what matters when training such networks with limited annotation. The
-result is a practical basis for the quantitative, morphology-based study of motor
-neurons in ALS research.
+The hypothesis is confirmed: a network bootstrapped from a classical pipeline both
+removes the manual-labelling barrier and improves on the labels it was given, so
+the annotation bottleneck is not the hard constraint it appears to be. The answer
+to the opening question is accordingly that motor-neuron segmentation can be
+automated at the volumes this research requires, without hand-drawn ground truth,
+provided a classical pipeline good enough to teach from can be constructed first.
+The result is a practical basis for the quantitative, morphology-based study of
+motor neurons in ALS research.

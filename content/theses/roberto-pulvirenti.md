@@ -60,12 +60,19 @@ full fine-tuning, though smaller models proved more sensitive to it. A Masked
 Autoencoder step on unlabelled angiography lifted RETFound by 8.29 percent, while
 Token Reconstruction reduced RETFound Green by 6.78 percent.
 
-The thesis established that a fundus-photography prior does not universally transfer
-to angiography, its benefit depending on model scale, the self-supervised strategy,
-and the alignment between source and target domains, but that parameter-efficient
-fine-tuning and self-supervised continual pre-training are reliable levers under the
-data scarcity typical of angiography. Its main limits were using only the final frame
-of each angiographic sequence, which shrank the effective sample to the 1,877 and 752
-eyes above, and a heuristic rather than exhaustive hyperparameter search. The work
-informs the group's continuing uveitis collaboration with Jules-Gonin by clarifying
-which adaptation strategies are worth pursuing on scarce angiography data.
+The three hypotheses fare differently, which is the substance of the answer. The
+first is refuted as stated: a fundus-photography prior does not universally beat a
+natural-image one, and specialising a model to the source modality can actively
+cost performance on the target. The second holds, with a caveat about scale —
+low-rank adaptation is close to free on the large backbone and a reasonable default
+under data scarcity, but smaller models tolerate it less well. The third is
+conditional rather than true or false: continued self-supervised pre-training on
+unlabelled angiography helps or harms depending on the objective chosen, not on
+whether it is applied. Taken together these say that what transfers is not domain
+proximity but the kind of representation a pre-training objective leaves behind.
+The main limits are using only the final frame of each sequence, which shrank the
+effective sample to the 1,877 and 752 eyes above, and a heuristic rather than
+exhaustive hyperparameter search. The work informs the group's continuing uveitis
+collaboration with Jules-Gonin by identifying which adaptation strategies are worth
+pursuing on scarce angiography data, and its central finding was published at ISBI
+2026.

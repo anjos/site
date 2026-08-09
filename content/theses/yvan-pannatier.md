@@ -35,13 +35,25 @@ clinic where a diagnosis must be justified. The hypothesis was that neural netwo
 could detect FMD while remaining interpretable, if their decisions were exposed
 through saliency maps that show which regions drove them.
 
-Four CNN-based architectures were explored for FMD detection and compared with
-quantitative metrics, including precision, F1-score, and the area under the ROC
-curve, alongside saliency maps for interpretability. Building on that comparison,
-the thesis proposed an approach aimed at a clinically usable, interpretable
-detector rather than accuracy in isolation.
+Four strategies for coping with a cohort of fewer than 200 patients were tried:
+patch-based training, contrastive pre-training, treating both kidneys as one
+sample, and generating one sample per kidney with non-vascular structures removed
+using prior anatomical knowledge. Only the last converged at all; the other three
+failed outright. To make the explanations testable rather than merely decorative,
+volumetric saliency mapping was paired with an extension of an established
+faithfulness score to three-dimensional models. A control experiment then exposed
+how narrow the margin was: a subset of control scans is never classified
+correctly, and reintroducing thirteen of them dropped precision from 59 to 40
+percent, accuracy from 63 to 50 percent, and the area under the curve to 0.49 —
+indistinguishable from guessing.
 
-The work delivers a first, interpretability-first step toward computer-aided
-diagnosis of fibromuscular dysplasia, and frames how such a tool should be
-evaluated for the clinic. It opens the FMD collaboration with CHUV toward models
-whose decisions clinicians can inspect and trust.
+The hypothesis survives only in weakened form. Neural networks can be made
+interpretable here, and the metric extension makes the interpretation auditable,
+but detection itself is not yet reliable enough for the interpretation to be worth
+much. The value of the answer lies in its diagnosis: because the failure tracks
+specific scans and the preprocessing applied to them rather than the choice of
+architecture, the remedy is to constrain the model anatomically — isolate the
+arteries and classify only those. That recommendation was taken up directly by the
+group's next thesis on the disease, where it did indeed improve detection, and the
+gender bias flagged here remains open. The work stands as the interpretability-first
+foundation of the FMD collaboration with CHUV.
