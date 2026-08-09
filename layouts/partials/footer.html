@@ -1,16 +1,5 @@
-{{- $labels := dict
-    "orcid" "ORCID"
-    "google-scholar" "Google Scholar"
-    "linkedin" "LinkedIn"
-    "github" "GitHub"
-    "gitlab" "GitLab" -}}
 <footer class="site-footer">
   <div class="wrap">
-    <nav class="social" aria-label="Elsewhere">
-      {{- range site.Params.social }}
-      <a href="{{ .url }}" rel="me noopener" target="_blank">{{ index $labels .name | default (.name | title) }}</a>
-      {{- end }}
-    </nav>
     <p class="colophon">
       © {{ now.Year }} {{ site.Params.author }}.
     </p>
@@ -29,6 +18,21 @@
       try { localStorage.setItem("theme", next); } catch (e) {}
     });
   }
+  // Scroll cue: only meaningful when there is somewhere left to scroll, so it
+  // is hidden on short pages and once the reader reaches the bottom.
+  var cue = document.querySelector(".scroll-cue");
+  if (cue) {
+    var slack = 48;
+    var syncCue = function () {
+      var doc = document.documentElement;
+      var remaining = doc.scrollHeight - window.innerHeight - window.scrollY;
+      cue.hidden = remaining <= slack;
+    };
+    syncCue();
+    addEventListener("scroll", syncCue, { passive: true });
+    addEventListener("resize", syncCue, { passive: true });
+  }
+
   var nav = document.querySelector(".nav-toggle");
   if (nav) {
     var setOpen = function (open) {

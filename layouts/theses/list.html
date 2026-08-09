@@ -1,16 +1,16 @@
 {{ define "main" }}
-<div class="prose">
-  <h1>{{ .Title }}</h1>
+<div class="wide band">
+  {{ partial "sec-head.html" (dict "icon" "theses" "text" .Title "level" "h1") }}
   {{ .Content }}
   {{ with .Pages.ByDate.Reverse }}
-  <ul class="card-list">
+  <ul class="card-grid card-grid--two">
     {{- range . }}
     {{- $meta := slice }}
     {{- with .Params.author }}{{ $meta = $meta | append . }}{{ end }}
     {{- with .Params.level }}{{ $meta = $meta | append (printf "%s thesis" (cond (eq . "PhD") "Ph.D." (printf "%s's" .))) }}{{ end }}
     {{- with .Params.university }}{{ $meta = $meta | append (index (split . ",") 0) }}{{ end }}
     {{- with .Date }}{{ $meta = $meta | append (.Format "January 2006") }}{{ end }}
-    {{- partial "card.html" (dict "page" . "meta" (delimit $meta " · ")) }}
+    {{- partial "card.html" (dict "page" . "meta" (delimit $meta " · ") "variant" "vertical") }}
     {{- end }}
   </ul>
   {{ end }}

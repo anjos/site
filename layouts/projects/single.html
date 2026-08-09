@@ -1,13 +1,14 @@
 {{- /* One renderer for the Key publications / Software / Datasets sections, which
-       differ only by heading. Input: dict "data" <entries> "groups" <slice of
-       dict "heading" <string> "items" <slice>>. Publications render above the
+       differ only by heading and icon. Input: dict "data" <entries> "groups"
+       <slice of dict "heading" <string> "icon" <name> "items" <slice>>. Publications render above the
        supervised theses and the other two below, hence the two call sites. */ -}}
 {{ define "outsections" }}
   {{ $data := .data }}
   {{ range .groups }}
     {{ $heading := .heading }}
+    {{ $icon := .icon }}
     {{ with .items }}
-    <h2>{{ $heading }}</h2>
+    {{ partial "sec-head.html" (dict "icon" $icon "text" $heading) }}
     <ul class="out-list">
       {{ range (sort . "sort" "desc") }}
       <li>{{ with .entry }}{{ partial "out-ref.html" . }}{{ else }}{{ partial "out-cite.html" (dict "ref" .ref "data" $data) }}{{ end }}</li>
@@ -19,9 +20,9 @@
 
 {{ define "main" }}
 {{ $id := .File.ContentBaseName }}
-<article class="prose">
+<article class="prose band">
   {{ with .Params.cover }}<img class="project-cover" src="{{ (relURL .) }}" alt="" loading="lazy">{{ end }}
-  <h1>{{ .Title }}</h1>
+  {{ partial "sec-head.html" (dict "icon" "projects" "text" .Title "level" "h1") }}
   {{ with .Params.summary }}<p class="page-subtitle">{{ . }}</p>{{ end }}
 
   {{ with .Params.partners }}
@@ -54,12 +55,12 @@
   {{ end }}
 
   {{ template "outsections" (dict "data" $data "groups" (slice
-      (dict "heading" (.Params.publications_heading | default "Key publications") "items" $pubs))) }}
+      (dict "heading" (.Params.publications_heading | default "Key publications") "icon" "outputs" "items" $pubs))) }}
 
   {{/* Supervised students linked to this project via `projects: [<id>]` */}}
   {{ $theses := where (where site.RegularPages "Section" "theses") "Params.projects" "intersect" (slice $id) }}
   {{ with $theses }}
-  <h2>Supervised theses</h2>
+  {{ partial "sec-head.html" (dict "icon" "theses" "text" "Supervised theses") }}
   <ul class="card-list">
     {{- range .ByDate.Reverse }}
     {{- partial "card.html" (dict "page" . "meta" .Params.author) }}
@@ -68,7 +69,7 @@
   {{ end }}
 
   {{ template "outsections" (dict "data" $data "groups" (slice
-      (dict "heading" "Software" "items" $sw)
-      (dict "heading" "Datasets" "items" $ds))) }}
+      (dict "heading" "Software" "icon" "software" "items" $sw)
+      (dict "heading" "Datasets" "icon" "datasets" "items" $ds))) }}
 </article>
 {{ end }}

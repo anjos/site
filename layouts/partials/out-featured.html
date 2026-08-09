@@ -1,0 +1,23 @@
+{{- /* Featured research outputs, above the filterable list.
+
+       Input: dict "refs" <slice of DOI or citation key> "data" <entries>
+
+       Resolution is the same two-step lookup layouts/projects/single.html uses:
+       match on `doi` first, then on `key` (Zotero's BetterBibTeX citation key).
+       A ref that resolves to nothing is skipped rather than failing the build —
+       data/outputs.json is regenerated from Zotero, so a hand-written ref can
+       legitimately go stale between runs. Rendering is shared with the home
+       page's "Latest research outputs" via out-cards.html. */ -}}
+{{- $data := .data -}}
+{{- $items := slice -}}
+{{- range $ref := .refs -}}
+  {{- $r := $ref | lower -}}
+  {{- $match := where $data "doi" $r -}}
+  {{- if not $match }}{{ $match = where $data "key" $r }}{{ end -}}
+  {{- with $match }}{{ $items = $items | append (index . 0) }}{{ end -}}
+{{- end -}}
+
+{{- with $items }}
+{{ partial "sec-head.html" (dict "icon" "outputs" "text" "Featured works") }}
+{{ partial "out-cards.html" . }}
+{{- end }}

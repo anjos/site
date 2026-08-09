@@ -1,5 +1,5 @@
 {{ define "main" }}
-<article class="prose">
+<article class="prose band">
   <h1>{{ .Title }}</h1>
   {{ with .Params.summary }}<p class="page-subtitle">{{ . }}</p>{{ end }}
   {{ with .Date }}{{ if not $.Params.hidedate }}<p class="card__meta">{{ .Format "2 January 2006" }}</p>{{ end }}{{ end }}

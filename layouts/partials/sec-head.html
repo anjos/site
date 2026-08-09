@@ -1,0 +1,16 @@
+{{- /* A section heading prefixed with an icon, the way Hugo Blox marks its
+       blocks. Input: dict "icon" <icon name> "text" <heading> "level" "h1"|"h2".
+
+       The level is branched explicitly rather than interpolated into the tag:
+       Go's html/template cannot parse a dynamic element name (`<{{ $level }}`)
+       and silently escapes the whole partial into visible markup instead.
+
+       The icon is decorative — icon.html marks it aria-hidden, so the heading
+       still reads as plain text to a screen reader. */ -}}
+{{- $icon := .icon -}}
+{{- $text := .text -}}
+{{- if eq (.level | default "h2") "h1" -}}
+<h1 class="sec-head">{{ partial "icon.html" $icon }}<span class="sec-head__text">{{ $text }}</span></h1>
+{{- else -}}
+<h2 class="sec-head">{{ partial "icon.html" $icon }}<span class="sec-head__text">{{ $text }}</span></h2>
+{{- end -}}

@@ -1,0 +1,27 @@
+{{- /* A grid of research-output cards. Context: a slice of entries from
+       data/outputs.json. Used by the home page's "Latest research outputs" and
+       by the Research Outputs page's "Featured works" — both 2-up, so they line
+       up with every other band on the site. */ -}}
+<ul class="out-cards">
+  {{- range . }}
+  <li class="out-card">
+    {{- with .type }}<p class="out-card__type">{{ . }}</p>{{ end }}
+    <h3 class="out-card__title">
+      {{- $href := "" -}}
+      {{- with .doi }}{{ $href = printf "https://doi.org/%s" . }}{{ else }}{{ $href = .url | default .pdf }}{{ end -}}
+      {{- with $href }}<a href="{{ . }}" target="_blank" rel="noopener">{{ end }}
+      {{- .title -}}
+      {{- with $href }}</a>{{ end -}}
+    </h3>
+    <p class="out-card__meta">
+      {{- with .container }}<span class="venue">{{ . }}</span>{{ end }}
+      {{- with .year }} <span class="out-card__year">{{ . }}</span>{{ end }}
+    </p>
+    <p class="out-card__links">
+      {{- with .doi }}<a href="https://doi.org/{{ . }}" target="_blank" rel="noopener">DOI</a>{{ end }}
+      {{- with .pdf }} <a href="{{ . }}" target="_blank" rel="noopener">PDF</a>{{ end }}
+      {{- with .software }} <a href="{{ . }}" target="_blank" rel="noopener">Software</a>{{ end }}
+    </p>
+  </li>
+  {{- end }}
+</ul>

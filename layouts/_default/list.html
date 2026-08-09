@@ -1,19 +1,23 @@
 {{ define "main" }}
-<div class="prose">
-  <h1>{{ .Title }}</h1>
+{{/* The generic section list — Media and the Photo Gallery both land here.
+     Cards are 2-up and collapse to one column on a narrow screen, matching
+     Projects, Teaching and Theses. */}}
+<div class="wide band">
+  {{ $icon := cond (eq .Section "gallery") "photos" (cond (eq .Section "media") "media" "projects") }}
+  {{ partial "sec-head.html" (dict "icon" $icon "text" .Title "level" "h1") }}
   {{ .Content }}
   {{- /* Card date label; a section can widen it, e.g. "January 2006". */}}
   {{- $fmt := .Params.card_date_format | default "2006" }}
   {{ with .Pages.ByDate.Reverse }}
-  <ul class="card-list">
+  <ul class="card-grid card-grid--two">
     {{- range . }}
-    {{- /* Cards crop covers to 4:3; `cover_position` (read inside card.html)
+    {{- /* Cards crop covers to 3:2; `cover_position` (read inside card.html)
            re-aims that crop so tall portraits keep the face. */}}
     {{- $meta := slice }}
     {{- with .Params.institution }}{{ $meta = $meta | append . }}{{ end }}
     {{- with .Params.author }}{{ $meta = $meta | append . }}{{ end }}
     {{- with .Params.years }}{{ $meta = $meta | append . }}{{ else }}{{ with .Date }}{{ $meta = $meta | append (.Format $fmt) }}{{ end }}{{ end }}
-    {{- partial "card.html" (dict "page" . "meta" (delimit $meta " · ")) }}
+    {{- partial "card.html" (dict "page" . "meta" (delimit $meta " · ") "variant" "vertical") }}
     {{- end }}
   </ul>
   {{ end }}

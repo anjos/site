@@ -1,0 +1,35 @@
+{{- /* Give a Markdown-authored heading the same icon its template-rendered
+       counterparts get, so a project page reads consistently whether a section
+       comes from the template ("Key publications") or from the body
+       ("## Major achievements", which every project has).
+
+       Only headings whose text is in the map below are decorated; everything
+       else renders exactly as Hugo would by default, so this hook is safe to
+       apply site-wide.
+
+       The opening tag is assembled with printf and marked safeHTML rather than
+       written as `<h{{ .Level }}>`: Go's html/template cannot take an action in
+       an element-name position and silently escapes the whole template into
+       visible markup when you try. */ -}}
+{{- $icons := dict
+    "major achievements" "achievements"
+    "key publications"   "outputs"
+    "publications"       "outputs"
+    "research outputs"   "outputs"
+    "supervised theses"  "theses"
+    "software"           "software"
+    "datasets"           "datasets"
+    "teaching"           "teaching"
+    "media"              "media"
+    "profile photo"      "photos"
+-}}
+{{- $icon := index $icons (lower .PlainText) -}}
+{{- $attrs := printf " id=%q" .Anchor -}}
+{{- if $icon -}}
+  {{- printf "<h%d%s class=\"sec-head\">" .Level $attrs | safeHTML -}}
+  {{- partial "icon.html" $icon -}}
+  <span class="sec-head__text">{{ .Text }}</span>
+  {{- printf "</h%d>" .Level | safeHTML -}}
+{{- else -}}
+  {{- printf "<h%d%s>" .Level $attrs | safeHTML }}{{ .Text }}{{ printf "</h%d>" .Level | safeHTML -}}
+{{- end -}}
