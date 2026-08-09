@@ -1,0 +1,38 @@
+# Link-checker configuration (https://lychee.cli.rs).
+# Runs over ./public in CI and fails the build on any broken link.
+
+no_progress = true
+cache = true
+max_cache_age = "2d"
+timeout = 20
+max_retries = 2
+retry_wait_time = 2
+
+# Rate-limit / bot-blocking is not a broken link.
+accept = ["200..=206", "429"]
+
+# Hosts that block automated checkers (return 999/403 to bots) or heavily
+# rate-limit. DOIs are already validated upstream via Crossref/ORCID.
+exclude = [
+  # Own domain: canonical/og:url point at the production site, which only
+  # resolves post-deploy. Internal links are checked via root-relative paths.
+  "^https://anjos\\.ai",
+  "ieeexplore\\.ieee\\.org",
+  "linkedin\\.com",
+  "scholar\\.google\\.",
+  "stackoverflow\\.com",
+  "x\\.com",
+  "twitter\\.com",
+  "doi\\.org",
+  # Public Zotero PDF links 302-redirect to short-lived signed S3 URLs (60s
+  # expiry) that can't be reliably re-fetched; verified live when uploaded.
+  "api\\.zotero\\.org",
+  # Vimeo's embed endpoint 403s any non-browser client (the video is unlisted
+  # and embed-restricted). The canonical page vimeo.com/<id> is checked instead.
+  "player\\.vimeo\\.com",
+  # Idiap's report repository serves a certificate from Idiap's own private CA
+  # ("Idiap SSL Servers CA 2016", 10-year validity), which no public trust store
+  # accepts, so no link checker can verify it. The URLs themselves are live
+  # (verified with `curl -k`: HTTP 200).
+  "publidiap\\.idiap\\.ch",
+]

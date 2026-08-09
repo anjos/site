@@ -1,0 +1,30 @@
+# Run with `prek` (a drop-in pre-commit replacement): `prek install --install-hooks`.
+#
+# FILE HYGIENE ONLY — offline and sub-second. Every project-specific check
+# (check-content, check-outputs, check-links) is a pixi task under `pixi run
+# validate`, which also runs this file via the `lint` task. Nothing is declared
+# in both places, so there is exactly one definition of each gate.
+default_install_hook_types: [pre-commit]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      # We removed the Pelican theme submodule; keep it that way.
+      - id: forbid-submodules
+      - id: check-toml
+      - id: check-json
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+        args: [--fix=lf]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.0
+    hooks:
+      # Lint only, no reformatting: findings, not churn.
+      - id: ruff-check
+        files: ^tools/

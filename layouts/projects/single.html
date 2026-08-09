@@ -1,0 +1,78 @@
+{{- /* One renderer for the Key publications / Software / Datasets sections, which
+       differ only by heading and icon. Input: dict "data" <entries> "groups"
+       <slice of dict "heading" <string> "icon" <name> "items" <slice>>. Publications render above the
+       supervised theses and the other two below, hence the two call sites. */ -}}
+{{ define "outsections" }}
+  {{ $data := .data }}
+  {{ range .groups }}
+    {{ $heading := .heading }}
+    {{ $icon := .icon }}
+    {{ with .items }}
+    {{ partial "sec-head.html" (dict "icon" $icon "text" $heading) }}
+    <ul class="out-list">
+      {{ range (sort . "sort" "desc") }}
+      <li>{{ with .entry }}{{ partial "out-ref.html" . }}{{ else }}{{ partial "out-cite.html" (dict "ref" .ref "data" $data) }}{{ end }}</li>
+      {{ end }}
+    </ul>
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ define "main" }}
+{{ $id := .File.ContentBaseName }}
+<article class="prose band">
+  {{ partial "sec-head.html" (dict "icon" "projects" "text" .Title "level" "h1") }}
+  {{ with .Params.summary }}<p class="page-subtitle">{{ . }}</p>{{ end }}
+
+  {{ with .Params.partners }}
+  <div class="partners-block">
+    <p class="partners-label">Partnerships</p>
+    {{ partial "partners.html" . }}
+  </div>
+  {{ end }}
+
+  {{/* The cover sits here, not above the title, so a `<small>Cover: …</small>`
+       credit written as the first block of the body reads as its caption. */}}
+  {{ with .Params.cover }}<img class="project-cover" src="{{ (relURL .) }}" alt="" loading="lazy">{{ end }}
+
+  {{ .Content }}
+
+  {{/* Resolve research_outputs against data/outputs.json and split by type into
+       Key publications / Software / Datasets, each ordered newest first. Software
+       and Datasets get their own sections only when such standalone entries are
+       linked; a paper's companion code rides on that paper as a "Software" link. */}}
+  {{ $data := slice }}
+  {{ with hugo.Data.outputs }}{{ $data = .entries }}{{ end }}
+  {{ $pubs := slice }}{{ $sw := slice }}{{ $ds := slice }}
+  {{ range $ref := .Params.research_outputs }}
+    {{ $r := $ref | lower }}
+    {{ $match := where $data "doi" $r }}
+    {{ if not $match }}{{ $match = where $data "key" $r }}{{ end }}
+    {{ $entry := index $match 0 }}
+    {{ $sort := 0 }}{{ $type := "" }}
+    {{ with $entry }}{{ $sort = (add (mul (int (.year | default 0)) 100) (int (.month | default 0))) }}{{ $type = .type }}{{ end }}
+    {{ $item := dict "ref" $ref "entry" $entry "sort" $sort }}
+    {{ if eq $type "Software" }}{{ $sw = $sw | append $item }}
+    {{ else if eq $type "Dataset" }}{{ $ds = $ds | append $item }}
+    {{ else }}{{ $pubs = $pubs | append $item }}{{ end }}
+  {{ end }}
+
+  {{ template "outsections" (dict "data" $data "groups" (slice
+      (dict "heading" (.Params.publications_heading | default "Key publications") "icon" "outputs" "items" $pubs))) }}
+
+  {{/* Supervised students linked to this project via `projects: [<id>]` */}}
+  {{ $theses := where (where site.RegularPages "Section" "theses") "Params.projects" "intersect" (slice $id) }}
+  {{ with $theses }}
+  {{ partial "sec-head.html" (dict "icon" "theses" "text" "Supervised theses") }}
+  <ul class="card-list">
+    {{- range .ByDate.Reverse }}
+    {{- partial "card.html" (dict "page" . "meta" .Params.author) }}
+    {{- end }}
+  </ul>
+  {{ end }}
+
+  {{ template "outsections" (dict "data" $data "groups" (slice
+      (dict "heading" "Software" "icon" "software" "items" $sw)
+      (dict "heading" "Datasets" "icon" "datasets" "items" $ds))) }}
+</article>
+{{ end }}

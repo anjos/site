@@ -5,36 +5,68 @@ platforms = ["linux-64", "osx-arm64"]
 
 [dependencies]
 python = "3.*"
-pelican = ">=4.10.1" # fixes: getpelican/pelican#2674
-curl = "*"
-markdown = "*"
-docutils = "*"
+hugo = ">=0.164"
 requests = "*"
-nodejs = "*"
-pybtex = "*"
-pygments = ">=2.2"
-bs4 = "*"
-
-[pypi-dependencies]
-pelican-fontawesome = "*"
-pelican-deadlinks = { git = "https://github.com/pelican-plugins/deadlinks" }
-pelican-pybtex = "*"
+pyyaml = "*"
+pyzotero = "*"
 
 [tasks]
-bib = "curl --create-dirs --output content/data/publications.bib https://raw.githubusercontent.com/anjos/cv/main/publications.bib"
-init = { cmd = "git submodule update --init --recursive", depends-on = ["bib"] }
-clean = "rm -rf output"
-build = "pelican"
-gh-action = { depends-on = ["bib", "build"] }
-# using --log-handler=plain until https://github.com/getpelican/pelican/pull/3398 makes
-# to a release of pelican
-serve = { cmd = "pelican --listen --autoreload", depends-on = ["build"] }
+# Regenerate data/outputs.json from Zotero (source of truth). Needs an API key —
+# without one it falls back to CHECK mode and only verifies. `--help` explains both.
+outputs = "python tools/update-site-outputs.py"
+# Compare Zotero (truth) with ORCID and write orcid-sync-report.md: works missing
+# from ORCID + a field-level "outdated" table. Read-only; never writes to ORCID.
+orcid-report = "python tools/update-orcid-outputs.py"
+
+# ---- Individual checks (each runnable on its own) ------------------------- #
+# Content front-matter, DOI/key references, thesis->project links, covers, and
+# the static/ size rule. Offline and instant.
+check-content = "python tools/validate_content.py"
+# data/outputs.json still matches Zotero. Key-less: verifies, never writes.
+check-outputs = "python tools/update-site-outputs.py --check"
+# Every link in the built site; fails on any dead link. It reads ./public, so it
+# *builds* first — declared, not assumed, so it is correct standalone and in any
+# order inside `validate`. --root-dir resolves root-relative (/foo) links.
+check-links = { cmd = "lychee --config lychee.toml --root-dir \"$PIXI_PROJECT_ROOT/public\" public", depends-on = ["build"] }
+# Everything in idiap-public/ is already published. Dry run; fails and names the
+# files if not. Needs SSH, so it is never part of a composite gate and never runs
+# in CI — invoke it by hand after `idiap-push`.
+check-sync = "sh tools/check-idiap-sync.sh"
+# File hygiene only: whitespace, TOML/JSON/YAML, ruff, no submodules. Every
+# project-specific check is a pixi task in `validate`, never a prek hook, so
+# nothing is defined in two places.
+lint = "prek run --all-files"
+
+# THE gate — hygiene, unit tests, content, publication data, and a link check over
+# a freshly built site. Run it after any change; it is also exactly what CI runs.
+# Ordered so failures come back fast and legibly: offline before network, build
+# last, and `test` ahead of both checkers because it covers the code they run
+# (test_static_rule.py -> validate_content.py, test_pipeline.py -> zotero_common.py).
+# A broken tool then fails as a named assertion, not as a puzzling content error.
+validate = { depends-on = ["lint", "test", "check-content", "check-outputs", "check-links"] }
+# Unit tests for the publications pipeline (offline, fixture-based).
+# -v names each test as it runs, so a failure in the gate says what broke.
+test = "pytest -v tools/tests"
+# Build the static site (broken internal refs fail via refLinksErrorLevel=ERROR).
+# --cleanDestinationDir removes stale output so link checks stay honest.
+build = { cmd = "hugo --minify --cleanDestinationDir" }
+# Local preview with drafts and live reload. Deliberately has NO dependencies:
+# preview must never wait on a Zotero round-trip.
+serve = "hugo server -D"
+clean = "rm -rf public resources/_gen"
+# Publish the large assets (PDFs, raw images) to ~/public on the Idiap web
+# server, where they are served as https://www.idiap.ch/~aanjos/<path>.
+# Additive: no --delete, so it never removes anything already on the server.
+# -a preserves the local 644/755 modes, which is what the web server needs
+# (macOS ships openrsync, which has no --chmod).
+idiap-push = "rsync -avz idiap-public/ idiap:public/"
+# Refresh the local mirror from the server. Additive: never deletes locally.
+idiap-pull = "rsync -avz idiap:public/ idiap-public/"
 
 [feature.qa.dependencies]
-pre-commit = "*"
-
-[feature.debug.dependencies]
-pdbpp = "*"
+prek = "*"
+lychee = "*"
+pytest = "*"
 
 [environments]
-default = { features = ["qa", "debug"] }
+default = { features = ["qa"] }

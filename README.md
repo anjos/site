@@ -1,52 +1,61 @@
 [![build](https://github.com/anjos/site/actions/workflows/deploy.yml/badge.svg)](https://github.com/anjos/site/actions/workflows/deploy.yml)
 
-# Professional Website
+# anjos.ai
 
-Generator code using [Pelican](http://getpelican.com), for my professional web site. The
-website is re-built at every commit and re-deployed as Github Pages via Github Actions.
+Source for [anjos.ai](https://anjos.ai), André Anjos' professional website. Built
+with [Hugo](https://gohugo.io) and a bespoke theme, rebuilt and redeployed to
+GitHub Pages on every push to `main`.
 
+**Adding or editing content?** Read [AGENTS.md](AGENTS.md) — it is the
+authoritative guide, for humans and for LLM agents alike.
 
-### Local Testing
+## Local development
 
-It is possible to locally test the web site before commit/pushing it back to GitHub
-(which will case the site to be re-compiled and re-deployed). I advise you to install a
-[Pixi](https://pixi.sh)-based environment for deployment with this command line:
-
-```sh
-$ pixi install
-```
-
-To compile a new version of the website, first make sure your CV is up-to-date
-by rebuilding [its repository](https://github.com/anjos/cv), then do:
+Everything runs through [pixi](https://pixi.sh), which provides Hugo, Python and
+the checkers:
 
 ```sh
-# this will fetch the latest version of the publications database
-$ pixi run bib
-# this will effectively create a static version of the website
-$ pixi run build
+pixi install
+pixi run serve      # local preview at localhost:1313, drafts included
 ```
 
-To test the website, do:
+## Gates
+
+One command has to pass before committing, and CI runs that same one:
 
 ```sh
-$ pixi run serve
+pixi run validate   # hygiene hooks, content front-matter, covers, unit tests,
+                    # the Zotero data, a strict build and a dead-link check
 ```
 
+Each step is also a task of its own: `lint`, `test`, `check-content`,
+`check-outputs`, `check-links`. `check-sync` (an Idiap publish dry-run) needs SSH,
+so it stays out of the gate — run it by hand after `idiap-push`. Commit hooks run
+the file-hygiene checks automatically; install them once with
+`pixi run prek install --install-hooks`.
 
-### Checking for dead links
+## What lives outside this repository
 
-It is possible to automatically check for dead links using the configuration
-option `DEADLINKS_VALIDATION`, setting it to `True` in `pelicanconf.py`.
+**Publications** come from the Zotero "My Publications" library, the single
+source of truth. `pixi run outputs` refreshes `data/outputs.json` when a Zotero
+API key is configured, and merely *verifies* that it is current when there is
+none — which is how CI checks the data without any credentials. Never hand-edit
+that file. `pixi run orcid-report` writes a to-do list for keeping ORCID in sync.
 
+**PDFs and raw images** are served from `https://www.idiap.ch/~aanjos/` rather
+than committed here — only optimised front-matter covers live in `static/`. The
+local mirror is `idiap-public/` (git-ignored), synced with:
 
-### Deployment
+```sh
+pixi run idiap-push   # publish to the server; additive, never deletes
+pixi run idiap-pull   # refresh the local mirror from the server
+```
 
-Deployment is automatic, once you push a tag to github. Deployment instructions
-are stored in [deploy.yml](.github/workflows/deploy.yml).
+See "Large assets live on Idiap" in [AGENTS.md](AGENTS.md) for the full rule.
 
+**The CV** linked in the site header (`cvURL` in `hugo.toml`) is built from a
+[separate repository](https://github.com/anjos/cv).
 
-### Publications
+## Licence
 
-In order to deploy a publication, make sure to place the PDF of the publication
-at Idiap, on your account, folder `~/public/papers`. The name of the PDF should
-match the BibTeX publication key entry identifier.
+See [LICENSE](LICENSE).

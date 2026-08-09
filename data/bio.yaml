@@ -1,0 +1,43 @@
+# Single source of truth for reusable biography text.
+# Render anywhere with {{< bio "short" >}} / {{< bio "one_liner" >}} / {{< bio "long" >}}.
+
+one_liner: >-
+  André Anjos leads the Medical AI Group at the Idiap Research Institute,
+  working on machine learning, computer vision, and signal processing for
+  medical decision making, research reproducibility, and open science.
+
+short: >-
+  André Anjos holds a Ph.D. in signal processing and machine learning (2006),
+  studying neural networks and statistical methods for particle recognition in
+  High-Energy Physics experiments at CERN's Large Hadron Collider. He joined the
+  [Idiap Research Institute](https://www.idiap.ch) in 2010, focusing on
+  biometrics. Today André leads the [Medical AI Group](https://www.idiap.ch/en/scientific-research/medical-artificial-intelligence/)
+  at Idiap. Current interests include medical decision making, image and signal
+  processing, machine learning, research reproducibility, and open science. He
+  teaches graduate-level machine-learning courses at EPFL and Idiap's Master of
+  AI, and reviews for journals in pattern recognition, image processing, and
+  biometrics.
+
+long: >-
+  André Anjos holds a Ph.D. degree in signal processing from the
+  [Federal University of Rio de Janeiro](https://www.ufrj.br) (2006). He spent
+  nearly a decade (2001–2010) at [CERN](https://www.cern.ch)'s
+  [ATLAS Experiment](https://atlas.cern), where he played a key role in
+  developing and deploying the Trigger and Data Acquisition systems that enabled
+  groundbreaking discoveries, including the Higgs boson. During this period,
+  André explored the application of neural networks and statistical methods to
+  particle recognition, contributing several software components that remain in
+  use today. In 2010, André joined the Biometrics Security and Privacy Group at
+  the [Idiap Research Institute](https://www.idiap.ch), where he focused on face
+  and vein biometrics and presentation-attack detection, with a keen interest in
+  reproducibility and open science. Since 2018 André leads the
+  [Medical AI Group](https://www.idiap.ch/en/scientific-research/medical-artificial-intelligence/)
+  (MedAI) at Idiap, investigating medical applications, image and signal
+  processing, machine learning, research reproducibility, and open science.
+  Among André's open-source contributions are Mednet and the BEAT framework for
+  evaluation and testing of machine-learning systems. He teaches graduate-level
+  machine-learning courses at the École Polytechnique Fédérale de Lausanne
+  ([EPFL](https://www.epfl.ch)) and Idiap's
+  [Master of AI](https://www.idiap.ch/en/allnews/idiap-brand-new-artificial-intelligence-applied-master),
+  and serves as a reviewer for various scientific journals in pattern
+  recognition, machine learning, and image processing.

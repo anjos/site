@@ -1,0 +1,37 @@
+{{ define "main" }}
+{{/* The page body is the hero's summary, so the intro is written once in
+     content/_index.md and is not repeated below. */}}
+{{ partial "hero.html" (dict "summary" .Content) }}
+
+{{ with site.GetPage "/projects" }}
+{{ $projectsURL := .RelPermalink }}
+{{/* Top four current projects only, as a 2x2 — the Projects page has the rest. */}}
+{{ with first 4 (where .Pages.ByWeight "Params.archived" "!=" true) }}
+<section class="wide band">
+  {{ partial "sec-head.html" (dict "icon" "projects" "text" "Selected projects") }}
+  <p class="page-subtitle">Current lines of work — every project, including
+    earlier-career ones, is on the <a href="{{ $projectsURL }}">Projects</a> page.</p>
+  <ul class="card-grid card-grid--two">{{ partial "project-cards.html" . }}</ul>
+</section>
+{{ end }}
+{{ end }}
+
+{{/* Latest research outputs: the four most recent entries, recomputed on every
+     build from data/outputs.json, so this needs no curation. `sort` on a
+     composite year*100+month keeps December before January of the same year. */}}
+{{ with hugo.Data.outputs }}
+{{ $ranked := slice }}
+{{ range .entries }}
+  {{ $ranked = $ranked | append (merge . (dict "rank" (add (mul (int (.year | default 0)) 100) (int (.month | default 0))))) }}
+{{ end }}
+{{ with first 4 (sort $ranked "rank" "desc") }}
+<section class="wide band">
+  {{ partial "sec-head.html" (dict "icon" "outputs" "text" "Latest research outputs") }}
+  <p class="page-subtitle">The four most recent — the
+    <a href="{{ "/outputs/" | relURL }}">Research Outputs</a> page contains a
+    complete list.</p>
+  {{ partial "out-cards.html" . }}
+</section>
+{{ end }}
+{{ end }}
+{{ end }}

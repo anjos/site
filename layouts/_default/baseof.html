@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.Lang | default "en" }}">
+<head>
+  {{- partial "head.html" . -}}
+</head>
+<body>
+  {{- partial "header.html" . -}}
+  <main class="content" id="main">
+    {{- block "main" . }}{{ end -}}
+  </main>
+  {{- /* Scroll affordance, shown on any page that actually has more below the
+         fold. Decorative, so it is hidden from assistive tech and starts
+         hidden — footer.html reveals it only when there is somewhere to
+         scroll, and hides it again at the bottom. */}}
+  <div class="scroll-cue" aria-hidden="true" hidden>{{ partial "icon.html" "chevron-down" }}</div>
+  {{- partial "footer.html" . -}}
+</body>
+</html>

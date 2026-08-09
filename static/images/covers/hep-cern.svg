@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Particle collision tracks">
+  <defs>
+    <radialGradient id="bgh" cx="0.5" cy="0.5" r="0.7">
+      <stop offset="0" stop-color="#16323a"/>
+      <stop offset="1" stop-color="#0a181d"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bgh)"/>
+  <!-- detector rings -->
+  <g fill="none" stroke="#3a5a60" opacity="0.5">
+    <circle cx="200" cy="150" r="55" stroke-width="1.5"/>
+    <circle cx="200" cy="150" r="95" stroke-width="1.5"/>
+  </g>
+  <!-- curved tracks from central vertex -->
+  <g fill="none" stroke-linecap="round" opacity="0.9">
+    <path d="M200 150 C 240 120, 300 110, 370 80" stroke="#5fe0d2" stroke-width="2.5"/>
+    <path d="M200 150 C 250 160, 300 200, 355 235" stroke="#7fd8cc" stroke-width="2"/>
+    <path d="M200 150 C 170 110, 130 70, 90 40" stroke="#9fe8de" stroke-width="2"/>
+    <path d="M200 150 C 160 175, 100 200, 40 210" stroke="#5fe0d2" stroke-width="2.5"/>
+    <path d="M200 150 C 210 100, 205 60, 215 25" stroke="#7fd8cc" stroke-width="1.6"/>
+    <path d="M200 150 C 190 200, 185 245, 195 285" stroke="#9fe8de" stroke-width="1.6"/>
+    <path d="M200 150 C 245 150, 320 150, 380 150" stroke="#7fd8cc" stroke-width="1.6"/>
+  </g>
+  <circle cx="200" cy="150" r="6" fill="#ffffff"/>
+  <circle cx="200" cy="150" r="12" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.5"/>
+</svg>

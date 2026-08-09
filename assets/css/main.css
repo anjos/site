@@ -1,0 +1,796 @@
+/* ===========================================================================
+   André Anjos — bespoke theme. Typography-first, sober, light/dark aware.
+   Theme selection: default follows prefers-color-scheme; a header toggle sets
+   [data-theme] on <html> and persists it in localStorage (override).
+
+   Layout is mobile-first: the nav is a disclosure menu by default and only
+   becomes a horizontal bar with hover dropdowns on wide *pointer* devices.
+   That ordering is deliberate — see "Header / nav" below.
+   =========================================================================== */
+
+/* ---- Webfont -------------------------------------------------------------- */
+/* Source Serif 4.005 (SIL OFL-1.1, see LICENSE-source-serif.txt), self-hosted:
+   no CDN, no third-party request. Subset and built with:
+
+     pixi exec --spec fonttools --spec brotli-python -- \
+       fonttools varLib.instancer SourceSerif4Variable-<face>.otf.woff2 opsz=11 -o inst.ttf
+     pixi exec --spec fonttools --spec brotli-python -- \
+       pyftsubset inst.ttf --unicodes="<the range below>" \
+         --layout-features=kern,ccmp,mark,mkmk,locl,liga,onum,lnum,tnum,pnum,case,frac,sups,subs \
+         --flavor=woff2 --output-file=source-serif-4-<face>.woff2
+
+   opsz is pinned rather than kept variable because headings are set in
+   --font-ui (system sans), so the serif is only ever rendered at body size and
+   the 8-60 optical-size axis is dead weight — pinning halves each file
+   (190 KB -> 95 KB). wght stays variable (200-900). Small caps (smcp/c2sc) are
+   deliberately excluded: journal names use real italic, which is the scholarly
+   convention and costs nothing extra. */
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("../fonts/source-serif-4-roman.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-024F, U+0259, U+1E00-1EFF, U+2000-206F,
+                 U+2074, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("../fonts/source-serif-4-italic.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-024F, U+0259, U+1E00-1EFF, U+2000-206F,
+                 U+2074, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+
+/* ---- Tokens --------------------------------------------------------------- */
+:root {
+  --bg: #fdfdfc;
+  --surface: #f4f3ef;
+  --text: #1f2328;
+  --muted: #5c636b;
+  --border: #e3e1da;
+  --accent: #1240c0;          /* Impact Blue, unmodified — it clears AA on its
+                                 own (8.19:1), so there is no reason to dull it.
+                                 The teal lives on in --accent-2, which is where
+                                 the blue/green blend actually happens. */
+  --accent-hover: #0f36a3;
+  /* Second gradient stop and the text colour that sits ON the accent. The
+     gradient is a HUE shift at constant lightness, not a lightness ramp:
+     ramping toward white put the CV button's label at 3.95:1 in light and
+     1.80:1 in dark, both below the 4.5:1 minimum. Held at one lightness, both
+     stops clear 6:1. */
+  --accent-2: #0b6b63;        /* the original teal: the gradient's far stop */
+  --on-accent: #ffffff;
+  --code-bg: #f4f3ef;
+  --selection: #d5ddf8;
+  --shadow: 0 6px 20px rgba(23, 25, 28, .07);
+
+  /* ---- The accent knob -------------------------------------------------
+     `--accent` is the single source of truth for the site's colour identity.
+     Every tint below is derived from it with native color-mix(), so changing
+     that one value (here and in the two dark-theme blocks) re-tints the hero
+     field, the pills, the CV button, the card hover glow and the featured
+     rules together. This is an INTERNAL knob — nothing in the UI exposes it,
+     deliberately. No preprocessor and no build step is involved. */
+  --accent-wash: color-mix(in oklab, var(--accent)  7%, var(--bg));
+  --accent-soft: color-mix(in oklab, var(--accent) 14%, var(--bg));
+  --accent-line: color-mix(in oklab, var(--accent) 32%, var(--bg));
+  --accent-glow: color-mix(in oklab, var(--accent) 40%, transparent);
+  /* The chip surface, tinted with the teal the hero gradient ends on. Shared by
+     the hero's interest pills and the type badges in Research Outputs, so the
+     two cannot drift apart. A neutral tint separated from the page by only
+     1.16:1 and read as blended; this sits at ~1.5 (light) / ~1.7 (dark). */
+  --chip-bg:   color-mix(in oklab, var(--accent-2) 26%, var(--bg));
+  --chip-edge: color-mix(in oklab, var(--accent-2) 60%, var(--bg));
+  /* Hero field stops: Impact Blue at one corner, the teal at the other. */
+  --hero-from: color-mix(in oklab, var(--accent)   20%, var(--bg));
+  --hero-mid:  color-mix(in oklab, var(--accent)    7%, var(--bg));
+  --hero-to:   color-mix(in oklab, var(--accent-2) 18%, var(--bg));
+
+  /* ONE content width for the whole site, so no band is wider or narrower than
+     another. It matches the header, from the site title across to the CV link. */
+  --page: 52rem;
+  --measure: var(--page);
+  --font-body: "Source Serif 4", Charter, Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace;
+
+  /* Fluid modular scale (~1.2). Type grows with the viewport instead of
+     stepping at breakpoints, which is most of what makes this responsive. */
+  --step--2: clamp(0.75rem, 0.73rem + 0.10vw, 0.80rem);
+  --step--1: clamp(0.84rem, 0.81rem + 0.14vw, 0.92rem);
+  --step-0:  clamp(1.00rem, 0.97rem + 0.18vw, 1.09rem);
+  --step-1:  clamp(1.13rem, 1.08rem + 0.26vw, 1.27rem);
+  --step-2:  clamp(1.33rem, 1.24rem + 0.42vw, 1.55rem);
+  --step-3:  clamp(1.65rem, 1.48rem + 0.80vw, 2.15rem);
+
+  --line: 1.65;
+  --space: 1.5rem;
+  --tap: 2.75rem;             /* 44 px minimum touch target */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #18191a;
+    --surface: #202224;
+    --text: #e7e6e3;
+    --muted: #9ba1a7;
+    --border: #2e3134;
+    --accent: #7c9fff;
+    --accent-hover: #a3bcff;
+    --accent-2: #4dc4b8;
+    --on-accent: #0e1620;
+    --code-bg: #202224;
+    --selection: #1c2a55;
+    --shadow: 0 6px 20px rgba(0, 0, 0, .45);
+      /* The wash reads darker against a dark page, so it is mixed stronger. */
+    --hero-from: color-mix(in oklab, var(--accent)   30%, var(--bg));
+    --hero-mid:  color-mix(in oklab, var(--accent)   12%, var(--bg));
+    --hero-to:   color-mix(in oklab, var(--accent-2) 26%, var(--bg));
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #18191a;
+  --surface: #202224;
+  --text: #e7e6e3;
+  --muted: #9ba1a7;
+  --border: #2e3134;
+  --accent: #7c9fff;
+  --accent-hover: #a3bcff;
+  --accent-2: #4dc4b8;
+  --on-accent: #0e1620;
+  --code-bg: #202224;
+  --selection: #1c2a55;
+  --shadow: 0 6px 20px rgba(0, 0, 0, .45);
+  /* The wash reads darker against a dark page, so it is mixed stronger. */
+  --hero-from: color-mix(in oklab, var(--accent)   30%, var(--bg));
+  --hero-mid:  color-mix(in oklab, var(--accent)   12%, var(--bg));
+  --hero-to:   color-mix(in oklab, var(--accent-2) 26%, var(--bg));
+}
+
+/* ---- Base ----------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* The accent field. Fixed to the viewport, so it covers the whole visible page
+   and does not travel with the content while scrolling. Diagonal: Impact Blue
+   at the top-left, the teal at the bottom-right. */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(42% 52% at 16% 6%, var(--accent-soft), transparent 70%),
+    linear-gradient(135deg, var(--hero-from) 0%, var(--hero-mid) 48%, var(--hero-to) 100%);
+}
+
+html { -webkit-text-size-adjust: 100%; background: var(--bg); }
+
+body {
+  margin: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: var(--line);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Author styles beat the UA's `[hidden] { display: none }`, so any rule that
+   sets `display` on an element the filter JS hides would resurrect it. This
+   guards .out-section (display: grid) and .out-list li. */
+[hidden] { display: none !important; }
+
+::selection { background: var(--selection); }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+.wrap { max-width: var(--page); margin-inline: auto; padding-inline: 1.25rem; }
+
+/* ---- Links ---------------------------------------------------------------- */
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); text-decoration: underline; text-underline-offset: 2px; }
+
+/* ---- Skip link ------------------------------------------------------------ */
+.skip-link {
+  position: absolute; left: -999px; top: 0; z-index: 100;
+  background: var(--accent); color: var(--on-accent); padding: .5rem .75rem;
+}
+.skip-link:focus { left: .5rem; top: .5rem; }
+
+/* ---- Header / nav --------------------------------------------------------- */
+/* Mobile-first: the disclosure menu is the DEFAULT, and the horizontal bar with
+   hover dropdowns is opted into only at `(hover: hover) and (min-width: 48rem)`.
+   Written the other way round, a tablet fell through both branches — 768 px is
+   wider than the old 40 rem hamburger breakpoint yet reports `hover: none`, so
+   it got the full desktop nav with every submenu forced open inline. */
+.site-header {
+  border-bottom: 1px solid var(--border);
+  /* Translucent so the fixed field shows through, with blur keeping the nav
+     legible over whatever scrolls beneath it. */
+  background: color-mix(in oklab, var(--bg) 78%, transparent);
+  position: sticky; top: 0; z-index: 20;
+  backdrop-filter: saturate(140%) blur(10px);
+}
+.site-header .wrap {
+  display: flex; align-items: center; gap: .75rem;
+  padding-block: .5rem;
+  position: relative;          /* anchor for the open menu — no magic offsets */
+}
+.site-title {
+  font-family: var(--font-ui); font-weight: 650; font-size: var(--step-0);
+  color: var(--text); letter-spacing: -0.01em;
+}
+.site-title:hover { text-decoration: none; color: var(--accent); }
+
+.site-nav { font-family: var(--font-ui); order: 4; }
+.site-nav ul { list-style: none; margin: 0; padding: 0; }
+.site-nav a { color: var(--muted); font-size: var(--step--1); }
+.site-nav a:hover { color: var(--accent); text-decoration: none; }
+.site-nav a[aria-current="page"] { color: var(--text); font-weight: 600; }
+.nav-cv { color: var(--accent) !important; }
+
+.nav-toggle {
+  display: inline-grid; place-items: center;
+  min-width: var(--tap); min-height: var(--tap);
+  background: none; border: 0; color: var(--text);
+  font-size: 1.4rem; line-height: 1; cursor: pointer;
+}
+
+/* Closed disclosure panel, anchored to the header rather than a fixed offset. */
+.site-nav > ul {
+  display: none;
+  position: absolute; top: calc(100% + .5rem); right: 1.25rem;
+  flex-direction: column; gap: .15rem; z-index: 30;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+  padding: .5rem; min-width: 12rem; box-shadow: var(--shadow);
+}
+body.nav-open .site-nav > ul { display: flex; }
+.site-nav > ul > li > a {
+  display: block; padding: .6rem .75rem; border-radius: 8px;
+  min-height: var(--tap); line-height: 1.6;
+}
+.site-nav > ul > li > a:hover { background: var(--surface); }
+.site-nav .caret { display: none; }
+/* Children render inline and indented; a hover dropdown cannot be opened by
+   touch, so on this branch there is nothing to disclose. */
+.site-nav .subnav {
+  display: flex; flex-direction: column;
+  padding: 0 0 .25rem .75rem; margin: 0;
+}
+.site-nav .subnav a {
+  display: block; padding: .5rem .75rem; border-radius: 8px;
+  min-height: var(--tap); line-height: 1.7;
+}
+.site-nav .subnav a:hover { background: var(--surface); color: var(--accent); }
+
+.theme-toggle {
+  order: 3; margin-left: auto;
+  width: var(--tap); height: var(--tap); border-radius: 50%;
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--text); cursor: pointer; display: inline-grid; place-items: center;
+}
+.theme-toggle__icon {
+  width: 1rem; height: 1rem; border-radius: 50%;
+  background:
+    radial-gradient(circle at 65% 35%, var(--bg) 0 42%, transparent 43%),
+    var(--text);
+}
+
+/* 56rem, not 48rem: six top-level items plus the CV link need ~460 px, and at
+   768 px they collide with the title and theme toggle. Pairing the width with
+   `hover: hover` means a tablet gets the disclosure menu on both counts. */
+@media (hover: hover) and (min-width: 56rem) {
+  .site-header .wrap { gap: 1rem; padding-block: .75rem; }
+  .nav-toggle { display: none; }
+  .site-nav { order: 4; margin-left: 0; }
+  .theme-toggle { order: 3; margin-left: auto; }
+
+  .site-nav > ul {
+    display: flex; flex-direction: row; align-items: center; gap: 1.1rem;
+    position: static; background: none; border: 0; border-radius: 0;
+    padding: 0; min-width: 0; box-shadow: none;
+  }
+  .site-nav > ul > li > a {
+    display: inline; padding: 0; min-height: 0; line-height: inherit;
+  }
+  .site-nav > ul > li > a:hover { background: none; }
+  .site-nav .caret { display: inline; font-size: .7em; }
+
+  /* An invisible bridge keeps the parent hoverable across the visual gap down
+     to the panel; without it the pointer leaves .has-sub mid-way and the panel
+     closes before you reach an item. Done with a pseudo-element rather than
+     padding-bottom + negative margin, which made this item taller than its
+     siblings and knocked "About" off the shared baseline. */
+  .site-nav .has-sub { position: relative; }
+  .site-nav .has-sub::after {
+    content: ""; position: absolute; inset-inline: 0; top: 100%; height: .7rem;
+  }
+  .site-nav .subnav {
+    display: none; position: absolute; right: 0; top: calc(100% + .55rem); margin: 0;
+    gap: .1rem; min-width: max-content; z-index: 30;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+    padding: .35rem; box-shadow: var(--shadow);
+  }
+  .site-nav .subnav a {
+    padding: .4rem .7rem; min-height: 0; line-height: inherit; white-space: nowrap;
+  }
+  .site-nav .has-sub:hover .subnav,
+  .site-nav .has-sub:focus-within .subnav { display: flex; }
+}
+
+/* ---- Layout / content ----------------------------------------------------- */
+.content { padding-block: 2.5rem 3.5rem; }
+/* The home page opens on the hero, whose gradient must start at the header
+   edge rather than below the content padding. */
+.content:has(> .hero) { padding-top: 0; }
+.content > .wrap, .prose { max-width: var(--measure); }
+.prose { margin-inline: auto; padding-inline: 1.25rem; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-ui); line-height: 1.2; letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+h1 { font-size: var(--step-3); margin: 0 0 .5rem; }
+h2 { font-size: var(--step-2); margin: 2.4rem 0 .75rem; }
+h3 { font-size: var(--step-1); margin: 1.8rem 0 .5rem; }
+p { text-wrap: pretty; }
+p, ul, ol { margin: 0 0 var(--space); }
+ul, ol { padding-left: 1.3rem; }
+li { margin-bottom: .3rem; }
+
+blockquote {
+  margin: var(--space) 0; padding: .2rem 1.1rem;
+  border-left: 3px solid var(--accent); color: var(--muted);
+}
+hr { border: 0; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+
+img { max-width: 100%; height: auto; }
+figure { margin: var(--space) 0; text-align: center; }
+figure img { border-radius: 6px; }
+figure figcaption {
+  font-size: var(--step--1); color: var(--muted);
+  margin-top: .5rem; font-family: var(--font-ui);
+}
+
+/* Photo gallery: portraits linking to their full-resolution files. */
+.gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr)); gap: 1rem; margin: var(--space) 0; }
+.gallery a { display: block; border-radius: 8px; overflow: hidden; }
+.gallery img { border-radius: 8px; border: 1px solid var(--border); display: block; width: 100%; }
+/* Same hover language as the cards: lift, accent ring, accent glow. */
+.gallery a:hover img, .gallery a:focus-visible img { border-color: var(--accent-line); }
+.gallery a:hover { box-shadow: 0 14px 30px var(--accent-glow); }
+
+code, pre, kbd { font-family: var(--font-mono); font-size: .875em; }
+:not(pre) > code { background: var(--code-bg); padding: .12em .35em; border-radius: 4px; }
+pre {
+  background: var(--code-bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 1rem; overflow-x: auto; line-height: 1.5;
+}
+pre code { background: none; padding: 0; }
+
+/* Markdown tables scroll inside their own container rather than widening the
+   page on a phone — see layouts/_default/_markup/render-table.html. */
+.table-scroll { overflow-x: auto; margin: var(--space) 0; }
+table { width: 100%; border-collapse: collapse; font-family: var(--font-ui); font-size: var(--step--1); }
+.table-scroll table { margin: 0; }
+th, td { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid var(--border); }
+th { color: var(--muted); font-weight: 600; white-space: nowrap; }
+
+.page-subtitle {
+  color: var(--muted); font-family: var(--font-ui);
+  font-size: var(--step-0); margin-top: -.25rem; text-wrap: pretty;
+}
+
+/* ---- Cards / listings ----------------------------------------------------- */
+/* Whole-card links: the single <a> on the title is stretched over the card by
+   its ::after, so the cover image is part of the same hit area while the
+   accessibility tree still sees exactly one link per card. Anything genuinely
+   separate inside a card needs `position: relative; z-index: 1` to stay
+   clickable above that overlay. */
+.card-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .35rem; }
+.card {
+  position: relative;
+  display: grid; grid-template-columns: minmax(0, 7.5rem) 1fr;
+  gap: 1.1rem; align-items: start;
+  padding: .9rem; margin-inline: -.9rem;
+  border-radius: 12px;
+  background: transparent;
+}
+/* Cards without a cover span the full width instead of leaving an empty column. */
+.card:not(:has(.card__cover)) { grid-template-columns: 1fr; }
+.card:hover { background: var(--surface); box-shadow: var(--shadow); }
+.card:focus-within { background: var(--surface); }
+.card__frame {
+  overflow: hidden; border-radius: 8px;
+  box-shadow: 0 0 0 1px var(--border);   /* hairline that does not affect layout */
+  background: var(--surface);
+}
+.card__cover { display: block; aspect-ratio: 4/3; object-fit: cover; width: 100%; }
+.card__title { font-family: var(--font-ui); font-size: var(--step-1); margin: 0 0 .25rem; }
+.card__title a { color: var(--text); }
+.card:hover .card__title a { color: var(--accent); text-decoration: none; }
+.card__title a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.card__meta {
+  color: var(--muted); font-family: var(--font-ui);
+  font-size: var(--step--1); margin: 0 0 .4rem;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.card__period {
+  color: var(--muted); font-family: var(--font-ui);
+  font-size: var(--step--2); letter-spacing: .02em; margin: 0 0 .35rem;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+/* Even card heights in a list without clipping a one-line summary. */
+.card__summary {
+  margin: 0;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+/* Quiet divider introducing the earlier-career (archived) projects. */
+.archive-heading {
+  font-family: var(--font-ui); font-size: var(--step--2); font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--muted);
+  margin: 2.75rem 0 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border);
+}
+@media (max-width: 34rem) {
+  .card { grid-template-columns: 1fr; }
+  /* Only the horizontal row card caps its cover when it stacks. A vertical
+     grid card must keep a full-bleed cover: capping it left the image at 12rem
+     inside a ~22rem card, with dead space beside it on phones. The cover still
+     holds 3:2 and centre-crops the height via object-fit. */
+  .card:not(.card--vertical) .card__frame { max-width: 12rem; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card { transition: background .3s ease, box-shadow .3s ease, transform .3s ease; }
+  .card__cover { transition: transform .45s ease; }
+  .card:hover { transform: translateY(-2px); }
+  .card:hover .card__cover { transform: scale(1.04); }
+  .card__title a { transition: color .2s ease; }
+  /* Blox lifts its grid cards further than a list row, over 300 ms. */
+  .card--vertical:hover { transform: translateY(-6px); }
+  .btn, .iconlink { transition: box-shadow .3s ease, transform .3s ease, background-color .3s ease, color .3s ease; }
+  .btn--accent:hover { transform: translateY(-2px) scale(1.02); }
+  .iconlink:hover { transform: translateY(-2px); }
+  .out-card, .gallery a { transition: box-shadow .3s ease, transform .3s ease; }
+  .out-card:hover, .gallery a:hover { transform: translateY(-4px); }
+  .gallery img { transition: border-color .3s ease; }
+}
+
+/* ---- Section headings with an icon ---------------------------------------- */
+/* No margin of its own: a sec-head is used both as the first heading in a band
+   and mid-document (via the heading render hook), so it must keep the normal
+   h1/h2 spacing. Zeroing the top margin here removed the gap above "Profile
+   photo" on the biography page. `.band > :first-child` handles the flush case. */
+.sec-head { display: flex; align-items: center; gap: .6rem; }
+.sec-head .icon { width: 1.15em; height: 1.15em; color: var(--accent); }
+.sec-head__text { display: block; }
+
+/* ---- Wide band ------------------------------------------------------------ */
+/* Grids are wider than the reading measure, so they sit outside .prose. */
+.wide { max-width: var(--page); margin-inline: auto; padding-inline: 1.25rem; }
+/* Every top-level section is a band at the same width, so nothing on the site is
+   wider or narrower than anything else. */
+.band { padding-block: 2.5rem; }
+.band > :first-child { margin-top: 0; }
+.band + .band { padding-top: 0; }
+
+/* ---- Home hero ------------------------------------------------------------ */
+/* Fills the first screen so the page reads as three flicks: hero, then Selected
+   projects, then Latest research outputs. min-height rather than height, so a
+   short viewport or a long summary simply grows instead of clipping. */
+.hero {
+  position: relative; isolation: isolate;
+  /* Deliberately short of a full screen: the top of "Selected projects" should
+     be visible on a laptop so the page invites scrolling. */
+  min-height: min(66svh, 34rem);
+  display: grid; align-items: center;
+  padding-block: 3rem;
+}
+/* The field itself lives on body::before so it spans the viewport; the hero
+   only reserves the space. */
+.hero__inner {
+  width: 100%; max-width: var(--page); margin-inline: auto; padding-inline: 1.25rem;
+  display: grid; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+  gap: 2.5rem; align-items: center;
+}
+.hero__side { text-align: center; }
+.hero__portrait img {
+  width: 11.5rem; height: 11.5rem; border-radius: 50%; object-fit: cover;
+  border: 4px solid var(--bg); display: block; margin: 0 auto 1.1rem;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .20), 0 0 0 5px var(--accent-soft);
+}
+.hero__name {
+  font-family: var(--font-body); font-weight: 800;
+  font-size: clamp(1.7rem, 1.4rem + 1.1vw, 2.3rem);
+  line-height: 1.06; letter-spacing: -0.025em; margin: 0 0 .35rem;
+  text-wrap: balance;
+}
+.hero__role {
+  color: var(--accent); font-family: var(--font-ui); font-weight: 600;
+  font-size: var(--step--1); margin: 0 0 .2rem; text-wrap: balance;
+}
+.hero__location {
+  color: var(--muted); font-family: var(--font-ui);
+  font-size: var(--step--2); margin: 0;
+}
+.hero__cv { margin-top: 1.1rem; }
+/* Every row in the right column fills it, so the summary, the pills and the
+   CV/links row line up on both edges. */
+.hero__summary { margin: 0 0 1.35rem; }
+.hero__summary > :last-child { margin-bottom: 0; }
+.hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+
+@media (max-width: 46rem) {
+  .hero { min-height: 0; }
+  .hero__inner { grid-template-columns: 1fr; gap: 1.75rem; }
+  .hero__body { text-align: center; }
+  .pills, .hero__actions { justify-content: center; }
+  /* Four icons per row, centred. Left to wrap freely the seven links broke
+     6 + 1 ragged right; this width is exactly 4 icons plus their 3 gaps. */
+  .iconlinks {
+    justify-content: center; margin-inline: auto;
+    max-width: calc(4 * 3rem + 3 * .5rem);
+  }
+  .hero__portrait img { width: 10rem; height: 10rem; }
+}
+
+/* Scroll affordance, fixed to the bottom-left of the viewport. Anchored to the
+   hero it sat 300px above the fold on a laptop and below it on a phone, since
+   the hero is shorter than the screen. Quiet at rest; the slow nudge is what
+   makes it noticeable without being loud. */
+.scroll-cue {
+  position: fixed; right: 1.25rem; bottom: 1rem; z-index: 15;
+  color: var(--accent); opacity: .8; line-height: 0; pointer-events: none;
+}
+.scroll-cue .icon { width: 1.7rem; height: 1.7rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-cue .icon { animation: scroll-cue-nudge 2.4s ease-in-out infinite; }
+}
+@keyframes scroll-cue-nudge {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(4px); }
+}
+
+/* ---- Pills ---------------------------------------------------------------- */
+.pills { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; margin: 0 0 1.5rem; }
+.pill {
+  font-family: var(--font-ui); font-size: var(--step--1); font-weight: 500;
+  /* Tinted with --accent-2, the teal the hero gradient ends on, so the chips
+     belong to the field behind them. Mixed at 26% with a 60% edge: a neutral
+     8% tint separated from the page by only 1.16:1 and read as blended, this
+     sits at 1.49 (light) / 1.69 (dark) while keeping the label above 8:1.
+     Tinting with --accent instead was the earlier mistake — blue-on-blue
+     vanished against the hero. */
+  background: var(--chip-bg);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--chip-edge);
+  border-radius: 999px; padding: .5rem 1rem; margin: 0; line-height: 1.4;
+}
+
+/* ---- Buttons and icon links ----------------------------------------------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+  font-family: var(--font-ui); font-weight: 650; font-size: var(--step-0);
+  padding: .7rem 1.35rem; border-radius: .7rem; min-height: var(--tap);
+  font-size: var(--step--1);
+}
+.btn--accent {
+  color: var(--on-accent);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 6px 18px var(--accent-glow);
+}
+.btn--accent:hover { color: var(--on-accent); text-decoration: none; box-shadow: 0 12px 28px var(--accent-glow); }
+
+.iconlinks { display: flex; flex-wrap: wrap; gap: .5rem; }
+.iconlink {
+  width: 3rem; height: 3rem; border-radius: 50%;
+  display: inline-grid; place-items: center; color: var(--muted); background: var(--bg);
+  box-shadow: 0 0 0 1px var(--border), 0 1px 3px rgba(0, 0, 0, .06);
+}
+.iconlink:hover {
+  color: var(--on-accent); background: var(--accent); text-decoration: none;
+  box-shadow: 0 0 0 1px var(--accent), 0 6px 16px var(--accent-glow);
+}
+.icon { flex: none; }
+/* Explicit, so an <a> that wraps only an image or an icon still shows the hand
+   cursor in every browser. */
+a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
+
+/* ---- Card grid (vertical cards) ------------------------------------------- */
+/* auto-fit + minmax means 3 -> 2 -> 1 columns intrinsically, with no breakpoint;
+   min() keeps a single card from overflowing a 320 px phone. */
+.card-grid {
+  list-style: none; margin: 0 0 1rem; padding: 0;
+  display: grid; gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
+}
+/* Teaching has exactly four courses, so a wider track gives a 2x2. */
+.card-grid--two {
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+}
+.card--vertical {
+  /* stretch, not the `align-items: start` inherited from .card: in a column
+     flex container `start` packs children at their natural width, so a frame
+     holding a narrow image shrink-wrapped it and left dead space beside it. */
+  display: flex; flex-direction: column; align-items: stretch; gap: 0;
+  padding: 0; margin-inline: 0; overflow: hidden;
+  border-radius: .75rem;
+  background: linear-gradient(160deg, var(--bg), var(--accent-wash));
+  box-shadow: 0 0 0 1px var(--border), 0 2px 8px rgba(0, 0, 0, .05);
+}
+.card--vertical .card__frame { border-radius: 0; box-shadow: none; }
+.card--vertical .card__cover { aspect-ratio: 3 / 2; }
+.card--vertical .card__body { padding: 1.15rem 1.25rem 1.35rem; }
+.card--vertical .card__title { font-size: var(--step-1); }
+/* Overrides the flat .card:hover surface: vertical cards lift, glow in the
+   accent, and brighten their border — the Blox treatment. */
+.card--vertical:hover,
+.card--vertical:focus-within {
+  background: linear-gradient(160deg, var(--bg), var(--accent-soft));
+  box-shadow: 0 0 0 1px var(--accent-line), 0 16px 34px var(--accent-glow);
+}
+
+/* ---- Research-output cards ------------------------------------------------ */
+/* Shared by the home page's "Latest research outputs" and the Research Outputs
+   page's "Featured works". 2-up, matching every other grid on the site. */
+.out-cards {
+  list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+}
+.out-card {
+  margin: 0; padding: 1.15rem 1.35rem 1.25rem; border-radius: .75rem;
+  border-top: 3px solid var(--accent);
+  background: linear-gradient(160deg, var(--bg), var(--accent-wash));
+  box-shadow: 0 0 0 1px var(--border), 0 2px 8px rgba(0, 0, 0, .05);
+}
+.out-card:hover {
+  box-shadow: 0 0 0 1px var(--accent-line), 0 14px 30px var(--accent-glow);
+}
+.out-card__type {
+  font-family: var(--font-ui); font-size: var(--step--2); letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted); margin: 0 0 .45rem;
+}
+.out-card__title { font-family: var(--font-body); font-size: var(--step-0); font-weight: 600; line-height: 1.35; margin: 0 0 .5rem; }
+.out-card__title a { color: var(--text); }
+.out-card__title a:hover { color: var(--accent); }
+.out-card__meta { font-size: var(--step--1); color: var(--muted); margin: 0 0 .65rem; }
+.out-card__meta .venue { font-style: italic; }
+.out-card__year { font-variant-numeric: tabular-nums lining-nums; }
+.out-card__links { font-family: var(--font-ui); font-size: var(--step--1); margin: 0; display: flex; flex-wrap: wrap; gap: .85rem; }
+
+/* ---- Project page --------------------------------------------------------- */
+.project-cover { width: 100%; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+
+/* A cover credit is written as `<small>Cover: …</small>` in the first block of
+   the body, which goldmark wraps in a <p> landing right after the image. Pull it
+   up into the cover's bottom margin so it reads as that image's caption. The
+   `:has` keeps it off bodies that open with ordinary prose. */
+.project-cover + p:has(> small) {
+  margin: -1.15rem 0 1.5rem;
+  font-family: var(--font-ui); font-size: var(--step--1); color: var(--muted);
+}
+
+/* Partnerships */
+.partners-block { margin: 1.5rem 0 0.5rem; }
+.partners-label {
+  font-family: var(--font-ui); font-size: var(--step--2); letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted); margin: 0 0 .5rem;
+}
+.partners { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0; }
+.partner {
+  display: inline-flex; align-items: center; gap: .5rem;
+  border: 1px solid var(--border); border-radius: 9px;
+  padding: .4rem .7rem; background: var(--surface);
+  font-family: var(--font-ui); font-size: var(--step--1); color: var(--text);
+}
+.partner-emoji { font-size: 1.05rem; line-height: 1; flex: none; }
+.partner-country {
+  color: var(--muted); font-size: var(--step--2);
+  border-left: 1px solid var(--border); margin-left: .1rem; padding-left: .5rem;
+}
+
+/* ---- Research outputs: set as a bibliography ------------------------------ */
+/* The year is the one structural device here, and it earns its place: the list
+   genuinely is chronological. On wide screens each year sits in a rail beside
+   its entries and sticks while you scroll that year's block; below 46rem it
+   folds back into an ordinary heading. */
+.out-section {
+  display: grid; grid-template-columns: 4.5rem 1fr; gap: 0 1.5rem;
+  align-items: start; margin-top: 2.25rem;
+}
+.out-year {
+  grid-column: 1; margin: 0; font-family: var(--font-ui);
+  font-size: var(--step-1); color: var(--accent);
+  font-variant-numeric: tabular-nums lining-nums;
+  position: sticky; top: 4.5rem;
+}
+.out-section > .out-list { grid-column: 2; }
+
+.out-list { list-style: none; margin: 0; padding: 0; }
+/* Hanging indent belongs on the list item: .out-ref is a <span>, and inline
+   boxes ignore text-indent, so setting it there never actually indented. */
+.out-list li {
+  margin-bottom: 1rem;
+  padding-left: 1.4rem; text-indent: -1.4rem;
+}
+.out-ref .authors { color: var(--muted); }
+.out-ref .ptitle { font-weight: 600; }
+.out-ref .venue { font-style: italic; }     /* scholarly convention for the venue */
+/* André's own name in a citation: the same grey as every other author, marked
+   only by an underline. Colour-highlighting it (in --text, then in --accent-2)
+   read as a third voice competing with the blue links. */
+.out-ref .me {
+  color: inherit; font-weight: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px; text-decoration-thickness: 1px;
+}
+.out-type {
+  font-family: var(--font-ui);
+  font-size: var(--step--2); letter-spacing: .03em;
+  /* Same chip as the hero pills: --muted on a hairline border was too faint to
+     register as a badge. */
+  background: var(--chip-bg); color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--chip-edge);
+  border: 0; border-radius: 999px; padding: .1rem .55rem;
+  white-space: nowrap; text-indent: 0;
+}
+.out-archived { font-style: italic; color: var(--muted); font-size: .85em; }
+.out-rel { font-style: italic; color: var(--muted); font-size: .9em; font-family: var(--font-ui); }
+.out-rel .out-type { font-style: normal; }
+
+.out-filters {
+  display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center;
+  font-family: var(--font-ui); font-size: var(--step--1); margin: 1.5rem 0 .5rem;
+  padding-bottom: 1rem; border-bottom: 1px solid var(--border);
+}
+.out-filters label { display: inline-flex; align-items: center; gap: .45rem; color: var(--muted); }
+.out-filters select {
+  font: inherit; color: var(--text); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: .4rem .5rem; min-height: 2.25rem;
+}
+.out-count { color: var(--muted); margin-left: auto; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 46rem) {
+  .out-section { grid-template-columns: 1fr; gap: 0; }
+  .out-year { position: static; margin-bottom: .75rem; }
+  .out-section > .out-list { grid-column: 1; }
+}
+
+/* ---- Thesis page ---------------------------------------------------------- */
+.thesis-byline { color: var(--muted); font-family: var(--font-ui); margin: -.25rem 0 1.25rem; }
+.thesis-meta {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 1.1rem 1.25rem; margin: 0 0 2rem;
+  font-family: var(--font-ui); font-size: var(--step--1);
+}
+/* Intrinsic rather than a breakpoint flip: the label column takes what it needs
+   and the row stacks on its own when there is no room for both. */
+.tmeta-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(8rem, 100%), auto));
+  gap: .5rem 1rem; padding: .5rem 0; align-items: start;
+}
+.tmeta-row + .tmeta-row { border-top: 1px solid var(--border); }
+.tmeta-label {
+  font-size: var(--step--2); letter-spacing: .07em; text-transform: uppercase;
+  color: var(--muted); padding-top: .15rem;
+}
+.tmeta-row .out-list { margin: 0; }
+.tmeta-row .out-list li { margin-bottom: .4rem; padding-left: 0; text-indent: 0; }
+.tmeta-row .partners { margin: 0; }
+
+/* ---- Footer --------------------------------------------------------------- */
+.site-footer {
+  border-top: 1px solid var(--border); margin-top: 4rem;
+  padding-block: 2rem; font-family: var(--font-ui);
+}
+.site-footer .social { display: flex; flex-wrap: wrap; gap: .25rem 1rem; margin-bottom: .75rem; }
+.site-footer .social a {
+  color: var(--muted); font-size: var(--step--1);
+  display: inline-flex; align-items: center; min-height: var(--tap);
+}
+.site-footer .social a:hover { color: var(--accent); text-decoration: none; }
+.colophon { color: var(--muted); font-size: var(--step--2); margin: 0; }

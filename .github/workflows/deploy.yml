@@ -1,35 +1,53 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: deploy to anjos.github.io
 
+# Validate on every branch push; the Deploy step below is what gates on main.
 on:
   push:
-    branches:
-      - main
-  pull_request:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
 
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
-      - name: Build
+      - name: Set up pixi
         uses: prefix-dev/setup-pixi@v0.9.5
         with:
           pixi-version: v0.69.0
           cache: true
-      - run: pixi run gh-action
 
+      # setup-pixi caches the pixi environment, not prek's hook environments —
+      # without this, every run re-clones the hook repos and rebuilds their venvs.
+      # Keyed on the hook config, so it only rebuilds when the hooks change.
+      - name: Cache prek hook environments
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/prek
+            ~/.cache/uv
+          key: prek-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: prek-${{ runner.os }}-
+
+      # The one gate, identical to what runs locally:
+      #   lint + test + check-content + check-outputs + check-links
+      # check-links builds the site first, so ./public is ready to deploy below.
+      # check-outputs verifies data/outputs.json against Zotero's key-less public
+      # feed, so CI needs no secrets. A Zotero outage is treated as "unknown",
+      # not "stale", and does not fail the build.
+      - name: Validate
+        run: pixi run validate
+
+      # Deploy only on pushes to main (not on pull requests).
       - name: Deploy
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4
         with:
-            deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-            external_repository: anjos/anjos.github.io
-            publish_dir: ./output
-            publish_branch: main
-            cname: anjos.ai
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: anjos/anjos.github.io
+          publish_dir: ./public
+          publish_branch: main
+          cname: anjos.ai

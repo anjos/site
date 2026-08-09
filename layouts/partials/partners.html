@@ -1,0 +1,30 @@
+{{- /* Render partners as labelled chips with a type icon and, when given, a
+       country (with flag). Each item may be a plain string (name only) or a
+       map {name, country}. Type is inferred from the name; hospital is checked
+       before university, since "University Hospital" is a hospital. */ -}}
+{{- $items := . -}}
+{{- if $items }}
+{{- $flags := dict
+    "Switzerland" "🇨🇭" "France" "🇫🇷" "Brazil" "🇧🇷" "Germany" "🇩🇪"
+    "United States" "🇺🇸" "USA" "🇺🇸" "United Kingdom" "🇬🇧" "Portugal" "🇵🇹"
+    "Netherlands" "🇳🇱" "Italy" "🇮🇹" "Spain" "🇪🇸" "Austria" "🇦🇹" -}}
+<div class="partners">
+  {{- range $items }}
+  {{- $n := "" }}{{ $country := "" -}}
+  {{- if reflect.IsMap . }}{{ $n = .name }}{{ $country = .country }}{{ else }}{{ $n = . }}{{ end -}}
+  {{- $t := "research" -}}
+  {{- if or (in $n "Hospital") (in $n "Hôpital") (in $n "Kantonsspital") (in $n "CHUV") (in $n "Klinik") (in $n "Augenklinik") -}}
+    {{- $t = "hospital" -}}
+  {{- else if or (in $n "Data Science") (in $n "Murabei") (in $n "GmbH") (in $n "AG,") (in $n "Inc") (in $n "Ltd") -}}
+    {{- $t = "industry" -}}
+  {{- else if or (in $n "University") (in $n "Universit") (in $n "EPFL") (in $n "UZH") (in $n "Grenoble") (in $n "EPF") -}}
+    {{- $t = "university" -}}
+  {{- end -}}
+  <span class="partner partner--{{ $t }}"><span class="partner-emoji" aria-hidden="true">
+    {{- index (dict "hospital" "🏥" "university" "🎓" "industry" "🏭") $t | default "🔬" -}}
+  </span><span>{{ $n }}</span>
+    {{- with $country }}<span class="partner-country">{{ with index $flags . }}{{ . }} {{ end }}{{ . }}</span>{{ end -}}
+  </span>
+  {{- end }}
+</div>
+{{- end -}}

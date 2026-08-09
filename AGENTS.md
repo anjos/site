@@ -1,0 +1,327 @@
+# Working on anjos.ai
+
+This repository builds [anjos.ai](https://anjos.ai), André Anjos' professional
+website, with [Hugo](https://gohugo.io). It is designed to be edited by humans
+and by LLM agents. This file tells an agent how the site is organised and how to
+add content correctly.
+
+## Golden rules
+
+1. **Always work through `pixi`** — it provides Hugo, Python, and the checkers.
+2. **After any change, run the gate:**
+   ```sh
+   pixi run validate   # hygiene + front-matter/refs/covers + unit tests + Zotero
+                       # data + a strict build and a dead-link check
+   ```
+   It must pass before committing, and it is exactly what CI runs — there is no
+   second, longer command to remember. See "Quality gates" below.
+3. **Publications come from Zotero "My Publications", not hand-edited.** Never edit
+   `data/outputs.json` by hand — regenerate it with `pixi run outputs`, which needs
+   your API key. Without a key the tool *verifies* instead of writing, which is how
+   CI checks the data without credentials (see below).
+4. **Never commit a PDF or a raw image.** Only optimised front-matter covers live
+   in `static/`; everything else is served from Idiap — see "Large assets" below.
+5. Prefer Markdown; keep prose sober and readable for a scientific audience.
+
+## Layout
+
+```
+content/
+  _index.md            Home page intro
+  about.md             Long/short/one-liner bio (via {{< bio >}} shortcode)
+  projects/<id>/index.md   A research project (leaf bundle)  ← main content type
+  theses/<slug>.md     A supervised thesis (links to a project)
+  teaching/<slug>.md   A course
+  media/<slug>.md      A talk / interview / press item
+data/
+  bio.yaml             Single source for bio text (long / short / one_liner)
+  outputs.json    GENERATED from Zotero "My Publications" — do not edit by hand
+layouts/               Bespoke theme (typography-first, light/dark)
+assets/css/main.css    Theme styles (CSS custom properties for both themes)
+assets/fonts/          Self-hosted Source Serif 4 (subset woff2) — see below
+tools/                 zotero_common.py (shared), update-site-outputs.py,
+                       update-orcid-outputs.py, add_zotero_output.py,
+                       edit_zotero_item.py, zotero_pdf.py (read a paper's PDF —
+                       public or private — from Zotero), validate_content.py, tests
+static/images/covers/  Optimised front-matter covers ONLY (served at /images/covers/...)
+idiap-public/          GIT-IGNORED local mirror of ~/public on the Idiap web
+                       server: every PDF and raw image (see "Large assets")
+```
+
+## Publications (Zotero is the source of truth)
+
+The **Zotero "My Publications"** library (user `anjos`, id `5992358`) is the single
+source of truth. The website and the ORCID to-do report are generated from it.
+
+- Add one work:      the **add-zotero-output** skill (or the Zotero GUI)
+- Refresh the site:  `pixi run outputs`   (Zotero public feed → `data/outputs.json`)
+- ORCID to-do:       `pixi run orcid-report`  (writes `orcid-sync-report.md`; you
+  apply it on ORCID by hand — ORCID writes need the paid Member API)
+- Full recipe:       the **add-output-workflow** skill
+
+### Update or check
+
+`data/outputs.json` is generated but **committed**, and the tool has two modes,
+chosen by whether a Zotero API key is configured:
+
+| | with a key (your machine) | without a key (CI) |
+|---|---|---|
+| `pixi run outputs` | **UPDATE** — fetches and rewrites the file | **CHECK** — verifies and fails if stale |
+| `pixi run check-outputs` | CHECK (forced) | CHECK |
+
+Only one field needs the key: `related`, from Zotero's `dc:relation`, which the
+public feed does not expose. Everything else is public — including each entry's
+`key`, which is Zotero's **BibTeX citation key** (BetterBibTeX, e.g.
+`anjos_mednet_2024`) — so CHECK verifies the whole file except `related`. That is
+why CI needs no secrets. If Zotero is unreachable, staleness is *unknown* rather
+than proven: the tool warns and succeeds, so an outage never breaks a deploy.
+
+`python tools/update-site-outputs.py --help` documents the flags (`--check`,
+`--update`, `--verbose`). Only a *public* PDF attachment in Zotero produces a PDF
+link on the site. Writing to Zotero (the add skill) needs a read-write key in
+`~/.config/pyzotero.toml` (`api_key` + `user_id`).
+
+To feature an output on a project (or thesis) page, add its **DOI or citation key**
+to that page's `research_outputs:` list — the template resolves it from
+`data/outputs.json` (any type: papers, datasets, software). If it's not yet in the
+data, add the work to Zotero and run `pixi run outputs`.
+
+## Quality gates
+
+**Every gate is defined exactly once, as a pixi task.** `.pre-commit-config.yaml`
+holds file hygiene and nothing else; the project-specific checks are pixi tasks,
+and `lint` is what runs the hygiene hooks from inside `validate`. Install the
+hooks once with `pixi run prek install --install-hooks`.
+
+| when | what | cost |
+|---|---|---|
+| **pre-commit** | whitespace/TOML/JSON/YAML hygiene, no submodules, `ruff` on `tools/` | offline, instant |
+| **`pixi run validate`** | `lint` + `test` + `check-content` + `check-outputs` + `check-links` (which builds first) — **exactly what CI runs** | network, ~10 s |
+
+The order makes failures fast and legible: offline before network, the build last,
+and `test` ahead of both checkers because it covers the code they run
+(`test_static_rule.py` → `validate_content.py`, `test_pipeline.py` →
+`zotero_common.py`). Broken tooling then fails as a named assertion rather than
+as a puzzling content error or Zotero diff.
+
+Each check also runs alone: `check-content`, `check-outputs`, `check-links`,
+`check-sync`, `lint`. `check-links` declares `depends-on = ["build"]`, so it is
+correct standalone and never link-checks a stale `public/`. `check-sync` is a
+`rsync --dry-run` proving everything in `idiap-public/` is already published; it
+needs SSH, so it belongs to no composite gate — run it by hand after
+`idiap-push`. `pixi run serve` deliberately has **no** dependencies — preview
+must not wait on a Zotero round-trip.
+
+The `static/` rule (layout + the 300 KB cap) lives in `check-content`, not in a
+prek hook: that way it is enforced in CI, covers modified files and not just
+newly added ones, and gives the "re-encode it" message instead of a bare size
+error.
+
+## Large assets live on Idiap
+
+The repository stays small. The rule, enforced by `pixi run validate`:
+
+> **All PDFs and raw image files are served from `https://www.idiap.ch/~aanjos/`.
+> Only front-matter cover images — optimised for list rendering — live in `static/`.**
+
+`idiap-public/` is a git-ignored local mirror of `~/public` on the Idiap web
+server, and the path mapping is literal:
+
+| file | URL |
+|---|---|
+| `idiap-public/pdfs/theses/foo.pdf` | `https://www.idiap.ch/~aanjos/pdfs/theses/foo.pdf` |
+| `idiap-public/images/about/bar.jpg` | `https://www.idiap.ch/~aanjos/images/about/bar.jpg` |
+
+Adding an asset:
+
+1. **A cover** (front-matter `cover:`) → optimise it and put it in
+   `static/images/covers/`, referenced as `images/covers/<file>`:
+   ```sh
+   magick IN -resize '1000x1000>' -strip -quality 82 -interlace Plane   static/images/covers/x.jpg
+   magick IN -resize '1000x1000>' -strip -colors 256 -define png:compression-level=9 PNG8:static/images/covers/x.png
+   ```
+   Keep the source format (no extension changes), stay under 300 KB, leave SVGs
+   alone. A full-resolution original also belongs on Idiap.
+2. **Anything else** — a PDF, a photo, a gallery image, a logo → drop it under
+   `idiap-public/<path>` and reference it by its **full URL**. Hugo's `relURL`
+   passes absolute URLs through untouched, so this works in front-matter
+   (`cover:`, `report:`), in Markdown links, in `{{< figure >}}`, and in the raw
+   HTML the gallery pages use.
+3. Publish it, **before** running `pixi run validate` (whose `check-links` step
+   fetches the real URLs and will 404 otherwise):
+   ```sh
+   pixi run idiap-push   # rsync idiap-public/ -> idiap:public/
+   pixi run idiap-pull   # the other direction, to refresh the local mirror
+   ```
+   Both are additive — no `--delete`, so neither side ever loses a file.
+
+`pixi run validate` fails on anything in `static/` that is not a cover, on any
+`static/` file over 300 KB, and (locally, where the mirror exists) on any Idiap
+URL with no matching file in `idiap-public/`.
+
+### Webfonts are the one exception, and they live in `assets/`
+
+The rule above is about `static/`. **Site webfonts belong in `assets/fonts/` and
+must not be moved to Idiap** — they are part of the theme, not content, and a
+third-party font request is exactly what self-hosting avoids. `assets/` is
+processed by Hugo Pipes and is outside `validate_content.py`'s remit, so the
+`static/` cover rule does not apply to it.
+
+`assets/fonts/` holds Source Serif 4 (SIL OFL-1.1) as two subset variable woff2
+files, ~180 KB total. They are deliberately **not** fingerprinted: `main.css`
+refers to them by the relative path `../fonts/<file>.woff2`, which only resolves
+if the published filename stays stable. The `@font-face` block at the top of
+`assets/css/main.css` documents the exact `pyftsubset` command, the unicode
+range, and why `opsz` is pinned — regenerate from there if the font is ever
+updated or the content gains a script the subset does not cover.
+
+## The theme
+
+A bespoke, typography-first theme in `layouts/` and `assets/css/main.css`. Not a
+Hugo theme or module — the reasoning is in the `theme:` commits. These are the
+invariants; breaking one has already caused a real bug, so they are worth
+keeping rather than rediscovering.
+
+**One width.** `--page: 52rem` is the site's only content width, matching the
+header from the title across to the CV link. Sections are `<div class="wide
+band">`. Do not introduce a second width: bands of differing widths were what
+made the page look misaligned.
+
+**One accent knob.** `--accent` is the single source of colour identity;
+`--accent-wash/soft/line/glow` and the hero stops all derive from it with native
+`color-mix()`. Changing that one value re-tints the whole site. It is internal —
+nothing in the UI exposes it. Two companions:
+
+- `--accent-2` — the teal the hero gradient ends on, also the pill tint.
+- `--on-accent` — the label colour *on* an accent fill. It exists because white
+  on the accent fails in dark mode.
+
+> **Gradients must be a hue shift at constant lightness, never a ramp toward
+> white.** Ramping put the CV button's label at 3.95:1 in light and 1.80:1 in
+> dark, against a 4.5:1 minimum. Held at one lightness, both stops clear 6:1.
+> `pixi run test` enforces this (`tools/tests/test_contrast.py`).
+
+**One card partial.** `layouts/partials/card.html` is the single card structure
+for Projects, Teaching, Theses, Media and the Gallery; pass `"variant"
+"vertical"` for grid cards. It was four copies once, which meant the link
+behaviour had to be kept in sync four times.
+
+> **Exactly one link per card.** The title's `<a>` is stretched over the whole
+> card by `.card__title a::after`, so the cover image is inside the same hit
+> area while the accessibility tree still sees one link. Never add a second
+> anchor to the same target; anything genuinely separate inside a card needs
+> `position: relative; z-index: 1`.
+
+Grid cards centre-crop their cover to **3:2** — see the cover note in the
+`add-*` skills.
+
+**Section headings** go through `layouts/partials/sec-head.html`, which pairs an
+icon with the text. It branches `h1`/`h2` explicitly: Go's `html/template`
+cannot parse a dynamic element name (`<{{ $level }}`) and silently escapes the
+whole partial into visible markup.
+
+**Icons** come from `layouts/partials/icon.html`, one inline `currentColor` SVG
+per name. Brand marks are the official simple-icons paths, except `linkedin`,
+which simple-icons dropped and which comes from Hugo Blox's `brands.json`. No
+icon font and no icon set is vendored.
+
+**The home page** is composed in `layouts/index.html`: hero, then the top four
+current projects, then the four most recent research outputs. That last section
+is recomputed from `data/outputs.json` on every build and needs no curation.
+**Featured works** on `/outputs/` is the opposite — a hand-written `featured:`
+list in `content/outputs/_index.md` mirroring the starred works on ORCID. Nothing
+syncs the two; update it by hand.
+
+## Adding content
+
+Each content type has a skill under `.claude/skills/` — prefer them:
+
+- **add-project** — a new research project
+- **add-thesis** — a supervised student's thesis (linked to a project)
+- **add-zotero-output** — add one publication to Zotero (source of truth)
+- **add-output-workflow** — full add-a-paper recipe (Zotero → site → ORCID report)
+- **add-talk** — a Media entry (talk, interview, press item)
+- **add-software** — an open-source package (a Zotero `computerProgram` research output)
+
+The front-matter schemas the validator enforces are documented in each skill and
+in `tools/validate_content.py`.
+
+## Project front-matter (reference)
+
+```yaml
+---
+title: "Retinal Image Analysis"
+weight: 10                       # ordering on the Projects page
+cover: "images/covers/foo.png"   # optional; must exist under static/
+cover_position: "50% 20%"        # optional CSS object-position; re-aims the 3:2
+                                 # centre-crop cards apply to the cover
+summary: "One-sentence overview."   # required
+partners: ["Hôpital ophtalmique Jules-Gonin (HOJG)"]
+research_outputs:                # linked outputs of any type, by DOI or citation key
+  - "10.1038/s41598-022-09675-y" # a paper
+  - "anjos_mednet_2024"          # software (Zotero citation key, see data/outputs.json)
+  - "10.34777/..."               # a dataset (DOI)
+---
+Markdown body: an SNSF-style "major achievements" narrative. External datasets
+*used* (not produced by you) are mentioned in prose, not in research_outputs.
+```
+
+The project's **id** is its folder name (`content/projects/<id>/`). A thesis
+links to it with `projects: [<id>]`.
+
+## Coding Style & Naming Conventions
+
+Skills to reuse:
+
+- Use `python-design-patterns` as basis for writing or refactoring code.
+- Use `repomix` when larger overviews, refactoring, or third-party remote repositories
+  need to be inspected.
+
+Particularities for this package:
+
+- Python: 4-space indentation, `snake_case` for functions/modules, `PascalCase` for
+  classes.
+- Keep lines near 88 chars (Ruff config target) and let `ruff-format` normalize
+  formatting.
+- You should always add docstrings to public methods, variables, enumerations, etc. You
+  should avoid docstrings that only contain a sentence, and really write that first
+  sentence, then a more detailed explanation of the method, a description of the
+  parameters, the returned objects and any exceptions each method/function may throw, if
+  applicable.
+- If you create or edit Python docstrings, use the numpydoc style formatting
+- Use ruff and ty to check the code and try to comply as much as possible with errors,
+  warnings and tips from these tools
+- All files should have a valid SPDX header with the following:
+  ```text
+  SPDX-FileCopyrightText: Copyright © 2026 Idiap Research Institute <contact@idiap.ch>
+
+  SPDX-License-Identifier: BSD-3-Clause
+  ```
+- In Python code, you should avoid imports like `from module import function`, and just
+  `import module` and use the function as `module.function(...)`. You should also avoid
+  the `as` particle as in `from module import function as another_name`. Just call
+  things what they are, with their full (Python) path.
+- While importing within the package code itself, use relative imports for own code.
+- Code from tests or documentation should use full module imports (never relative).
+- By default, all methods should be private and start with a single underscore
+  `def _private_method(...)`, unless it must be made public.
+- Type annotations should be as permissive as possible on function/method inputs, and as
+  specific as possible on function/method returns.
+- Regarding type annotations, do not add aliases, just name types verbosely everywhere.
+  Do not come up with aliases such as `PathLike = str | pathlib.Path` to then use
+  `PathLike` everywhere. Just use `str | pathlib.Path` where needed.
+- You may still add specific type aliases if, and only if, actual types would be
+  ridiculously long (e.g. occupying 40 or more characters), in which case you should
+  also properly document such type aliases.
+- I prefer functional programming to classes. If you can find elegant ways to keep a
+  functional programming style, go for it unless a class/object-oriented style is more
+  elegant and will translate to less code.
+
+## Commit & Merge Request Guidelines
+
+- Use the shell command `wt step commit` to commit.
+- Always create branches for new features and fixes -- avoid committing to the `main`
+  branch directly, unless the user explicitly requests to do so.
+- Branch names should not contain slashes (`/`). They should be of the format
+  `<verb>-<object>` like `add-new-feature` or `fix-weird-behaviour`. The actual branch
+  name should be as compact as possible to save typing.

@@ -1,0 +1,111 @@
+baseURL = "https://anjos.ai/"
+defaultContentLanguage = "en"
+title = "André Anjos"
+enableGitInfo = false
+enableEmoji = true
+
+# Fail the build on broken internal ref/relref links (integration test).
+refLinksErrorLevel = "ERROR"
+
+# Pretty, hash-free URLs (parity with the old Pelican DISABLE_URL_HASH setup).
+disableKinds = ["rss"]
+
+[params]
+  subtitle = "Machine Learning · Computer Vision · Medical Artificial Intelligence · Reproducibility"
+  description = "Professional website of André Anjos — Medical AI, computer vision, reproducible research."
+  author = "André Anjos"
+  orcid = "0000-0001-7248-4014"
+  email = "andre.anjos@idiap.ch"
+  # "Visit us" at Idiap — the pin in the hero link row.
+  visitURL = "https://www.idiap.ch/en/about/visit-us"
+  cvURL = "https://anjos.ai/cv/cv.pdf"
+  # Home hero. The portrait is a raw image, so it is served from Idiap like every
+  # other one (see AGENTS.md, "Large assets"); relURL passes absolute URLs through.
+  photo = "https://www.idiap.ch/~aanjos/images/pictures/andre-anjos-600x600.jpg"
+  role = "Head of the Medical AI Group, Idiap Research Institute"
+  location = "Martigny, Switzerland"
+  # Rendered as the hero's pills. Kept separate from `subtitle`, which is prose
+  # for the meta description and the page sub-heading.
+  interests = [
+    "Medical AI",
+    "Machine Learning",
+    "Computer Vision",
+    "Signal Processing",
+    "Reproducible Research",
+  ]
+  # Footer social links (icon key -> URL). Icons resolved as inline SVGs.
+  [[params.social]]
+    name = "orcid"
+    url = "https://orcid.org/0000-0001-7248-4014"
+  [[params.social]]
+    name = "google-scholar"
+    url = "https://scholar.google.ch/citations?user=pAfLhMoAAAAJ"
+  [[params.social]]
+    name = "linkedin"
+    url = "https://www.linkedin.com/in/andreranjos/"
+  [[params.social]]
+    name = "github"
+    url = "https://github.com/anjos"
+  [[params.social]]
+    name = "gitlab"
+    url = "https://gitlab.idiap.ch/medai/software"
+
+# Projects are a normal content section (leaf bundles). Theses link to a project
+# via a plain `projects: [<id>]` front-matter list, matched on the project's `id`.
+# An empty table disables Hugo's default tags/categories taxonomies.
+[taxonomies]
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.highlight]
+    noClasses = false
+    lineNos = false
+    tabWidth = 2
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+
+[menus]
+  [[menus.main]]
+    name = "Projects"
+    pageRef = "/projects"
+    weight = 10
+  [[menus.main]]
+    name = "Research Outputs"
+    identifier = "outputs"
+    pageRef = "/outputs"
+    weight = 20
+  [[menus.main]]
+    name = "Theses"
+    pageRef = "/theses"
+    weight = 30
+  [[menus.main]]
+    name = "Teaching"
+    pageRef = "/teaching"
+    weight = 40
+  [[menus.main]]
+    name = "About"
+    identifier = "about"
+    pageRef = "/about"
+    weight = 60
+  [[menus.main]]
+    name = "Short biography"
+    parent = "about"
+    pageRef = "/about"
+    weight = 61
+  [[menus.main]]
+    name = "Contact"
+    parent = "about"
+    pageRef = "/contact"
+    weight = 62
+  [[menus.main]]
+    name = "Media"
+    parent = "about"
+    pageRef = "/media"
+    weight = 63
+  [[menus.main]]
+    name = "Photos"
+    parent = "about"
+    pageRef = "/gallery"
+    weight = 64

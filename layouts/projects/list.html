@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div class="wide band">
+  {{ partial "sec-head.html" (dict "icon" "projects" "text" .Title "level" "h1") }}
+  {{ .Content }}
+  {{ $active := where .Pages.ByWeight "Params.archived" "!=" true }}
+  {{ $archived := where .Pages.ByWeight "Params.archived" true }}
+  <ul class="card-grid card-grid--two">{{ partial "project-cards.html" $active }}</ul>
+  {{ with $archived }}
+  <h2 class="archive-heading">Earlier career</h2>
+  <ul class="card-grid card-grid--two">{{ partial "project-cards.html" . }}</ul>
+  {{ end }}
+</div>
+{{ end }}

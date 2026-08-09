@@ -1,0 +1,17 @@
+{{ define "main" }}
+<div class="wide band">
+  {{ partial "sec-head.html" (dict "icon" "outputs" "text" .Title "level" "h1") }}
+  {{ .Content }}
+
+  {{ with hugo.Data.outputs }}
+    {{/* Curated highlights, mirroring ORCID's starred works. */}}
+    {{ with $.Params.featured }}
+    {{ partial "out-featured.html" (dict "refs" . "data" hugo.Data.outputs.entries) }}
+    {{ end }}
+    {{ partial "out-list.html" (dict "entries" .entries "showType" true) }}
+  {{ else }}
+    <p><em>Output data has not been generated yet. Run <code>pixi run outputs</code>
+    to fetch it from your Zotero “My Publications” library.</em></p>
+  {{ end }}
+</div>
+{{ end }}

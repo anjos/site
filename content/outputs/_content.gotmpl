@@ -1,0 +1,19 @@
+{{/* Content adapter: one real page per research-output type, at /outputs/<slug>/,
+     from the distinct typeslugs in data/outputs.json. Built after `pixi run outputs`
+     (locally + in CI). If the data is missing, no type pages are generated. */}}
+{{ $data := hugo.Data.outputs }}
+{{ with $data }}
+  {{ $seen := slice }}
+  {{ range .entries }}
+    {{ $slug := .typeslug }}
+    {{ if and $slug (not (in $seen $slug)) }}
+      {{ $seen = $seen | append $slug }}
+      {{ $.AddPage (dict
+        "kind" "page"
+        "path" $slug
+        "title" (printf "Research Outputs: %s" .type)
+        "params" (dict "typeslug" $slug "typelabel" .type)
+      ) }}
+    {{ end }}
+  {{ end }}
+{{ end }}

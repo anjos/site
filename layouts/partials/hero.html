@@ -1,0 +1,82 @@
+{{- /* Home hero: portrait, nameplate, one-line bio, interest pills, external
+       links and the CV button, over an accent gradient field.
+
+       Everything here comes from data that already existed:
+         site.Params.photo / role / location / interests / cvURL / social
+
+       Input: dict "summary" <rendered HTML>. The home page passes its own
+       .Content, so the intro lives in content/_index.md and appears exactly
+       once; data/bio.yaml's one_liner is the fallback if that page is empty.
+       Rendering both is what produced a duplicated paragraph.
+
+       The portrait is an absolute Idiap URL — relURL passes it through
+       untouched, so no raw image enters static/ (AGENTS.md, "Large assets"). */ -}}
+{{- $labels := dict
+    "orcid" "ORCID"
+    "google-scholar" "Google Scholar"
+    "linkedin" "LinkedIn"
+    "github" "GitHub"
+    "gitlab" "GitLab"
+    "mail" "Email" -}}
+<section class="hero">
+  <div class="hero__inner">
+
+    {{- /* Left column: portrait with the nameplate directly under it. */}}
+    <div class="hero__side">
+      {{- with site.Params.photo }}
+      <div class="hero__portrait">
+        <img src="{{ relURL . }}" alt="Portrait of {{ site.Params.author }}"
+             width="220" height="220" loading="eager" fetchpriority="high">
+      </div>
+      {{- end }}
+      <h1 class="hero__name">{{ site.Title }}</h1>
+      {{- with site.Params.role }}<p class="hero__role">{{ . }}</p>{{ end }}
+      {{- with site.Params.location }}<p class="hero__location">{{ . }}</p>{{ end }}
+      {{- with site.Params.cvURL }}
+      <a class="btn btn--accent hero__cv" href="{{ . }}">
+        {{ partial "icon.html" "cv" }}<span>Download CV</span>
+      </a>
+      {{- end }}
+    </div>
+
+    {{- /* Right column: every row here shares one width — the summary, the
+           pills and the CV/links row all fill the column. */}}
+    <div class="hero__body">
+      {{- with .summary }}
+      <div class="hero__summary">{{ . }}</div>
+      {{- else }}
+      {{- with hugo.Data.bio.one_liner }}<div class="hero__summary">{{ . | markdownify }}</div>{{ end }}
+      {{- end }}
+
+      {{- with site.Params.interests }}
+      <ul class="pills" aria-label="Research interests">
+        {{- range . }}<li class="pill">{{ . }}</li>{{ end }}
+      </ul>
+      {{- end }}
+
+      <div class="hero__actions">
+        <nav class="iconlinks" aria-label="Profiles elsewhere">
+          {{- range site.Params.social }}
+          {{- $label := index $labels .name | default (.name | title) }}
+          <a class="iconlink" href="{{ .url }}" rel="me noopener" target="_blank"
+             aria-label="{{ $label }}" title="{{ $label }}">
+            {{- partial "icon.html" .name -}}
+          </a>
+          {{- end }}
+          {{- with site.Params.email }}
+          <a class="iconlink" href="mailto:{{ . }}" aria-label="Email" title="Email">
+            {{- partial "icon.html" "mail" -}}
+          </a>
+          {{- end }}
+          {{- with site.Params.visitURL }}
+          <a class="iconlink" href="{{ . }}" rel="noopener" target="_blank"
+             aria-label="How to visit" title="How to visit">
+            {{- partial "icon.html" "pin" -}}
+          </a>
+          {{- end }}
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</section>

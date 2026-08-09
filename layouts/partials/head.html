@@ -1,0 +1,48 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{- $title := .Title -}}
+{{- $isHome := .IsHome -}}
+<title>{{ if $isHome }}{{ site.Title }}{{ else }}{{ $title }} · {{ site.Title }}{{ end }}</title>
+<meta name="author" content="{{ site.Params.author }}">
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="{{ .Permalink }}">
+
+{{/* Open Graph */}}
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:title" content="{{ if $isHome }}{{ site.Title }}{{ else }}{{ $title }}{{ end }}">
+<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+
+{{/* No-flash theme: apply stored override before first paint. */}}
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem("theme");
+    if (t === "light" || t === "dark") {
+      document.documentElement.setAttribute("data-theme", t);
+    }
+  } catch (e) {}
+})();
+</script>
+
+{{/* Self-hosted Source Serif 4 (no CDN, no third-party request). Deliberately
+     NOT fingerprinted: main.css refers to these by the relative path
+     ../fonts/<file>.woff2, which only resolves if the published name is stable.
+     Touching .RelPermalink is also what makes Hugo publish an otherwise
+     unprocessed asset — the italic line exists for that reason alone. */}}
+{{- with resources.Get "fonts/source-serif-4-roman.woff2" }}
+<link rel="preload" href="{{ .RelPermalink }}" as="font" type="font/woff2" crossorigin>
+{{- end }}
+{{- with resources.Get "fonts/source-serif-4-italic.woff2" }}{{ $_ := .RelPermalink }}{{ end }}
+
+{{ $css := resources.Get "css/main.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{/* Medical AI group mark. The SVG is preferred where supported — it is two flat
+     fills with no text, so it stays crisp at every size; favicon.ico (32 + 48)
+     is the fallback for browsers that ignore rel=icon type=image/svg+xml. The
+     logo's blue disc is its own background, so one icon works on both light and
+     dark browser chrome. */}}
+<link rel="icon" href="{{ "images/favicon.svg" | relURL }}" type="image/svg+xml">
+<link rel="icon" href="{{ "images/favicon.ico" | relURL }}" sizes="32x32 48x48">
+<link rel="apple-touch-icon" href="{{ "images/apple-touch-icon.png" | relURL }}">

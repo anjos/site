@@ -1,0 +1,9 @@
+{{- /* Resolve a publication reference (a DOI or a generated key) against the
+       publications data and render it. Falls back to a bare DOI link, or the
+       raw reference for a key with no match. Input: dict "ref" <string> "data" <slice>. */ -}}
+{{- $ref := .ref | lower -}}
+{{- $data := .data -}}
+{{- $match := where $data "doi" $ref -}}
+{{- if not $match }}{{ $match = where $data "key" $ref }}{{ end -}}
+{{- with index $match 0 }}{{ partial "out-ref.html" . }}
+{{- else }}<span class="out-ref">{{ if hasPrefix $ref "10." }}DOI <a href="https://doi.org/{{ $ref }}" target="_blank" rel="noopener">{{ $ref }}</a>{{ else }}{{ $ref }}{{ end }}</span>{{- end -}}

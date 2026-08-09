@@ -1,0 +1,61 @@
+<footer class="site-footer">
+  <div class="wrap">
+    <p class="colophon">
+      © {{ now.Year }} {{ site.Params.author }}.
+    </p>
+  </div>
+</footer>
+<script>
+(function () {
+  var root = document.documentElement;
+  var btn = document.getElementById("theme-toggle");
+  if (btn) {
+    btn.addEventListener("click", function () {
+      var mq = window.matchMedia("(prefers-color-scheme: dark)");
+      var current = root.getAttribute("data-theme") || (mq.matches ? "dark" : "light");
+      var next = current === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem("theme", next); } catch (e) {}
+    });
+  }
+  // Scroll cue: only meaningful when there is somewhere left to scroll, so it
+  // is hidden on short pages and once the reader reaches the bottom.
+  var cue = document.querySelector(".scroll-cue");
+  if (cue) {
+    var slack = 48;
+    var syncCue = function () {
+      var doc = document.documentElement;
+      var remaining = doc.scrollHeight - window.innerHeight - window.scrollY;
+      cue.hidden = remaining <= slack;
+    };
+    syncCue();
+    addEventListener("scroll", syncCue, { passive: true });
+    addEventListener("resize", syncCue, { passive: true });
+  }
+
+  var nav = document.querySelector(".nav-toggle");
+  if (nav) {
+    var setOpen = function (open) {
+      document.body.classList.toggle("nav-open", open);
+      nav.setAttribute("aria-expanded", open ? "true" : "false");
+    };
+    nav.addEventListener("click", function (e) {
+      e.stopPropagation();
+      setOpen(!document.body.classList.contains("nav-open"));
+    });
+    // An open disclosure menu must be dismissable without picking an item:
+    // tapping the page behind it, or Escape for keyboard users.
+    document.addEventListener("click", function (e) {
+      if (document.body.classList.contains("nav-open") && !e.target.closest(".site-nav")) {
+        setOpen(false);
+      }
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && document.body.classList.contains("nav-open")) {
+        setOpen(false);
+        nav.focus();
+      }
+    });
+  }
+})();
+</script>

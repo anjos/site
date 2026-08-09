@@ -1,0 +1,5 @@
+{{- /* Project cards for a page collection (passed as the context). Vertical,
+       because projects are always shown in a `.card-grid`. */ -}}
+{{- range . -}}
+{{- partial "card.html" (dict "page" . "period" .Params.period "variant" "vertical") -}}
+{{- end -}}

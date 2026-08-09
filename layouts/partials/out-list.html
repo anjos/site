@@ -1,0 +1,64 @@
+{{- /* Shared research-output list: filter bar + year sections + vanilla-JS filter.
+       Input: dict "entries" <slice> "showType" <bool>. On per-type pages pass
+       showType=false (the type is fixed by the URL); the Year filter always shows. */ -}}
+{{- $entries := .entries -}}
+{{- $showType := .showType -}}
+{{- $years := slice -}}
+{{- $types := slice -}}
+{{- range $entries -}}
+  {{- $years = $years | append .year -}}
+  {{- with .type }}{{ $types = $types | append . }}{{ end -}}
+{{- end -}}
+{{- $years = collections.Reverse (sort ($years | uniq)) -}}
+{{- $types = sort ($types | uniq) -}}
+
+<div class="out-filters" role="group" aria-label="Filter research outputs">
+  {{- if $showType }}
+  <label>Type
+    <select id="f-type">
+      <option value="">All</option>
+      {{ range $types }}<option value="{{ . }}">{{ . }}</option>{{ end }}
+    </select>
+  </label>
+  {{- end }}
+  <label>Year
+    <select id="f-year">
+      <option value="">All</option>
+      {{ range $years }}<option value="{{ . }}">{{ . }}</option>{{ end }}
+    </select>
+  </label>
+  <span id="f-count" class="out-count" aria-live="polite"></span>
+</div>
+
+{{ range $y := $years }}
+<section class="out-section" data-year="{{ $y }}">
+  <h2 class="out-year" id="y{{ $y }}">{{ $y }}</h2>
+  <ul class="out-list">
+    {{ range sort (where $entries "year" $y) "month" "desc" }}
+    <li data-year="{{ .year }}" data-type="{{ .type }}">{{ partial "out-ref.html" . }}</li>
+    {{ end }}
+  </ul>
+</section>
+{{ end }}
+
+<script>
+(function () {
+  var t = document.getElementById('f-type'),
+      y = document.getElementById('f-year'),
+      c = document.getElementById('f-count'),
+      items = Array.prototype.slice.call(document.querySelectorAll('.out-list li')),
+      secs = Array.prototype.slice.call(document.querySelectorAll('.out-section'));
+  function apply() {
+    var tv = t ? t.value : '', yv = y.value, shown = 0;
+    items.forEach(function (li) {
+      var ok = (!tv || li.dataset.type === tv) && (!yv || li.dataset.year === yv);
+      li.hidden = !ok; if (ok) shown++;
+    });
+    secs.forEach(function (s) { s.hidden = !s.querySelector('.out-list li:not([hidden])'); });
+    c.textContent = shown + (shown === 1 ? ' output' : ' outputs');
+  }
+  if (t) t.addEventListener('change', apply);
+  y.addEventListener('change', apply);
+  apply();
+})();
+</script>

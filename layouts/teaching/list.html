@@ -1,0 +1,17 @@
+{{ define "main" }}
+<div class="wide band">
+  {{ partial "sec-head.html" (dict "icon" "teaching" "text" .Title "level" "h1") }}
+  {{ .Content }}
+  {{/* Four courses, so this is a 2x2 that collapses to one column when narrow. */}}
+  {{ with .Pages.ByDate.Reverse }}
+  <ul class="card-grid card-grid--two">
+    {{- range . }}
+    {{- $meta := slice }}
+    {{- with .Params.institution }}{{ $meta = $meta | append . }}{{ end }}
+    {{- with .Params.years }}{{ $meta = $meta | append . }}{{ else }}{{ with .Date }}{{ $meta = $meta | append (.Format "2006") }}{{ end }}{{ end }}
+    {{- partial "card.html" (dict "page" . "meta" (delimit $meta " · ") "variant" "vertical") }}
+    {{- end }}
+  </ul>
+  {{ end }}
+</div>
+{{ end }}

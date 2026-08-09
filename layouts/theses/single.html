@@ -1,0 +1,51 @@
+{{ define "main" }}
+<article class="prose band">
+  <h1>{{ .Title }}</h1>
+  <p class="thesis-byline">
+    {{ with .Params.author }}{{ . }}{{ end }}{{ with .Date }} · {{ .Format "January 2006" }}{{ end }}
+  </p>
+  {{ with .Params.cover }}<img class="project-cover" src="{{ (relURL .) }}" alt="" loading="lazy">{{ end }}
+
+  {{/* Details: research outputs, university, partnerships */}}
+  {{ $hasMeta := or .Params.research_outputs .Params.report .Params.datasets .Params.university .Params.partners }}
+  {{ if $hasMeta }}
+  <div class="thesis-meta">
+    {{ with .Params.research_outputs }}
+    <div class="tmeta-row"><span class="tmeta-label">Research outputs</span>
+      <div>
+        {{ $data := slice }}{{ with hugo.Data.outputs }}{{ $data = .entries }}{{ end }}
+        <ul class="out-list">
+          {{ range . }}
+          <li>{{ partial "out-cite.html" (dict "ref" . "data" $data) }}</li>
+          {{ end }}
+        </ul>
+      </div>
+    </div>
+    {{ end }}
+    {{ with .Params.datasets }}
+    <div class="tmeta-row"><span class="tmeta-label">Datasets used</span>
+      <div>{{ range . }}{{ .name }}{{ with .doi }} — <a href="https://doi.org/{{ . }}" target="_blank" rel="noopener">doi:{{ . }}</a>{{ end }}<br>{{ end }}</div></div>
+    {{ end }}
+    {{ with .Params.report }}
+    <div class="tmeta-row"><span class="tmeta-label">Report</span>
+      <div><a href="{{ . }}" target="_blank" rel="noopener">Thesis PDF</a></div></div>
+    {{ end }}
+    {{ with .Params.level }}
+    <div class="tmeta-row"><span class="tmeta-label">Degree</span>
+      <div>{{ if eq . "PhD" }}Doctoral thesis (Ph.D.){{ else }}{{ . }}'s thesis{{ end }}</div></div>
+    {{ end }}
+    {{ with .Params.role }}
+    <div class="tmeta-row"><span class="tmeta-label">Role</span><div>{{ . }}</div></div>
+    {{ end }}
+    {{ with .Params.university }}
+    <div class="tmeta-row"><span class="tmeta-label">University</span><div>{{ . }}</div></div>
+    {{ end }}
+    {{ with .Params.partners }}
+    <div class="tmeta-row"><span class="tmeta-label">Partnerships</span>{{ partial "partners.html" . }}</div>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  {{ .Content }}
+</article>
+{{ end }}
