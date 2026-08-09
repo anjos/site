@@ -33,10 +33,33 @@ and statistical methods for recognising particles as the data streamed in.
 
 ## Major achievements
 
-I contributed to the design, commissioning, and operation of the ATLAS High-Level
-Trigger and its online framework, writing software components that stayed in use
-well after I left. My doctoral work applied neural networks and statistical
-methods to fast, calorimetry-based electron and jet discrimination in the online
-filter. More than anything, this period taught me how large scientific software
-is really built, which is what drew me toward reproducible, well-engineered
-computing in the years that followed.
+I contributed to the design, commissioning, and operation of the ATLAS
+High-Level Trigger, the software stage that decides which collisions are kept.
+The scale sets the problem: the collider delivers collisions at 40 MHz and the
+detector produces around 1.5 megabytes per event, some 60 terabytes per second
+of raw data, of which only a small fraction can ever be written to storage. The
+architecture we helped build and validate splits that decision across two
+software stages running on processor farms, and keeps it affordable by having
+the hardware trigger point at regions of interest, so the second stage reads
+under 2% of an event instead of all of it. My work concerned the dataflow and
+supervision of that system — how events move through the farms, and how the
+farms themselves are configured, controlled, and monitored — and later a
+software environment that automated configuring and running the trigger and
+dataflow farms, so that a system of this size could be tested and redeployed by
+people ranging from casual testers to final deployers. Some of those components
+stayed in use well after I left.
+
+In parallel, my doctoral work applied neural networks and statistical methods
+to separating electrons from jets in the online filter, from calorimeter data
+alone and within a hard real-time budget. The obstacle was dimensionality: a
+calorimeter region of interest carries far too many channels to feed a network
+directly at these rates. Organising the deposited energy into concentric ring
+sums around the shower axis compressed the input while preserving the structure
+that distinguishes an electron from a hadronic jet, and so improved
+discrimination rather than merely making it cheaper — the resulting network
+reached 97% electron efficiency at a 3% false-alarm rate, with the full
+discrimination chain executing in under 500 microseconds. More than anything,
+this period taught me how large scientific software is really built, and how
+much of a physics result rests on infrastructure nobody outside the
+collaboration ever sees. That is what drew me toward reproducible,
+well-engineered computing in the years that followed.

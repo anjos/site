@@ -664,6 +664,15 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
 /* ---- Project page --------------------------------------------------------- */
 .project-cover { width: 100%; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 1.5rem; }
 
+/* A cover credit is written as `<small>Cover: …</small>` in the first block of
+   the body, which goldmark wraps in a <p> landing right after the image. Pull it
+   up into the cover's bottom margin so it reads as that image's caption. The
+   `:has` keeps it off bodies that open with ordinary prose. */
+.project-cover + p:has(> small) {
+  margin: -1.15rem 0 1.5rem;
+  font-family: var(--font-ui); font-size: var(--step--1); color: var(--muted);
+}
+
 /* Partnerships */
 .partners-block { margin: 1.5rem 0 0.5rem; }
 .partners-label {

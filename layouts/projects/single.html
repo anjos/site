@@ -21,7 +21,6 @@
 {{ define "main" }}
 {{ $id := .File.ContentBaseName }}
 <article class="prose band">
-  {{ with .Params.cover }}<img class="project-cover" src="{{ (relURL .) }}" alt="" loading="lazy">{{ end }}
   {{ partial "sec-head.html" (dict "icon" "projects" "text" .Title "level" "h1") }}
   {{ with .Params.summary }}<p class="page-subtitle">{{ . }}</p>{{ end }}
 
@@ -31,6 +30,10 @@
     {{ partial "partners.html" . }}
   </div>
   {{ end }}
+
+  {{/* The cover sits here, not above the title, so a `<small>Cover: …</small>`
+       credit written as the first block of the body reads as its caption. */}}
+  {{ with .Params.cover }}<img class="project-cover" src="{{ (relURL .) }}" alt="" loading="lazy">{{ end }}
 
   {{ .Content }}
 

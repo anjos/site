@@ -24,18 +24,26 @@ your future self.
 ## Major achievements
 
 It began with tooling. `Bob`, first described in 2012, gave researchers a Python environment
-backed by fast C++ where experiments carry their own database protocols, and that philosophy
-now runs through the suites we build and maintain, such as `mednet` and `sleepless`, across
-tasks as different as medical image analysis, biometrics, presentation-attack detection, and
-remote photoplethysmography. Recognising that raw data
-sometimes genuinely cannot be shared, we then built the **BEAT** platform, an open computing
-environment where experiments can be run and shared even when the underlying data stays
-private, closing the gap between "the software is available" and "the results are
-reproducible".
+backed by fast C++ in which an experiment carries its own dataset protocols, so that "the same
+data" means the same partitions rather than the same download. That design now runs through the
+suites we build and maintain — `mednet` for medical images and signals, `sleepless` for
+polysomnography, `credible` and `fairical` for evaluation — across tasks as different as medical
+image analysis, biometrics, presentation-attack detection and remote photoplethysmography, all
+released under free licences with documentation and packages rather than as a repository dump.
+The harder obstacle was data that genuinely cannot be shared, which no amount of open code
+fixes. For that we built the **BEAT** platform, a web-based open computing environment where
+experiments are submitted, run and compared against data the experimenter never sees, closing
+the gap between "the software is available" and "the result can be checked".
 
 Reproducibility is not only about code; it is also about what a number means. We worked on
-evaluation methodology itself, including probabilistic performance measures and credible
-regions for the small datasets typical of medical work, so that a reported improvement can be
-told apart from noise. Beyond our own projects, I stay active in reviewing the reproducibility
-of published research and in lowering the barrier for others to contribute reproducibly, on
-the conviction that a result no one can rerun is not yet a result.
+evaluation methodology itself, deriving credible regions for the common performance measures
+from their posterior distributions so that a reported improvement can be told apart from noise
+on the small datasets typical of medical work. One worked example makes the case better than any
+argument: two systems scoring 0.571 and 0.315 by the usual F1 formula look decisively different,
+yet under the probabilistic treatment the apparently weaker system actually outperforms the
+other in 43% of simulated draws. Those methods ship in the open-source `credible` package, and
+the same instinct shows up as a habit across the group's work — the papers that release the code
+behind their figures, the studies that exist mainly to establish an honest protocol, the
+benchmarks deliberately built to be unflattering. Beyond our own projects I stay active in
+reviewing the reproducibility of published research and in lowering the barrier for others to
+contribute reproducibly, on the conviction that a result no one can rerun is not yet a result.

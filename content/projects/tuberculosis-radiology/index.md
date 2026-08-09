@@ -30,26 +30,32 @@ outside the lab, from detecting disease to quantifying it.
 
 ## Major achievements
 
-For tuberculosis, where high-burden regions have too few readers and opaque models fall apart
-on unfamiliar images, we route the decision through the radiological signs a radiologist looks
-for and predict the diagnosis from those, reaching state-of-the-art AUCs of around 0.97 on
-Montgomery, 0.90 on Shenzhen, and 0.93 on the Indian set while keeping the reasoning legible.
-We then pressed on whether a model is right for the right reasons, showing that near-perfect
-AUROC can hide reliance on spurious background cues, and reduced that bias with large-scale
-proxy pre-training and a class-balancing objective so the model both looks where experts look
-and generalises to unseen data. And because much of the world still images chest X-rays on
-analog film, we measured what photographing those films costs a lung-segmentation model, whose
-precision-recall area drops from 0.99 on digital images to 0.90 on digitised ones, a gap any
-field deployment must reckon with.
+For tuberculosis, where high-burden regions have too few trained readers and opaque models
+fall apart on unfamiliar images, we route the decision through the radiological signs a
+radiologist would name and predict the diagnosis from those, reaching areas under the curve
+of about 0.97 on Montgomery, 0.90 on Shenzhen and 0.93 on the Indian set while keeping the
+reasoning legible. We then pressed the harder question of whether a model is right for the
+right reasons, and the answer was sobering: classifiers scoring a perfect area under the
+curve on the standard benchmark fell to 0.79 on an unseen external cohort, and their saliency
+maps concentrated outside the lungs entirely. Pre-training on a large, only loosely related
+radiograph collection and balancing the classes through the loss recovered both properties at
+once, lifting external performance to 0.88 while roughly quadrupling the overlap between
+model attention and expert-drawn disease regions. And because much of the world still records
+chest X-rays on film, we measured what photographing those films costs a lung-segmentation
+model: its precision-recall area falls from 0.99 on digital images to 0.90 on digitised ones,
+a gap any field deployment must budget for.
 
 The same fragility haunts quantitative imaging. Radiomics promises to turn a scan into
-biomarkers, yet many classic features change value the moment the CT settings change. Using a
-3D-printed anthropomorphic phantom imaged under eight acquisition protocols, we showed that
-three-dimensional deep features are at least twice as stable across scanner variation as any
-hand-crafted family, and that even generic deep features trained on an unrelated task stay
-discriminative, telling liver lesions from healthy tissue at about 93.5% accuracy. Measuring
-stability and discriminative power on the same footing gives a principled way to pick
-biomarkers worth trusting. Across both strands the throughline is the same, and the tools are
-shared through the open-source `mednet` library: for computer-aided radiology to help real
-clinics, what it extracts from an image has to be interpretable, fair, and robust to the
-scanners and populations it will actually meet.
+biomarkers, yet many classic features change value the moment the acquisition settings do.
+Imaging a 3D-printed anthropomorphic phantom containing four classes of liver tissue and
+lesion under eight acquisition protocols, thirty repeat scans each, let us score stability and
+discriminative power on the same footing. Three-dimensional deep features proved at least
+twice as stable across scanner variation as the steadiest hand-crafted family, and some three
+times as stable as hand-crafted features overall, while giving up almost nothing in their
+ability to separate the tissue classes — and this from a network trained on an unrelated
+anatomical task on entirely different data. Wavelet features were the most discriminative of
+all but the least stable, which is exactly the trade-off a biomarker study needs to see before
+committing to it. Across both strands the throughline is the same, and the tooling is shared
+through the open-source `mednet` library: for computer-aided radiology to help real clinics,
+what it extracts from an image has to be interpretable, fair, and robust to the scanners and
+populations it will actually meet.

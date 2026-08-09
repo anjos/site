@@ -17,6 +17,10 @@ research_outputs:
   - "anjos_mednet_2024"
 ---
 
+<small>Cover: ultra-widefield fluorescein angiography of anterior uveitis showing
+peripheral vascular leakage, from [Chi et al., PLOS ONE 2015](https://doi.org/10.1371/journal.pone.0122749),
+used under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).</small>
+
 Uveitis is a leading cause of preventable blindness, and treating it well depends on
 grading intraocular inflammation reliably. That inflammation is read from widefield
 fluorescein angiography, a task that is slow and on which experienced clinicians often
@@ -26,30 +30,32 @@ that is reproducible, interpretable, and ready for the clinic.
 
 ## Major achievements
 
-We began with a single sign, showing that retinal vasculitis can be graded fully
-automatically from real-world fluorescein-angiography time-lapses: on 3,205 images from
-242 eyes at Jules-Gonin, the model reached an F1 of 0.81 and an AUC of 0.86, comparable
-to published state of the art and far above an intensity-based baseline. We then moved
-from one sign to many, using transformer models to grade vascular leakage, capillary
-leakage, macular edema, and optic disc hyperfluorescence together. Sign by sign the
-models matched expert graders (F1 up to 0.87, ordinal-classification index 1-OCI up to
-0.89) and, on average, met or exceeded the agreement between the human experts themselves
-(model mean 1-OCI 0.87 against 0.83 between graders), with saliency maps confirming they
-read clinically relevant structures rather than artefacts.
+The work advanced from grading a single inflammatory sign to scoring the retina
+comprehensively. We first showed that retinal vasculitis can be graded fully
+automatically from angiographic time-lapses drawn straight from hospital imaging
+devices, with no manual curation of the images: on 3,205 images from 242 eyes the
+pipeline reached an F1 of 0.81 and an area under the curve of 0.86, against 0.57 and
+0.66 for an intensity-based baseline. Moving from detection to grading was the harder
+problem, because clinical severity is recorded on ordered categories in which confusing
+adjacent grades matters far less than confusing the extremes. Training transformer
+models against that ordinal structure, and scoring them with a measure that respects
+it, we graded four signs of the posterior pole — vascular and capillary leakage,
+macular oedema, and optic disc hyperfluorescence — across 40,987 images from 1,042
+eyes. The models matched expert graders sign by sign and, averaged over signs,
+marginally exceeded the agreement observed between the human experts themselves.
 
-These pieces came together in **UveAI**, a modular end-to-end pipeline that combines six
-transformer models into a single ASUWOG-aligned inflammation score spanning the posterior
-pole and the periphery. Benchmarked on 3,220 angiograms from 644 eyes, with an independent
-test set graded by three additional uveitis specialists, its total inflammation score
-tracked the expert reference at a Pearson correlation of 0.96 and it reached a mean AUC of
-0.952 across the six signs, approaching inter-grader agreement while staying interpretable.
-Alongside this we asked how far foundation models pretrained on other eye-imaging
-modalities transfer to angiography, and found that specialising a model to one modality
-can help but can also quietly hurt, which tempers hopes for off-the-shelf reuse. Together
-the work shows that standardised, clinic-ready angiographic scoring of uveitis is now
-within reach, provided models are validated against real inter-grader variability rather
-than a single reader.
-
-*Cover: ultra-widefield fluorescein angiography of anterior uveitis showing
-peripheral vascular leakage, from [Chi et al., PLOS ONE 2015](https://doi.org/10.1371/journal.pone.0122749),
-used under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).*
+These components were assembled into **UveAI**, an end-to-end system combining six
+specialised models, four for the posterior pole and two for the periphery, into one
+inflammation score aligned with the semi-quantitative scale already used in the clinic.
+Trained on 3,220 images from 644 eyes and tested against three further uveitis
+specialists from different hospitals, its composite score tracked the reference grader
+at a correlation of 0.96, above the 0.84 observed between the human experts, with a mean
+area under the curve of 0.952 across the six signs; saliency analysis confirmed the
+models attend to clinically meaningful structures rather than to acquisition artefacts.
+The work leaves behind the largest annotated angiography dataset in uveitis to date and
+the first automated scoring to span both the posterior pole and the periphery, with the
+honest caveats that validation is so far single-centre, single-device, and anchored on
+one senior grader. A parallel study of foundation models tempered hopes of easy reuse:
+pretraining on a related eye modality helps only when the self-supervised objective
+preserves representational diversity, and can otherwise collapse the model's attention
+and actively harm transfer.

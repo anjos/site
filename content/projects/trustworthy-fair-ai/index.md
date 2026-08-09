@@ -26,23 +26,30 @@ foundation models are everywhere.
 
 ## Major achievements
 
-Fairness only becomes actionable once you can measure it and trade it off honestly. We built a
-multi-objective evaluation framework, released as the open-source `fairical` tool, that
-summarises how competing models balance utility against several fairness criteria at once,
-using multi-objective-optimisation measures and a compact radar-chart view, and validated it
-on three real-world medical-imaging datasets. We paired it with an optimisation method that
-folds multiple fairness metrics directly into the training loss, showing that accuracy and
-fairness can be traded off deliberately rather than left to chance. A companion survey argued
-that keeping medical imaging equitable as foundation models arrive takes systematic
-intervention across the whole pipeline, from data documentation to deployment and policy, not
-a single model-level fix.
+Fairness only becomes actionable once it can be measured and traded off honestly. Fairness
+criteria conflict with one another — improving parity on one attribute routinely degrades it on
+another, and no single score captures the outcome — so we built a model-agnostic evaluation
+framework that treats utility and each fairness criterion as separate objectives in one
+multi-objective problem, summarising how competing systems compare through a compact
+radar-chart view backed by measures of convergence, capacity and diversity. It was validated on
+simulations and on three real-world medical-imaging datasets, and is released as the
+open-source `fairical` package. We paired it with an optimisation method that constrains loss
+minimisation with several fairness metrics simultaneously, so that fairness across multiple
+protected attributes at once is imposed deliberately rather than left to chance, and which
+holds up on the imbalanced, modestly sized datasets where such methods usually falter. A
+companion review argued that keeping medical imaging equitable as foundation models arrive
+demands systematic intervention across the whole pipeline — data documentation, curation,
+deployment protocols and policy — rather than the model-level fix the literature had favoured.
 
-Looking inside the foundation models themselves, we found results worth stating plainly:
-data-efficient generalisation, the very property that makes these models attractive, can make
-their bias worse, and a model can reach near-perfect accuracy while leaning on demographic
-shortcuts. On the constructive side, we showed that a foundation model's own backbone can
-stand in for missing demographic labels, recovering enough group structure to shrink the
-gender-attribute gap by roughly 4.4% in-distribution and 6.2% out-of-distribution, though age
-remained stubborn. None of this stays abstract: these evaluation and mitigation methods feed
-straight back into our radiology and ophthalmology work, where fairness across subgroups is a
-clinical requirement, not a nicety.
+Looking inside the foundation models themselves produced results worth stating plainly.
+Fine-tuning a retinal foundation model on a Brazilian cohort quite unlike its pre-training
+population, we found that self-supervised pre-training does narrow performance gaps across
+gender and age compared with supervised training, but that the label efficiency which makes
+these models attractive cuts the other way: the less data the model is fine-tuned on, the wider
+the demographic gap becomes. On the constructive side, we showed that a foundation model's own
+backbone can substitute for demographic labels a hospital does not hold, by clustering its
+embeddings into groups that stand in for protected attributes; used for both mitigation and
+evaluation, this narrowed the gender gap by 4.4% in distribution and 6.2% out of it, though age
+proved stubborn and remains open. None of this stays abstract: these evaluation and mitigation
+methods feed straight back into our radiology and ophthalmology work, where consistent
+performance across subgroups is a clinical requirement rather than a nicety.
