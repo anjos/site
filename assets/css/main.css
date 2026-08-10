@@ -780,6 +780,10 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
 }
 .fund__more > summary:hover { text-decoration: underline; }
 .fund__more > p { margin: .6rem 0 0; }
+.fund__amount {
+  font-family: var(--font-ui); font-size: var(--step--1); font-weight: 600;
+  font-variant-numeric: tabular-nums lining-nums;
+}
 
 .out-filters {
   display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center;

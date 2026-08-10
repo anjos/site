@@ -104,9 +104,9 @@ An unreachable ORCID warns and passes, as everywhere else here.
 
 `/funding/` renders the file straight, in ORCID's own words: entries are sorted
 by closing date (start date when a grant has no end), the abstract folds into a
-`<details>`, and nothing on the page is curated. Amounts are fetched and stored
-but deliberately **not displayed** — re-enabling them is one line in
-`layouts/funding/list.html`.
+`<details>`, and nothing on the page is curated. Amounts are kept out of the
+meta line and appear inside that same disclosure, so a grant with an amount but
+no abstract still gets one.
 
 Three ORCID quirks the tool absorbs:
 

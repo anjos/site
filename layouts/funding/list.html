@@ -17,9 +17,8 @@
            — that way a missing part never strands a separator. The space inside
            the period is U+00A0, so "2024 – 2028" never breaks across lines.
 
-           Amounts are deliberately not shown. They stay in data/funding.json
-           because that file mirrors ORCID and check-funding diffs against it —
-           this is a presentation choice, not a sync one. */ -}}
+           Amounts are deliberately absent from this line — they live inside the
+           disclosure below. */ -}}
     {{- $meta := slice }}
     {{- with .funder }}{{ $meta = $meta | append . }}{{ end }}
     {{- /* ORCID's "organization defined type" is the funder's own name for the
@@ -45,10 +44,17 @@
         {{- delimit $meta " · " }}
         {{- with .url }}<a class="fund__link" href="{{ . }}">Grant page</a>{{ end -}}
       </p>
-      {{- with .description }}
+      {{- /* The amount is kept out of the meta line and revealed on request,
+             with the abstract. The U+00A0 after the currency keeps
+             "CHF 577,855" whole. Two grants carry no amount and one carries no
+             abstract, so the disclosure opens on whichever of the two exists. */ -}}
+      {{- if or .description .amount }}
       <details class="fund__more">
         <summary>About this grant</summary>
-        <p>{{ . }}</p>
+        {{- if .amount }}
+        <p class="fund__amount">Total awarded: {{ .currency }} {{ lang.FormatNumberCustom 0 .amount }}</p>
+        {{- end }}
+        {{- with .description }}<p>{{ . }}</p>{{ end }}
       </details>
       {{- end }}
     </li>
