@@ -77,6 +77,10 @@ disableKinds = ["rss"]
     pageRef = "/outputs"
     weight = 20
   [[menus.main]]
+    name = "Funding"
+    pageRef = "/funding"
+    weight = 25
+  [[menus.main]]
     name = "Theses"
     pageRef = "/theses"
     weight = 30

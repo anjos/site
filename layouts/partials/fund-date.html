@@ -1,0 +1,13 @@
+{{- /* Render a funding date from data/funding.json as "Mar 2024", or "2024" when
+       ORCID has no month. Input: the string, "YYYY-MM" or "YYYY".
+
+       The "-01" is what makes this work: ORCID stores a fuzzy year+month, and
+       Go parses "2024-03-01" but not "2024-03", so a nominal first-of-month is
+       appended purely to get a parseable date. Only the month and year are ever
+       printed, so the invented day never shows. */ -}}
+{{- $s := . | string -}}
+{{- if eq (len $s) 7 -}}
+{{- (time.AsTime (printf "%s-01" $s)).Format "Jan 2006" -}}
+{{- else -}}
+{{- $s -}}
+{{- end -}}

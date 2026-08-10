@@ -36,11 +36,12 @@ content/
 data/
   bio.yaml             Single source for bio text (long / short / one_liner)
   outputs.json    GENERATED from Zotero "My Publications" — do not edit by hand
+  funding.json    GENERATED from the ORCID record's funding section — likewise
 layouts/               Bespoke theme (typography-first, light/dark)
 assets/css/main.css    Theme styles (CSS custom properties for both themes)
 assets/fonts/          Self-hosted Source Serif 4 (subset woff2) — see below
 tools/                 zotero_common.py (shared), update-site-outputs.py,
-                       update-orcid-outputs.py, add_zotero_output.py,
+                       update-funding.py, update-orcid-outputs.py, add_zotero_output.py,
                        edit_zotero_item.py, zotero_pdf.py (read a paper's PDF —
                        public or private — from Zotero), validate_content.py, tests
 static/images/covers/  Optimised front-matter covers ONLY (served at /images/covers/...)
@@ -86,6 +87,33 @@ to that page's `research_outputs:` list — the template resolves it from
 `data/outputs.json` (any type: papers, datasets, software). If it's not yet in the
 data, add the work to Zotero and run `pixi run outputs`.
 
+## Funding (ORCID is the source of truth)
+
+The **funding section of the ORCID record** is the single source of truth for
+grants. Add or correct a grant on <https://orcid.org>, then regenerate:
+
+```sh
+pixi run funding        # ORCID public API → data/funding.json
+pixi run check-funding  # verify the committed file is current (what CI runs)
+```
+
+Never edit `data/funding.json` by hand. Unlike the Zotero tooling there is no
+key to switch on — the ORCID public API is open — so `check-funding` is the very
+same code path with `--check`, and a stale file fails it with a per-grant diff.
+An unreachable ORCID warns and passes, as everywhere else here.
+
+`/funding/` renders the file straight, in ORCID's own words: entries are sorted
+by closing date (start date when a grant has no end), the abstract folds into a
+`<details>`, and nothing on the page is curated. Two ORCID quirks the tool
+absorbs: a grant asserted by both you and a third party appears twice in one
+group (the self-asserted one wins), and the amount, abstract and instrument are
+absent from the summary feed, so each grant costs one extra request.
+
+Two things are ORCID's to fix, not the site's: a funder named inconsistently
+across grants (`SNSF` vs `Swiss National Science Foundation`) shows up
+inconsistently on the page, and a grant with no `url` links to its grant-number
+resolver instead. Correct them on ORCID and re-run `pixi run funding`.
+
 ## Quality gates
 
 **Every gate is defined exactly once, as a pixi task.** `.pre-commit-config.yaml`
@@ -96,7 +124,7 @@ hooks once with `pixi run prek install --install-hooks`.
 | when | what | cost |
 |---|---|---|
 | **pre-commit** | whitespace/TOML/JSON/YAML hygiene, no submodules, `ruff` on `tools/` | offline, instant |
-| **`pixi run validate`** | `lint` + `test` + `check-content` + `check-outputs` + `check-featured` + `check-links` (which builds first) — **exactly what CI runs** | network, ~10 s |
+| **`pixi run validate`** | `lint` + `test` + `check-content` + `check-outputs` + `check-featured` + `check-funding` + `check-links` (which builds first) — **exactly what CI runs** | network, ~10 s |
 
 The order makes failures fast and legible: offline before network, the build last,
 and `test` ahead of both checkers because it covers the code they run
@@ -105,7 +133,7 @@ and `test` ahead of both checkers because it covers the code they run
 as a puzzling content error or Zotero diff.
 
 Each check also runs alone: `check-content`, `check-outputs`, `check-featured`,
-`check-links`, `check-sync`, `lint`. `check-links` declares `depends-on = ["build"]`, so it is
+`check-funding`, `check-links`, `check-sync`, `lint`. `check-links` declares `depends-on = ["build"]`, so it is
 correct standalone and never link-checks a stale `public/`. `check-sync` is a
 `rsync --dry-run` proving everything in `idiap-public/` is already published; it
 needs SSH, so it belongs to no composite gate — run it by hand after

@@ -32,6 +32,7 @@ USER_AGENT = f"anjos-site/1.0 (mailto:{MAILTO})"
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data"
 OUTPUT_FILE = DATA_DIR / "outputs.json"
+FUNDING_FILE = DATA_DIR / "funding.json"     # ORCID-sourced; see update-funding.py
 
 # Zotero itemType -> (site label / filter category, ORCID work-type, URL slug).
 # Slugs are short single words (no dashes): they form /outputs/<slug>/ filter pages.
@@ -365,6 +366,68 @@ def fetch_orcid_works(orcid_id: str = ORCID_ID) -> dict:
     )
     r.raise_for_status()
     return r.json()
+
+
+def _orcid_get(path: str) -> dict:
+    """GET a public ORCID v3.0 endpoint as JSON.
+
+    Parameters
+    ----------
+    path
+        Path below the record, e.g. ``"fundings"`` or ``"funding/1631985"``.
+
+    Returns
+    -------
+    dict
+        The decoded payload.
+
+    Raises
+    ------
+    requests.RequestException
+        Any network or HTTP failure; callers decide whether that is fatal.
+    """
+    import requests
+
+    r = requests.get(
+        f"https://pub.orcid.org/v3.0/{ORCID_ID}/{path}",
+        headers={"Accept": "application/json", "User-Agent": USER_AGENT},
+        timeout=30,
+    )
+    r.raise_for_status()
+    return r.json()
+
+
+def fetch_orcid_fundings() -> dict:
+    """The ORCID funding *summaries*, grouped by grant identifier.
+
+    Returns
+    -------
+    dict
+        The ``/fundings`` payload. Each group holds one summary per asserting
+        source, and none of them carries the amount, the abstract, or the
+        instrument — those need :func:`fetch_orcid_funding`.
+    """
+    return _orcid_get("fundings")
+
+
+def fetch_orcid_funding(put_code: int | str) -> dict:
+    """The full ORCID record for one funding item.
+
+    ORCID has no bulk funding endpoint, so this is one request per grant.
+
+    Parameters
+    ----------
+    put_code
+        The item's ORCID put-code, as found in the summary.
+
+    Returns
+    -------
+    dict
+        The ``/funding/{put_code}`` payload, adding ``amount``,
+        ``short-description`` and ``organization-defined-type`` to what the
+        summary already provides.
+    """
+    return _orcid_get(f"funding/{put_code}")
 
 
 def parse_orcid_works(payload: dict) -> list[dict]:

@@ -1,0 +1,55 @@
+{{ define "main" }}
+{{/* The Funding page: data/funding.json rendered straight, no curation. The file
+     is generated from the ORCID record by `pixi run funding` and verified by
+     `pixi run check-funding`, exactly as data/outputs.json mirrors Zotero.
+
+     Entries arrive already sorted (closing date descending, start date as the
+     fallback), so this template only formats — it never reorders. */}}
+<div class="wide band">
+  {{ partial "sec-head.html" (dict "icon" "funding" "text" .Title "level" "h1") }}
+  {{ .Content }}
+
+  {{ with hugo.Data.funding }}
+  <ul class="fund-list">
+    {{- range .entries }}
+    {{- /* The meta line is assembled from whatever ORCID actually has: every
+           part but the funder is optional, so it is built as a slice and joined
+           — that way a missing amount never strands a separator. The spaces
+           before the amount and inside the period are U+00A0, keeping
+           "CHF 577,855" and "2024 – 2028" from breaking across lines. */ -}}
+    {{- $meta := slice }}
+    {{- with .funder }}{{ $meta = $meta | append . }}{{ end }}
+    {{- /* ORCID's "organization defined type" is the funder's own name for the
+           instrument (Agora, CHIST-ERA, Lead Agency). Some funders just repeat
+           their own name there, which says nothing. */ -}}
+    {{- if and .instrument (ne .instrument .funder) }}{{ $meta = $meta | append .instrument }}{{ end }}
+    {{- /* Anything that is not a plain grant is worth naming. */ -}}
+    {{- if and .type (ne .type "grant") }}{{ $meta = $meta | append (title .type) }}{{ end }}
+    {{- with .grant_number }}{{ $meta = $meta | append (printf "no. %s" .) }}{{ end }}
+    {{- if .amount }}{{ $meta = $meta | append (printf "%s %s" .currency (lang.FormatNumberCustom 0 .amount)) }}{{ end }}
+    {{- $period := slice }}
+    {{- with .start }}{{ $period = $period | append (partial "fund-date.html" .) }}{{ end }}
+    {{- with .end }}{{ $period = $period | append (partial "fund-date.html" .) }}{{ end }}
+    {{- with delimit $period " – " }}{{ $meta = $meta | append . }}{{ end }}
+    <li class="fund">
+      <h2 class="fund__title">
+        {{- with .url }}<a href="{{ . }}">{{ end }}
+        {{- .title }}
+        {{- with .url }}</a>{{ end }}
+      </h2>
+      <p class="fund__meta">{{ delimit $meta " · " }}</p>
+      {{- with .description }}
+      <details class="fund__more">
+        <summary>About this grant</summary>
+        <p>{{ . }}</p>
+      </details>
+      {{- end }}
+    </li>
+    {{- end }}
+  </ul>
+  {{ else }}
+    <p><em>Funding data has not been generated yet. Run <code>pixi run funding</code>
+    to fetch it from the ORCID record.</em></p>
+  {{ end }}
+</div>
+{{ end }}

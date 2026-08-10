@@ -18,6 +18,12 @@
   {{- else if eq $n "linkedin" }}<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037c-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85c3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.06 2.06 0 0 1-2.063-2.065a2.064 2.064 0 1 1 2.063 2.065m1.782 13.019H3.555V9h3.564zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z"/>
   {{- else if eq $n "projects" }}<path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"/>
   {{- else if eq $n "outputs" }}<path d="M6 2h7l5 5v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm7 1.5V8h4.5L13 3.5zM8 12h8v1.6H8V12zm0 4h8v1.6H8V16z"/>
+  {{- /* A banknote: the note, with a coin and two corner marks punched out.
+         `fill-rule` is on the path because the <svg> above sets none, and the
+         default nonzero rule would fill the three inner circles solid — same
+         colour as the note, hence invisible. The corner marks are what make it
+         read as money rather than as a card or a camera. */ -}}
+  {{- else if eq $n "funding" }}<path fill-rule="evenodd" d="M2 4h20a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm10 4.4a3.6 3.6 0 1 0 0 7.2 3.6 3.6 0 0 0 0-7.2zM4.4 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm15.2 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
   {{- else if eq $n "teaching" }}<path d="M11 5.6C8.3 4.1 5.4 3.8 2.5 4.7a1 1 0 0 0-.5.9v12.6a1 1 0 0 0 1.3 1c2.4-.8 4.9-.5 7.7.9V5.6zm2 14.5c2.8-1.4 5.3-1.7 7.7-.9a1 1 0 0 0 1.3-1V5.6a1 1 0 0 0-.5-.9c-2.9-.9-5.8-.6-8.5.9v14.5z"/>
   {{- else if eq $n "theses" }}<path d="M12 3 1 8.5l11 5.5 9-4.5V16h2V8.5L12 3zM5 13.2V17c0 1.7 3.1 3 7 3s7-1.3 7-3v-3.8l-7 3.5-7-3.5z"/>
   {{- else if eq $n "media" }}<path d="M12 2a3 3 0 0 1 3 3v6a3 3 0 1 1-6 0V5a3 3 0 0 1 3-3zM6 11a6 6 0 0 0 5 5.9V20H8v2h8v-2h-3v-3.1A6 6 0 0 0 18 11h-2a4 4 0 0 1-8 0H6z"/>
