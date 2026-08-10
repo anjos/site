@@ -15,4 +15,4 @@ slug: "about"
 
 ## Profile photo
 
-{{< figure src="https://www.idiap.ch/~aanjos/images/pictures/andre-anjos-600x600.jpg" alt="André Anjos" width="240" caption="More photographs in the [photo gallery](/gallery/)." >}}
+{{< figure src="https://www.idiap.ch/~aanjos/images/pictures/andre-anjos-600x600.jpg" alt="André Anjos" width="240" link="https://www.idiap.ch/~aanjos/images/pictures/andre-anjos-portrait.jpg" caption="Click for the full size (989×1318). More photographs in the [photo gallery](/gallery/)." >}}
