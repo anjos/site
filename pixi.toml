@@ -24,6 +24,9 @@ orcid-report = "python tools/update-orcid-outputs.py"
 check-content = "python tools/validate_content.py"
 # data/outputs.json still matches Zotero. Key-less: verifies, never writes.
 check-outputs = "python tools/update-site-outputs.py --check"
+# The site's hand-picked `featured:` works are all starred on ORCID (site list
+# must be a subset; ORCID may star more). Key-less; an ORCID outage warns.
+check-featured = "python tools/check_featured.py"
 # Every link in the built site; fails on any dead link. It reads ./public, so it
 # *builds* first — declared, not assumed, so it is correct standalone and in any
 # order inside `validate`. --root-dir resolves root-relative (/foo) links.
@@ -43,7 +46,7 @@ lint = "prek run --all-files"
 # last, and `test` ahead of both checkers because it covers the code they run
 # (test_static_rule.py -> validate_content.py, test_pipeline.py -> zotero_common.py).
 # A broken tool then fails as a named assertion, not as a puzzling content error.
-validate = { depends-on = ["lint", "test", "check-content", "check-outputs", "check-links"] }
+validate = { depends-on = ["lint", "test", "check-content", "check-outputs", "check-featured", "check-links"] }
 # Unit tests for the publications pipeline (offline, fixture-based).
 # -v names each test as it runs, so a failure in the gate says what broke.
 test = "pytest -v tools/tests"

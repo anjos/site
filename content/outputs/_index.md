@@ -9,7 +9,8 @@ title: "Research Outputs"
 # https://orcid.org/0000-0001-7248-4014 as of 2026-08-08. ORCID stars five; the
 # fifth (10.1109/isbi61048.2026.11515636, "When Specialization Helps (and
 # Hurts)") is left out to keep the grid a clean 2x2 — swap it in freely.
-# Nothing syncs this automatically yet.
+# `pixi run check-featured` (inside `validate`) enforces the subset: every entry
+# here must be starred on ORCID. Starring more there than is shown here is fine.
 featured:
   - "10.1016/j.compbiomed.2025.110327"
   - "10.1038/s41598-022-09675-y"

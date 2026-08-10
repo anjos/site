@@ -96,7 +96,7 @@ hooks once with `pixi run prek install --install-hooks`.
 | when | what | cost |
 |---|---|---|
 | **pre-commit** | whitespace/TOML/JSON/YAML hygiene, no submodules, `ruff` on `tools/` | offline, instant |
-| **`pixi run validate`** | `lint` + `test` + `check-content` + `check-outputs` + `check-links` (which builds first) — **exactly what CI runs** | network, ~10 s |
+| **`pixi run validate`** | `lint` + `test` + `check-content` + `check-outputs` + `check-featured` + `check-links` (which builds first) — **exactly what CI runs** | network, ~10 s |
 
 The order makes failures fast and legible: offline before network, the build last,
 and `test` ahead of both checkers because it covers the code they run
@@ -104,8 +104,8 @@ and `test` ahead of both checkers because it covers the code they run
 `zotero_common.py`). Broken tooling then fails as a named assertion rather than
 as a puzzling content error or Zotero diff.
 
-Each check also runs alone: `check-content`, `check-outputs`, `check-links`,
-`check-sync`, `lint`. `check-links` declares `depends-on = ["build"]`, so it is
+Each check also runs alone: `check-content`, `check-outputs`, `check-featured`,
+`check-links`, `check-sync`, `lint`. `check-links` declares `depends-on = ["build"]`, so it is
 correct standalone and never link-checks a stale `public/`. `check-sync` is a
 `rsync --dry-run` proving everything in `idiap-public/` is already published; it
 needs SSH, so it belongs to no composite gate — run it by hand after
@@ -230,7 +230,11 @@ current projects, then the four most recent research outputs. That last section
 is recomputed from `data/outputs.json` on every build and needs no curation.
 **Featured works** on `/outputs/` is the opposite — a hand-written `featured:`
 list in `content/outputs/_index.md` mirroring the starred works on ORCID. Nothing
-syncs the two; update it by hand.
+*syncs* the two — you update it by hand — but `check-featured` (in `validate`)
+enforces the one direction that matters: every entry here must be starred on
+ORCID. ORCID may star more than the page shows; the reverse fails the build. It
+reads ORCID's undocumented `featuredWorks.json` (the v3.0 API does not expose
+starred status), so a fetch failure warns instead of breaking a deploy.
 
 ## Adding content
 
