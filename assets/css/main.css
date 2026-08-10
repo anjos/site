@@ -457,7 +457,7 @@ th { color: var(--muted); font-weight: 600; white-space: nowrap; }
   .card__title a { transition: color .2s ease; }
   /* Blox lifts its grid cards further than a list row, over 300 ms. */
   .card--vertical:hover { transform: translateY(-6px); }
-  .btn, .iconlink { transition: box-shadow .3s ease, transform .3s ease, background-color .3s ease, color .3s ease; }
+  .btn, .iconlink, .fund__link { transition: box-shadow .3s ease, transform .3s ease, background-color .3s ease, color .3s ease; }
   .btn--accent:hover { transform: translateY(-2px) scale(1.02); }
   .iconlink:hover { transform: translateY(-2px); }
   .out-card, .gallery a { transition: box-shadow .3s ease, transform .3s ease; }
@@ -760,6 +760,19 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
   color: var(--muted); font-family: var(--font-ui);
   font-size: var(--step--1); margin: 0;
   font-variant-numeric: tabular-nums lining-nums;
+}
+/* The grant's own page, as a chip trailing the meta line. Same resting chip as
+   the hero pills; the hover is .iconlink's — fills with --accent and flips the
+   label to --on-accent, which is what keeps it legible in dark mode too. */
+.fund__link {
+  display: inline-block; margin-left: .6rem; vertical-align: baseline;
+  font-size: var(--step--2); line-height: 1.4; padding: .12rem .6rem;
+  border-radius: 999px; color: var(--text);
+  background: var(--chip-bg); box-shadow: inset 0 0 0 1px var(--chip-edge);
+}
+.fund__link:hover {
+  color: var(--on-accent); background: var(--accent); text-decoration: none;
+  box-shadow: 0 0 0 1px var(--accent), 0 6px 16px var(--accent-glow);
 }
 .fund__more > summary {
   cursor: pointer; margin-top: .6rem;

@@ -104,15 +104,26 @@ An unreachable ORCID warns and passes, as everywhere else here.
 
 `/funding/` renders the file straight, in ORCID's own words: entries are sorted
 by closing date (start date when a grant has no end), the abstract folds into a
-`<details>`, and nothing on the page is curated. Two ORCID quirks the tool
-absorbs: a grant asserted by both you and a third party appears twice in one
-group (the self-asserted one wins), and the amount, abstract and instrument are
-absent from the summary feed, so each grant costs one extra request.
+`<details>`, and nothing on the page is curated. Amounts are fetched and stored
+but deliberately **not displayed** — re-enabling them is one line in
+`layouts/funding/list.html`.
 
-Two things are ORCID's to fix, not the site's: a funder named inconsistently
-across grants (`SNSF` vs `Swiss National Science Foundation`) shows up
-inconsistently on the page, and a grant with no `url` links to its grant-number
-resolver instead. Correct them on ORCID and re-run `pixi run funding`.
+Three ORCID quirks the tool absorbs:
+
+- A grant asserted by both you and a third party (Dimensions, say) appears twice
+  in one group. ORCID groups by grant identifier; the self-asserted summary wins.
+- The amount, abstract and instrument are missing from the summary feed and
+  there is no bulk endpoint, so each grant costs one extra request.
+- Each assertion names the funder freely, so one agency arrives under several
+  names. `FUNDER_NAMES` in the tool maps them to one canonical name — add a line
+  there when a new agency shows up spelled two ways.
+
+**ORCID has no public URL for a single funding entry.** `/funding/{put-code}` is
+API-only, and the `orcid.org` path of it redirects to sign-in, so the per-grant
+"Grant page" pill links to the grant's own page instead — ORCID's `url` when it
+has one, else the grant number's resolver (this is where the `data.snf.ch` links
+come from). A grant with neither shows no pill; give it a `url` on ORCID to fix
+that.
 
 ## Quality gates
 

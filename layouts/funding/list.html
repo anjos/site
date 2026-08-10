@@ -34,12 +34,17 @@
     {{- with .end }}{{ $period = $period | append (partial "fund-date.html" .) }}{{ end }}
     {{- with delimit $period " – " }}{{ $meta = $meta | append . }}{{ end }}
     <li class="fund">
-      <h2 class="fund__title">
-        {{- with .url }}<a href="{{ . }}">{{ end }}
-        {{- .title }}
-        {{- with .url }}</a>{{ end }}
-      </h2>
-      <p class="fund__meta">{{ delimit $meta " · " }}</p>
+      <h2 class="fund__title">{{ .title }}</h2>
+      {{- /* The grant's own page carries the link rather than the title: it is
+             the only per-grant destination that exists (ORCID has no public URL
+             for a single funding entry — /funding/{put-code} is API-only and the
+             orcid.org path of it redirects to sign-in), so linking both would be
+             two anchors to one target. Three grants have no page at all and
+             simply show no pill. */ -}}
+      <p class="fund__meta">
+        {{- delimit $meta " · " }}
+        {{- with .url }}<a class="fund__link" href="{{ . }}">Grant page</a>{{ end -}}
+      </p>
       {{- with .description }}
       <details class="fund__more">
         <summary>About this grant</summary>

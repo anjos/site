@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10T15:03:59Z",
+  "generated": "2026-08-10T15:56:47Z",
   "source": "orcid:0000-0001-7248-4014/fundings",
   "count": 12,
   "entries": [
@@ -22,7 +22,7 @@
       "title": "AI2Pub: AI Insights to the Public through bi-directional media channels",
       "type": "grant",
       "instrument": "Agora",
-      "funder": "SNSF",
+      "funder": "Swiss National Science Foundation",
       "start": "2025-04",
       "end": "2028-03",
       "amount": 200000.0,
@@ -120,7 +120,7 @@
       "title": "LEARN-REAL: LEARNing physical manipulation skills with simulators using REAListic variations",
       "type": "grant",
       "instrument": "CHIST-ERA",
-      "funder": "SNSF",
+      "funder": "Swiss National Science Foundation",
       "start": "2019-04",
       "end": "2023-03",
       "amount": 301936.0,
@@ -148,7 +148,7 @@
       "title": "ALLIES: Autonomous Lifelong learnIng intelLigent Systems",
       "type": "grant",
       "instrument": "CHIST-ERA",
-      "funder": "SNSF",
+      "funder": "Swiss National Science Foundation",
       "start": "2018-01",
       "end": "2021-09",
       "amount": 496620.0,

@@ -141,11 +141,21 @@ def test_year_month():
 def test_entry_fields():
     e = uf.build_entry(DETAILS[1])
     assert e["title"] == "ALLIES"
-    assert e["funder"] == "SNSF"
     assert e["instrument"] == "CHIST-ERA"
     assert e["amount"] == 200000.0 and e["currency"] == "CHF"
     assert e["start"] == "2018-01" and e["end"] == "2021-09"
     assert e["grant_number"] == "174239"
+
+
+def test_funder_name_is_canonicalised():
+    """One agency, several names across assertions — the page must not show
+    both "SNSF" and "Swiss National Science Foundation"."""
+    assert uf.build_entry(DETAILS[1])["funder"] == "Swiss National Science Foundation"
+
+
+def test_unmapped_funder_is_left_alone():
+    detail = dict(DETAILS[1], organization={"name": "TheArk"})
+    assert uf.build_entry(detail)["funder"] == "TheArk"
 
 
 def test_missing_optional_fields_become_none():

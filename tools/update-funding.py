@@ -42,6 +42,16 @@ import zotero_common as zc
 
 SOURCE = f"orcid:{zc.ORCID_ID}/fundings"
 
+#: Canonical funder names, keyed on what ORCID happens to carry. Each ORCID
+#: assertion names the funder freely, so one agency shows up under several
+#: names — the SNSF is both "SNSF" and "Swiss National Science Foundation"
+#: depending on who entered the grant. Normalising here rather than in the
+#: template keeps the page and the committed data telling the same story, and
+#: `--check` re-applies the same mapping, so it never reports false drift.
+FUNDER_NAMES = {
+    "SNSF": "Swiss National Science Foundation",
+}
+
 
 def log(verbose: bool, msg: str) -> None:
     """Write a progress line to stderr when running verbosely."""
@@ -124,11 +134,13 @@ def build_entry(detail: dict) -> dict:
         Keys: ``put_code``, ``title``, ``type``, ``instrument``, ``funder``,
         ``start``, ``end``, ``amount``, ``currency``, ``url``,
         ``grant_number``, ``description``. Everything but ``put_code``,
-        ``title``, ``type`` and ``funder`` may be None.
+        ``title``, ``type`` and ``funder`` may be None. ``funder`` is passed
+        through :data:`FUNDER_NAMES`.
     """
     eid = _self_external_id(detail)
     amount = detail.get("amount") or {}
     description = (detail.get("short-description") or "").strip()
+    funder = (detail.get("organization") or {}).get("name")
     return {
         "put_code": detail.get("put-code"),
         "title": (((detail.get("title") or {}).get("title") or {}) or {}).get("value"),
@@ -136,7 +148,7 @@ def build_entry(detail: dict) -> dict:
         # ORCID's "organization defined type" is the funder's own name for the
         # instrument: Agora, CHIST-ERA, Lead Agency, Innovation check, ...
         "instrument": ((detail.get("organization-defined-type") or {}) or {}).get("value"),
-        "funder": (detail.get("organization") or {}).get("name"),
+        "funder": FUNDER_NAMES.get(funder, funder),
         "start": year_month(detail.get("start-date")),
         "end": year_month(detail.get("end-date")),
         "amount": float(amount["value"]) if amount.get("value") else None,
