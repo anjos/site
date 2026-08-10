@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10T16:02:27Z",
+  "generated": "2026-08-10T16:07:10Z",
   "source": "orcid:0000-0001-7248-4014/fundings",
   "count": 12,
   "entries": [
@@ -111,9 +111,9 @@
       "end": "2023-11",
       "amount": 200000.0,
       "currency": "CHF",
-      "url": null,
+      "url": "https://www.idiap.ch/en/scientific-research/projects/CAD4IED",
       "grant_number": null,
-      "description": null
+      "description": "Fluorescein angiography (FA) is a unique tool for the analysis of the retinal vasculature in both its morphology and its function: it is the only clinical method that allows to evaluate the function and integrity of the blood-retinal barrier, providing means for the detection and grading of inflammatory diseases affecting blood vessels in the eye (Vasculitis). FA is an invasive technique involving a non-negligible level of risk for the patient. The interpretation of an angiography is intrinsically challenging, requiring years of clinical experience. The overarching objective of this proposal is to develop and (clinically) validate a system to automatically detect and grade inflammatory eye diseases, with minimal risk, allowing for better patient management and care. This proposal also represents the first attempt to automatically grade angiography images and holds the potential to help doctors in the challenging interpretation of these data, delivering cutting edge machine learning solutions that would support clinicians at our hospitals, and benefit the scientific community at large. To reduce risk for the patient, we will search for novel biomarkers from other ophthalmic imaging modalities, such as fundus images, that would be less invasive, cheaper and safer to acquire, but correlate well with inflammatory diseases. In this pilot project, we propose to establish data, annotations, and develop a prototype grading system (machine learning model), to automatically evaluate inflammatory signs from FA images. A preliminary study on novel biomarkers from alternate modalities will complement this phase of our project. We intend to disseminate our work via scientific articles to be submitted to medical and computational journals. If this pilot is successful, a follow-up project will be submitted."
     },
     {
       "put_code": 2247890,
