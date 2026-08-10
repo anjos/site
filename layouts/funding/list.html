@@ -14,9 +14,12 @@
     {{- range .entries }}
     {{- /* The meta line is assembled from whatever ORCID actually has: every
            part but the funder is optional, so it is built as a slice and joined
-           — that way a missing amount never strands a separator. The spaces
-           before the amount and inside the period are U+00A0, keeping
-           "CHF 577,855" and "2024 – 2028" from breaking across lines. */ -}}
+           — that way a missing part never strands a separator. The space inside
+           the period is U+00A0, so "2024 – 2028" never breaks across lines.
+
+           Amounts are deliberately not shown. They stay in data/funding.json
+           because that file mirrors ORCID and check-funding diffs against it —
+           this is a presentation choice, not a sync one. */ -}}
     {{- $meta := slice }}
     {{- with .funder }}{{ $meta = $meta | append . }}{{ end }}
     {{- /* ORCID's "organization defined type" is the funder's own name for the
@@ -26,7 +29,6 @@
     {{- /* Anything that is not a plain grant is worth naming. */ -}}
     {{- if and .type (ne .type "grant") }}{{ $meta = $meta | append (title .type) }}{{ end }}
     {{- with .grant_number }}{{ $meta = $meta | append (printf "no. %s" .) }}{{ end }}
-    {{- if .amount }}{{ $meta = $meta | append (printf "%s %s" .currency (lang.FormatNumberCustom 0 .amount)) }}{{ end }}
     {{- $period := slice }}
     {{- with .start }}{{ $period = $period | append (partial "fund-date.html" .) }}{{ end }}
     {{- with .end }}{{ $period = $period | append (partial "fund-date.html" .) }}{{ end }}
