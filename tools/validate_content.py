@@ -40,6 +40,10 @@ STATIC_ALLOWED_FILES = (
     "images/apple-touch-icon.png",
 )
 STATIC_MAX_BYTES = 300 * 1024
+# Build products written into static/ so Hugo publishes them: git-ignored, never
+# committed, and exempt from both rules above. The CV is a PDF and comfortably
+# over the cap by design — `pixi run cv` regenerates it from cv/cv.typ.
+STATIC_BUILD_PRODUCTS = ("andre-anjos-cv.pdf",)
 
 
 def parse_front_matter(path: pathlib.Path) -> dict:
@@ -61,6 +65,8 @@ def check_static(errors: list[str]) -> None:
     for path in sorted(p for p in STATIC.rglob("*") if p.is_file()):
         rel = path.relative_to(STATIC).as_posix()
         if rel.startswith(".") or path.name == ".DS_Store":
+            continue
+        if rel in STATIC_BUILD_PRODUCTS:
             continue
         if not (
             rel.startswith(STATIC_ALLOWED_DIRS) or rel in STATIC_ALLOWED_FILES

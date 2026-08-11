@@ -34,6 +34,18 @@ def test_check_static_rejects_non_cover_and_oversized(tmp_path, monkeypatch):
     assert any("exceeds" in e and "huge.jpg" in e for e in errors)
 
 
+def test_check_static_exempts_the_generated_cv(tmp_path, monkeypatch):
+    """`pixi run cv` writes the CV into static/ so Hugo publishes it. It is a PDF,
+    it is well over the cap, and it is git-ignored — none of which is an error."""
+    monkeypatch.setattr(vc, "STATIC", tmp_path)
+    (tmp_path / vc.STATIC_BUILD_PRODUCTS[0]).write_bytes(
+        b"x" * (vc.STATIC_MAX_BYTES + 1)
+    )
+    errors = []
+    vc.check_static(errors)
+    assert errors == []
+
+
 def test_check_idiap_refs_flags_missing_asset(tmp_path, monkeypatch):
     content, mirror = tmp_path / "content", tmp_path / "idiap-public"
     (content / "media").mkdir(parents=True)

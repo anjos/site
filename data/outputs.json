@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-07T08:30:40Z",
+  "generated": "2026-08-11T06:33:39Z",
   "source": "zotero:users/5992358/publications",
   "count": 143,
   "entries": [
@@ -31,6 +31,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": "https://gitlab.idiap.ch/medai/software/paper/uveai-validation",
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "amiot_uveai_2026",
       "related": []
     },
@@ -51,6 +55,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "queirozneto_fair_2026",
       "related": []
     },
@@ -72,6 +80,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": "https://gitlab.idiap.ch/medai/software/paper/fm-overspecialization",
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "pulvirenti_when_2026",
       "related": []
     },
@@ -93,6 +105,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "3",
+      "issue": null,
+      "pages": "938-957",
+      "number": null,
       "key": "ozbulak_multiobjective_2025",
       "related": []
     },
@@ -113,6 +129,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "181",
+      "issue": "113426",
+      "pages": null,
+      "number": null,
       "key": "fatoreto_optimizing_2025",
       "related": []
     },
@@ -135,6 +155,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "geissbuhler_stmgnn_2025",
       "related": [
         {
@@ -163,6 +187,10 @@
       "type": "Preprint",
       "typeslug": "preprints",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "geissbuhler_stmgnn_2025a",
       "related": [
         {
@@ -173,7 +201,9 @@
       ]
     },
     {
-      "authors": [],
+      "authors": [
+        "André Anjos"
+      ],
       "title": "fairical",
       "container": null,
       "year": 2025,
@@ -243,6 +273,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "1-13",
+      "number": null,
       "key": "vitek_privacyenhancing_2025",
       "related": []
     },
@@ -273,6 +307,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "193",
+      "issue": null,
+      "pages": "110327",
+      "number": null,
       "key": "amiot_automatic_2025",
       "related": [
         {
@@ -298,6 +336,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": "https://gitlab.idiap.ch/medai/software/paper/euvip24-refine-cad-tb",
+      "volume": null,
+      "issue": null,
+      "pages": "1-6",
+      "number": null,
       "key": "guler_refining_2024",
       "related": []
     },
@@ -317,6 +359,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "109-118",
+      "number": null,
       "key": "queiroz_using_2024",
       "related": []
     },
@@ -339,11 +385,17 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "queiroz_does_2024",
       "related": []
     },
     {
-      "authors": [],
+      "authors": [
+        "André Anjos"
+      ],
       "title": "mednet",
       "container": null,
       "year": 2024,
@@ -392,6 +444,10 @@
       "type": "Preprint",
       "typeslug": "preprints",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "amiot_automatic_2024a",
       "related": [
         {
@@ -416,6 +472,10 @@
       "type": "Press",
       "typeslug": "press",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "park_how_2024",
       "related": []
     },
@@ -443,6 +503,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "jimenez-del-toro_comparing_2024",
       "related": []
     },
@@ -467,11 +531,17 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "152",
+      "issue": null,
+      "pages": "104648",
+      "number": null,
       "key": "mautuit_absolute_2024",
       "related": []
     },
     {
-      "authors": [],
+      "authors": [
+        "André Anjos"
+      ],
       "title": "clapper",
       "container": null,
       "year": 2023,
@@ -494,7 +564,9 @@
       "related": []
     },
     {
-      "authors": [],
+      "authors": [
+        "André Anjos"
+      ],
       "title": "credible",
       "container": null,
       "year": 2023,
@@ -517,7 +589,9 @@
       "related": []
     },
     {
-      "authors": [],
+      "authors": [
+        "André Anjos"
+      ],
       "title": "auto-intersphinx",
       "container": null,
       "year": 2023,
@@ -561,6 +635,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "geric_rise_2023",
       "related": []
     },
@@ -585,6 +663,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "amiot_fully_2023",
       "related": []
     },
@@ -604,6 +686,10 @@
       "type": "Presentation",
       "typeslug": "presentations",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "raposo_pulmonary_2022",
       "related": []
     },
@@ -633,6 +719,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "101437",
+      "number": null,
       "key": "shamsi_lifelong_2022",
       "related": []
     },
@@ -655,6 +745,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "12",
+      "issue": "1",
+      "pages": "6174",
+      "number": null,
       "key": "galdran_stateoftheart_2022",
       "related": []
     },
@@ -676,6 +770,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "1-8",
+      "number": null,
       "key": "renzo_development_2021",
       "related": []
     },
@@ -698,6 +796,10 @@
       "type": "Preprint",
       "typeslug": "preprints",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "galdran_little_2020",
       "related": []
     },
@@ -720,6 +822,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "120",
+      "issue": null,
+      "pages": "103744",
+      "number": null,
       "key": "ferreira_competitive_2020",
       "related": []
     },
@@ -738,6 +844,10 @@
       "type": "Preprint",
       "typeslug": "preprints",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "laibacher_evaluation_2020",
       "related": []
     },
@@ -760,6 +870,10 @@
       "type": "Dataset",
       "typeslug": "datasets",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "george_wmca_2019",
       "related": [
         {
@@ -785,6 +899,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "defreitaspereira_heterogeneous_2019",
       "related": []
     },
@@ -807,6 +925,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "george_biometric_2019",
       "related": [
         {
@@ -833,6 +955,10 @@
       "type": "Book Chapter",
       "typeslug": "chapters",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "207–228",
+      "number": null,
       "key": "bhattacharjee_recent_2019",
       "related": []
     },
@@ -852,6 +978,10 @@
       "type": "Book Chapter",
       "typeslug": "chapters",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "419–438",
+      "number": null,
       "key": "anjos_introduction_2019",
       "related": []
     },
@@ -872,11 +1002,28 @@
       "type": "Book Chapter",
       "typeslug": "chapters",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "457–480",
+      "number": null,
       "key": "chingovska_evaluation_2019",
       "related": []
     },
     {
-      "authors": [],
+      "authors": [
+        "Lambert Sonna Momo",
+        "Luciano Cerqueira Torres",
+        "Sébastien Marcel",
+        "André Anjos",
+        "Michael Liebling",
+        "Adrian Shajkofci",
+        "Serge Amoos",
+        "Alain Woeffray",
+        "Alexandre Sierro",
+        "Pierre Roduit",
+        "Pierre Ferrez",
+        "Lucas Bonvin"
+      ],
       "title": "Method and Device for Biometric Vascular Recognition and/or Identification",
       "container": null,
       "year": 2019,
@@ -887,11 +1034,19 @@
       "type": "Patent",
       "typeslug": "patents",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": "WO/2019/150254",
       "key": "sonnamomo_method_2019",
       "related": []
     },
     {
-      "authors": [],
+      "authors": [
+        "Marcel Sébastien",
+        "André Anjos",
+        "Philip Abbet"
+      ],
       "title": "Method and internet-connected server for reviewing a computer-executable experiment",
       "container": null,
       "year": 2018,
@@ -902,6 +1057,10 @@
       "type": "Patent",
       "typeslug": "patents",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": "US9973503B2",
       "key": "sebastien_method_2018",
       "related": []
     },
@@ -922,6 +1081,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "nikisins_fast_2018",
       "related": []
     },
@@ -942,11 +1105,17 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "nikisins_effectiveness_2018",
       "related": []
     },
     {
-      "authors": [],
+      "authors": [
+        "André Anjos"
+      ],
       "title": "sleepless",
       "container": null,
       "year": 2017,
@@ -984,6 +1153,10 @@
       "type": "Preprint",
       "typeslug": "preprints",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_beat_2017",
       "related": []
     },
@@ -1003,6 +1176,10 @@
       "type": "Preprint",
       "typeslug": "preprints",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "heusch_reproducible_2017",
       "related": [
         {
@@ -1013,7 +1190,10 @@
       ]
     },
     {
-      "authors": [],
+      "authors": [
+        "André Anjos",
+        "Sébastien Marcel"
+      ],
       "title": "A data-network connected server, a device, a platform and a method for conducting computer-executable experiments",
       "container": null,
       "year": 2017,
@@ -1024,6 +1204,10 @@
       "type": "Patent",
       "typeslug": "patents",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": "WO/2017/221049",
       "key": "anjos_datanetwork_2017",
       "related": []
     },
@@ -1045,6 +1229,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "cernak_bob_2017",
       "related": []
     },
@@ -1067,6 +1255,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_continuously_2017",
       "related": []
     },
@@ -1086,11 +1278,17 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_beat_2017a",
       "related": []
     },
     {
-      "authors": [],
+      "authors": [
+        "André Anjos"
+      ],
       "title": "BEAT",
       "container": null,
       "year": 2016,
@@ -1128,6 +1326,10 @@
       "type": "Dataset",
       "typeslug": "datasets",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "heusch_cohface_2016",
       "related": [
         {
@@ -1154,6 +1356,10 @@
       "type": "Book Chapter",
       "typeslug": "chapters",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "165–194",
+      "number": null,
       "key": "chingovska_face_2016",
       "related": [
         {
@@ -1184,11 +1390,17 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "4",
+      "issue": null,
+      "pages": "7736–7746",
+      "number": null,
       "key": "morales_keystroke_2016",
       "related": []
     },
     {
-      "authors": [],
+      "authors": [
+        "André Anjos"
+      ],
       "title": "Bob",
       "container": null,
       "year": 2015,
@@ -1224,6 +1436,10 @@
       "type": "Dataset",
       "typeslug": "datasets",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "marcel_msspoof_2015",
       "related": [
         {
@@ -1248,6 +1464,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "10",
+      "issue": "4",
+      "pages": "787–796",
+      "number": null,
       "key": "chingovska_use_2015",
       "related": []
     },
@@ -1268,6 +1488,10 @@
       "type": "Book Chapter",
       "typeslug": "chapters",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "247–278",
+      "number": null,
       "key": "z.li_evaluation_2014",
       "related": []
     },
@@ -1291,6 +1515,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "2014:2",
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "defreitaspereira_face_2014",
       "related": []
     },
@@ -1310,6 +1538,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "9",
+      "issue": "12",
+      "pages": null,
+      "number": null,
       "key": "chingovska_biometrics_2014",
       "related": []
     },
@@ -1331,6 +1563,10 @@
       "type": "Book Chapter",
       "typeslug": "chapters",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "65–82",
+      "number": null,
       "key": "anjos_face_2014",
       "related": []
     },
@@ -1350,6 +1586,10 @@
       "type": "Book Chapter",
       "typeslug": "chapters",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "185–204",
+      "number": null,
       "key": "chingovska_evaluation_2014",
       "related": []
     },
@@ -1369,6 +1609,10 @@
       "type": "Book Chapter",
       "typeslug": "chapters",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "chingovska_antispoofing_2014",
       "related": []
     },
@@ -1388,6 +1632,10 @@
       "type": "Book Chapter",
       "typeslug": "chapters",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_antispoofing_2014",
       "related": []
     },
@@ -1407,6 +1655,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "chingovska_antispoofing_2013",
       "related": []
     },
@@ -1428,6 +1680,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "komulainen_complementary_2013",
       "related": []
     },
@@ -1448,6 +1704,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "pereira_can_2013",
       "related": []
     },
@@ -1499,6 +1759,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "chingovska_2nd_2013",
       "related": []
     },
@@ -1518,11 +1782,17 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_motionbased_2013",
       "related": []
     },
     {
-      "authors": [],
+      "authors": [
+        "André Anjos"
+      ],
       "title": "gridtk",
       "container": null,
       "year": 2012,
@@ -1560,6 +1830,10 @@
       "type": "Dataset",
       "typeslug": "datasets",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "chingovska_replayattack_2012",
       "related": [
         {
@@ -1585,6 +1859,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "chingovska_effectiveness_2012",
       "related": [
         {
@@ -1613,6 +1891,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "1449–1452",
+      "number": null,
       "key": "anjos_bob_2012",
       "related": []
     },
@@ -1633,6 +1915,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "pereira_lbptop_2012",
       "related": []
     },
@@ -1651,6 +1937,10 @@
       "type": "Dataset",
       "typeslug": "datasets",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_printattack_2011",
       "related": [
         {
@@ -1675,6 +1965,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_countermeasures_2011",
       "related": []
     },
@@ -1695,6 +1989,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "chakka_competition_2011",
       "related": []
     },
@@ -1712,6 +2010,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": "617",
+      "issue": null,
+      "pages": "306–309",
+      "number": null,
       "key": "collaboration_atlas_2009c",
       "related": []
     },
@@ -1729,6 +2031,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_configuration_2009",
       "related": []
     },
@@ -1746,6 +2052,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_atlas_2009b",
       "related": []
     },
@@ -1763,6 +2073,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_atlas_2009a",
       "related": []
     },
@@ -1780,6 +2094,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_commissioning_2009",
       "related": []
     },
@@ -1799,6 +2117,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "torres_automatizing_2009",
       "related": []
     },
@@ -1816,6 +2138,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_atlas_2009",
       "related": []
     },
@@ -3880,6 +4206,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "3",
+      "issue": "08",
+      "pages": "S08003-S08003",
+      "number": null,
       "key": "collaboration_atlas_2008",
       "related": []
     },
@@ -3897,6 +4227,10 @@
       "type": "Report",
       "typeslug": "reports",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": "2008–020",
       "key": "collaboration_expected_2008",
       "related": []
     },
@@ -3914,6 +4248,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_trigger_2008",
       "related": []
     },
@@ -3931,6 +4269,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_daq_2008",
       "related": []
     },
@@ -3948,6 +4290,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_readiness_2008",
       "related": []
     },
@@ -3967,6 +4313,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "4",
+      "issue": "2",
+      "pages": "79–92",
+      "number": null,
       "key": "xavier_discriminacao_2007",
       "related": []
     },
@@ -3984,6 +4334,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_alignment_2007",
       "related": []
     },
@@ -4001,6 +4355,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_configuration_2007",
       "related": []
     },
@@ -4018,6 +4376,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_performance_2007",
       "related": []
     },
@@ -4035,6 +4397,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_integration_2007",
       "related": []
     },
@@ -4052,6 +4418,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_atlas_2007",
       "related": []
     },
@@ -4069,6 +4439,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_atlas_2007a",
       "related": []
     },
@@ -4089,6 +4463,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "torres_online_2007",
       "related": []
     },
@@ -4106,6 +4484,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_atlas_2007b",
       "related": []
     },
@@ -4127,6 +4509,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "559",
+      "issue": null,
+      "pages": "134–138",
+      "number": null,
       "key": "anjos_neural_2006",
       "related": []
     },
@@ -4144,6 +4530,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_testing_2006",
       "related": []
     },
@@ -4161,6 +4551,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "53",
+      "issue": null,
+      "pages": "2144–2149",
+      "number": null,
       "key": "collaboration_deployment_2006",
       "related": []
     },
@@ -4178,6 +4572,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_studies_2006",
       "related": []
     },
@@ -4195,6 +4593,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_atlas_2006a",
       "related": []
     },
@@ -4212,6 +4614,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": null,
+      "issue": "P05004",
+      "pages": null,
+      "number": null,
       "key": "collaboration_configuration_2006",
       "related": []
     },
@@ -4229,6 +4635,10 @@
       "type": "Thesis",
       "typeslug": "theses",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_sistema_2006",
       "related": []
     },
@@ -4246,6 +4656,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "172",
+      "issue": null,
+      "pages": "178–182",
+      "number": null,
       "key": "collaboration_atlas_2006",
       "related": []
     },
@@ -4263,6 +4677,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "53 (2006)",
+      "issue": null,
+      "pages": "912–917",
+      "number": null,
       "key": "collaboration_atlas_2005",
       "related": []
     },
@@ -4280,6 +4698,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "53",
+      "issue": null,
+      "pages": "2839–2843",
+      "number": null,
       "key": "collaboration_overview_2005",
       "related": []
     },
@@ -4297,6 +4719,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "53 (2007)",
+      "issue": null,
+      "pages": "864–869",
+      "number": null,
       "key": "collaboration_implementation_2005",
       "related": []
     },
@@ -4314,6 +4740,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "990–994",
+      "number": null,
       "key": "collaboration_configuration_2005",
       "related": []
     },
@@ -4336,6 +4766,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_otimizacao_2005",
       "related": []
     },
@@ -4353,6 +4787,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_muon_2005",
       "related": []
     },
@@ -4370,6 +4808,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_implementation_2005a",
       "related": []
     },
@@ -4391,6 +4833,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_discriminacao_2005",
       "related": []
     },
@@ -4430,6 +4876,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "51",
+      "issue": "3",
+      "pages": "361–366",
+      "number": null,
       "key": "baines_overview_2004",
       "related": []
     },
@@ -4447,6 +4897,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "51",
+      "issue": null,
+      "pages": "585–590",
+      "number": null,
       "key": "collaboration_atlas_2004",
       "related": []
     },
@@ -4464,6 +4918,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "51",
+      "issue": "3",
+      "pages": "915–920",
+      "number": null,
       "key": "collaboration_studies_2004",
       "related": []
     },
@@ -4481,6 +4939,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "518",
+      "issue": "1–2",
+      "pages": "537–541",
+      "number": null,
       "key": "collaboration_architecture_2004",
       "related": []
     },
@@ -4498,6 +4960,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "51",
+      "issue": "3",
+      "pages": "470–475",
+      "number": null,
       "key": "collaboration_baseline_2004",
       "related": []
     },
@@ -4516,6 +4982,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_os_2004",
       "related": []
     },
@@ -4533,6 +5003,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "51",
+      "issue": "3",
+      "pages": "367–374",
+      "number": null,
       "key": "collaboration_algorithms_2004",
       "related": []
     },
@@ -4550,6 +5024,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "51",
+      "issue": "3",
+      "pages": "909–914",
+      "number": null,
       "key": "collaboration_second_2004",
       "related": []
     },
@@ -4567,6 +5045,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_performance_2004",
       "related": []
     },
@@ -4584,6 +5066,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_online_2004",
       "related": []
     },
@@ -4601,6 +5087,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_portable_2004",
       "related": []
     },
@@ -4618,6 +5108,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_implementation_2004",
       "related": []
     },
@@ -4635,6 +5129,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_design_2004",
       "related": []
     },
@@ -4652,6 +5150,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_experience_2003",
       "related": []
     },
@@ -4669,6 +5171,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_new_2003",
       "related": []
     },
@@ -4686,6 +5192,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_algorithm_2003",
       "related": []
     },
@@ -4703,6 +5213,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_architecture_2003",
       "related": []
     },
@@ -4720,6 +5234,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_baseline_2003",
       "related": []
     },
@@ -4737,6 +5255,10 @@
       "type": "Report",
       "typeslug": "reports",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_atlas_2003",
       "related": []
     },
@@ -4755,6 +5277,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "502",
+      "issue": null,
+      "pages": "713–715",
+      "number": null,
       "key": "anjos_neural_2003",
       "related": []
     },
@@ -4772,6 +5298,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "collaboration_dataflow_2003",
       "related": []
     },
@@ -4789,6 +5319,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "51",
+      "issue": "3 (2004)",
+      "pages": "367–374",
+      "number": null,
       "key": "collaboration_overview_2003",
       "related": []
     },
@@ -4807,6 +5341,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_redes_2001",
       "related": []
     },
@@ -4824,6 +5362,10 @@
       "type": "Thesis",
       "typeslug": "theses",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_sistema_2001",
       "related": []
     },
@@ -4842,6 +5384,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_mapeamento_2000",
       "related": []
     },
@@ -4860,6 +5406,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_integrando_1999",
       "related": []
     },
@@ -4882,6 +5432,10 @@
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
+      "volume": "45",
+      "issue": "4",
+      "pages": "1814–1818",
+      "number": null,
       "key": "seixas_neural_1998",
       "related": []
     },
@@ -4901,6 +5455,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "32–33",
+      "number": null,
       "key": "anjos_um_1998",
       "related": []
     },
@@ -4923,6 +5481,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "seixas_neural_1998a",
       "related": []
     },
@@ -4944,6 +5506,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "1629–1633",
+      "number": null,
       "key": "seixas_fast_1997",
       "related": []
     },
@@ -4961,6 +5527,10 @@
       "type": "Thesis",
       "typeslug": "theses",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
       "key": "anjos_sistema_1997",
       "related": []
     },
@@ -4980,6 +5550,10 @@
       "type": "Conference Paper",
       "typeslug": "conferences",
       "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "635–640",
+      "number": null,
       "key": "seixas_particle_1996",
       "related": []
     }

@@ -163,10 +163,16 @@ def type_slug(item_type: str) -> str:
     return ZTYPE.get(item_type, DEFAULT_TYPE)[2]
 
 
+# Zotero splits "the people who made this" across a type-specific creator role.
+# All four are authorship for our purposes; without them a patent and a package
+# would list nobody, on the site and on the CV alike.
+_AUTHOR_ROLES = ("author", "presenter", "inventor", "programmer")
+
+
 def authors_of(item_data: dict) -> list[str]:
     out = []
     for c in item_data.get("creators", []) or []:
-        if c.get("creatorType") not in ("author", "presenter"):  # presenter: presentations
+        if c.get("creatorType") not in _AUTHOR_ROLES:  # editors are not authors
             continue
         name = " ".join(p for p in (c.get("firstName", ""), c.get("lastName", "")) if p).strip()
         name = name or (c.get("name") or "").strip()
@@ -265,6 +271,14 @@ def build_site_entry(top: dict, pdf_key: str | None, user_id: str) -> dict:
         # A publication may carry a companion-code repo (`Software: <url>` in extra),
         # rendered as a "Software" link beside its DOI/PDF.
         entry["software"] = links.get("software")
+        # Bibliographic locators. The website does not print them, but the CV does
+        # ("vol. 12, no. 3, pp. 1-10"), and they are public-feed fields, so CHECK
+        # still verifies them without a key. `number` folds the two type-specific
+        # identifiers Zotero keeps apart — a patent's and a report's — into one.
+        entry["volume"] = d.get("volume") or None
+        entry["issue"] = d.get("issue") or None
+        entry["pages"] = d.get("pages") or None
+        entry["number"] = d.get("patentNumber") or d.get("reportNumber") or None
     entry["zkey"] = top["key"]
     # Zotero's own BetterBibTeX key is authoritative, and the public feed exposes
     # it. It is required: `research_outputs:` refs address a work by this key, so

@@ -21,6 +21,7 @@ add content correctly.
    CI checks the data without credentials (see below).
 4. **Never commit a PDF or a raw image.** Only optimised front-matter covers live
    in `static/`; everything else is served from Idiap — see "Large assets" below.
+   The one exception is `cv/portrait.jpg`, which Typst has to read from disk.
 5. Prefer Markdown; keep prose sober and readable for a scientific audience.
 
 ## Layout
@@ -37,13 +38,17 @@ data/
   bio.yaml             Single source for bio text (long / short / one_liner)
   outputs.json    GENERATED from Zotero "My Publications" — do not edit by hand
   funding.json    GENERATED from the ORCID record's funding section — likewise
+  cv.json              Hand-written CV material with no web page: employment,
+                       education, community service, skills, bibliometrics
+cv/                    The CV (Typst + neat-cv) — see "The CV" below
 layouts/               Bespoke theme (typography-first, light/dark)
 assets/css/main.css    Theme styles (CSS custom properties for both themes)
 assets/fonts/          Self-hosted Source Serif 4 (subset woff2) — see below
 tools/                 zotero_common.py (shared), update-site-outputs.py,
                        update-funding.py, update-orcid-outputs.py, add_zotero_output.py,
                        edit_zotero_item.py, zotero_pdf.py (read a paper's PDF —
-                       public or private — from Zotero), validate_content.py, tests
+                       public or private — from Zotero), build-cv.py,
+                       validate_content.py, tests
 static/images/covers/  Optimised front-matter covers ONLY (served at /images/covers/...)
 idiap-public/          GIT-IGNORED local mirror of ~/public on the Idiap web
                        server: every PDF and raw image (see "Large assets")
@@ -125,6 +130,74 @@ has one, else the grant number's resolver (this is where the `data.snf.ch` links
 come from). A grant with neither shows no pill; give it a `url` on ORCID to fix
 that.
 
+## The CV
+
+The CV is built here, from the website's own data, with
+[Typst](https://typst.app) and the
+[neat-cv](https://typst.app/universe/package/neat-cv/) template. It is published
+as `/andre-anjos-cv.pdf` — `cvURL` in `hugo.toml`, the "Download CV" button and
+the header link.
+
+```sh
+pixi run cv         # cv-data, then typst -> static/andre-anjos-cv.pdf
+pixi run cv-watch   # rebuild on every save while editing cv/cv.typ
+```
+
+`build` **depends on** `cv`, so the PDF is always as fresh as the site, and
+`check-links` verifies the download link against the real file.
+
+### Where each section comes from
+
+**Nothing on the CV is typed twice.** Everything the website knows is pulled from
+its existing source of truth; only what has no web page is written by hand.
+
+| CV section | Source |
+|---|---|
+| About, interests, contact, social links | `data/bio.yaml`, `hugo.toml` |
+| Professional experience, education | `data/cv.json` |
+| Research areas | `content/projects/*/index.md` |
+| Grants and funding | `data/funding.json` (→ ORCID) |
+| Teaching | `content/teaching/*.md` |
+| Supervision | `content/theses/*.md`, plus `data/cv.json` for students who predate the website |
+| Community service, skills, bibliometrics | `data/cv.json` |
+| Open software, open datasets, publications | `data/outputs.json` (→ Zotero) |
+
+So: a new paper goes into Zotero, a new grant onto ORCID, a new thesis into
+`content/theses/`. The CV picks them up on the next build. **A grant missing from
+ORCID is missing from the CV** — that is the intended pressure, not a bug to work
+around by adding it to `data/cv.json`.
+
+`data/cv.json` is the one hand-written file. It is a Hugo data file, reachable as
+`.Site.Data.cv.*`, so any of it can grow a web page later without moving. Its
+entries all share one shape, neat-cv's: `title`, `date`, `institution`,
+`location`, `description` (a string, or a list rendered as bullets).
+
+### How it fits together
+
+Typst reads JSON, YAML and TOML itself, so `cv/cv.typ` opens `data/*.json`,
+`data/bio.yaml` and `hugo.toml` directly (hence `--root .` in the build task, which
+is what makes `/data/...` resolve to the repository root). `tools/build-cv.py`
+exists only for the two things Typst cannot do — read the YAML front matter inside
+`content/**/*.md`, and convert `data/outputs.json` into the Hayagriva form
+neat-cv's `publications()` wants. Its output, `cv/generated.yaml`, is git-ignored
+and rebuilt every time.
+
+Three details worth not rediscovering:
+
+- **The PDF is written to `static/`, not `public/`.** `hugo --cleanDestinationDir`
+  wipes `public/`, so a Typst step after Hugo would race it; writing into
+  `static/` before the build keeps the whole thing one linear chain. It is the
+  single exception to the `static/`-holds-only-covers rule, named in
+  `tools/validate_content.py` (`STATIC_BUILD_PRODUCTS`) and git-ignored.
+- **`cv/portrait.jpg` is committed**, the one raw image in the repository: Typst
+  cannot fetch a URL, so the header photo cannot live on Idiap like the others.
+  Keep it small and square — it is clipped to a circle.
+- **Fonts come from conda-forge** (`font-ttf-roboto`, `font-ttf-opensans`,
+  `font-otf-fontawesome`) and land in `$CONDA_PREFIX/fonts`, which Typst does not
+  scan on its own — hence `--font-path` in the task. neat-cv's default heading
+  face, Fira Sans, is not packaged for conda-forge, which is why `cv.typ` asks for
+  Roboto instead. The accent colour is the site's `--accent`, set in both places.
+
 ## Quality gates
 
 **Every gate is defined exactly once, as a pixi task.** `.pre-commit-config.yaml`
@@ -140,12 +213,14 @@ hooks once with `pixi run prek install --install-hooks`.
 The order makes failures fast and legible: offline before network, the build last,
 and `test` ahead of both checkers because it covers the code they run
 (`test_static_rule.py` → `validate_content.py`, `test_pipeline.py` →
-`zotero_common.py`). Broken tooling then fails as a named assertion rather than
-as a puzzling content error or Zotero diff.
+`zotero_common.py`, `test_cv_data.py` → `build-cv.py`). Broken tooling then fails
+as a named assertion rather than as a puzzling content error or Zotero diff.
 
 Each check also runs alone: `check-content`, `check-outputs`, `check-featured`,
 `check-funding`, `check-links`, `check-sync`, `lint`. `check-links` declares `depends-on = ["build"]`, so it is
-correct standalone and never link-checks a stale `public/`. `check-sync` is a
+correct standalone and never link-checks a stale `public/`; `build` in turn
+declares `depends-on = ["cv"]`, which is the whole chain — CV data, CV PDF, site,
+links — in one order that never races. `check-sync` is a
 `rsync --dry-run` proving everything in `idiap-public/` is already published; it
 needs SSH, so it belongs to no composite gate — run it by hand after
 `idiap-push`. `pixi run serve` deliberately has **no** dependencies — preview
@@ -196,7 +271,9 @@ Adding an asset:
 
 `pixi run validate` fails on anything in `static/` that is not a cover, on any
 `static/` file over 300 KB, and (locally, where the mirror exists) on any Idiap
-URL with no matching file in `idiap-public/`.
+URL with no matching file in `idiap-public/`. The generated CV is exempt from the
+first two — it is a build product, listed in `STATIC_BUILD_PRODUCTS` and
+git-ignored (see "The CV").
 
 ### Webfonts are the one exception, and they live in `assets/`
 

@@ -9,6 +9,15 @@ hugo = ">=0.164"
 requests = "*"
 pyyaml = "*"
 pyzotero = "*"
+# The CV (cv/cv.typ). conda drops fonts in $CONDA_PREFIX/fonts, which typst does
+# not scan on its own — hence --font-path in the `cv` task. Fira Sans, neat-cv's
+# default heading face, is not packaged for conda-forge, so cv.typ asks for
+# Roboto and Open Sans instead. fontawesome carries the contact icons; without
+# it they compile to tofu.
+typst = "0.15.*"
+font-ttf-roboto = "*"
+font-ttf-opensans = "*"
+font-otf-fontawesome = "7.*"
 
 [tasks]
 # Regenerate data/outputs.json from Zotero (source of truth). Needs an API key —
@@ -56,13 +65,24 @@ validate = { depends-on = ["lint", "test", "check-content", "check-outputs", "ch
 # Unit tests for the publications pipeline (offline, fixture-based).
 # -v names each test as it runs, so a failure in the gate says what broke.
 test = "pytest -v tools/tests"
+# Everything the CV borrows from the website (publications, theses, courses,
+# projects) as one YAML file, because typst cannot read Markdown front matter.
+# Generated, git-ignored, and rebuilt on every `cv`.
+cv-data = "python tools/build-cv.py"
+# The CV PDF. --root . lets cv.typ read /data/*.json and /hugo.toml directly.
+# It lands in static/, NOT public/: `build` below wipes public/, so writing the
+# PDF before Hugo runs keeps the whole thing one linear chain and lets
+# check-links verify the download link against a real file.
+cv = { cmd = 'typst compile --root . --font-path "$CONDA_PREFIX/fonts" cv/cv.typ static/andre-anjos-cv.pdf', depends-on = ["cv-data"] }
+# Rebuild the CV on every save. Site data changes need `cv-data` re-run by hand.
+cv-watch = { cmd = 'typst watch --root . --font-path "$CONDA_PREFIX/fonts" cv/cv.typ static/andre-anjos-cv.pdf', depends-on = ["cv-data"] }
 # Build the static site (broken internal refs fail via refLinksErrorLevel=ERROR).
 # --cleanDestinationDir removes stale output so link checks stay honest.
-build = { cmd = "hugo --minify --cleanDestinationDir" }
+build = { cmd = "hugo --minify --cleanDestinationDir", depends-on = ["cv"] }
 # Local preview with drafts and live reload. Deliberately has NO dependencies:
 # preview must never wait on a Zotero round-trip.
 serve = "hugo server -D"
-clean = "rm -rf public resources/_gen"
+clean = "rm -rf public resources/_gen cv/generated.yaml static/andre-anjos-cv.pdf"
 # Publish the large assets (PDFs, raw images) to ~/public on the Idiap web
 # server, where they are served as https://www.idiap.ch/~aanjos/<path>.
 # Additive: no --delete, so it never removes anything already on the server.

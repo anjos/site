@@ -1,0 +1,259 @@
+{
+  "_comment": [
+    "Hand-written CV material with no website equivalent: employment, education,",
+    "community service, skills, bibliometrics, and the pre-website supervision.",
+    "Read directly by cv/cv.typ, and exposed to Hugo as .Site.Data.cv.* should any",
+    "of it ever gain a page. Everything the website already knows — publications,",
+    "grants, theses, courses, projects — is pulled from its own source of truth by",
+    "tools/build-cv.py and must NOT be duplicated here.",
+    "Entries share one shape, neat-cv's: title, date, institution, location,",
+    "description (a string, or a list rendered as bullets)."
+  ],
+
+  "personal": {
+    "birth": "1973-12-31",
+    "nationality": "Swiss and Brazilian",
+    "family": "Married, one child",
+    "phone": "+41 27 721 7763",
+    "address": "Idiap Research Institute, rue Marconi 19, Centre du Parc, CH-1920 Martigny, Switzerland",
+    "positions": [
+      "Signal Processing Engineer, D.Sc.",
+      "Head of the Medical Artificial Intelligence Group"
+    ]
+  },
+
+  "metrics": {
+    "h_index": "31",
+    "citations": "26'000+",
+    "as_of": "2026",
+    "note": "Google Scholar; refresh by hand when the CV is next revised."
+  },
+
+  "employment": [
+    {
+      "title": "Scientific Researcher",
+      "date": "2018 – present",
+      "institution": "Idiap Research Institute",
+      "location": "Martigny, Switzerland",
+      "description": "Head of the Medical Artificial Intelligence Group."
+    },
+    {
+      "title": "Research Associate",
+      "date": "2014 – 2018",
+      "institution": "Idiap Research Institute",
+      "location": "Martigny, Switzerland",
+      "description": "Research on biometrics, security and computing."
+    },
+    {
+      "title": "Post-doctoral Researcher",
+      "date": "2010 – 2013",
+      "institution": "Idiap Research Institute",
+      "location": "Martigny, Switzerland",
+      "description": "Research on biometrics, security and computing."
+    },
+    {
+      "title": "Researcher",
+      "date": "2004 – 2010",
+      "institution": "University of Wisconsin, Madison",
+      "location": "Wisconsin, USA",
+      "description": [
+        "Design, development and maintenance of the ATLAS Trigger and Data Acquisition systems at CERN, Switzerland, deployed and operational on more than 5000 machines at CERN and worldwide."
+      ]
+    },
+    {
+      "title": "Graduate Student",
+      "date": "2000 – 2004",
+      "institution": "Federal University of Rio de Janeiro",
+      "location": "Rio de Janeiro, Brazil",
+      "description": "Design and development of a novel algorithm for fast physics triggering based on calorimetry, topological mapping and neural networks for the ATLAS Experiment at CERN, Switzerland."
+    },
+    {
+      "title": "Undergraduate Student",
+      "date": "1994 – 1999",
+      "institution": "Federal University of Rio de Janeiro",
+      "location": "Rio de Janeiro, Brazil",
+      "description": [
+        "Sub-optimal filtering for particle discrimination.",
+        "Neural classifiers implemented in a transputer-based parallel machine.",
+        "During a one-year internship at CERN, contributed to early prototypes of the second-level trigger and to what became the final trigger design of the ATLAS experiment."
+      ]
+    }
+  ],
+
+  "education": [
+    {
+      "title": "D.Sc., Electronics Engineering",
+      "date": "2001 – 2006",
+      "institution": "Federal University of Rio de Janeiro",
+      "location": "Rio de Janeiro, Brazil",
+      "description": "Electronics Engineering School (Signal Processing Laboratory), Post-Graduate Program (COPPE). Thesis developed at CERN, Switzerland, in the context of the ATLAS Experiment."
+    },
+    {
+      "title": "M.Sc., Electronics Engineering",
+      "date": "2000 – 2001",
+      "institution": "Federal University of Rio de Janeiro",
+      "location": "Rio de Janeiro, Brazil",
+      "description": "Electronics Engineering School (Signal Processing Laboratory), Post-Graduate Program (COPPE). Thesis developed in the context of the ATLAS-CERN / UFRJ collaboration."
+    },
+    {
+      "title": "Engineer, Electronics Engineering",
+      "date": "1994 – 1999",
+      "institution": "Federal University of Rio de Janeiro",
+      "location": "Rio de Janeiro, Brazil",
+      "description": "Degree from the Electronics Engineering Department."
+    },
+    {
+      "title": "Technician, Electronics",
+      "date": "1989 – 1993",
+      "institution": "Federal Center of Technology (CEFET)",
+      "location": "Rio de Janeiro, Brazil",
+      "description": "Technical course in electronics, taken alongside high-school studies."
+    }
+  ],
+
+  "_supervision_comment": [
+    "Students with no thesis page on the website. Printed after the generated",
+    "list in cv/cv.typ, so keep this one newest-first too."
+  ],
+  "supervision": [
+    {
+      "title": "Jaden Diefenbaugh",
+      "date": "2018",
+      "institution": "Graduate student",
+      "location": "Idiap Research Institute, Switzerland",
+      "description": "Work associated with the BEAT platform."
+    },
+    {
+      "title": "Tiago de Freitas Pereira and Jukka Määttä",
+      "date": "2010 – 2013",
+      "institution": "Visiting students, co-supervision",
+      "location": "Idiap Research Institute, Switzerland",
+      "description": "Presentation-attack detection in biometrics."
+    },
+    {
+      "title": "Murali Mohan Chakka",
+      "date": "2010 – 2013",
+      "institution": "Trainee, co-supervision",
+      "location": "Idiap Research Institute, Switzerland",
+      "description": "Presentation-attack detection in biometrics."
+    },
+    {
+      "title": "Rodrigo Coura Torres",
+      "date": "2004 – 2010",
+      "institution": "Doctoral thesis, co-supervision",
+      "location": "Federal University of Rio de Janeiro, Brazil",
+      "description": "Online filtering for high event-rate environments."
+    },
+    {
+      "title": "CERN summer students",
+      "date": "2004 – 2010",
+      "institution": "Summer internships, three summers",
+      "location": "CERN, Geneva, Switzerland",
+      "description": ""
+    }
+  ],
+
+  "service": {
+    "committees": [
+      {
+        "title": "International Joint Conference on Artificial Intelligence (IJCAI)",
+        "date": "2019 – present",
+        "institution": "Senior Program Committee"
+      },
+      {
+        "title": "International Conference of the Biometrics Special Interest Group (BIOSIG)",
+        "date": "2018",
+        "institution": "Program Committee"
+      },
+      {
+        "title": "IAPR International Conference on Biometrics (ICB)",
+        "date": "2015, 2016",
+        "institution": "Program Committee"
+      },
+      {
+        "title": "IEEE International Conference on Biometrics: Theory, Applications and Systems (BTAS)",
+        "date": "2015",
+        "institution": "Chair, special session on Reproducible Research in Biometrics; Doctoral Consortium"
+      },
+      {
+        "title": "International Workshop on Soft-Biometrics",
+        "date": "2014",
+        "institution": "Program Committee, hosted by ECCV"
+      }
+    ],
+    "reviewing": [
+      {
+        "title": "International Journal of Computer Vision",
+        "date": "2019 – present"
+      },
+      {
+        "title": "IEEE Transactions on Biometrics",
+        "date": "2018 – present"
+      },
+      {
+        "title": "Elsevier Image and Vision Computing (IMAVIS)",
+        "date": "2014 – present"
+      },
+      {
+        "title": "IEEE Transactions on Information Forensics and Security",
+        "date": "2013 – present"
+      },
+      {
+        "title": "IET Biometrics",
+        "date": "2013 – present"
+      },
+      {
+        "title": "IEEE Transactions on Image Processing",
+        "date": "2012 – present"
+      },
+      {
+        "title": "IEEE Transactions on Circuits and Systems for Video Technology",
+        "date": "2012 – present"
+      }
+    ],
+    "memberships": [
+      {
+        "title": "IEEE Engineering in Medicine & Biology Society (EMBS)",
+        "date": "2020 – present"
+      },
+      {
+        "title": "Institute of Electrical and Electronics Engineers (IEEE)",
+        "date": "2019 – present"
+      }
+    ]
+  },
+
+  "skills": {
+    "computing": [
+      "Linux, macOS, Windows",
+      "System and network administration",
+      "Structured and object-oriented languages",
+      "Concurrent and parallel programming",
+      "Large software projects, releases and policies",
+      "Revision control, CI, documentation",
+      "Database design and use"
+    ],
+    "languages": [
+      {
+        "title": "Portuguese",
+        "level": 5,
+        "subtitle": "Mother tongue"
+      },
+      {
+        "title": "English",
+        "level": 5,
+        "subtitle": "Fluent"
+      },
+      {
+        "title": "French",
+        "level": 4,
+        "subtitle": "Fluent, certified C1"
+      },
+      {
+        "title": "Spanish",
+        "level": 2,
+        "subtitle": "Basic, reads well"
+      }
+    ]
+  }
+}

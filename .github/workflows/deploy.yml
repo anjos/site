@@ -32,6 +32,16 @@ jobs:
           key: prek-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
           restore-keys: prek-${{ runner.os }}-
 
+      # `pixi run cv` compiles cv/cv.typ, which pulls @preview/neat-cv and its
+      # dependencies from packages.typst.org on a cold cache. Keyed on cv.typ,
+      # where those versions are pinned.
+      - name: Cache typst packages
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/typst
+          key: typst-${{ runner.os }}-${{ hashFiles('cv/cv.typ') }}
+          restore-keys: typst-${{ runner.os }}-
+
       # The one gate, identical to what runs locally:
       #   lint + test + check-content + check-outputs + check-links
       # check-links builds the site first, so ./public is ready to deploy below.

@@ -53,8 +53,21 @@ pixi run idiap-pull   # refresh the local mirror from the server
 
 See "Large assets live on Idiap" in [AGENTS.md](AGENTS.md) for the full rule.
 
-**The CV** linked in the site header (`cvURL` in `hugo.toml`) is built from a
-[separate repository](https://github.com/anjos/cv).
+## The CV
+
+`/andre-anjos-cv.pdf`, the download linked in the site header, is built here from
+`cv/cv.typ` with [Typst](https://typst.app) and the
+[neat-cv](https://typst.app/universe/package/neat-cv/) template. `pixi run build`
+compiles it first, so the site and the PDF can never disagree.
+
+```sh
+pixi run cv         # build the PDF into static/
+pixi run cv-watch   # rebuild it on every save
+```
+
+It reuses the website's own data — publications, grants, supervised theses,
+courses, projects — and nothing is typed twice. See "The CV" in
+[AGENTS.md](AGENTS.md) for what goes where.
 
 ## Licence
 

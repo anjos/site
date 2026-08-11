@@ -18,7 +18,9 @@ disableKinds = ["rss"]
   email = "andre.anjos@idiap.ch"
   # "Visit us" at Idiap — the pin in the hero link row.
   visitURL = "https://www.idiap.ch/en/about/visit-us"
-  cvURL = "https://anjos.ai/cv/cv.pdf"
+  # Built from cv/cv.typ into static/ by `pixi run cv`, which `build` depends on.
+  # Relative on purpose: check-links then verifies the real file in ./public.
+  cvURL = "/andre-anjos-cv.pdf"
   # Home hero. The portrait is a raw image, so it is served from Idiap like every
   # other one (see AGENTS.md, "Large assets"); relURL passes absolute URLs through.
   photo = "https://www.idiap.ch/~aanjos/images/pictures/andre-anjos-600x600.jpg"
