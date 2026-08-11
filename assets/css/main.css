@@ -809,9 +809,15 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
 }
 .biblio__note { margin-top: .5rem; margin-bottom: 0; }
 
-.biblio__charts { display: flex; flex-wrap: wrap; gap: 1rem 2.5rem; align-items: flex-end; }
+/* Charts stacked (all-time above recent) with the legend alongside, the pair
+   centred in the same column the cards above and the list below occupy. */
+.biblio__mix {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+  gap: 1.5rem 3rem; margin-top: 1.5rem;
+}
+.biblio__charts { display: flex; flex-direction: column; gap: 1rem; }
 .donut { margin: 0; text-align: center; }
-.donut svg { width: 9.5rem; height: 9.5rem; display: block; }
+.donut svg { width: 11.4rem; height: 11.4rem; display: block; }
 .donut figcaption {
   font-family: var(--font-ui); font-size: var(--step--1); color: var(--muted);
   margin-top: .25rem;
@@ -824,7 +830,7 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
 
 /* Shrink-wrapped, unlike the site's full-width prose tables: this one is a
    legend, and its numbers belong beside the names, not a screen away. */
-.biblio__legend { width: auto; margin-top: 1.25rem; }
+.biblio__legend { width: auto; margin: 0; }
 .biblio__legend th, .biblio__legend td {
   text-align: right; padding: .3rem 0 .3rem 1.5rem; border-bottom: none;
 }
@@ -850,6 +856,11 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
   font-family: var(--font-ui); font-size: var(--step--1); margin: 1.5rem 0 .5rem;
   padding-bottom: 1rem; border-bottom: 1px solid var(--border);
 }
+.out-filters__title {
+  display: inline-flex; align-items: center; gap: .4rem;
+  color: var(--text); font-weight: 600;
+}
+.out-filters__title .icon { width: 1em; height: 1em; color: var(--accent); }
 .out-filters label { display: inline-flex; align-items: center; gap: .45rem; color: var(--muted); }
 .out-filters select {
   font: inherit; color: var(--text); background: var(--surface);

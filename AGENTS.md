@@ -209,14 +209,20 @@ which the website's `/outputs/` page reads too, so a slice is the same colour in
 the PDF and on the page. The slices carry no rim labels: 4 cm has no room for
 them, and the legend names every category anyway.
 
-**That file caps the chart at five slices, not nine, and the cap is not
-cosmetic.** A donut is read by matching any slice to any legend row, so every
-pair of colours has to be tellable apart — including under colour-vision
-deficiency, in light mode and dark. Four hues is the most that clears that bar;
-the fifth slot is a neutral "Other". Two of the four sit below 3:1 against the
-light surface, which is allowed only because the count table is always
-rendered — it is the required relief, not decoration, so do not drop it. Re-run
-the palette validator over the set as a whole before changing any colour.
+**That file caps the chart's hues, and the cap is not cosmetic.** A donut is
+read by matching any slice to any legend row, so every pair of colours has to be
+tellable apart — including under colour-vision deficiency, in light mode and
+dark. Five hues is the most that clears that bar; everything else folds into the
+neutral "Other". Two steps sit below 3:1 against their surface, which is allowed
+only because the count table is always rendered — it is the required relief, not
+decoration, so do not drop it. Re-run the palette validator over the set as a
+whole before changing any colour; a hue that looks fine alone routinely collides
+with another one.
+
+**`cv: false` marks a slice the CV leaves out.** `/outputs/` lists press items
+and presentations — they are in the same Zotero library — and the CV does not,
+so each chart totals exactly what the page it sits on goes on to list: 143 on the
+website, 141 on the CV. That is why the two numbers differ, and neither is wrong.
 
 That page is a second `cv-with-side`, and the bibliography after it switches to
 `cv-thin-side` — it runs for pages, and 4 cm of white down each would buy nothing.

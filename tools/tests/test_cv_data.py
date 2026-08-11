@@ -82,18 +82,22 @@ def test_output_stats_count_what_the_cv_lists():
         # the minor types share one neutral wedge
         article(key="e", type="Patent", year=1999),
         article(key="f", type="Dataset", year=2026),
-        # Press and Presentation belong to the website's Media section: the CV
-        # neither lists nor counts them
+        # Press and Presentation are a `cv: false` slice: /outputs/ lists them,
+        # the CV does not, so they must not reach the CV's chart either
         article(key="g", type="Press", year=2026),
     ]
     stats = bcv.output_stats(entries)
     assert [(s["label"], s["count"]) for s in stats["all"]] == [
-        ("Journals", 1), ("Conferences", 2), ("Software", 1), ("Other", 2),
+        ("Journals", 1), ("Conferences", 2), ("Software", 1),
+        ("Datasets", 1), ("Other", 1),
     ]
     # the recent window is the last RECENT_YEARS calendar years, inclusive
     assert [(s["label"], s["count"]) for s in stats["recent"]] == [
-        ("Journals", 1), ("Conferences", 1), ("Other", 1),
+        ("Journals", 1), ("Conferences", 1), ("Datasets", 1),
     ]
+    # the CV's donut totals exactly what the CV goes on to list — the press item
+    # is counted by neither
+    assert sum(s["count"] for s in stats["all"]) == len(entries) - 1
     assert stats["since"] == datetime.date.today().year - bcv.RECENT_YEARS + 1
     # every slice carries the colour the website uses for it, so the PDF and the
     # page cannot drift apart

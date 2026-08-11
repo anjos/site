@@ -52,6 +52,7 @@
     {{ $metrics.as_of }}. Everything else is counted from the list below.
   </p>
 
+  <div class="biblio__mix">
   <div class="biblio__charts">
     {{- range $chart := slice (dict "key" "all" "total" $total "cap" "All-time")
                               (dict "key" "recent" "total" $totalRecent "cap" (printf "Since %d" $since)) }}
@@ -96,6 +97,7 @@
       {{- end }}
     </tbody>
   </table>
+  </div>
 
   {{- with (where $slices "label" "Other") }}
   <p class="biblio__note">Other: {{ delimit (index . 0).types ", " }}.</p>

@@ -3,21 +3,25 @@
     "How research outputs are grouped and coloured in the two donut charts, on",
     "the CV (cv/cv.typ) and on /outputs/ (layouts/partials/out-bibliometrics.html).",
     "One definition for both, so a slice is the same colour wherever it is drawn.",
-    "`types` are values of the `type` field in data/outputs.json; anything not",
-    "listed here is not counted (Press and Presentation belong to Media).",
+    "`types` are values of the `type` field in data/outputs.json.",
     "",
-    "Why only five slices, when there are nine output types: a donut has to be",
-    "read by matching any slice to any legend row, so every pair of colours must",
-    "be tellable apart — including under colour-vision deficiency, in light and",
-    "dark. Four hues is the most that clears that bar; the fifth slot is the",
-    "neutral 'Other'. The legend's count table carries the detail the wedges",
-    "drop, and the sections below the chart list every output individually.",
+    "`cv: false` marks a slice the CV leaves out. The website lists press items",
+    "and presentations under /outputs/ (they live in the same Zotero library);",
+    "the CV does not, because they are media, not research outputs. Each chart",
+    "therefore totals exactly what the page it sits on goes on to list — 143 on",
+    "the website, 141 on the CV.",
     "",
-    "Colours are the validated categorical palette: blue / yellow / green /",
-    "magenta, each with a step for the light surface and one for the dark.",
-    "Verified all-pairs in both modes (worst normal-vision dE 19.3, worst CVD",
-    "dE 6.9 with the table view as relief). Do not substitute a colour without",
-    "re-validating the set as a whole."
+    "Why so few slices, when there are eleven output types: a donut is read by",
+    "matching any slice to any legend row, so every pair of colours has to be",
+    "tellable apart — under colour-vision deficiency, in light mode and dark.",
+    "Five hues is the most that clears that bar; the rest fold into two neutrals.",
+    "The legend's count table carries the detail the wedges drop, and the",
+    "sections below the chart list every output individually.",
+    "",
+    "Verified as a set, all-pairs, in both modes (worst normal-vision dE 17.2,",
+    "worst CVD dE 6.9, with the count table as the relief the two low-contrast",
+    "steps require). Do not substitute a colour without re-validating the whole",
+    "set — a hue that looks fine alone routinely collides with another one."
   ],
   "slices": [
     {
@@ -45,10 +49,23 @@
       "dark": "#d55181"
     },
     {
+      "label": "Datasets",
+      "types": ["Dataset"],
+      "light": "#5e2bab",
+      "dark": "#7741c8"
+    },
+    {
       "label": "Other",
-      "types": ["Preprint", "Report", "Patent", "Thesis", "Dataset"],
+      "types": ["Preprint", "Report", "Patent", "Thesis"],
       "light": "#8a8a8a",
       "dark": "#9a9a9a"
+    },
+    {
+      "label": "Media",
+      "types": ["Press", "Presentation"],
+      "light": "#c2c2c2",
+      "dark": "#6f6f6f",
+      "cv": false
     }
   ]
 }

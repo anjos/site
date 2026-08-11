@@ -13,6 +13,8 @@
 {{- $types = sort ($types | uniq) -}}
 
 <div class="out-filters" role="group" aria-label="Filter research outputs">
+  {{/* Named and iconed: two bare dropdowns did not read as controls. */}}
+  <span class="out-filters__title">{{ partial "icon.html" "filter" }}Filter</span>
   {{- if $showType }}
   <label>Type
     <select id="f-type">

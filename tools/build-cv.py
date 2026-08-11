@@ -341,7 +341,14 @@ def output_stats(entries: list[dict]) -> dict:
         names, which are exactly the outputs the CV goes on to list.
     """
     since = datetime.date.today().year - RECENT_YEARS + 1
-    slices = json.loads(OUTPUT_TYPES.read_text(encoding="utf-8"))["slices"]
+    # `cv: false` slices are the website's alone — press items and presentations,
+    # which /outputs/ lists and the CV does not. Dropping them here is what keeps
+    # the CV's donut total equal to the number of outputs the CV goes on to list.
+    slices = [
+        s
+        for s in json.loads(OUTPUT_TYPES.read_text(encoding="utf-8"))["slices"]
+        if s.get("cv", True)
+    ]
 
     def tally(chosen: list[dict]) -> list[dict]:
         counted = collections.Counter(e["type"] for e in chosen)
