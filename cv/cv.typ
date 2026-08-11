@@ -79,7 +79,9 @@
       url: site.params.social.find(s => s.name == "gitlab").url,
     ),),
   ),
-  profile-picture: image("portrait.jpg"),
+  // Deliberately no `profile-picture:` — neat-cv draws it at the top of *every*
+  // `cv-with-side` sidebar, and the outputs page opens a second one. The portrait
+  // is placed by hand below instead, so it appears exactly once.
   accent-color: accent,
   // The header band is the site's own gradient: `linear-gradient(135deg,
   // var(--accent), var(--accent-2))`, which anjos.ai uses for the CV button and,
@@ -162,57 +164,66 @@
   "Datasets": rgb("#2fa36a"),
 )
 
-// Slices thinner than this are thinner than their own label would be, and are
-// left to the shared legend instead of crowding the rim.
-#let LABEL_FLOOR = 5
-
-#let output-pie(slices, caption) = {
-  let total = slices.map(s => s.count).sum()
-  align(center)[
-    #canvas({
-      chart.piechart(
-        slices,
-        value-key: "count",
-        label-key: "label",
-        slice-style: slices.map(s => slice-color.at(s.label)),
-        radius: 1.45,
-        inner-radius: 0.82,
-        stroke: white + 0.7pt,
-        gap: 1deg,
-        outer-label: (
-          content: (value, label) => {
-            let pct = calc.round(value / total * 100)
-            if pct >= LABEL_FLOOR {
-              text(size: 6.5pt)[#label #text(fill: luma(120))[#pct%]]
-            } else { [] }
-          },
-          radius: 148%,
-        ),
-        // The count in the hole says more than a ring of repeated names.
-        legend: (label: none),
-      )
-      draw.content((0, 0), text(size: 13pt, weight: "bold", fill: accent)[#total])
-    })
-    #v(0.1em)
-    #text(size: 8pt, fill: luma(110), caption)
-  ]
-}
+// The charts live in the 4 cm sidebar, which is far too narrow for rim labels —
+// hence the bare donut, the total in its hole, and the legend below carrying
+// every name.
+#let output-pie(slices, caption) = align(center)[
+  #let total = slices.map(s => s.count).sum()
+  #canvas({
+    chart.piechart(
+      slices,
+      value-key: "count",
+      label-key: "label",
+      slice-style: slices.map(s => slice-color.at(s.label)),
+      radius: 1.15,
+      inner-radius: 0.66,
+      stroke: white + 0.7pt,
+      gap: 1deg,
+      outer-label: (content: none),
+      legend: (label: none),
+    )
+    draw.content((0, 0), text(size: 12pt, weight: "bold", fill: accent)[#total])
+  })
+  #v(-0.2em)
+  #text(size: 8pt, fill: luma(110), caption)
+]
 
 // One legend for the pair: the charts share a colour table, so naming it twice
-// would be twice the ink for the same information.
-#let output-legend(slices) = align(center, text(size: 7pt, fill: luma(90), {
-  slices
-    .map(s => box[
-      #box(baseline: 1pt, circle(radius: 2.2pt, fill: slice-color.at(s.label)))
-      #h(0.3em)#s.label #text(fill: luma(140))[#s.count]
-    ])
-    .join(h(1em))
-}))
+// would be twice the ink for the same information. Two counts per row — all
+// time, then the recent window — because the second chart has no labels either.
+#let output-legend(stats) = {
+  let recent = stats.recent.map(s => (s.label, s.count)).to-dict()
+  set text(size: 7pt, fill: luma(90))
+  grid(
+    columns: (1fr, auto, auto),
+    align: (left, right, right),
+    column-gutter: 0.5em,
+    row-gutter: 0.45em,
+    [], text(fill: luma(150), size: 0.85em)[all], text(fill: luma(150), size: 0.85em)[5y],
+    ..stats
+      .all
+      .map(s => (
+        [#box(baseline: 1pt, circle(radius: 2pt, fill: slice-color.at(s.label))) #s.label],
+        [#s.count],
+        text(fill: luma(150))[#recent.at(s.label, default: 0)],
+      ))
+      .flatten(),
+  )
+}
 
 // ---------------------------------------------------------------------------
 // Pages 1–2 — the sidebar CV
 // ---------------------------------------------------------------------------
 #cv-with-side[
+  // What `profile-picture:` would have drawn, minus the repeat on later sidebars.
+  #block(
+    clip: true,
+    stroke: accent + 0.5pt,
+    radius: 50%,
+    width: 100%,
+    image("portrait.jpg"),
+  )
+
   = About me
   #bio.one_liner
 
@@ -270,34 +281,44 @@
 ]
 
 // ---------------------------------------------------------------------------
-// Remaining pages — the bibliography
+// The research outputs open on the wide sidebar, so the charts get the same
+// 4 cm column the first pages use. The bibliography that follows then switches
+// to the thin sidebar: it runs for pages, and 4 cm of white down each of them
+// would be a poor trade for a label.
 // ---------------------------------------------------------------------------
 #pagebreak()
 
-#cv-thin-side[
-  #thin-label("Research Outputs")
-  #v(1em)
-  #thin-metrics((
-    (label: "h-index", value: cvdata.metrics.h_index),
-    (label: "Citations", value: cvdata.metrics.citations),
-  ))
-][
-  #let stats = gen.at("output-stats")
-  #grid(
-    columns: (1fr, 1fr),
-    column-gutter: 1em,
-    output-pie(stats.all, "Every research output"),
-    output-pie(stats.recent, "Since " + str(stats.since)),
-  )
-  #output-legend(stats.all)
-  #v(0.6em)
+#let stats = gen.at("output-stats")
 
+#cv-with-side[
+  = Research Outputs
+  #output-pie(stats.all, "All-time")
+  #v(0.4em)
+  #output-pie(stats.recent, "Last 5y")
+  #v(0.6em)
+  #output-legend(stats)
+
+  #v(1fr)
+  = Bibliometrics
+  h-index: #cvdata.metrics.h_index
+
+  Citations: #cvdata.metrics.citations
+
+  #text(size: 7pt, fill: luma(130))[Google Scholar, #cvdata.metrics.as_of]
+][
   = Open-Source Software
   #records(gen.software)
 
   = Open Datasets
   #records(gen.datasets)
+]
 
+#pagebreak()
+
+#cv-thin-side[
+  // The metrics are stated once, in the sidebar of the page before this one.
+  #thin-label("Bibliography")
+][
   #for group in gen.publications {
     heading(level: 1, group.label)
     // Author lists are printed in full — that is the information a CV is for —

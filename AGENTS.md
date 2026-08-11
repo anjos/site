@@ -175,12 +175,19 @@ section the CV does **not** currently print — `service` (committees, reviewing
 memberships), parked pending a review; the `= Community Service` block in
 `cv/cv.typ` is commented out, not deleted.
 
-The research-output pages open on two donut charts — every output by type, and
-the same for the last five calendar years. `output_stats()` in `tools/build-cv.py`
-counts them, `CHART_LABELS` there fixes both the slice order and the short names,
-and `slice-color` in `cv/cv.typ` maps a name to a colour so a category looks the
-same in both charts. Slices under 5% are named in the shared legend rather than
-on the rim, where their labels would collide.
+The research outputs open on a page whose 4 cm sidebar holds two donut charts —
+every output by type, and the same for the last five calendar years — over a
+legend counting both. `output_stats()` in `tools/build-cv.py` does the counting,
+`CHART_LABELS` there fixes both the slice order and the short names, and
+`slice-color` in `cv/cv.typ` maps a name to a colour, so a category looks the
+same in both charts. The slices carry no rim labels: 4 cm has no room for them,
+and the legend names every category anyway.
+
+That page is a second `cv-with-side`, and the bibliography after it switches to
+`cv-thin-side` — it runs for pages, and 4 cm of white down each would buy nothing.
+Opening a second wide sidebar is also why `cv()` is called **without**
+`profile-picture:`: neat-cv draws that at the top of every `cv-with-side`
+sidebar, so the portrait is placed by hand in the first one instead.
 
 ### How it fits together
 
@@ -201,7 +208,16 @@ Three details worth not rediscovering:
   `tools/validate_content.py` (`STATIC_BUILD_PRODUCTS`) and git-ignored.
 - **`cv/portrait.jpg` is committed**, the one raw image in the repository: Typst
   cannot fetch a URL, so the header photo cannot live on Idiap like the others.
-  Keep it small and square — it is clipped to a circle.
+  It must be square, because it is clipped to a circle, and it should be a real
+  crop that fills the frame — no letterboxing, no blurred bands. From the
+  full-resolution portrait on Idiap:
+  ```sh
+  magick idiap-public/images/pictures/andre-anjos-portrait.jpg \
+    -gravity north -crop 989x989+0+60 +repage \
+    -resize 900x900 -strip -quality 88 -interlace Plane cv/portrait.jpg
+  ```
+  The crop is the source's full width; the `+60` offset is what centres the face
+  once the circle clips the corners. Re-derive both if the source changes.
 - **Fonts come from conda-forge** (`font-ttf-roboto`, `font-ttf-opensans`,
   `font-otf-fontawesome`) and land in `$CONDA_PREFIX/fonts`, which Typst does not
   scan on its own — hence `--font-path` in the task. neat-cv's default heading
