@@ -136,3 +136,21 @@ def test_build_over_the_real_content_tree():
         for record in data[name]:
             assert set(record) == fields, f"{name}: {record}"
             assert record["title"]
+
+
+def test_hand_written_contributions_carry_every_key_the_cv_reads():
+    """data/contributions.json is the one funding file nothing generates.
+
+    `grant()` in cv/cv.typ dereferences its keys directly, and Typst panics on a
+    missing one — mid-build, with no mention of which entry is at fault. Fail
+    here instead, where the message names it, and check the `role` that is the
+    whole reason the file exists.
+    """
+    doc = json.loads(
+        (bcv.ROOT / "data" / "contributions.json").read_text(encoding="utf-8")
+    )
+    assert doc["entries"], "no contributed grants — delete the file instead"
+    for e in doc["entries"]:
+        assert e.get("role", "").strip(), f"{e.get('title')} states no role"
+        for key in ("title", "start", "end", "instrument", "funder", "url"):
+            assert key in e, f"{e.get('title')} has no `{key}` — Typst will panic"

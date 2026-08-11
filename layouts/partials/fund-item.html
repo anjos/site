@@ -1,0 +1,54 @@
+{{/* One grant in the funding list, whether it came from ORCID
+     (data/funding.json) or from the hand-written data/contributions.json —
+     which adds one field, `role`, and is otherwise the same shape. */}}
+{{- /* The meta line is assembled from whatever ORCID actually has: every
+       part but the funder is optional, so it is built as a slice and joined
+       — that way a missing part never strands a separator. The space inside
+       the period is U+00A0, so "2024 – 2028" never breaks across lines.
+
+       Amounts are deliberately absent from this line — they live inside the
+       disclosure below. */ -}}
+{{- $meta := slice }}
+{{- with .funder }}{{ $meta = $meta | append . }}{{ end }}
+{{- /* ORCID's "organization defined type" is the funder's own name for the
+       instrument (Agora, CHIST-ERA, Lead Agency). Some funders just repeat
+       their own name there, which says nothing. */ -}}
+{{- if and .instrument (ne .instrument .funder) }}{{ $meta = $meta | append .instrument }}{{ end }}
+{{- /* Anything that is not a plain grant is worth naming. */ -}}
+{{- if and .type (ne .type "grant") }}{{ $meta = $meta | append (title .type) }}{{ end }}
+{{- with .grant_number }}{{ $meta = $meta | append (printf "no. %s" .) }}{{ end }}
+{{- $period := slice }}
+{{- with .start }}{{ $period = $period | append (partial "fund-date.html" .) }}{{ end }}
+{{- with .end }}{{ $period = $period | append (partial "fund-date.html" .) }}{{ end }}
+{{- with delimit $period " – " }}{{ $meta = $meta | append . }}{{ end }}
+<li class="fund">
+  <h2 class="fund__title">{{ .title }}</h2>
+  {{- /* The grant's own page carries the link rather than the title: it is
+         the only per-grant destination that exists (ORCID has no public URL
+         for a single funding entry — /funding/{put-code} is API-only and the
+         orcid.org path of it redirects to sign-in), so linking both would be
+         two anchors to one target. Three grants have no page at all and
+         simply show no pill. */ -}}
+  <p class="fund__meta">
+    {{- delimit $meta " · " }}
+    {{- with .url }}<a class="fund__link" href="{{ . }}">Grant page</a>{{ end -}}
+  </p>
+  {{- /* The amount is kept out of the meta line and revealed on request,
+         with the abstract. The U+00A0 after the currency keeps
+         "CHF 577,855" whole. Two grants carry no amount and one carries no
+         abstract, so the disclosure opens on whichever of the three exists —
+         and on a contributed grant the role leads it, since what André did
+         there is the first thing worth reading. */ -}}
+  {{- if or .role .description .amount }}
+  <details class="fund__more">
+    <summary>About this grant</summary>
+    {{- with .role }}
+    <p class="fund__role">Roles: {{ . }}</p>
+    {{- end }}
+    {{- if .amount }}
+    <p class="fund__amount">Total awarded: {{ .currency }} {{ lang.FormatNumberCustom 0 .amount }}</p>
+    {{- end }}
+    {{- with .description }}<p>{{ . }}</p>{{ end }}
+  </details>
+  {{- end }}
+</li>

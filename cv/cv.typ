@@ -36,6 +36,7 @@
 #let site = toml("/hugo.toml")
 #let cvdata = json("/data/cv.json")
 #let funding = json("/data/funding.json").entries
+#let contributions = json("/data/contributions.json").entries
 #let bio = yaml("/data/bio.yaml")
 #let interests = json("/data/interests.json").entries
 #let output-types = json("/data/outputtypes.json").slices
@@ -141,6 +142,9 @@
 // A grant, in ORCID's own words: title, funder, and the years it runs. The
 // funding instrument rides in the funder's parenthesis rather than off in the
 // location column, and is dropped when ORCID repeats the funder's name there.
+//
+// A grant from data/contributions.json also carries a `role`, which is the only
+// thing it has to say beyond the ORCID shape and so becomes the description.
 #let grant(g) = {
   let year(d) = if d == none { "" } else { str(d).split("-").at(0) }
   let span = if g.end == none { year(g.start) } else {
@@ -153,6 +157,7 @@
     title: g.title,
     date: span,
     institution: funder,
+    description: if "role" in g { "Roles: " + g.role } else { "" },
     url: if g.url == none { "" } else { g.url },
   ))
 }
@@ -280,6 +285,13 @@
 
   = Grants and Funding
   #for g in funding { grant(g) }
+
+  // Grants worked on but not led, each stating the role played. Hand-written in
+  // data/contributions.json: ORCID has nowhere to record a role.
+  = Earlier Career Contributions
+  While working at the Biometrics & Security group of
+  #link("https://www.idiap.ch/~marcel/")[Sébastien Marcel].
+  #for g in contributions { grant(g) }
 
   = Teaching
   #records(gen.teaching)

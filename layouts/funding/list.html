@@ -1,68 +1,42 @@
 {{ define "main" }}
-{{/* The Funding page: data/funding.json rendered straight, no curation. The file
-     is generated from the ORCID record by `pixi run funding` and verified by
+{{/* The Funding page: two lists, one item partial.
+
+     The first is data/funding.json rendered straight, no curation — grants led,
+     generated from the ORCID record by `pixi run funding` and verified by
      `pixi run check-funding`, exactly as data/outputs.json mirrors Zotero.
 
-     Entries arrive already sorted (closing date descending, start date as the
-     fallback), so this template only formats — it never reorders. */}}
+     The second is data/contributions.json: grants worked on but not led, which
+     ORCID cannot hold because it has no field for a role. That one is
+     hand-written; see its own comment.
+
+     Entries of both arrive already sorted (closing date descending, start date
+     as the fallback), so this template only formats — it never reorders. */}}
 <div class="wide band">
   {{ partial "sec-head.html" (dict "icon" "funding" "text" .Title "level" "h1") }}
   {{ .Content }}
 
   {{ with hugo.Data.funding }}
   <ul class="fund-list">
-    {{- range .entries }}
-    {{- /* The meta line is assembled from whatever ORCID actually has: every
-           part but the funder is optional, so it is built as a slice and joined
-           — that way a missing part never strands a separator. The space inside
-           the period is U+00A0, so "2024 – 2028" never breaks across lines.
-
-           Amounts are deliberately absent from this line — they live inside the
-           disclosure below. */ -}}
-    {{- $meta := slice }}
-    {{- with .funder }}{{ $meta = $meta | append . }}{{ end }}
-    {{- /* ORCID's "organization defined type" is the funder's own name for the
-           instrument (Agora, CHIST-ERA, Lead Agency). Some funders just repeat
-           their own name there, which says nothing. */ -}}
-    {{- if and .instrument (ne .instrument .funder) }}{{ $meta = $meta | append .instrument }}{{ end }}
-    {{- /* Anything that is not a plain grant is worth naming. */ -}}
-    {{- if and .type (ne .type "grant") }}{{ $meta = $meta | append (title .type) }}{{ end }}
-    {{- with .grant_number }}{{ $meta = $meta | append (printf "no. %s" .) }}{{ end }}
-    {{- $period := slice }}
-    {{- with .start }}{{ $period = $period | append (partial "fund-date.html" .) }}{{ end }}
-    {{- with .end }}{{ $period = $period | append (partial "fund-date.html" .) }}{{ end }}
-    {{- with delimit $period " – " }}{{ $meta = $meta | append . }}{{ end }}
-    <li class="fund">
-      <h2 class="fund__title">{{ .title }}</h2>
-      {{- /* The grant's own page carries the link rather than the title: it is
-             the only per-grant destination that exists (ORCID has no public URL
-             for a single funding entry — /funding/{put-code} is API-only and the
-             orcid.org path of it redirects to sign-in), so linking both would be
-             two anchors to one target. Three grants have no page at all and
-             simply show no pill. */ -}}
-      <p class="fund__meta">
-        {{- delimit $meta " · " }}
-        {{- with .url }}<a class="fund__link" href="{{ . }}">Grant page</a>{{ end -}}
-      </p>
-      {{- /* The amount is kept out of the meta line and revealed on request,
-             with the abstract. The U+00A0 after the currency keeps
-             "CHF 577,855" whole. Two grants carry no amount and one carries no
-             abstract, so the disclosure opens on whichever of the two exists. */ -}}
-      {{- if or .description .amount }}
-      <details class="fund__more">
-        <summary>About this grant</summary>
-        {{- if .amount }}
-        <p class="fund__amount">Total awarded: {{ .currency }} {{ lang.FormatNumberCustom 0 .amount }}</p>
-        {{- end }}
-        {{- with .description }}<p>{{ . }}</p>{{ end }}
-      </details>
-      {{- end }}
-    </li>
-    {{- end }}
+    {{- range .entries }}{{ partial "fund-item.html" . }}{{ end }}
   </ul>
   {{ else }}
     <p><em>Funding data has not been generated yet. Run <code>pixi run funding</code>
     to fetch it from the ORCID record.</em></p>
+  {{ end }}
+
+  {{/* Grants worked on but not led. Same markup, same partial — only the
+       divider and the role line inside each disclosure set them apart. */}}
+  {{ with hugo.Data.contributions }}
+  <h2 class="archive-heading">Earlier career contributions</h2>
+  {{/* The acknowledgement is written here rather than in the data file: the CV
+       needs the same sentence and Typst cannot render Markdown, so each
+       renderer spells the link in its own idiom. It covers the section as a
+       whole — a grant led by someone else would need its own line. */}}
+  <p class="fund-note">While working at the Biometrics &amp; Security group of
+    <a href="https://www.idiap.ch/~marcel/">Sébastien Marcel</a>.</p>
+  <ul class="fund-list">
+    {{- range .entries }}{{ partial "fund-item.html" . }}{{ end }}
+  </ul>
   {{ end }}
 </div>
 {{ end }}

@@ -1,7 +1,7 @@
 {
-  "generated": "2026-08-10T16:07:10Z",
+  "generated": "2026-08-11T14:02:36Z",
   "source": "orcid:0000-0001-7248-4014/fundings",
-  "count": 12,
+  "count": 11,
   "entries": [
     {
       "put_code": 2248827,
@@ -142,20 +142,6 @@
       "url": null,
       "grant_number": null,
       "description": "The main aim of SECure is to design a safe and explainable Machine Learning-based system that supports a qualified physician to decide whether or not a orthopaedic surgery is indicated for a given patient."
-    },
-    {
-      "put_code": 2247889,
-      "title": "ALLIES: Autonomous Lifelong learnIng intelLigent Systems",
-      "type": "grant",
-      "instrument": "CHIST-ERA",
-      "funder": "Swiss National Science Foundation",
-      "start": "2018-01",
-      "end": "2021-09",
-      "amount": 496620.0,
-      "currency": "CHF",
-      "url": "https://data.snf.ch/grants/grant/174239",
-      "grant_number": "174239",
-      "description": "Standard machine learning systems require massive data and huge processing infrastructures, but the main limitation to their spreading comes from the need of the empirical and rare knowledge of an experienced data scientist able to set and adjust their behavior over time. The ALLIES project will lay the foundation for development of autonomous intelligent systems sustaining their performance across time. Such unsupervised system will be able to auto-update and perform self-evaluation to be aware of the evolution of its own knowledge acquisition. It should adapt to a changing environment by following a given learning scenario that balances the importance of performance on past and present data to avoid unwanted regression. Such systems could not be developed without adapted metrics and protocols enabling their objective and reproducible evaluation. This evaluation should assess the performance on the given task and quantify the effort required to reach it in terms of unsupervised data collected by the system and of interaction with humans in the case of active-learning. The ALLIES project will develop and disseminate those metrics and protocols. They will be available to european actors via an open evaluation platform dedicated to reproducible research. An evaluation campaign and a workshop will be organised to engage the community on this path. By publicly releasing the evaluation protocols and data, by releasing a dedicated evaluation platform and by developing autonomous systems for two tasks: machine translation and speaker diarization, we believe that the ALLIES project will boost the development of intelligent lifelong learning systems in Europe."
     },
     {
       "put_code": 2247868,

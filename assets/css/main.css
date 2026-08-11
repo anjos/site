@@ -784,6 +784,12 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
   font-family: var(--font-ui); font-size: var(--step--1); font-weight: 600;
   font-variant-numeric: tabular-nums lining-nums;
 }
+/* Who led the contributed grants, under their divider. */
+.fund-note { color: var(--muted); font-size: var(--step--1); margin: -.5rem 0 0; }
+/* What André did on a grant he did not lead — the first line of the disclosure,
+   so it wants the weight the amount has without competing with the accent the
+   summary already spends. */
+.fund__role { font-family: var(--font-ui); font-size: var(--step--1); font-weight: 600; }
 
 /* ---- Bibliometrics -------------------------------------------------------- */
 /* The two headline numbers and the output mix, above the filterable list. Slice

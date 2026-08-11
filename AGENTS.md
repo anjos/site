@@ -38,6 +38,8 @@ data/
   bio.yaml             Single source for bio text (long / short / one_liner)
   outputs.json    GENERATED from Zotero "My Publications" — do not edit by hand
   funding.json    GENERATED from the ORCID record's funding section — likewise
+  contributions.json   Hand-written: grants worked on but not led, each with the
+                       role played. The one funding file ORCID cannot hold
   interests.json  GENERATED from the ORCID record's Keywords — likewise; feeds
                        both the hero pills and the CV
   outputtypes.json     How the donut charts group and colour outputs. Shared by
@@ -120,6 +122,24 @@ by closing date (start date when a grant has no end), the abstract folds into a
 meta line and appear inside that same disclosure, so a grant with an amount but
 no abstract still gets one.
 
+### Grants you did not lead
+
+There is one exception to "ORCID is the source of truth", and it is deliberate:
+**grants worked on but not led live in `data/contributions.json`, hand-written,
+and are kept out of the ORCID record.** An ORCID funding entry has nowhere to say
+what you actually did, and `data/funding.json` is regenerated from ORCID byte for
+byte — a `role` added there would fail `check-funding` and be overwritten on the
+next update.
+
+The file mirrors `data/funding.json`'s entry shape exactly (minus `put_code`,
+plus `role`), so `/funding/` renders both lists through one partial
+(`layouts/partials/fund-item.html`) under the Projects page's quiet
+`Earlier career contributions` divider, and `cv/cv.typ` prints a section of the
+same name with `grant()` unchanged — the role arrives as the description. Every
+key of that shape must be present (`null` where a grant has no such value),
+because Typst panics on a missing dict key; `test_cv_data.py` checks it.
+Its own `_comment` is the how-to for adding the next one.
+
 Three ORCID quirks the tool absorbs:
 
 - A grant asserted by both you and a third party (Dimensions, say) appears twice
@@ -184,6 +204,7 @@ its existing source of truth; only what has no web page is written by hand.
 | Professional experience, education | `data/cv.json` |
 | Research areas | `content/projects/*/index.md` |
 | Grants and funding | `data/funding.json` (→ ORCID) |
+| Earlier career contributions | `data/contributions.json` (hand-written, with roles) |
 | Teaching | `content/teaching/*.md` |
 | Supervision | `content/theses/*.md`, plus `data/cv.json` for students who predate the website |
 | Interests | `data/interests.json` (→ ORCID Keywords) |

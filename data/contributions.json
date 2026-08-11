@@ -1,0 +1,40 @@
+{
+  "_comment": [
+    "Grants worked on but not led: the ones André co-authored and/or",
+    "contributed to, with the role he played. Hand-written, and deliberately",
+    "NOT from ORCID — an ORCID funding entry has nowhere to say what you did,",
+    "and data/funding.json is regenerated from ORCID byte for byte, so a role",
+    "added there would fail `pixi run check-funding` and be overwritten.",
+    "",
+    "Rendered under 'Earlier career contributions' on /funding/ and in the CV.",
+    "",
+    "Adding a grant: copy an entry of data/funding.json (drop `put_code`) and",
+    "write the `role`. The shape is that file's, field for field, so both",
+    "renderers format these exactly like the ORCID ones.",
+    "",
+    "  role         required, and the point of this file: what you did, as a",
+    "               short list. Both renderers print it as 'Roles: <value>'.",
+    "  every other  must be PRESENT, `null` when the grant has no such value —",
+    "  key          cv/cv.typ's grant() dereferences them and Typst panics on",
+    "               a missing key. tools/tests/test_cv_data.py checks this.",
+    "",
+    "Order is the file's own: newest closing date first, as in data/funding.json.",
+    "Neither renderer sorts."
+  ],
+  "entries": [
+    {
+      "title": "ALLIES: Autonomous Lifelong learnIng intelLigent Systems",
+      "type": "grant",
+      "instrument": "CHIST-ERA",
+      "funder": "Swiss National Science Foundation",
+      "start": "2018-01",
+      "end": "2021-09",
+      "amount": 496620.0,
+      "currency": "CHF",
+      "url": "https://data.snf.ch/grants/grant/174239",
+      "grant_number": "174239",
+      "description": "Standard machine learning systems require massive data and huge processing infrastructures, but the main limitation to their spreading comes from the need of the empirical and rare knowledge of an experienced data scientist able to set and adjust their behavior over time. The ALLIES project will lay the foundation for development of autonomous intelligent systems sustaining their performance across time. Such unsupervised system will be able to auto-update and perform self-evaluation to be aware of the evolution of its own knowledge acquisition. It should adapt to a changing environment by following a given learning scenario that balances the importance of performance on past and present data to avoid unwanted regression. Such systems could not be developed without adapted metrics and protocols enabling their objective and reproducible evaluation. This evaluation should assess the performance on the given task and quantify the effort required to reach it in terms of unsupervised data collected by the system and of interaction with humans in the case of active-learning. The ALLIES project will develop and disseminate those metrics and protocols. They will be available to european actors via an open evaluation platform dedicated to reproducible research. An evaluation campaign and a workshop will be organised to engage the community on this path. By publicly releasing the evaluation protocols and data, by releasing a dedicated evaluation platform and by developing autonomous systems for two tasks: machine translation and speaker diarization, we believe that the ALLIES project will boost the development of intelligent lifelong learning systems in Europe.",
+      "role": "Co-authorship, project management, implementation"
+    }
+  ]
+}
