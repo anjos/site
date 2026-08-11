@@ -219,10 +219,11 @@ decoration, so do not drop it. Re-run the palette validator over the set as a
 whole before changing any colour; a hue that looks fine alone routinely collides
 with another one.
 
-**`cv: false` marks a slice the CV leaves out.** `/outputs/` lists press items
-and presentations — they are in the same Zotero library — and the CV does not,
-so each chart totals exactly what the page it sits on goes on to list: 143 on the
-website, 141 on the CV. That is why the two numbers differ, and neither is wrong.
+**`cvTypes` narrows a slice to what the CV lists.** `/outputs/` lists press items
+and presentations — they are in the same Zotero library — and the CV does not, so
+the neutral Other wedge counts them on the website and not in the PDF. Each chart
+then totals exactly what the page it sits on goes on to list: 143 on the website,
+141 on the CV. That is why the two numbers differ, and neither is wrong.
 
 That page is a second `cv-with-side`, and the bibliography after it switches to
 `cv-thin-side` — it runs for pages, and 4 cm of white down each would buy nothing.

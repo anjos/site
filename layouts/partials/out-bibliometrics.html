@@ -4,7 +4,8 @@
 
        Grouping and colour come from data/outputtypes.json — the same file the
        CV reads, so a slice is the same colour in the PDF and on the page. That
-       file explains why there are five slices and not nine.
+       file explains why there are six slices and not eleven, and why the CV
+       counts one of them differently.
 
        The arcs are plain <circle>s dashed with stroke-dasharray rather than
        <path> wedges: Go templates have no trigonometry, and a dashed ring needs
@@ -81,6 +82,7 @@
     {{- end }}
   </div>
 
+  <div class="biblio__key">
   <table class="biblio__legend">
     <thead>
       <tr><th scope="col">Type</th><th scope="col">All-time</th><th scope="col">Since {{ $since }}</th></tr>
@@ -97,9 +99,9 @@
       {{- end }}
     </tbody>
   </table>
-  </div>
-
   {{- with (where $slices "label" "Other") }}
   <p class="biblio__note">Other: {{ delimit (index . 0).types ", " }}.</p>
   {{- end }}
+  </div>
+  </div>
 </section>

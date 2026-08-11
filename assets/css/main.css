@@ -807,7 +807,7 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
   font-family: var(--font-ui); font-size: var(--step--2); color: var(--muted);
   margin: 0 0 1.25rem;
 }
-.biblio__note { margin-top: .5rem; margin-bottom: 0; }
+.biblio__note { margin: .6rem 0 0; max-width: 22rem; }
 
 /* Charts stacked (all-time above recent) with the legend alongside, the pair
    centred in the same column the cards above and the list below occupy. */
@@ -830,6 +830,7 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
 
 /* Shrink-wrapped, unlike the site's full-width prose tables: this one is a
    legend, and its numbers belong beside the names, not a screen away. */
+.biblio__key { display: flex; flex-direction: column; }
 .biblio__legend { width: auto; margin: 0; }
 .biblio__legend th, .biblio__legend td {
   text-align: right; padding: .3rem 0 .3rem 1.5rem; border-bottom: none;

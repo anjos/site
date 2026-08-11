@@ -5,16 +5,17 @@
     "One definition for both, so a slice is the same colour wherever it is drawn.",
     "`types` are values of the `type` field in data/outputs.json.",
     "",
-    "`cv: false` marks a slice the CV leaves out. The website lists press items",
-    "and presentations under /outputs/ (they live in the same Zotero library);",
-    "the CV does not, because they are media, not research outputs. Each chart",
-    "therefore totals exactly what the page it sits on goes on to list — 143 on",
-    "the website, 141 on the CV.",
+    "`cvTypes`, where present, is what the CV counts instead of `types`. The",
+    "website lists press items and presentations under /outputs/ (they live in",
+    "the same Zotero library); the CV does not, because they are media, not",
+    "research outputs. Both fall in the neutral Other wedge, so each chart totals",
+    "exactly what the page it sits on goes on to list — 143 on the website, 141",
+    "on the CV — without either growing a slice the other does not have.",
     "",
     "Why so few slices, when there are eleven output types: a donut is read by",
     "matching any slice to any legend row, so every pair of colours has to be",
     "tellable apart — under colour-vision deficiency, in light mode and dark.",
-    "Five hues is the most that clears that bar; the rest fold into two neutrals.",
+    "Five hues is the most that clears that bar; the rest fold into one neutral.",
     "The legend's count table carries the detail the wedges drop, and the",
     "sections below the chart list every output individually.",
     "",
@@ -56,16 +57,10 @@
     },
     {
       "label": "Other",
-      "types": ["Preprint", "Report", "Patent", "Thesis"],
+      "types": ["Preprint", "Report", "Patent", "Thesis", "Press", "Presentation"],
+      "cvTypes": ["Preprint", "Report", "Patent", "Thesis"],
       "light": "#8a8a8a",
       "dark": "#9a9a9a"
-    },
-    {
-      "label": "Media",
-      "types": ["Press", "Presentation"],
-      "light": "#c2c2c2",
-      "dark": "#6f6f6f",
-      "cv": false
     }
   ]
 }

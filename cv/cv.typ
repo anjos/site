@@ -219,7 +219,8 @@
   let other = output-types.find(s => s.label == "Other")
   if other != none {
     v(0.35em)
-    text(size: 0.85em, fill: luma(150))[Other: #other.types.join(", ").]
+    let listed = other.at("cvTypes", default: other.types)
+    text(size: 0.85em, fill: luma(150))[Other: #listed.join(", ").]
   }
 }
 
