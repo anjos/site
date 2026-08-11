@@ -7,6 +7,7 @@ plumbing, covered by the end-to-end test at the bottom, which runs the real
 generator over the real content tree.
 """
 
+import datetime
 import importlib.util
 import pathlib
 import sys
@@ -71,12 +72,36 @@ def test_patent_number_stands_in_for_pages():
     assert pub["page-range"] == "WO/2019/150254"
 
 
+def test_output_stats_count_what_the_cv_lists():
+    entries = [
+        article(key="a", type="Journal Article", year=2026),
+        article(key="b", type="Conference Paper", year=2026),
+        article(key="c", type="Conference Paper", year=1999),
+        article(key="d", type="Software", year=1999),
+        # Press and Presentation belong to the website's Media section: the CV
+        # neither lists nor counts them
+        article(key="e", type="Press", year=2026),
+    ]
+    stats = bcv.output_stats(entries)
+    assert stats["all"] == [
+        {"label": "Journals", "count": 1},
+        {"label": "Conferences", "count": 2},
+        {"label": "Software", "count": 1},
+    ]
+    # the recent window is the last RECENT_YEARS calendar years, inclusive
+    assert stats["recent"] == [
+        {"label": "Journals", "count": 1},
+        {"label": "Conferences", "count": 1},
+    ]
+    assert stats["since"] == datetime.date.today().year - bcv.RECENT_YEARS + 1
+
+
 def test_build_over_the_real_content_tree():
     """The generator must survive every page actually in the repository, and
     hand back the sections cv/cv.typ indexes into."""
     data = bcv.build()
-    assert set(data) == {"publications", "software", "datasets", "supervision",
-                         "teaching", "projects"}
+    assert set(data) == {"publications", "output-stats", "software", "datasets",
+                         "supervision", "teaching", "projects"}
     assert data["publications"], "no publication groups"
     for group in data["publications"]:
         assert group["entries"], f"empty group: {group['label']}"

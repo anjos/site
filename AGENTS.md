@@ -159,7 +159,7 @@ its existing source of truth; only what has no web page is written by hand.
 | Grants and funding | `data/funding.json` (→ ORCID) |
 | Teaching | `content/teaching/*.md` |
 | Supervision | `content/theses/*.md`, plus `data/cv.json` for students who predate the website |
-| Community service, skills, bibliometrics | `data/cv.json` |
+| Interests (the ORCID record's Keywords), skills, bibliometrics | `data/cv.json` |
 | Open software, open datasets, publications | `data/outputs.json` (→ Zotero) |
 
 So: a new paper goes into Zotero, a new grant onto ORCID, a new thesis into
@@ -170,7 +170,17 @@ around by adding it to `data/cv.json`.
 `data/cv.json` is the one hand-written file. It is a Hugo data file, reachable as
 `.Site.Data.cv.*`, so any of it can grow a web page later without moving. Its
 entries all share one shape, neat-cv's: `title`, `date`, `institution`,
-`location`, `description` (a string, or a list rendered as bullets).
+`location`, `description` (a string, or a list rendered as bullets). It holds one
+section the CV does **not** currently print — `service` (committees, reviewing,
+memberships), parked pending a review; the `= Community Service` block in
+`cv/cv.typ` is commented out, not deleted.
+
+The research-output pages open on two donut charts — every output by type, and
+the same for the last five calendar years. `output_stats()` in `tools/build-cv.py`
+counts them, `CHART_LABELS` there fixes both the slice order and the short names,
+and `slice-color` in `cv/cv.typ` maps a name to a colour so a category looks the
+same in both charts. Slices under 5% are named in the shared legend rather than
+on the rim, where their labels would collide.
 
 ### How it fits together
 

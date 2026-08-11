@@ -15,16 +15,32 @@
     "nationality": "Swiss and Brazilian",
     "family": "Married, one child",
     "phone": "+41 27 721 7763",
-    "address": "Idiap Research Institute, rue Marconi 19, Centre du Parc, CH-1920 Martigny, Switzerland",
+    "address": "Idiap Research Institute, rue Marconi 19, CH-1920 Martigny, Switzerland",
     "positions": [
-      "Signal Processing Engineer, D.Sc.",
+      "Machine Learning and Computer Vision, Ph.D",
       "Head of the Medical Artificial Intelligence Group"
+    ],
+    "_interests_comment": [
+      "The `Keywords` of the ORCID record (orcid.org/0000-0001-7248-4014).",
+      "Copied, not synced: ORCID's public API serves them, but a seven-string",
+      "list does not earn a generator. Re-copy when you edit them there.",
+      "Kept apart from hugo.toml's params.interests, which is the shorter list",
+      "the website's hero pills show."
+    ],
+    "interests": [
+      "Medical AI",
+      "Machine Learning",
+      "Computer Vision",
+      "Pattern Recognition",
+      "Signal Processing",
+      "Artificial Intelligence",
+      "Reproducible Research"
     ]
   },
 
   "metrics": {
-    "h_index": "31",
-    "citations": "26'000+",
+    "h_index": "32",
+    "citations": "29'000+",
     "as_of": "2026",
     "note": "Google Scholar; refresh by hand when the CV is next revised."
   },
@@ -52,7 +68,7 @@
       "description": "Research on biometrics, security and computing."
     },
     {
-      "title": "Researcher",
+      "title": "Research & Development Engineer",
       "date": "2004 – 2010",
       "institution": "University of Wisconsin, Madison",
       "location": "Wisconsin, USA",
@@ -82,7 +98,7 @@
 
   "education": [
     {
-      "title": "D.Sc., Electronics Engineering",
+      "title": "Ph.D., Electronics Engineering",
       "date": "2001 – 2006",
       "institution": "Federal University of Rio de Janeiro",
       "location": "Rio de Janeiro, Brazil",
@@ -136,20 +152,6 @@
       "institution": "Trainee, co-supervision",
       "location": "Idiap Research Institute, Switzerland",
       "description": "Presentation-attack detection in biometrics."
-    },
-    {
-      "title": "Rodrigo Coura Torres",
-      "date": "2004 – 2010",
-      "institution": "Doctoral thesis, co-supervision",
-      "location": "Federal University of Rio de Janeiro, Brazil",
-      "description": "Online filtering for high event-rate environments."
-    },
-    {
-      "title": "CERN summer students",
-      "date": "2004 – 2010",
-      "institution": "Summer internships, three summers",
-      "location": "CERN, Geneva, Switzerland",
-      "description": ""
     }
   ],
 

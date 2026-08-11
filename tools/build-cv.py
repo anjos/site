@@ -20,6 +20,8 @@ read by cv/cv.typ directly.
 
 from __future__ import annotations
 
+import collections
+import datetime
 import json
 import pathlib
 import re
@@ -50,6 +52,24 @@ PUBLICATION_GROUPS = (
 # Hayagriva parent type per output type. neat-cv prints "in <venue>" only for a
 # `proceedings` parent, which is exactly the conference-paper convention.
 PARENT_TYPE = {"Conference Paper": "proceedings", "Book Chapter": "anthology"}
+
+# Slice labels for the two pie charts that open the outputs pages, in a fixed
+# order so both charts colour a category the same way. Short on purpose: a
+# section heading does not fit beside a slice. The list is also what the charts
+# count — exactly the outputs the CV goes on to list, which leaves out the press
+# and presentation items the website keeps under Media.
+CHART_LABELS = (
+    ("Journal Article", "Journals"),
+    ("Conference Paper", "Conferences"),
+    ("Book Chapter", "Chapters"),
+    ("Preprint", "Preprints"),
+    ("Report", "Reports"),
+    ("Patent", "Patents"),
+    ("Thesis", "Theses"),
+    ("Software", "Software"),
+    ("Dataset", "Datasets"),
+)
+RECENT_YEARS = 5
 
 # Nobiliary particles, folded into the surname when they directly precede it.
 PARTICLES = frozenset(
@@ -316,6 +336,39 @@ def projects(entries: list[dict]) -> list[dict]:
     return [e for _, e in sorted(records, key=lambda r: r[0])]
 
 
+def output_stats(entries: list[dict]) -> dict:
+    """Slice counts for the two pie charts, whole-career and recent.
+
+    Parameters
+    ----------
+    entries
+        The entries of ``data/outputs.json``.
+
+    Returns
+    -------
+    dict
+        ``since`` (first year of the recent window), and ``all`` / ``recent``,
+        each a list of ``{label, count}`` in CHART_LABELS order with the empty
+        categories dropped. Counts are of the outputs the CV lists, so the two
+        charts and the sections under them always agree.
+    """
+    since = datetime.date.today().year - RECENT_YEARS + 1
+
+    def tally(chosen: list[dict]) -> list[dict]:
+        counted = collections.Counter(e["type"] for e in chosen)
+        return [
+            {"label": label, "count": counted[out_type]}
+            for out_type, label in CHART_LABELS
+            if counted[out_type]
+        ]
+
+    return {
+        "since": since,
+        "all": tally(entries),
+        "recent": tally([e for e in entries if (e["year"] or 0) >= since]),
+    }
+
+
 # --------------------------------------------------------------------------- #
 def build() -> dict:
     """Everything the CV takes from the website, ready to be dumped as YAML."""
@@ -323,6 +376,7 @@ def build() -> dict:
     software, datasets = software_and_data(entries)
     return {
         "publications": publication_groups(entries),
+        "output-stats": output_stats(entries),
         "software": software,
         "datasets": datasets,
         "supervision": supervision(),

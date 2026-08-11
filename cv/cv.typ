@@ -21,6 +21,13 @@
   contact-info, cv, cv-thin-side, cv-with-side, entry, item-pills,
   item-with-level, publications, social-links, thin-label, thin-metrics,
 )
+#import "@preview/cetz:0.5.2": canvas, draw
+#import "@preview/cetz-plot:0.1.4": chart
+
+// The website's two accent stops, --accent and --accent-2 in assets/css/main.css.
+// Everything coloured here derives from them, as it does there.
+#let accent = rgb("#1240c0")
+#let accent-2 = rgb("#0b6b63")
 
 #let site = toml("/hugo.toml")
 #let cvdata = json("/data/cv.json")
@@ -73,10 +80,14 @@
     ),),
   ),
   profile-picture: image("portrait.jpg"),
-  // The website's one accent knob, --accent in assets/css/main.css. Changing it
-  // there and here keeps page and PDF the same colour.
-  accent-color: rgb("#1240c0"),
-  header-color: rgb("#35414d"),
+  accent-color: accent,
+  // The header band is the site's own gradient: `linear-gradient(135deg,
+  // var(--accent), var(--accent-2))`, which anjos.ai uses for the CV button and,
+  // washed out, for the page field behind everything. A hue shift at constant
+  // lightness, never a ramp toward white — see AGENTS.md, "The theme".
+  // CSS 135deg (to bottom-right) is Typst 45deg: CSS measures from "to top"
+  // clockwise, Typst from "to right".
+  header-color: gradient.linear(accent, accent-2, angle: 45deg),
   // Fira Sans, neat-cv's default heading face, is not on conda-forge; Roboto and
   // Open Sans are, and are what the previous CV used. See pixi.toml.
   heading-font: "Roboto",
@@ -114,20 +125,89 @@
 
 #let records(rs) = for r in rs { record(r) }
 
-// A grant, in ORCID's own words: title, funder, and the years it runs.
+// A grant, in ORCID's own words: title, funder, and the years it runs. The
+// funding instrument rides in the funder's parenthesis rather than off in the
+// location column, and is dropped when ORCID repeats the funder's name there.
 #let grant(g) = {
   let year(d) = if d == none { "" } else { str(d).split("-").at(0) }
   let span = if g.end == none { year(g.start) } else {
     year(g.start) + " – " + year(g.end)
   }
+  let funder = if g.instrument in (none, g.funder) { g.funder } else {
+    g.funder + " (Instrument: " + g.instrument + ")"
+  }
   record((
     title: g.title,
     date: span,
-    institution: g.funder,
-    location: if g.instrument == none { "" } else { g.instrument },
+    institution: funder,
     url: if g.url == none { "" } else { g.url },
   ))
 }
+
+// ---------------------------------------------------------------------------
+// The two donut charts that open the research-output pages. Both are coloured
+// from one label -> colour table, so a category keeps its colour across the
+// pair; slice order follows tools/build-cv.py's CHART_LABELS, which is also the
+// order the sections below appear in.
+// ---------------------------------------------------------------------------
+#let slice-color = (
+  "Journals": accent,
+  "Conferences": accent-2,
+  "Chapters": rgb("#6b8ede"),
+  "Preprints": rgb("#4fae9f"),
+  "Reports": rgb("#2a3f6b"),
+  "Patents": rgb("#b07b2a"),
+  "Theses": rgb("#8f5fbf"),
+  "Software": rgb("#1f7fd0"),
+  "Datasets": rgb("#2fa36a"),
+)
+
+// Slices thinner than this are thinner than their own label would be, and are
+// left to the shared legend instead of crowding the rim.
+#let LABEL_FLOOR = 5
+
+#let output-pie(slices, caption) = {
+  let total = slices.map(s => s.count).sum()
+  align(center)[
+    #canvas({
+      chart.piechart(
+        slices,
+        value-key: "count",
+        label-key: "label",
+        slice-style: slices.map(s => slice-color.at(s.label)),
+        radius: 1.45,
+        inner-radius: 0.82,
+        stroke: white + 0.7pt,
+        gap: 1deg,
+        outer-label: (
+          content: (value, label) => {
+            let pct = calc.round(value / total * 100)
+            if pct >= LABEL_FLOOR {
+              text(size: 6.5pt)[#label #text(fill: luma(120))[#pct%]]
+            } else { [] }
+          },
+          radius: 148%,
+        ),
+        // The count in the hole says more than a ring of repeated names.
+        legend: (label: none),
+      )
+      draw.content((0, 0), text(size: 13pt, weight: "bold", fill: accent)[#total])
+    })
+    #v(0.1em)
+    #text(size: 8pt, fill: luma(110), caption)
+  ]
+}
+
+// One legend for the pair: the charts share a colour table, so naming it twice
+// would be twice the ink for the same information.
+#let output-legend(slices) = align(center, text(size: 7pt, fill: luma(90), {
+  slices
+    .map(s => box[
+      #box(baseline: 1pt, circle(radius: 2.2pt, fill: slice-color.at(s.label)))
+      #h(0.3em)#s.label #text(fill: luma(140))[#s.count]
+    ])
+    .join(h(1em))
+}))
 
 // ---------------------------------------------------------------------------
 // Pages 1–2 — the sidebar CV
@@ -136,8 +216,10 @@
   = About me
   #bio.one_liner
 
+  // The ORCID record's Keywords, kept in data/cv.json — a longer list than the
+  // website's hero pills (hugo.toml's params.interests).
   = Interests
-  #for i in site.params.interests [- #i]
+  #for i in personal.interests [- #i]
 
   = Contact
   #contact-info()
@@ -183,15 +265,8 @@
   #records(gen.supervision)
   #records(cvdata.supervision)
 
-  = Community Service
-  == Programme Committees
-  #records(cvdata.service.committees)
-
-  == Journal Reviewing
-  #records(cvdata.service.reviewing)
-
-  == Memberships
-  #records(cvdata.service.memberships)
+  // Community Service (committees, reviewing, memberships) is written and ready
+  // in data/cv.json but deliberately not printed — it is awaiting a review.
 ]
 
 // ---------------------------------------------------------------------------
@@ -200,13 +275,23 @@
 #pagebreak()
 
 #cv-thin-side[
-  #thin-label("Bibliography")
+  #thin-label("Research Outputs")
   #v(1em)
   #thin-metrics((
     (label: "h-index", value: cvdata.metrics.h_index),
     (label: "Citations", value: cvdata.metrics.citations),
   ))
 ][
+  #let stats = gen.at("output-stats")
+  #grid(
+    columns: (1fr, 1fr),
+    column-gutter: 1em,
+    output-pie(stats.all, "Every research output"),
+    output-pie(stats.recent, "Since " + str(stats.since)),
+  )
+  #output-legend(stats.all)
+  #v(0.6em)
+
   = Open-Source Software
   #records(gen.software)
 
