@@ -213,11 +213,12 @@ Three details worth not rediscovering:
   full-resolution portrait on Idiap:
   ```sh
   magick idiap-public/images/pictures/andre-anjos-portrait.jpg \
-    -gravity north -crop 989x989+0+60 +repage \
+    -gravity north -crop 989x989+0+109 +repage \
     -resize 900x900 -strip -quality 88 -interlace Plane cv/portrait.jpg
   ```
-  The crop is the source's full width; the `+60` offset is what centres the face
-  once the circle clips the corners. Re-derive both if the source changes.
+  The crop is the source's full width; the `+109` offset is what places the face
+  once the circle clips the corners — raising it moves the head *up* in the
+  frame. Re-derive it if the source changes.
 - **Fonts come from conda-forge** (`font-ttf-roboto`, `font-ttf-opensans`,
   `font-otf-fontawesome`) and land in `$CONDA_PREFIX/fonts`, which Typst does not
   scan on its own — hence `--font-path` in the task. neat-cv's default heading
