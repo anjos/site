@@ -26,15 +26,9 @@ disableKinds = ["rss"]
   photo = "https://www.idiap.ch/~aanjos/images/pictures/andre-anjos-600x600.jpg"
   role = "Head of the Medical AI Group, Idiap Research Institute"
   location = "Martigny, Switzerland"
-  # Rendered as the hero's pills. Kept separate from `subtitle`, which is prose
-  # for the meta description and the page sub-heading.
-  interests = [
-    "Medical AI",
-    "Machine Learning",
-    "Computer Vision",
-    "Signal Processing",
-    "Reproducible Research",
-  ]
+  # The hero's interest pills are NOT here: they are the ORCID record's Keywords,
+  # generated into data/interests.json by `pixi run interests` and shared with
+  # the CV. Edit them on orcid.org.
   # Footer social links (icon key -> URL). Icons resolved as inline SVGs.
   [[params.social]]
     name = "orcid"

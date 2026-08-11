@@ -42,6 +42,12 @@ API key is configured, and merely *verifies* that it is current when there is
 none — which is how CI checks the data without any credentials. Never hand-edit
 that file. `pixi run orcid-report` writes a to-do list for keeping ORCID in sync.
 
+**Grants and research interests** come from the ORCID record — its funding
+section and its Keywords. `pixi run funding` and `pixi run interests` regenerate
+`data/funding.json` and `data/interests.json`; the ORCID public API needs no key,
+so CI verifies both with `--check`. The interests feed the home page's hero pills
+and the CV's sidebar from that one file. Never hand-edit either.
+
 **PDFs and raw images** are served from `https://www.idiap.ch/~aanjos/` rather
 than committed here — only optimised front-matter covers live in `static/`. The
 local mirror is `idiap-public/` (git-ignored), synced with:

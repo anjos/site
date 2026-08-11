@@ -33,6 +33,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data"
 OUTPUT_FILE = DATA_DIR / "outputs.json"
 FUNDING_FILE = DATA_DIR / "funding.json"     # ORCID-sourced; see update-funding.py
+INTERESTS_FILE = DATA_DIR / "interests.json"  # ORCID Keywords; see update-interests.py
 
 # Zotero itemType -> (site label / filter category, ORCID work-type, URL slug).
 # Slugs are short single words (no dashes): they form /outputs/<slug>/ filter pages.
@@ -422,6 +423,19 @@ def fetch_orcid_fundings() -> dict:
         instrument — those need :func:`fetch_orcid_funding`.
     """
     return _orcid_get("fundings")
+
+
+def fetch_orcid_keywords() -> dict:
+    """The ORCID record's Keywords, which the site and CV call "interests".
+
+    Returns
+    -------
+    dict
+        The ``/keywords`` payload. Each entry carries its ``content`` and a
+        ``display-index``; ORCID serves them highest index first, which is the
+        order it shows them in.
+    """
+    return _orcid_get("keywords")
 
 
 def fetch_orcid_funding(put_code: int | str) -> dict:

@@ -37,6 +37,7 @@
 #let cvdata = json("/data/cv.json")
 #let funding = json("/data/funding.json").entries
 #let bio = yaml("/data/bio.yaml")
+#let interests = json("/data/interests.json").entries
 #let gen = yaml("generated.yaml")
 #let personal = cvdata.personal
 
@@ -237,10 +238,10 @@
   = About me
   #bio.one_liner
 
-  // The ORCID record's Keywords, kept in data/cv.json — a longer list than the
-  // website's hero pills (hugo.toml's params.interests).
+  // The ORCID record's Keywords, in ORCID's own order. The website's hero pills
+  // read the same generated file.
   = Interests
-  #for i in personal.interests [- #i]
+  #for i in interests [- #i]
 
   = Contact
   #contact-info()

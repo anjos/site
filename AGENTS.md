@@ -38,6 +38,8 @@ data/
   bio.yaml             Single source for bio text (long / short / one_liner)
   outputs.json    GENERATED from Zotero "My Publications" — do not edit by hand
   funding.json    GENERATED from the ORCID record's funding section — likewise
+  interests.json  GENERATED from the ORCID record's Keywords — likewise; feeds
+                       both the hero pills and the CV
   cv.json              Hand-written CV material with no web page: employment,
                        education, community service, skills, bibliometrics
 cv/                    The CV (Typst + neat-cv) — see "The CV" below
@@ -45,7 +47,8 @@ layouts/               Bespoke theme (typography-first, light/dark)
 assets/css/main.css    Theme styles (CSS custom properties for both themes)
 assets/fonts/          Self-hosted Source Serif 4 (subset woff2) — see below
 tools/                 zotero_common.py (shared), update-site-outputs.py,
-                       update-funding.py, update-orcid-outputs.py, add_zotero_output.py,
+                       update-funding.py, update-interests.py,
+                       update-orcid-outputs.py, add_zotero_output.py,
                        edit_zotero_item.py, zotero_pdf.py (read a paper's PDF —
                        public or private — from Zotero), build-cv.py,
                        validate_content.py, tests
@@ -130,6 +133,26 @@ has one, else the grant number's resolver (this is where the `data.snf.ch` links
 come from). A grant with neither shows no pill; give it a `url` on ORCID to fix
 that.
 
+## Interests (ORCID is the source of truth)
+
+The **Keywords of the ORCID record** are the single source of truth for research
+interests. They feed two places at once — the home page's hero pills and the CV's
+sidebar — so there is one list, not two:
+
+```sh
+pixi run interests        # ORCID public API → data/interests.json
+pixi run check-interests  # verify the committed file is current (what CI runs)
+```
+
+Same contract as funding, and the same code path with `--check`: key-less, a
+per-item diff on drift, an unreachable ORCID warns and passes. Never edit
+`data/interests.json` by hand; edit the Keywords on <https://orcid.org>.
+
+**Order is ORCID's own.** Entries are sorted by ORCID's `display-index`, highest
+first, which is how ORCID itself lists them, and both renderers print them in file
+order. To reorder the pills, reorder the keywords on ORCID — and note that the
+check fails on a pure reorder, exactly as it does on an add or a remove.
+
 ## The CV
 
 The CV is built here, from the website's own data, with
@@ -153,13 +176,14 @@ its existing source of truth; only what has no web page is written by hand.
 
 | CV section | Source |
 |---|---|
-| About, interests, contact, social links | `data/bio.yaml`, `hugo.toml` |
+| About, contact, social links | `data/bio.yaml`, `hugo.toml` |
 | Professional experience, education | `data/cv.json` |
 | Research areas | `content/projects/*/index.md` |
 | Grants and funding | `data/funding.json` (→ ORCID) |
 | Teaching | `content/teaching/*.md` |
 | Supervision | `content/theses/*.md`, plus `data/cv.json` for students who predate the website |
-| Interests (the ORCID record's Keywords), skills, bibliometrics | `data/cv.json` |
+| Interests | `data/interests.json` (→ ORCID Keywords) |
+| Skills, bibliometrics | `data/cv.json` |
 | Open software, open datasets, publications | `data/outputs.json` (→ Zotero) |
 
 So: a new paper goes into Zotero, a new grant onto ORCID, a new thesis into
@@ -235,7 +259,7 @@ hooks once with `pixi run prek install --install-hooks`.
 | when | what | cost |
 |---|---|---|
 | **pre-commit** | whitespace/TOML/JSON/YAML hygiene, no submodules, `ruff` on `tools/` | offline, instant |
-| **`pixi run validate`** | `lint` + `test` + `check-content` + `check-outputs` + `check-featured` + `check-funding` + `check-links` (which builds first) — **exactly what CI runs** | network, ~10 s |
+| **`pixi run validate`** | `lint` + `test` + `check-content` + `check-outputs` + `check-featured` + `check-funding` + `check-interests` + `check-links` (which builds first) — **exactly what CI runs** | network, ~10 s |
 
 The order makes failures fast and legible: offline before network, the build last,
 and `test` ahead of both checkers because it covers the code they run
@@ -244,7 +268,7 @@ and `test` ahead of both checkers because it covers the code they run
 as a named assertion rather than as a puzzling content error or Zotero diff.
 
 Each check also runs alone: `check-content`, `check-outputs`, `check-featured`,
-`check-funding`, `check-links`, `check-sync`, `lint`. `check-links` declares `depends-on = ["build"]`, so it is
+`check-funding`, `check-interests`, `check-links`, `check-sync`, `lint`. `check-links` declares `depends-on = ["build"]`, so it is
 correct standalone and never link-checks a stale `public/`; `build` in turn
 declares `depends-on = ["cv"]`, which is the whole chain — CV data, CV PDF, site,
 links — in one order that never races. `check-sync` is a

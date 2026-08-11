@@ -18,22 +18,6 @@
     "address": "Idiap Research Institute, rue Marconi 19, CH-1920 Martigny, Switzerland",
     "positions": [
       "Head of the Medical Artificial Intelligence Group, Ph.D."
-    ],
-    "_interests_comment": [
-      "The `Keywords` of the ORCID record (orcid.org/0000-0001-7248-4014).",
-      "Copied, not synced: ORCID's public API serves them, but a seven-string",
-      "list does not earn a generator. Re-copy when you edit them there.",
-      "Kept apart from hugo.toml's params.interests, which is the shorter list",
-      "the website's hero pills show."
-    ],
-    "interests": [
-      "Medical AI",
-      "Machine Learning",
-      "Computer Vision",
-      "Pattern Recognition",
-      "Signal Processing",
-      "Artificial Intelligence",
-      "Reproducible Research"
     ]
   },
 
