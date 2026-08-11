@@ -13,6 +13,8 @@ import json
 import pathlib
 import sys
 
+import pytest
+
 TOOLS = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(TOOLS))
 
@@ -73,7 +75,7 @@ def test_patent_number_stands_in_for_pages():
     assert pub["page-range"] == "WO/2019/150254"
 
 
-def test_output_stats_count_what_the_cv_lists():
+def test_output_stats_count_every_output_there_is():
     entries = [
         article(key="a", type="Journal Article", year=2026),
         article(key="b", type="Conference Paper", year=2026),
@@ -82,28 +84,37 @@ def test_output_stats_count_what_the_cv_lists():
         # the minor types share one neutral wedge
         article(key="e", type="Patent", year=1999),
         article(key="f", type="Dataset", year=2026),
-        # Press and Presentation are a `cv: false` slice: /outputs/ lists them,
-        # the CV does not, so they must not reach the CV's chart either
         article(key="g", type="Press", year=2026),
     ]
     stats = bcv.output_stats(entries)
     assert [(s["label"], s["count"]) for s in stats["all"]] == [
         ("Journals", 1), ("Conferences", 2), ("Software", 1),
-        ("Datasets", 1), ("Other", 1),
+        ("Datasets", 1), ("Other", 2),
     ]
     # the recent window is the last RECENT_YEARS calendar years, inclusive
     assert [(s["label"], s["count"]) for s in stats["recent"]] == [
-        ("Journals", 1), ("Conferences", 1), ("Datasets", 1),
+        ("Journals", 1), ("Conferences", 1), ("Datasets", 1), ("Other", 1),
     ]
-    # the CV's donut totals exactly what the CV goes on to list — the press item
-    # is counted by neither
-    assert sum(s["count"] for s in stats["all"]) == len(entries) - 1
     assert stats["since"] == datetime.date.today().year - bcv.RECENT_YEARS + 1
-    # every slice carries the colour the website uses for it, so the PDF and the
-    # page cannot drift apart
-    palette = {s["label"]: s["light"] for s in json.loads(
+    # THE invariant: the chart accounts for every output, so its total is the
+    # same number the website prints under the list
+    assert sum(s["count"] for s in stats["all"]) == len(entries)
+    # every slice carries both colour steps, so the PDF and the page cannot
+    # colour one category two ways
+    palette = {s["label"]: s for s in json.loads(
         bcv.OUTPUT_TYPES.read_text(encoding="utf-8"))["slices"]}
-    assert all(s["color"] == palette[s["label"]] for s in stats["all"])
+    assert all(s["light"] == palette[s["label"]]["light"] for s in stats["all"])
+    assert all(s["dark"] == palette[s["label"]]["dark"] for s in stats["all"])
+
+
+def test_an_unclaimed_output_type_fails_the_build():
+    """A new Zotero type nobody added to data/outputtypes.json would silently
+    shrink the chart below the number of outputs the site lists. Stop the build
+    instead — this guard is what makes the two totals verifiable, not just equal
+    today."""
+    with pytest.raises(SystemExit) as exc:
+        bcv.output_stats([article(key="a", type="Sculpture", year=2026)])
+    assert "Sculpture" in str(exc.value) and "outputtypes.json" in str(exc.value)
 
 
 def test_build_over_the_real_content_tree():

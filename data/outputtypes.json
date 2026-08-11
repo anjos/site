@@ -5,12 +5,10 @@
     "One definition for both, so a slice is the same colour wherever it is drawn.",
     "`types` are values of the `type` field in data/outputs.json.",
     "",
-    "`cvTypes`, where present, is what the CV counts instead of `types`. The",
-    "website lists press items and presentations under /outputs/ (they live in",
-    "the same Zotero library); the CV does not, because they are media, not",
-    "research outputs. Both fall in the neutral Other wedge, so each chart totals",
-    "exactly what the page it sits on goes on to list — 143 on the website, 141",
-    "on the CV — without either growing a slice the other does not have.",
+    "Every type in data/outputs.json must be claimed by exactly one slice.",
+    "tools/build-cv.py enforces that and fails the build otherwise, which is what",
+    "keeps the chart total equal to the number of outputs there actually are —",
+    "add a new Zotero type here the day it first appears.",
     "",
     "Why so few slices, when there are eleven output types: a donut is read by",
     "matching any slice to any legend row, so every pair of colours has to be",
@@ -58,7 +56,6 @@
     {
       "label": "Other",
       "types": ["Preprint", "Report", "Patent", "Thesis", "Press", "Presentation"],
-      "cvTypes": ["Preprint", "Report", "Patent", "Thesis"],
       "light": "#8a8a8a",
       "dark": "#9a9a9a"
     }

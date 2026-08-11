@@ -21,3 +21,7 @@ orcid-sync-report.md
 # tools/validate_content.py) and is published, never committed.
 cv/generated.yaml
 static/andre-anjos-cv.pdf
+# The chart tally, also written by `pixi run cv-data`. It lives under data/ so
+# Hugo can read it: the website renders these numbers instead of counting for
+# itself, which is what keeps the page and the PDF in agreement.
+data/bibliometrics.json
