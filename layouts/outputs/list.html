@@ -10,6 +10,10 @@
     {{ end }}
     {{/* The output mix and the two headline numbers, before the filter bar. */}}
     {{ partial "out-bibliometrics.html" . }}
+    {{/* Names what the filter bar and the year sections below are: the whole
+         record, as opposed to the curated "Featured works" above. Only here —
+         the per-type pages reuse out-list.html under their own title. */}}
+    {{ partial "sec-head.html" (dict "icon" "outputs" "text" "Complete list") }}
     {{ partial "out-list.html" (dict "entries" .entries "showType" true) }}
   {{ else }}
     <p><em>Output data has not been generated yet. Run <code>pixi run outputs</code>

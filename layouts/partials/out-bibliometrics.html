@@ -1,6 +1,6 @@
-{{- /* Bibliometrics: the two headline numbers, then the output mix as a pair of
-       donuts beside a shared count table. Sits between "Featured works" and the
-       filterable list on /outputs/.
+{{- /* Bibliometrics: the output mix as a pair of donuts, beside a count table
+       with the headline numbers under it. Sits between "Featured works" and the
+       "Complete list" heading on /outputs/.
 
        This partial COUNTS NOTHING. data/bibliometrics.json is written by
        tools/build-cv.py, which the site build depends on, and the CV renders the
@@ -26,17 +26,6 @@
 
 <section class="biblio" aria-label="Bibliometrics">
   {{ partial "sec-head.html" (dict "icon" "achievements" "text" "Bibliometrics") }}
-
-  <ul class="biblio__stats">
-    <li><span class="biblio__num">{{ $metrics.h_index }}</span><span class="biblio__cap">h-index</span></li>
-    <li><span class="biblio__num">{{ $metrics.citations }}</span><span class="biblio__cap">citations</span></li>
-    <li><span class="biblio__num">{{ $b.total }}</span><span class="biblio__cap">research outputs</span></li>
-  </ul>
-  <p class="biblio__source">
-    Citation counts from
-    <a href="https://scholar.google.ch/citations?user=pAfLhMoAAAAJ">Google Scholar</a>,
-    {{ $metrics.as_of }}. Everything else is counted from the list below.
-  </p>
 
   <div class="biblio__mix">
     <div class="biblio__charts">
@@ -84,6 +73,17 @@
       {{- with (where hugo.Data.outputtypes.slices "label" "Other") }}
       <p class="biblio__note">Other: {{ delimit (index . 0).types ", " }}.</p>
       {{- end }}
+
+      <ul class="biblio__stats">
+        <li><span class="biblio__num">{{ $metrics.h_index }}</span><span class="biblio__cap">h-index</span></li>
+        <li><span class="biblio__num">{{ $metrics.citations }}</span><span class="biblio__cap">citations</span></li>
+        <li><span class="biblio__num">{{ $b.total }}</span><span class="biblio__cap">research outputs</span></li>
+      </ul>
+      <p class="biblio__source">
+        Citation counts from
+        <a href="https://scholar.google.ch/citations?user=pAfLhMoAAAAJ">Google Scholar</a>,
+        {{ $metrics.as_of }}. Everything else is counted from the list below.
+      </p>
     </div>
   </div>
 </section>

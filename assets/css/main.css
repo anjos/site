@@ -791,13 +791,14 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
    per mode, because a category must keep its colour in light and dark alike —
    the dark values are that palette's own dark steps, not an automatic flip. */
 .biblio { margin-block: 2.5rem; }
+/* Under the legend, in the same column: a compact row of headline numbers. */
 .biblio__stats {
-  list-style: none; padding: 0; margin: 1rem 0 .35rem;
-  display: flex; flex-wrap: wrap; gap: .5rem 2.5rem;
+  list-style: none; padding: 0; margin: 1.5rem 0 .35rem;
+  display: flex; flex-wrap: wrap; gap: .5rem 1.75rem;
 }
 .biblio__stats li { display: flex; flex-direction: column; }
 .biblio__num {
-  font-size: var(--step-3); font-weight: 600; line-height: 1.1; color: var(--accent);
+  font-size: var(--step-2); font-weight: 600; line-height: 1.1; color: var(--accent);
   font-variant-numeric: tabular-nums lining-nums;
 }
 .biblio__cap {
@@ -805,9 +806,9 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
 }
 .biblio__source, .biblio__note {
   font-family: var(--font-ui); font-size: var(--step--2); color: var(--muted);
-  margin: 0 0 1.25rem;
+  margin: 0; max-width: 24rem;
 }
-.biblio__note { margin: .6rem 0 0; max-width: 22rem; }
+.biblio__note { margin-top: .6rem; }
 
 /* Charts stacked (all-time above recent) with the legend alongside, the pair
    centred in the same column the cards above and the list below occupy. */

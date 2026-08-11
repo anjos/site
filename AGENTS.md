@@ -424,9 +424,10 @@ icon font and no icon set is vendored.
 current projects, then the four most recent research outputs. That last section
 is recomputed from `data/outputs.json` on every build and needs no curation.
 **`/outputs/` carries a Bibliometrics section** between "Featured works" and the
-filter bar: the two headline numbers from `data/cv.json`'s `metrics` (the CV's
-own, Google-Scholar-sourced and hand-maintained), then the same two donuts the CV
-draws, from the same `data/outputtypes.json`. `layouts/partials/out-bibliometrics.html`
+"Complete list" heading that introduces the filter bar: the same two donuts the CV
+draws, from the same `data/outputtypes.json`, beside a count table with the
+headline numbers under it — those come from `data/cv.json`'s `metrics` (the CV's
+own, Google-Scholar-sourced and hand-maintained). `layouts/partials/out-bibliometrics.html`
 counts straight from `data/outputs.json` — nothing is generated for it. The arcs
 are dashed `<circle>`s rather than `<path>` wedges because Go templates have no
 trigonometry and a dashed ring needs only the circumference; each slice is
