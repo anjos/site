@@ -8,6 +8,8 @@
     {{ with $.Params.featured }}
     {{ partial "out-featured.html" (dict "refs" . "data" hugo.Data.outputs.entries) }}
     {{ end }}
+    {{/* The output mix and the two headline numbers, before the filter bar. */}}
+    {{ partial "out-bibliometrics.html" . }}
     {{ partial "out-list.html" (dict "entries" .entries "showType" true) }}
   {{ else }}
     <p><em>Output data has not been generated yet. Run <code>pixi run outputs</code>

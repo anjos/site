@@ -38,6 +38,7 @@
 #let funding = json("/data/funding.json").entries
 #let bio = yaml("/data/bio.yaml")
 #let interests = json("/data/interests.json").entries
+#let output-types = json("/data/outputtypes.json").slices
 #let gen = yaml("generated.yaml")
 #let personal = cvdata.personal
 
@@ -157,26 +158,15 @@
 }
 
 // ---------------------------------------------------------------------------
-// The two donut charts that open the research-output pages. Both are coloured
-// from one label -> colour table, so a category keeps its colour across the
-// pair; slice order follows tools/build-cv.py's CHART_LABELS, which is also the
-// order the sections below appear in.
-// ---------------------------------------------------------------------------
-#let slice-color = (
-  "Journals": accent,
-  "Conferences": accent-2,
-  "Chapters": rgb("#6b8ede"),
-  "Preprints": rgb("#4fae9f"),
-  "Reports": rgb("#2a3f6b"),
-  "Patents": rgb("#b07b2a"),
-  "Theses": rgb("#8f5fbf"),
-  "Software": rgb("#1f7fd0"),
-  "Datasets": rgb("#2fa36a"),
-)
-
+// The two donut charts. Slice order, grouping and colour all come from
+// data/outputtypes.json via generated.yaml — the same file the website's
+// /outputs/ page reads, so a slice is the same colour in both places.
+//
 // The charts live in the 4 cm sidebar, which is far too narrow for rim labels —
 // hence the bare donut, the total in its hole, and the legend below carrying
-// every name.
+// every name and count. That legend is also the "table view" the palette's two
+// low-contrast steps rely on, so it is not optional.
+// ---------------------------------------------------------------------------
 #let output-pie(slices, caption) = align(center)[
   #let total = slices.map(s => s.count).sum()
   #canvas({
@@ -184,7 +174,7 @@
       slices,
       value-key: "count",
       label-key: "label",
-      slice-style: slices.map(s => slice-color.at(s.label)),
+      slice-style: slices.map(s => rgb(s.color)),
       radius: 1.72,
       inner-radius: 0.99,
       stroke: white + 0.7pt,
@@ -197,6 +187,12 @@
   #v(-0.2em)
   #text(fill: luma(110), caption)
 ]
+
+// A squircle, big enough to read its hue at a glance — a 4 pt dot was not.
+#let swatch(color) = box(
+  baseline: 1.5pt,
+  rect(width: 8pt, height: 8pt, radius: 2.5pt, fill: rgb(color), stroke: none),
+)
 
 // One legend for the pair: the charts share a colour table, so naming it twice
 // would be twice the ink for the same information. Two counts per row — all
@@ -213,12 +209,18 @@
     ..stats
       .all
       .map(s => (
-        [#box(baseline: 1pt, circle(radius: 2pt, fill: slice-color.at(s.label))) #s.label],
+        [#swatch(s.color) #s.label],
         [#s.count],
         text(fill: luma(150))[#recent.at(s.label, default: 0)],
       ))
       .flatten(),
   )
+  // Name what the neutral wedge holds; the sections below list them in full.
+  let other = output-types.find(s => s.label == "Other")
+  if other != none {
+    v(0.35em)
+    text(size: 0.85em, fill: luma(150))[Other: #other.types.join(", ").]
+  }
 }
 
 // ---------------------------------------------------------------------------

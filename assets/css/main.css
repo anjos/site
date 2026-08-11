@@ -785,6 +785,66 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
   font-variant-numeric: tabular-nums lining-nums;
 }
 
+/* ---- Bibliometrics -------------------------------------------------------- */
+/* The two headline numbers and the output mix, above the filterable list. Slice
+   colours are set per element from data/outputtypes.json, one custom property
+   per mode, because a category must keep its colour in light and dark alike —
+   the dark values are that palette's own dark steps, not an automatic flip. */
+.biblio { margin-block: 2.5rem; }
+.biblio__stats {
+  list-style: none; padding: 0; margin: 1rem 0 .35rem;
+  display: flex; flex-wrap: wrap; gap: .5rem 2.5rem;
+}
+.biblio__stats li { display: flex; flex-direction: column; }
+.biblio__num {
+  font-size: var(--step-3); font-weight: 600; line-height: 1.1; color: var(--accent);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.biblio__cap {
+  font-family: var(--font-ui); font-size: var(--step--1); color: var(--muted);
+}
+.biblio__source, .biblio__note {
+  font-family: var(--font-ui); font-size: var(--step--2); color: var(--muted);
+  margin: 0 0 1.25rem;
+}
+.biblio__note { margin-top: .5rem; margin-bottom: 0; }
+
+.biblio__charts { display: flex; flex-wrap: wrap; gap: 1rem 2.5rem; align-items: flex-end; }
+.donut { margin: 0; text-align: center; }
+.donut svg { width: 9.5rem; height: 9.5rem; display: block; }
+.donut figcaption {
+  font-family: var(--font-ui); font-size: var(--step--1); color: var(--muted);
+  margin-top: .25rem;
+}
+.donut__seg { stroke: var(--c-light); }
+.donut__total {
+  fill: var(--text); font-family: var(--font-ui); font-size: 1.6rem; font-weight: 600;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Shrink-wrapped, unlike the site's full-width prose tables: this one is a
+   legend, and its numbers belong beside the names, not a screen away. */
+.biblio__legend { width: auto; margin-top: 1.25rem; }
+.biblio__legend th, .biblio__legend td {
+  text-align: right; padding: .3rem 0 .3rem 1.5rem; border-bottom: none;
+}
+.biblio__legend tr > :first-child { text-align: left; padding-left: 0; }
+.biblio__legend tbody th { font-weight: 400; color: var(--text); }
+.biblio__legend thead th { font-weight: 400; font-size: var(--step--2); }
+.biblio__legend td { font-variant-numeric: tabular-nums lining-nums; }
+/* A squircle, big enough to read its hue next to the label. */
+.biblio__swatch {
+  display: inline-block; width: .85em; height: .85em; border-radius: .28em;
+  background: var(--c-light); margin-right: .5rem; vertical-align: -.08em;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) .donut__seg { stroke: var(--c-dark); }
+  :root:where(:not([data-theme="light"])) .biblio__swatch { background: var(--c-dark); }
+}
+:root[data-theme="dark"] .donut__seg { stroke: var(--c-dark); }
+:root[data-theme="dark"] .biblio__swatch { background: var(--c-dark); }
+
 .out-filters {
   display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center;
   font-family: var(--font-ui); font-size: var(--step--1); margin: 1.5rem 0 .5rem;

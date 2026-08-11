@@ -9,6 +9,7 @@ generator over the real content tree.
 
 import datetime
 import importlib.util
+import json
 import pathlib
 import sys
 
@@ -78,22 +79,27 @@ def test_output_stats_count_what_the_cv_lists():
         article(key="b", type="Conference Paper", year=2026),
         article(key="c", type="Conference Paper", year=1999),
         article(key="d", type="Software", year=1999),
+        # the minor types share one neutral wedge
+        article(key="e", type="Patent", year=1999),
+        article(key="f", type="Dataset", year=2026),
         # Press and Presentation belong to the website's Media section: the CV
         # neither lists nor counts them
-        article(key="e", type="Press", year=2026),
+        article(key="g", type="Press", year=2026),
     ]
     stats = bcv.output_stats(entries)
-    assert stats["all"] == [
-        {"label": "Journals", "count": 1},
-        {"label": "Conferences", "count": 2},
-        {"label": "Software", "count": 1},
+    assert [(s["label"], s["count"]) for s in stats["all"]] == [
+        ("Journals", 1), ("Conferences", 2), ("Software", 1), ("Other", 2),
     ]
     # the recent window is the last RECENT_YEARS calendar years, inclusive
-    assert stats["recent"] == [
-        {"label": "Journals", "count": 1},
-        {"label": "Conferences", "count": 1},
+    assert [(s["label"], s["count"]) for s in stats["recent"]] == [
+        ("Journals", 1), ("Conferences", 1), ("Other", 1),
     ]
     assert stats["since"] == datetime.date.today().year - bcv.RECENT_YEARS + 1
+    # every slice carries the colour the website uses for it, so the PDF and the
+    # page cannot drift apart
+    palette = {s["label"]: s["light"] for s in json.loads(
+        bcv.OUTPUT_TYPES.read_text(encoding="utf-8"))["slices"]}
+    assert all(s["color"] == palette[s["label"]] for s in stats["all"])
 
 
 def test_build_over_the_real_content_tree():

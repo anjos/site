@@ -1,0 +1,103 @@
+{{- /* Bibliometrics: the two headline numbers, then the output mix as a pair of
+       donuts over a shared count table. Sits between "Featured works" and the
+       filterable list on /outputs/.
+
+       Grouping and colour come from data/outputtypes.json — the same file the
+       CV reads, so a slice is the same colour in the PDF and on the page. That
+       file explains why there are five slices and not nine.
+
+       The arcs are plain <circle>s dashed with stroke-dasharray rather than
+       <path> wedges: Go templates have no trigonometry, and a dashed ring needs
+       only the circumference. Each slice is therefore a real element with its
+       own <title> tooltip, which a conic-gradient could not give.
+
+       h-index and citations come from data/cv.json, where the CV keeps them —
+       Google Scholar has no API, so they are updated by hand. */ -}}
+
+{{- $entries := hugo.Data.outputs.entries -}}
+{{- $slices := hugo.Data.outputtypes.slices -}}
+{{- $since := sub now.Year 4 -}}
+{{- $recent := where $entries "year" "ge" $since -}}
+
+{{- /* [{label, light, dark, all, recent}], empty slices dropped. */ -}}
+{{- $rows := slice -}}
+{{- $total := 0 -}}
+{{- $totalRecent := 0 -}}
+{{- range $s := $slices -}}
+  {{- $n := 0 -}}{{- $r := 0 -}}
+  {{- range $t := $s.types -}}
+    {{- $n = add $n (len (where $entries "type" $t)) -}}
+    {{- $r = add $r (len (where $recent "type" $t)) -}}
+  {{- end -}}
+  {{- if gt $n 0 -}}
+    {{- $total = add $total $n -}}
+    {{- $totalRecent = add $totalRecent $r -}}
+    {{- $rows = $rows | append (dict "label" $s.label "light" $s.light "dark" $s.dark "all" $n "recent" $r) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $metrics := hugo.Data.cv.metrics -}}
+
+<section class="biblio" aria-label="Bibliometrics">
+  {{ partial "sec-head.html" (dict "icon" "achievements" "text" "Bibliometrics") }}
+
+  <ul class="biblio__stats">
+    <li><span class="biblio__num">{{ $metrics.h_index }}</span><span class="biblio__cap">h-index</span></li>
+    <li><span class="biblio__num">{{ $metrics.citations }}</span><span class="biblio__cap">citations</span></li>
+    <li><span class="biblio__num">{{ $total }}</span><span class="biblio__cap">research outputs</span></li>
+  </ul>
+  <p class="biblio__source">
+    Citation counts from
+    <a href="https://scholar.google.ch/citations?user=pAfLhMoAAAAJ">Google Scholar</a>,
+    {{ $metrics.as_of }}. Everything else is counted from the list below.
+  </p>
+
+  <div class="biblio__charts">
+    {{- range $chart := slice (dict "key" "all" "total" $total "cap" "All-time")
+                              (dict "key" "recent" "total" $totalRecent "cap" (printf "Since %d" $since)) }}
+    <figure class="donut">
+      <svg viewBox="0 0 140 140" role="img"
+           aria-label="{{ $chart.cap }}: {{ $chart.total }} research outputs by type">
+        {{- $C := 339.292 -}}{{- $off := 0.0 -}}
+        {{- range $rows }}
+          {{- $n := index . $chart.key -}}
+          {{- if gt $n 0 }}
+            {{- $len := mul $C (div (float $n) (float $chart.total)) -}}
+            {{- $gap := cond (lt $len 6.0) 1.0 2.0 -}}
+        <circle class="donut__seg" cx="70" cy="70" r="54" fill="none" stroke-width="20"
+                style="--c-light: {{ .light }}; --c-dark: {{ .dark }}"
+                stroke-dasharray="{{ sub $len $gap }} {{ sub $C (sub $len $gap) }}"
+                stroke-dashoffset="-{{ $off }}" transform="rotate(-90 70 70)">
+          <title>{{ .label }}: {{ $n }} ({{ math.Round (div (mul $n 100.0) $chart.total) }}%)</title>
+        </circle>
+            {{- $off = add $off $len -}}
+          {{- end -}}
+        {{- end }}
+        <text class="donut__total" x="70" y="70" text-anchor="middle" dominant-baseline="central">{{ $chart.total }}</text>
+      </svg>
+      <figcaption>{{ $chart.cap }}</figcaption>
+    </figure>
+    {{- end }}
+  </div>
+
+  <table class="biblio__legend">
+    <thead>
+      <tr><th scope="col">Type</th><th scope="col">All-time</th><th scope="col">Since {{ $since }}</th></tr>
+    </thead>
+    <tbody>
+      {{- range $rows }}
+      <tr>
+        <th scope="row">
+          <span class="biblio__swatch" style="--c-light: {{ .light }}; --c-dark: {{ .dark }}"></span>{{ .label }}
+        </th>
+        <td>{{ .all }}</td>
+        <td>{{ .recent }}</td>
+      </tr>
+      {{- end }}
+    </tbody>
+  </table>
+
+  {{- with (where $slices "label" "Other") }}
+  <p class="biblio__note">Other: {{ delimit (index . 0).types ", " }}.</p>
+  {{- end }}
+</section>

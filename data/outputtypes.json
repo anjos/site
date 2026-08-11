@@ -1,0 +1,54 @@
+{
+  "_comment": [
+    "How research outputs are grouped and coloured in the two donut charts, on",
+    "the CV (cv/cv.typ) and on /outputs/ (layouts/partials/out-bibliometrics.html).",
+    "One definition for both, so a slice is the same colour wherever it is drawn.",
+    "`types` are values of the `type` field in data/outputs.json; anything not",
+    "listed here is not counted (Press and Presentation belong to Media).",
+    "",
+    "Why only five slices, when there are nine output types: a donut has to be",
+    "read by matching any slice to any legend row, so every pair of colours must",
+    "be tellable apart — including under colour-vision deficiency, in light and",
+    "dark. Four hues is the most that clears that bar; the fifth slot is the",
+    "neutral 'Other'. The legend's count table carries the detail the wedges",
+    "drop, and the sections below the chart list every output individually.",
+    "",
+    "Colours are the validated categorical palette: blue / yellow / green /",
+    "magenta, each with a step for the light surface and one for the dark.",
+    "Verified all-pairs in both modes (worst normal-vision dE 19.3, worst CVD",
+    "dE 6.9 with the table view as relief). Do not substitute a colour without",
+    "re-validating the set as a whole."
+  ],
+  "slices": [
+    {
+      "label": "Journals",
+      "types": ["Journal Article"],
+      "light": "#2a78d6",
+      "dark": "#3987e5"
+    },
+    {
+      "label": "Conferences",
+      "types": ["Conference Paper"],
+      "light": "#eda100",
+      "dark": "#c98500"
+    },
+    {
+      "label": "Chapters",
+      "types": ["Book Chapter"],
+      "light": "#008300",
+      "dark": "#008300"
+    },
+    {
+      "label": "Software",
+      "types": ["Software"],
+      "light": "#e87ba4",
+      "dark": "#d55181"
+    },
+    {
+      "label": "Other",
+      "types": ["Preprint", "Report", "Patent", "Thesis", "Dataset"],
+      "light": "#8a8a8a",
+      "dark": "#9a9a9a"
+    }
+  ]
+}

@@ -53,22 +53,10 @@ PUBLICATION_GROUPS = (
 # `proceedings` parent, which is exactly the conference-paper convention.
 PARENT_TYPE = {"Conference Paper": "proceedings", "Book Chapter": "anthology"}
 
-# Slice labels for the two pie charts that open the outputs pages, in a fixed
-# order so both charts colour a category the same way. Short on purpose: a
-# section heading does not fit beside a slice. The list is also what the charts
-# count — exactly the outputs the CV goes on to list, which leaves out the press
-# and presentation items the website keeps under Media.
-CHART_LABELS = (
-    ("Journal Article", "Journals"),
-    ("Conference Paper", "Conferences"),
-    ("Book Chapter", "Chapters"),
-    ("Preprint", "Preprints"),
-    ("Report", "Reports"),
-    ("Patent", "Patents"),
-    ("Thesis", "Theses"),
-    ("Software", "Software"),
-    ("Dataset", "Datasets"),
-)
+# How the donut charts group and colour outputs — shared with the website, which
+# renders the same two charts on /outputs/. See the comment in the file itself
+# for why there are five slices and not nine.
+OUTPUT_TYPES = ROOT / "data" / "outputtypes.json"
 RECENT_YEARS = 5
 
 # Nobiliary particles, folded into the surname when they directly precede it.
@@ -348,19 +336,22 @@ def output_stats(entries: list[dict]) -> dict:
     -------
     dict
         ``since`` (first year of the recent window), and ``all`` / ``recent``,
-        each a list of ``{label, count}`` in CHART_LABELS order with the empty
-        categories dropped. Counts are of the outputs the CV lists, so the two
-        charts and the sections under them always agree.
+        each a list of ``{label, color, count}`` in data/outputtypes.json order
+        with the empty slices dropped. Counts cover only the types that file
+        names, which are exactly the outputs the CV goes on to list.
     """
     since = datetime.date.today().year - RECENT_YEARS + 1
+    slices = json.loads(OUTPUT_TYPES.read_text(encoding="utf-8"))["slices"]
 
     def tally(chosen: list[dict]) -> list[dict]:
         counted = collections.Counter(e["type"] for e in chosen)
-        return [
-            {"label": label, "count": counted[out_type]}
-            for out_type, label in CHART_LABELS
-            if counted[out_type]
-        ]
+        out = []
+        for s in slices:
+            n = sum(counted[t] for t in s["types"])
+            if n:
+                # The CV is printed: the light step is the only one it can use.
+                out.append({"label": s["label"], "color": s["light"], "count": n})
+        return out
 
     return {
         "since": since,

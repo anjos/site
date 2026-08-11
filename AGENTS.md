@@ -40,6 +40,8 @@ data/
   funding.json    GENERATED from the ORCID record's funding section — likewise
   interests.json  GENERATED from the ORCID record's Keywords — likewise; feeds
                        both the hero pills and the CV
+  outputtypes.json     How the donut charts group and colour outputs. Shared by
+                       the CV and /outputs/ — read its own comment before editing
   cv.json              Hand-written CV material with no web page: employment,
                        education, community service, skills, bibliometrics
 cv/                    The CV (Typst + neat-cv) — see "The CV" below
@@ -201,11 +203,20 @@ memberships), parked pending a review; the `= Community Service` block in
 
 The research outputs open on a page whose 4 cm sidebar holds two donut charts —
 every output by type, and the same for the last five calendar years — over a
-legend counting both. `output_stats()` in `tools/build-cv.py` does the counting,
-`CHART_LABELS` there fixes both the slice order and the short names, and
-`slice-color` in `cv/cv.typ` maps a name to a colour, so a category looks the
-same in both charts. The slices carry no rim labels: 4 cm has no room for them,
-and the legend names every category anyway.
+legend counting both. `output_stats()` in `tools/build-cv.py` does the counting;
+the grouping, the order and the colours all come from **`data/outputtypes.json`**,
+which the website's `/outputs/` page reads too, so a slice is the same colour in
+the PDF and on the page. The slices carry no rim labels: 4 cm has no room for
+them, and the legend names every category anyway.
+
+**That file caps the chart at five slices, not nine, and the cap is not
+cosmetic.** A donut is read by matching any slice to any legend row, so every
+pair of colours has to be tellable apart — including under colour-vision
+deficiency, in light mode and dark. Four hues is the most that clears that bar;
+the fifth slot is a neutral "Other". Two of the four sit below 3:1 against the
+light surface, which is allowed only because the count table is always
+rendered — it is the required relief, not decoration, so do not drop it. Re-run
+the palette validator over the set as a whole before changing any colour.
 
 That page is a second `cv-with-side`, and the bibliography after it switches to
 `cv-thin-side` — it runs for pages, and 4 cm of white down each would buy nothing.
@@ -395,6 +406,15 @@ icon font and no icon set is vendored.
 **The home page** is composed in `layouts/index.html`: hero, then the top four
 current projects, then the four most recent research outputs. That last section
 is recomputed from `data/outputs.json` on every build and needs no curation.
+**`/outputs/` carries a Bibliometrics section** between "Featured works" and the
+filter bar: the two headline numbers from `data/cv.json`'s `metrics` (the CV's
+own, Google-Scholar-sourced and hand-maintained), then the same two donuts the CV
+draws, from the same `data/outputtypes.json`. `layouts/partials/out-bibliometrics.html`
+counts straight from `data/outputs.json` — nothing is generated for it. The arcs
+are dashed `<circle>`s rather than `<path>` wedges because Go templates have no
+trigonometry and a dashed ring needs only the circumference; each slice is
+therefore a real element with its own tooltip.
+
 **Featured works** on `/outputs/` is the opposite — a hand-written `featured:`
 list in `content/outputs/_index.md` mirroring the starred works on ORCID. Nothing
 *syncs* the two — you update it by hand — but `check-featured` (in `validate`)
