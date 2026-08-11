@@ -29,6 +29,10 @@
 #let accent = rgb("#1240c0")
 #let accent-2 = rgb("#0b6b63")
 
+// neat-cv sets sidebar text at 0.72em — 6.8pt here, and three sizes ended up
+// living in that column. One size for all of it, the chart legend's.
+#let SIDEBAR_TEXT = 8.4pt
+
 #let site = toml("/hugo.toml")
 #let cvdata = json("/data/cv.json")
 #let funding = json("/data/funding.json").entries
@@ -36,14 +40,14 @@
 #let gen = yaml("generated.yaml")
 #let personal = cvdata.personal
 
-// neat-cv builds social URLs from bare handles, so the handles are recovered
-// from the site's own link list rather than written down a second time.
-#let handle(name, prefix) = {
-  let hit = site.params.social.find(s => s.name == name)
-  if hit == none { none } else {
-    hit.url.trim(prefix, at: start).trim("/", at: end)
-  }
-}
+// Every profile link comes from the website's own list, never written twice.
+// neat-cv wants bare handles and builds the URLs itself, so `handle` peels the
+// prefix back off; `social-url` is for the places that want the whole thing.
+#let social-url(name) = site.params.social.find(s => s.name == name).url
+#let handle(name, prefix) = social-url(name).trim(prefix, at: start).trim(
+  "/",
+  at: end,
+)
 
 #let birth = {
   let parts = personal.birth.split("-").map(int)
@@ -76,7 +80,7 @@
     custom-links: ((
       icon-name: "gitlab",
       label: "medai",
-      url: site.params.social.find(s => s.name == "gitlab").url,
+      url: social-url("gitlab"),
     ),),
   ),
   // Deliberately no `profile-picture:` — neat-cv draws it at the top of *every*
@@ -88,8 +92,13 @@
   // washed out, for the page field behind everything. A hue shift at constant
   // lightness, never a ramp toward white — see AGENTS.md, "The theme".
   // CSS 135deg (to bottom-right) is Typst 45deg: CSS measures from "to top"
-  // clockwise, Typst from "to right".
-  header-color: gradient.linear(accent, accent-2, angle: 45deg),
+  // clockwise, Typst from "to right". Both stops are darkened equally, which
+  // keeps the hue shift intact and buys contrast for neat-cv's white label.
+  header-color: gradient.linear(
+    accent.darken(30%),
+    accent-2.darken(30%),
+    angle: 45deg,
+  ),
   // Fira Sans, neat-cv's default heading face, is not on conda-forge; Roboto and
   // Open Sans are, and are what the previous CV used. See pixi.toml.
   heading-font: "Roboto",
@@ -175,8 +184,8 @@
       value-key: "count",
       label-key: "label",
       slice-style: slices.map(s => slice-color.at(s.label)),
-      radius: 1.15,
-      inner-radius: 0.66,
+      radius: 1.72,
+      inner-radius: 0.99,
       stroke: white + 0.7pt,
       gap: 1deg,
       outer-label: (content: none),
@@ -185,7 +194,7 @@
     draw.content((0, 0), text(size: 12pt, weight: "bold", fill: accent)[#total])
   })
   #v(-0.2em)
-  #text(size: 8pt, fill: luma(110), caption)
+  #text(fill: luma(110), caption)
 ]
 
 // One legend for the pair: the charts share a colour table, so naming it twice
@@ -193,13 +202,13 @@
 // time, then the recent window — because the second chart has no labels either.
 #let output-legend(stats) = {
   let recent = stats.recent.map(s => (s.label, s.count)).to-dict()
-  set text(size: 7pt, fill: luma(90))
+  set text(fill: luma(90))
   grid(
     columns: (1fr, auto, auto),
     align: (left, right, right),
     column-gutter: 0.5em,
     row-gutter: 0.45em,
-    [], text(fill: luma(150), size: 0.85em)[all], text(fill: luma(150), size: 0.85em)[5y],
+    [], text(fill: luma(150))[all], text(fill: luma(150))[5y],
     ..stats
       .all
       .map(s => (
@@ -215,6 +224,7 @@
 // Pages 1–2 — the sidebar CV
 // ---------------------------------------------------------------------------
 #cv-with-side[
+  #set text(size: SIDEBAR_TEXT)
   // What `profile-picture:` would have drawn, minus the repeat on later sidebars.
   #block(
     clip: true,
@@ -252,7 +262,7 @@
     item-with-level(l.title, l.level, subtitle: l.subtitle)
   }
 
-  = Computing
+  = Computer Skills
   #item-pills(cvdata.skills.computing)
 ][
   = Professional Experience
@@ -291,20 +301,22 @@
 #let stats = gen.at("output-stats")
 
 #cv-with-side[
+  #set text(size: SIDEBAR_TEXT)
+  = Bibliometrics
+  h-index: #cvdata.metrics.h_index
+
+  Citations: #cvdata.metrics.citations
+
+  #text(fill: luma(130))[
+    #link(social-url("google-scholar"))[Google Scholar], #cvdata.metrics.as_of
+  ]
+
   = Research Outputs
   #output-pie(stats.all, "All-time")
   #v(0.4em)
   #output-pie(stats.recent, "Last 5y")
   #v(0.6em)
   #output-legend(stats)
-
-  #v(1fr)
-  = Bibliometrics
-  h-index: #cvdata.metrics.h_index
-
-  Citations: #cvdata.metrics.citations
-
-  #text(size: 7pt, fill: luma(130))[Google Scholar, #cvdata.metrics.as_of]
 ][
   = Open-Source Software
   #records(gen.software)
