@@ -7,7 +7,22 @@ import pytest
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 
+import add_zotero_output as azo  # noqa: E402
 import zotero_common as zc  # noqa: E402
+
+
+def test_a_particle_stays_with_the_surname():
+    """A surname keeps the nobiliary particle in front of it, as Zotero expects."""
+    assert azo.creators(["Tymo van Rijn"]) == [
+        {"creatorType": "author", "firstName": "Tymo", "lastName": "van Rijn"}
+    ]
+    assert azo.creators(["André Anjos"])[0]["lastName"] == "Anjos"
+    # nothing before the particle: it belongs to the surname, not the given name
+    assert azo.creators(["van Rijn"])[0] == {
+        "creatorType": "author", "firstName": "", "lastName": "van Rijn"
+    }
+    # a particle not adjacent to the surname is left in the given names
+    assert azo.creators(["Tiago de Freitas Pereira"])[0]["lastName"] == "Pereira"
 
 
 # --------------------------------------------------------------------------- #

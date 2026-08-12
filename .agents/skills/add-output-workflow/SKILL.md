@@ -95,12 +95,19 @@ Register it now, correct it later — do **not** wait for the DOI.
 ## Notes
 
 - The whole system is Zotero-first: never hand-edit `data/outputs.json`.
-- **Citation keys are assigned server-side, immediately.** A work created through
-  the API has its `citationKey` the moment `pixi run outputs` runs — no Zotero
-  desktop, no BetterBibTeX round-trip. Don't plan a manual step for it. Read the
-  real key out of `data/outputs.json` rather than guessing it: the stem is the
-  title's first word with punctuation stripped, so *Loss-Conditioned …* became
-  `ozbulak_lossconditioned_2026`, not `ozbulak_loss_2026`.
+- **Wait for the citation key before `pixi run outputs`.** BetterBibTeX assigns it
+  in the running Zotero desktop client and syncs it up, so it appears roughly a
+  minute after the item is created — not instantly. `outputs` **fails** until then
+  (`no BetterBibTeX citation key on item …`); that is the tool working, not a
+  broken item. Poll instead of guessing:
+  ```sh
+  curl -s "https://api.zotero.org/users/5992358/publications/items/<KEY>?format=json" \
+    | python3 -c "import json,sys; print(json.load(sys.stdin)['data'].get('citationKey'))"
+  ```
+  If it never arrives, Zotero desktop is closed — open it and let it sync.
+- **Never guess the citation key; read it from `data/outputs.json`.** BBT drops
+  leading stopwords and strips punctuation, so *Beyond the Last Frame …* became
+  `vanrijn_last_2026` and *Loss-Conditioned …* became `ozbulak_lossconditioned_2026`.
 - `add_zotero_output.py` is **not idempotent** — a re-run creates a duplicate that
   must be deleted in the Zotero GUI. Check `data/outputs.json` for the title first.
 - Tools: `tools/add_zotero_output.py`, `tools/update-site-outputs.py`

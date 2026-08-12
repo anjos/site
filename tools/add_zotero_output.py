@@ -50,14 +50,26 @@ CR2Z = {
 }
 
 
+# Nobiliary particles, folded into the surname when they directly precede it, so
+# "Tymo van Rijn" is stored as van Rijn, Tymo — not Rijn, Tymo van. Kept in step
+# with the identical set in tools/build-cv.py, which splits the same way for the CV.
+PARTICLES = frozenset(
+    ("de", "del", "della", "da", "das", "dos", "van", "von", "der", "den",
+     "ten", "ter", "di", "du", "la", "le", "bin", "al")
+)
+
+
 def creators(names: list[str]) -> list[dict]:
     out = []
     for n in names:
-        n = n.strip()
-        if not n:
+        tokens = n.split()
+        if not tokens:
             continue
-        first, _, last = n.rpartition(" ")
-        out.append({"creatorType": "author", "firstName": first, "lastName": last})
+        i = len(tokens) - 1
+        while i > 0 and tokens[i - 1].lower() in PARTICLES:
+            i -= 1
+        out.append({"creatorType": "author", "firstName": " ".join(tokens[:i]),
+                    "lastName": " ".join(tokens[i:])})
     return out
 
 

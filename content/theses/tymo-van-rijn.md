@@ -14,6 +14,7 @@ summary: >-
 projects: ["uveitis"]
 report: "https://www.idiap.ch/~aanjos/pdfs/theses/tymo-van-rijn.pdf"
 research_outputs:
+  - "vanrijn_last_2026"                    # the OMIA/MICCAI paper this thesis produced
   - "anjos_mednet_2024"                    # the mednet library, extended here
 datasets:
   - name: "3rd APTOS Competition fluorescein angiography set (public)"

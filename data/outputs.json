@@ -1,8 +1,37 @@
 {
-  "generated": "2026-08-12T09:13:06Z",
+  "generated": "2026-08-12T09:37:12Z",
   "source": "zotero:users/5992358/publications",
-  "count": 144,
+  "count": 145,
   "entries": [
+    {
+      "authors": [
+        "Tymo van Rijn",
+        "Roberto Pulvirenti",
+        "Mahshid Shiri",
+        "Ilenia Meloni",
+        "Oscar Jimenez-del-Toro",
+        "Mattia Tomasoni",
+        "Florence Hoogewoud",
+        "Eirini Kaisari",
+        "André Anjos"
+      ],
+      "title": "Beyond the Last Frame: Temporal Modelling of Fluorescein Angiography for Hyperfluorescence Classification",
+      "container": "Ophthalmic Medical Image Analysis (OMIA), MICCAI 2026 Workshops",
+      "year": 2026,
+      "month": 9,
+      "doi": null,
+      "url": "https://publications.idiap.ch/publications/show/5886",
+      "pdf": "https://api.zotero.org/users/5992358/publications/items/AC37PC75/file",
+      "type": "Conference Paper",
+      "typeslug": "conferences",
+      "software": "https://gitlab.idiap.ch/medai/software/paper/miccai-omia-beyond-the-last-frame",
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
+      "key": "vanrijn_last_2026",
+      "related": []
+    },
     {
       "authors": [
         "Gökhan Özbulak",

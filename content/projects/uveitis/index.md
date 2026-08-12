@@ -10,6 +10,7 @@ partners:
   - "University Hospital of Grenoble Alpes"
   - "Luzerner Kantonsspital"
 research_outputs:
+  - "vanrijn_last_2026"
   - "10.1038/s41598-026-46069-w"
   - "10.1016/j.compbiomed.2025.110327"
   - "10.1109/cbms58004.2023.00301"
