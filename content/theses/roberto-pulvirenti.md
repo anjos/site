@@ -12,7 +12,7 @@ summary: >-
   trained on fundus images can be adapted to angiography efficiently, including
   for grading uveitis inflammation with the Jules-Gonin Eye Hospital.
 projects: ["uveitis"]
-report: "https://webthesis.biblio.polito.it/35387/1/tesi.pdf"
+report: "https://www.idiap.ch/~aanjos/pdfs/theses/roberto-pulvirenti.pdf"
 research_outputs:
   - "10.1109/isbi61048.2026.11515636"   # ISBI 2026 paper from this thesis
   - "anjos_mednet_2024"                          # the mednet software library
