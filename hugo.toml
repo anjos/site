@@ -90,7 +90,7 @@ disableKinds = ["rss"]
     pageRef = "/about"
     weight = 60
   [[menus.main]]
-    name = "Short biography"
+    name = "Biography"
     parent = "about"
     pageRef = "/about"
     weight = 61
