@@ -1,8 +1,32 @@
 {
-  "generated": "2026-08-11T06:33:39Z",
+  "generated": "2026-08-12T09:13:06Z",
   "source": "zotero:users/5992358/publications",
-  "count": 143,
+  "count": 144,
   "entries": [
+    {
+      "authors": [
+        "Gökhan Özbulak",
+        "Oscar Jimenez-del-Toro",
+        "Lilian Berton",
+        "André Anjos"
+      ],
+      "title": "Loss-Conditioned Utility-Fairness Boundary Modeling for Medical Imaging",
+      "container": "Fairness of AI in Medical Imaging (FAIMI), MICCAI 2026 Workshops",
+      "year": 2026,
+      "month": 9,
+      "doi": null,
+      "url": "https://publications.idiap.ch/publications/show/5883",
+      "pdf": "https://api.zotero.org/users/5992358/publications/items/25WSH8DP/file",
+      "type": "Conference Paper",
+      "typeslug": "conferences",
+      "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
+      "key": "ozbulak_lossconditioned_2026",
+      "related": []
+    },
     {
       "authors": [
         "Victor Amiot",
