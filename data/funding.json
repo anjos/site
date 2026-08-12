@@ -1,7 +1,7 @@
 {
-  "generated": "2026-08-11T14:02:36Z",
+  "generated": "2026-08-12T12:43:32Z",
   "source": "orcid:0000-0001-7248-4014/fundings",
-  "count": 11,
+  "count": 12,
   "entries": [
     {
       "put_code": 2248827,
@@ -100,6 +100,20 @@
       "url": "https://data.snf.ch/grants/grant/214101",
       "grant_number": "214101",
       "description": "We are a group of scientists who joined forces to enable artificial intelligence (AI) technologies to make a greater impact on Swiss society by participating in a public debate over the latest news. We plan to publish research-based opinion articles on mainstream media in Switzerland, collect the readers’ feedback on the published articles, and follow up by organizing live seminars for the audience in the area. We will also post rounded responses on social media to ensure bi-directional dialogue. Our primary target audience is Swiss citizens reading a newspaper. They are mostly non-scientific public and may not have specific knowledge of AI technologies. We often receive news about new products, companies, and social issues related to AI technologies. An example is a controversy in the U.K. over an algorithm used to substitute university-entrance exams in 2020. Another example is an accident in testing an autonomous driving car. Usually, the public’s perception of information is affected by the tones and perspectives taken by the writers. News reporters are not necessarily technical experts and are often incentivized to publish striking news stories to attract more audiences. As some entrepreneurs, celebrity CEOs, and politicians may try to magnify the public hype for their benefit, the conflict of interests can influence media perspectives. Therefore, there is a need for AI scientists to collaborate with journalists to provide evidence-based analysis in public debate whenever appropriate. Without such cooperation, the general audience would miss out on essential information regarding AI. Scientists can help the public better understand AI technological issues by clarifying the potential capabilities and limitations.Not many people would read scientists’ research published in academic journals. However, publishing news articles has a greater impact, as the article is distributed to a much broader audience in Switzerland and worldwide through popular media platforms. In addition, follow-up activities at a local level will ensure the interactive and bi-directional dialogue between scientists and the readers. The analysis of the feedback will allow the project team to understand the public’s perspectives in facing future technologies. In turn, the acquired understanding can guide scientists to pursue an impactful research direction. After this Agora project, the current members will be able to form a new team to engage other scientists to study societal trends, raise their voices, and provide research-based analysis to guide the public about future technologies. The social impact will be multiplied over time."
+    },
+    {
+      "put_code": 2574587,
+      "title": "Nouvelle plateforme de recherche « Cloud » pour étendre les capacités de recherche, d’échange et de formation de l’Idiap",
+      "type": "grant",
+      "instrument": null,
+      "funder": "Loterie Romande",
+      "start": "2023-01",
+      "end": "2023-12",
+      "amount": 285000.0,
+      "currency": "CHF",
+      "url": "https://loro.ch/fr/beneficiaires/projets-soutenus/collabcloud",
+      "grant_number": null,
+      "description": "L’Institut de Recherche Idiap est l’un de précurseurs dans le domaine de l’Intelligence\nArtificielle (IA). Ce domaine fait cependant face à de nouveaux challenges avec des besoins en\nressources de calcul de plus en plus extrêmes. À ce fait, se rajoutent deux nouvelles\ncaractéristiques : les collaborations se font de plus en plus pluridisciplinaires, comptant des\nacteurs avec peu, voire aucune expertise liée à l’informatique, et une croissante demande\nd’ouverture et reproductibilité, de la part de la communauté scientifique. Afin de dynamiser ses\nfuturs projets, l’institut souhaite construire une infrastructure de recherche collaborative\ninnovante « CollabCloud », basée sur « l’informatique dans les nuages », pour laquelle nous demandons votre soutien. Pour démontrer le potentiel de cette plateforme, nous proposons aussi un sous projet de démonstration de l’applicabilité de ce système pour la robotique et plus particulièrement l'interaction humain-robot."
     },
     {
       "put_code": 1560903,
