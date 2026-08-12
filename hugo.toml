@@ -95,17 +95,22 @@ disableKinds = ["rss"]
     pageRef = "/about"
     weight = 61
   [[menus.main]]
+    name = "Experience"
+    parent = "about"
+    pageRef = "/experience"
+    weight = 62
+  [[menus.main]]
     name = "Contact"
     parent = "about"
     pageRef = "/contact"
-    weight = 62
+    weight = 63
   [[menus.main]]
     name = "Media"
     parent = "about"
     pageRef = "/media"
-    weight = 63
+    weight = 64
   [[menus.main]]
     name = "Photos"
     parent = "about"
     pageRef = "/gallery"
-    weight = 64
+    weight = 65

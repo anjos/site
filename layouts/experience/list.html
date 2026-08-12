@@ -1,0 +1,71 @@
+{{ define "main" }}
+{{/* The Experience page: data/cv.json rendered as a card timeline, in the manner
+     of Hugo Blox's academic-CV Experience block — a rail down the left with an
+     icon marker per entry, each entry a card that lifts on hover.
+
+     Nothing here is typed twice. `employment` and `education` are the CV's own
+     hand-written sections — cv/cv.typ prints them through `records()` and this
+     page reads the very same arrays, so a corrected date or a new position
+     reaches the PDF and the website from one edit.
+
+     Both arrive already ordered (most recent first), so this template only
+     formats — it never reorders. The two sections share one loop because the
+     entry shape is neat-cv's and identical across them: title, date,
+     institution, location, description (a string, or a list of bullets). Only
+     three things differ, and they are carried in the section dict: the marker
+     icon, the rail's colour (via the --rail custom property) and the heading.
+
+     Education entries may name `output`: the citation key of the dissertation
+     they produced, resolved against data/outputs.json — Zotero stays the one
+     place that holds the file, exactly as on a project page. */}}
+{{ $data := slice }}
+{{ with hugo.Data.outputs }}{{ $data = .entries }}{{ end }}
+<div class="wide band">
+  {{ partial "sec-head.html" (dict "icon" "experience" "text" .Title "level" "h1") }}
+  {{ .Content }}
+
+  {{ range slice
+       (dict "heading" "Professional experience" "icon" "experience" "class" ""
+             "rows" hugo.Data.cv.employment)
+       (dict "heading" "Education" "icon" "theses" "class" " timeline--edu"
+             "rows" hugo.Data.cv.education) }}
+  {{ $icon := .icon }}
+  <h2 class="archive-heading">{{ .heading }}</h2>
+  <ol class="timeline{{ .class }}">
+    {{- range .rows }}
+    <li class="tl">
+      <span class="tl__dot">{{ partial "icon.html" $icon }}</span>
+      <div class="tl__card">
+        <div class="tl__head">
+          <div class="tl__who">
+            <h3 class="tl__title">{{ .title }}</h3>
+            {{- with .institution }}<p class="tl__org">{{ . }}</p>{{ end }}
+          </div>
+          <p class="tl__meta">
+            <span class="tl__date">{{ partial "icon.html" "calendar" }}{{ .date }}</span>
+            {{- with .location }}
+            <span class="tl__where">{{ partial "icon.html" "pin" }}{{ . }}</span>
+            {{- end }}
+          </p>
+        </div>
+        {{- with .description }}
+        {{- if reflect.IsSlice . }}
+        <ul class="tl__bullets">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+        {{- else }}
+        <p class="tl__desc">{{ . }}</p>
+        {{- end }}
+        {{- end }}
+        {{- with .output }}
+        {{- with index (where $data "key" (. | lower)) 0 }}
+        {{- with (or .pdf .url) }}
+        <p class="tl__foot"><a href="{{ . }}">Dissertation <span aria-hidden="true">→</span></a></p>
+        {{- end }}
+        {{- end }}
+        {{- end }}
+      </div>
+    </li>
+    {{- end }}
+  </ol>
+  {{ end }}
+</div>
+{{ end }}

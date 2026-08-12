@@ -1,13 +1,16 @@
 {
   "_comment": [
-    "Hand-written CV material with no website equivalent: employment, education,",
-    "community service, skills, bibliometrics, and the pre-website supervision.",
-    "Read directly by cv/cv.typ, and exposed to Hugo as .Site.Data.cv.* should any",
-    "of it ever gain a page. Everything the website already knows — publications,",
-    "grants, theses, courses, projects — is pulled from its own source of truth by",
-    "tools/build-cv.py and must NOT be duplicated here.",
+    "Hand-written CV material with no source of truth elsewhere: employment,",
+    "education, community service, skills, bibliometrics, and the pre-website",
+    "supervision. Read directly by cv/cv.typ, and by Hugo as hugo.Data.cv.* —",
+    "`employment` and `education` are what /experience/ renders, so an edit here",
+    "reaches the PDF and the website at once. Everything the website already",
+    "knows — publications, grants, theses, courses, projects — is pulled from its",
+    "own source of truth by tools/build-cv.py and must NOT be duplicated here.",
     "Entries share one shape, neat-cv's: title, date, institution, location,",
-    "description (a string, or a list rendered as bullets)."
+    "description (a string, or a list rendered as bullets).",
+    "An education entry may add `output`: the citation key of the dissertation it",
+    "produced, which /experience/ resolves against data/outputs.json (Zotero)."
   ],
 
   "personal": {
@@ -37,6 +40,20 @@
       "description": "Head of the Medical Artificial Intelligence Group."
     },
     {
+      "title": "Lecturer",
+      "date": "2019 – 2023",
+      "institution": "Idiap Research Institute & Unidistance Suisse",
+      "location": "Martigny, Switzerland",
+      "description": "Three modules of the Master in Artificial Intelligence: open science and ethics (M05), and fundamentals of machine learning (M06 and M08)."
+    },
+    {
+      "title": "Lecturer",
+      "date": "2013 – 2023",
+      "institution": "École Polytechnique Fédérale de Lausanne",
+      "location": "Lausanne, Switzerland",
+      "description": "EE-612, Fundamentals of Statistical Pattern Recognition: a doctoral course on machine learning and pattern recognition, from the basics to deep learning, given biennially."
+    },
+    {
       "title": "Research Associate",
       "date": "2014 – 2018",
       "institution": "Idiap Research Institute",
@@ -54,52 +71,61 @@
       "title": "Research & Development Engineer",
       "date": "2004 – 2010",
       "institution": "University of Wisconsin, Madison",
-      "location": "Wisconsin, USA",
+      "location": "CERN, Switzerland",
       "description": [
-        "Design, development and maintenance of the ATLAS Trigger and Data Acquisition systems at CERN, Switzerland, deployed and operational on more than 5000 machines at CERN and worldwide."
+        "Design, development and maintenance of the ATLAS Trigger and Data Acquisition systems, deployed and operational on more than 5000 machines at CERN and worldwide."
       ]
     },
     {
-      "title": "Graduate Student",
+      "title": "Research Assistant",
       "date": "2000 – 2004",
       "institution": "Federal University of Rio de Janeiro",
-      "location": "Rio de Janeiro, Brazil",
-      "description": "Design and development of a novel algorithm for fast physics triggering based on calorimetry, topological mapping and neural networks for the ATLAS Experiment at CERN, Switzerland."
+      "location": "CERN, Switzerland",
+      "description": "Design, implementation and integration of a novel algorithm for fast physics triggering — based on calorimetry, topological mapping and neural networks — into the second-level trigger software of the ATLAS Experiment, alongside the online infrastructure needed to run and validate it."
     },
     {
-      "title": "Undergraduate Student",
+      "title": "Research Internship",
+      "date": "1997 – 1998",
+      "institution": "CERN",
+      "location": "CERN, Switzerland",
+      "description": "Contributed to early prototypes of the second-level trigger and to what became the final trigger design of the ATLAS Experiment."
+    },
+    {
+      "title": "Research Internship",
       "date": "1994 – 1999",
       "institution": "Federal University of Rio de Janeiro",
       "location": "Rio de Janeiro, Brazil",
       "description": [
         "Sub-optimal filtering for particle discrimination.",
-        "Neural classifiers implemented in a transputer-based parallel machine.",
-        "During a one-year internship at CERN, contributed to early prototypes of the second-level trigger and to what became the final trigger design of the ATLAS experiment."
+        "Neural classifiers implemented in a transputer-based parallel machine."
       ]
     }
   ],
 
   "education": [
     {
-      "title": "Ph.D., Electronics Engineering",
+      "title": "Ph.D., Electronics Engineering (Signal Processing & Machine Learning)",
       "date": "2001 – 2006",
       "institution": "Federal University of Rio de Janeiro",
       "location": "Rio de Janeiro, Brazil",
-      "description": "Electronics Engineering School (Signal Processing Laboratory), Post-Graduate Program (COPPE). Thesis developed at CERN, Switzerland, in the context of the ATLAS Experiment."
+      "description": "Electronics Engineering School (Signal Processing Laboratory), Post-Graduate Program (COPPE). Thesis developed at CERN, Switzerland, in the context of the ATLAS Experiment.",
+      "output": "anjos_sistema_2006"
     },
     {
-      "title": "M.Sc., Electronics Engineering",
+      "title": "M.Sc., Electronics Engineering (Signal Processing & Machine Learning)",
       "date": "2000 – 2001",
       "institution": "Federal University of Rio de Janeiro",
       "location": "Rio de Janeiro, Brazil",
-      "description": "Electronics Engineering School (Signal Processing Laboratory), Post-Graduate Program (COPPE). Thesis developed in the context of the ATLAS-CERN / UFRJ collaboration."
+      "description": "Electronics Engineering School (Signal Processing Laboratory), Post-Graduate Program (COPPE). Thesis developed in the context of the ATLAS-CERN / UFRJ collaboration.",
+      "output": "anjos_sistema_2001"
     },
     {
       "title": "Engineer, Electronics Engineering",
       "date": "1994 – 1999",
       "institution": "Federal University of Rio de Janeiro",
       "location": "Rio de Janeiro, Brazil",
-      "description": "Degree from the Electronics Engineering Department."
+      "description": "Degree from the Electronics Engineering Department.",
+      "output": "anjos_sistema_1997"
     },
     {
       "title": "Technician, Electronics",

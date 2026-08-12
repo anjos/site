@@ -23,6 +23,20 @@
   ],
   "entries": [
     {
+      "title": "AI4EU: A European AI On Demand Platform and Ecosystem",
+      "type": "grant",
+      "instrument": "Horizon 2020",
+      "funder": "European Commission",
+      "start": "2019-01",
+      "end": "2021-12",
+      "amount": null,
+      "currency": null,
+      "url": "https://www.idiap.ch/en/scientific-research/projects/AI4EU",
+      "grant_number": "825619",
+      "description": "Artificial Intelligence is a disruptive technology of our times with expected impacts rivalling those of electricity or printing. Resources for innovation are currently dominated by giant tech companies in North America and China. To ensure European independence and leadership, we must invest wisely by bundling, connecting and opening our AI resources. AI4EU will efficiently build a comprehensive European AI-on-demand platform to lower barriers to innovation, to boost technology transfer and catalyse the growth of start-ups and SMEs in all sectors through Open calls and other actions. The platform will act as a broker, developer and one-stop shop providing and showcasing services, expertise, algorithms, software frameworks, development tools, components, modules, data, computing resources, prototyping functions and access to funding. Training will enable different user communities (engineers, civic leaders, etc.) to obtain skills and certifications. The AI4EU Platform will establish a world reference, built upon and interoperable with existing AI and data components (e.g. the Acumos open-source framework, QWT search engine..) and platforms. It will mobilize the whole European AI ecosystem and already unites 80 partners in 21 countries including researchers, innovators and related talents. Eight industry-driven AI pilots will demonstrate the value of the platform as an innovation tool. In order to enhance the platform, research on five key interconnected AI scientific areas will be carried out using platform technologies and results will be implemented. The pilots and research will showcase how AI4EU can stimulate scientific discovery and technological innovation. The AI4EU Ethical Observatory will be established to ensure the respect of human centred AI values and European regulations. Sustainability will be ensured via the creation of the AI4EU Foundation. The results will feed a new and comprehensive Strategic Research Innovation Agenda for Europe.",
+      "role": "Co-authorship of the Idiap contribution, project management"
+    },
+    {
       "title": "ALLIES: Autonomous Lifelong learnIng intelLigent Systems",
       "type": "grant",
       "instrument": "CHIST-ERA",
@@ -35,6 +49,76 @@
       "grant_number": "174239",
       "description": "Standard machine learning systems require massive data and huge processing infrastructures, but the main limitation to their spreading comes from the need of the empirical and rare knowledge of an experienced data scientist able to set and adjust their behavior over time. The ALLIES project will lay the foundation for development of autonomous intelligent systems sustaining their performance across time. Such unsupervised system will be able to auto-update and perform self-evaluation to be aware of the evolution of its own knowledge acquisition. It should adapt to a changing environment by following a given learning scenario that balances the importance of performance on past and present data to avoid unwanted regression. Such systems could not be developed without adapted metrics and protocols enabling their objective and reproducible evaluation. This evaluation should assess the performance on the given task and quantify the effort required to reach it in terms of unsupervised data collected by the system and of interaction with humans in the case of active-learning. The ALLIES project will develop and disseminate those metrics and protocols. They will be available to european actors via an open evaluation platform dedicated to reproducible research. An evaluation campaign and a workshop will be organised to engage the community on this path. By publicly releasing the evaluation protocols and data, by releasing a dedicated evaluation platform and by developing autonomous systems for two tasks: machine translation and speaker diarization, we believe that the ALLIES project will boost the development of intelligent lifelong learning systems in Europe.",
       "role": "Co-authorship, project management, implementation"
+    },
+    {
+      "title": "BATL: Biometric Authentication with a Timeless Learner",
+      "type": "grant",
+      "instrument": "Odin program",
+      "funder": "US Intelligence Advanced Research Projects Activity (IARPA)",
+      "start": "2017-03",
+      "end": "2021-02",
+      "amount": null,
+      "currency": null,
+      "url": "https://www.idiap.ch/~marcel/project/former/batl/",
+      "grant_number": null,
+      "description": "BATL built an end-to-end multimodal presentation attack detection system for IARPA's Odin program, pairing face, iris and fingerprint sensors with machine learning so that both known and unknown attacks on biometric recognition could be detected. The originality of the proposal was a multi-channel acquisition system, which hardened the spoofable surface of face recognition far beyond what a single visible-light camera exposes. The consortium was led by USC's Information Sciences Institute; Idiap was responsible for the face modality, carrying over the lessons learned during TABULA RASA. The project was funded in full to its end, which demonstrated those lessons were sound.",
+      "role": "Co-authorship of the Idiap participation (face modality)"
+    },
+    {
+      "title": "BEAT: Biometrics Evaluation and Testing",
+      "type": "grant",
+      "instrument": "Seventh Framework Programme (FP7)",
+      "funder": "European Commission",
+      "start": "2012-03",
+      "end": "2016-02",
+      "amount": null,
+      "currency": null,
+      "url": "https://www.idiap.ch/en/scientific-research/projects/BEAT",
+      "grant_number": "284989",
+      "description": "Identity management using Biometrics is deployed in a growing number of applications ranging from identification platforms (e.g. biometric passports) to access control systems for border checks or banking transactions. Unfortunately, the reliability of these technologies remains difficult to compare. There are no european-wide standards for evaluating their accuracy, their robustness to attacks or their privacy preservation strength. BEAT will fill this gap by building an online and open platform to transparently evaluate biometric systems, designing protocols and tools for vulnerability analysis and developing standardization documents for Common Criteria evaluations. The planned impact is three-fold: the reliability of biometric systems becomes standardized and comparable, potentially leading to a meaningful increase in their performance; technology transfer from research to companies becomes easier with the use of an interoperable framework; authorities and decision-makers become more informed about the progress made in biometrics as results impact standards.",
+      "role": "Co-authorship, implementation, project management"
+    },
+    {
+      "title": "COHFACE: COntactless Heartbeat detection for trustworthy FACE Biometrics",
+      "type": "grant",
+      "instrument": null,
+      "funder": "Hasler Foundation",
+      "start": "2014-07",
+      "end": "2015-09",
+      "amount": 50000.0,
+      "currency": "CHF",
+      "url": "https://www.idiap.ch/en/scientific-research/projects/COHFACE",
+      "grant_number": null,
+      "description": "Identity spoofing is a contender for high-security face recognition applications. Nowadays, our images are wide-spread on the internet and can be potentially used to attack biometric systems. The latest developments in counter-measures for facial spoofing fail to recognize attacks in challenging conditions. Recent advances in the field of contactless cardiac heart rate measurement using commodity hardware opens up new possibilities for face biometrics anti-spoofing. Unfortunately, current research in commodity photoplethysmography (PPG) is not reproducible. Deployment for face recognition also requires addressing speed and illumination robustness. We propose to conduct a reproducible research study with a new public database to be collected, including user videos and related biomedical signals. We will develop baseline systems for the detection of heart rates based on current state of the art. We will leverage from in-house know-how in face detection, and tracking to design an open-source processing chain for commodity PPG applied to face biometrics anti-spoofing that can be used stand-alone or in parallel to existing counter-measures.",
+      "role": "Co-authorship, dataset acquisition management, implementation"
+    },
+    {
+      "title": "FEDARS: Feature Extraction from Deep learning Architectures for face Recognition Systems",
+      "type": "grant",
+      "instrument": null,
+      "funder": "Swiss Commission for Technology and Innovation (CTI)",
+      "start": "2013-04",
+      "end": "2014-09",
+      "amount": null,
+      "currency": null,
+      "url": "https://www.idiap.ch/en/scientific-research/projects/FEDARS",
+      "grant_number": null,
+      "description": "FEDARS studied feature extraction from deep learning architectures for face recognition, together with the industrial partner KeyLemon. It was our first attempt at building a face recognition system on deep learning rather than on hand-engineered features.",
+      "role": "Implementation"
+    },
+    {
+      "title": "TABULA RASA: Trusted Biometrics under Spoofing Attacks",
+      "type": "grant",
+      "instrument": "Seventh Framework Programme (FP7)",
+      "funder": "European Commission",
+      "start": "2010-11",
+      "end": "2014-06",
+      "amount": null,
+      "currency": null,
+      "url": "https://www.idiap.ch/en/scientific-research/projects/TABULARASA",
+      "grant_number": "257289",
+      "description": "Identity management for persons using biometrics has become a reality mainly because of the biometric passport but also because of the presence of more and more biometricenabled applications for personal computers. Although, the market for identity management using biometrics is dominated by some key players focusing mainly on high security applications, new exploitation routes are currently explored by SMEs. This market of identity management using biometrics is thus growing rapidly. Unfortunately, it has been shown recently that conventional biometric techniques, such as fingerprint or face recognition, are vulnerable to attacks. Generally, two types of attacks are considered: (1) indirect attacks due to intruders, such as cyber-criminal hackers, and (2) direct (spoofing) attacks, where a person tries masquerade as another one by falsifying data and thereby gaining an illegitimate advantage. Currently, spoofing attacks are a major problem for companies willing to market identity management solutions based on biometric technologies. Thus there is need for efficient and reliable solutions for detecting and circumventing these direct attacks. The typical countermeasure to a spoofing attack liveness detection that aims at detecting physiological signs of life. Another possible countermeasure is multi-modal biometrics. Indeed, voice recognition for instance could be performed jointly to face recognition and would be more robust to an attack on the video stream. Similarly, gait, face and iris recognition could be performed jointly. Additionally, it has been shown recently in pioneering work that emerging biometrics such as gait, vein or electro-physiological signals are potentially very difficult or impossible to spoof. The project should investigate as well such novel biometrics and further explore their advantages and limits. Hence, the goal of this proposal is to research, develop, evaluate and transfer antispoofing solutions.",
+      "role": "Dataset acquisition (WP2), implementation (WP4)"
     }
   ]
 }

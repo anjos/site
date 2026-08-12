@@ -289,7 +289,7 @@
   // Grants worked on but not led, each stating the role played. Hand-written in
   // data/contributions.json: ORCID has nowhere to record a role.
   = Earlier Career Contributions
-  While working at the Biometrics & Security group of
+  Mostly while working at the Biometrics & Security group of
   #link("https://www.idiap.ch/~marcel/")[Sébastien Marcel].
   #for g in contributions { grant(g) }
 
