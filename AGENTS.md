@@ -222,7 +222,9 @@ around by adding it to `data/cv.json`.
 `data/cv.json` is the one hand-written file. It is a Hugo data file, reachable as
 `.Site.Data.cv.*`, so any of it can grow a web page later without moving. Its
 entries all share one shape, neat-cv's: `title`, `date`, `institution`,
-`location`, `description` (a string, or a list rendered as bullets). It holds one
+`location`, `description`. `employment` and `education` drop `institution` for
+`location` plus an optional `funder` and are printed by `history()` rather than
+`records()` — see "The Experience page". It holds one
 section the CV does **not** currently print — `service` (committees, reviewing,
 memberships), parked pending a review; the `= Community Service` block in
 `cv/cv.typ` is commented out, not deleted.
@@ -309,8 +311,17 @@ the PDF and the page. `content/experience/_index.md` carries only the intro;
 `layouts/experience/list.html` does the rest, running both sections through one
 loop because the entry shape is identical across them. What differs per section
 is carried in a dict: the marker icon, the heading, and `--rail`, the CSS custom
-property that colours the rail, the marker and the institution line — `--accent`
-for experience, `--accent-2` for education, so the two read apart at a glance.
+property that colours the rail and the marker — `--accent` for experience,
+`--accent-2` for education, so the two read apart at a glance.
+
+An entry is `title`, `date`, `location`, an optional `funder` and a prose
+`description`. **`location` is where the work happened, institute first** —
+"Idiap Research Institute, Martigny, Switzerland" — and it is the line the pin
+icon introduces on the page and in the PDF. **`funder` is stated only when it is
+not that institute**, which is the whole reason it exists: the CERN years were
+paid for by Wisconsin and by UFRJ, and the old single `institution` field could
+not say so. It gets the banknote icon, under the pin line. Where the two coincide
+there is no `funder` key at all.
 
 The design is Hugo Blox's academic-CV timeline: a rail with an icon marker per
 entry and a card that lifts on hover. The rail is the list's own `border-left`

@@ -7,8 +7,11 @@
     "reaches the PDF and the website at once. Everything the website already",
     "knows — publications, grants, theses, courses, projects — is pulled from its",
     "own source of truth by tools/build-cv.py and must NOT be duplicated here.",
-    "Entries share one shape, neat-cv's: title, date, institution, location,",
-    "description (a string, or a list rendered as bullets).",
+    "Entries share one shape: title, date, location and description (prose).",
+    "`location` is where the work happened, institute first — it is the line the",
+    "pin icon introduces on both the CV and /experience/. `funder` is optional",
+    "and stated only when somebody other than that institute paid; it gets the",
+    "money icon. Other sections still use neat-cv's `institution` field.",
     "An education entry may add `output`: the citation key of the dissertation it",
     "produced, which /experience/ resolves against data/outputs.json (Zotero)."
   ],
@@ -35,70 +38,58 @@
     {
       "title": "Scientific Researcher",
       "date": "2018 – present",
-      "institution": "Idiap Research Institute",
-      "location": "Martigny, Switzerland",
+      "location": "Idiap Research Institute, Martigny, Switzerland",
       "description": "Head of the Medical Artificial Intelligence Group."
     },
     {
       "title": "Lecturer",
       "date": "2019 – 2023",
-      "institution": "Idiap Research Institute & Unidistance Suisse",
-      "location": "Martigny, Switzerland",
+      "location": "Idiap Research Institute & Unidistance Suisse, Martigny, Switzerland",
       "description": "Three modules of the Master in Artificial Intelligence: open science and ethics (M05), and fundamentals of machine learning (M06 and M08)."
     },
     {
       "title": "Lecturer",
       "date": "2013 – 2023",
-      "institution": "École Polytechnique Fédérale de Lausanne",
-      "location": "Lausanne, Switzerland",
+      "location": "EPFL (École Polytechnique Fédérale de Lausanne), Lausanne, Switzerland",
       "description": "EE-612, Fundamentals of Statistical Pattern Recognition: a doctoral course on machine learning and pattern recognition, from the basics to deep learning, given biennially."
     },
     {
       "title": "Research Associate",
       "date": "2014 – 2018",
-      "institution": "Idiap Research Institute",
-      "location": "Martigny, Switzerland",
+      "location": "Idiap Research Institute, Martigny, Switzerland",
       "description": "Research on biometrics, security and computing."
     },
     {
       "title": "Post-doctoral Researcher",
       "date": "2010 – 2013",
-      "institution": "Idiap Research Institute",
-      "location": "Martigny, Switzerland",
+      "location": "Idiap Research Institute, Martigny, Switzerland",
       "description": "Research on biometrics, security and computing."
     },
     {
       "title": "Research & Development Engineer",
       "date": "2004 – 2010",
-      "institution": "University of Wisconsin, Madison",
       "location": "CERN, Switzerland",
-      "description": [
-        "Design, development and maintenance of the ATLAS Trigger and Data Acquisition systems, deployed and operational on more than 5000 machines at CERN and worldwide."
-      ]
+      "funder": "University of Wisconsin, Madison, USA",
+      "description": "Design, development and maintenance of the ATLAS Trigger and Data Acquisition systems, deployed and operational on more than 5000 machines at CERN and worldwide."
     },
     {
       "title": "Research Assistant",
       "date": "2000 – 2004",
-      "institution": "Federal University of Rio de Janeiro",
       "location": "CERN, Switzerland",
+      "funder": "UFRJ (Federal University of Rio de Janeiro), Brazil",
       "description": "Design, implementation and integration of a novel algorithm for fast physics triggering — based on calorimetry, topological mapping and neural networks — into the second-level trigger software of the ATLAS Experiment, alongside the online infrastructure needed to run and validate it."
     },
     {
       "title": "Research Internship",
       "date": "1997 – 1998",
-      "institution": "CERN",
       "location": "CERN, Switzerland",
       "description": "Contributed to early prototypes of the second-level trigger and to what became the final trigger design of the ATLAS Experiment."
     },
     {
       "title": "Research Internship",
       "date": "1994 – 1999",
-      "institution": "Federal University of Rio de Janeiro",
-      "location": "Rio de Janeiro, Brazil",
-      "description": [
-        "Sub-optimal filtering for particle discrimination.",
-        "Neural classifiers implemented in a transputer-based parallel machine."
-      ]
+      "location": "UFRJ (Federal University of Rio de Janeiro), Rio de Janeiro, Brazil",
+      "description": "Sub-optimal filtering for particle discrimination, and neural classifiers implemented in a transputer-based parallel machine."
     }
   ],
 
@@ -106,32 +97,28 @@
     {
       "title": "Ph.D., Electronics Engineering (Signal Processing & Machine Learning)",
       "date": "2001 – 2006",
-      "institution": "Federal University of Rio de Janeiro",
-      "location": "Rio de Janeiro, Brazil",
+      "location": "UFRJ (Federal University of Rio de Janeiro), Rio de Janeiro, Brazil",
       "description": "Electronics Engineering School (Signal Processing Laboratory), Post-Graduate Program (COPPE). Thesis developed at CERN, Switzerland, in the context of the ATLAS Experiment.",
       "output": "anjos_sistema_2006"
     },
     {
       "title": "M.Sc., Electronics Engineering (Signal Processing & Machine Learning)",
       "date": "2000 – 2001",
-      "institution": "Federal University of Rio de Janeiro",
-      "location": "Rio de Janeiro, Brazil",
+      "location": "UFRJ (Federal University of Rio de Janeiro), Rio de Janeiro, Brazil",
       "description": "Electronics Engineering School (Signal Processing Laboratory), Post-Graduate Program (COPPE). Thesis developed in the context of the ATLAS-CERN / UFRJ collaboration.",
       "output": "anjos_sistema_2001"
     },
     {
       "title": "Engineer, Electronics Engineering",
       "date": "1994 – 1999",
-      "institution": "Federal University of Rio de Janeiro",
-      "location": "Rio de Janeiro, Brazil",
+      "location": "UFRJ (Federal University of Rio de Janeiro), Rio de Janeiro, Brazil",
       "description": "Degree from the Electronics Engineering Department.",
       "output": "anjos_sistema_1997"
     },
     {
       "title": "Technician, Electronics",
       "date": "1989 – 1993",
-      "institution": "Federal Center of Technology (CEFET)",
-      "location": "Rio de Janeiro, Brazil",
+      "location": "CEFET (Federal Center of Technology), Rio de Janeiro, Brazil",
       "description": "Technical course in electronics, taken alongside high-school studies."
     }
   ],

@@ -983,21 +983,25 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
   .tl__card { transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
   .tl__card:hover, .tl__card:focus-within { transform: scale(1.012); }
 }
-/* Intrinsic rather than a breakpoint flip: the date column takes what it needs
-   and drops below the title on its own when there is no room for both. */
-.tl__head { display: flex; flex-wrap: wrap; gap: 0 1rem; justify-content: space-between; align-items: baseline; }
-.tl__who { flex: 1 1 18rem; }
 .tl__title { font-family: var(--font-ui); font-size: var(--step-0); margin: 0; }
-.tl__org { margin: .1rem 0 0; color: var(--rail); font-size: var(--step--1); font-family: var(--font-ui); }
+/* Under the title, one line each: the date, the place it happened, and the
+   funder when it is somebody else. The place may be long, so it wraps — hence
+   flex-start, which keeps the icon on the first line rather than centred over
+   both. */
 .tl__meta {
-  font-family: var(--font-ui); font-size: var(--step--1); color: var(--muted); margin: 0;
-  display: flex; flex-wrap: wrap; align-items: center; gap: .1rem .9rem;
+  font-family: var(--font-ui); font-size: var(--step--1); color: var(--muted);
+  margin: .25rem 0 0;
+  display: flex; flex-direction: column; align-items: flex-start; gap: .15rem;
 }
-.tl__date, .tl__where { display: inline-flex; align-items: center; gap: .35rem; white-space: nowrap; }
-.tl__date { font-variant-numeric: tabular-nums lining-nums; }
-.tl__meta .icon { width: .95em; height: .95em; flex: none; opacity: .8; }
-.tl__desc, .tl__bullets { margin: .5rem 0 0; font-size: var(--step--1); }
-.tl__bullets { padding-left: 1.1rem; }
+.tl__date, .tl__where { display: inline-flex; align-items: flex-start; gap: .35rem; }
+/* The two facts that carry the entry are tinted — the accent for when, its teal
+   companion for where — and both hold in either theme. The funder stays muted:
+   it is the exception, not the headline. */
+.tl__date { color: var(--accent); white-space: nowrap; font-variant-numeric: tabular-nums lining-nums; }
+.tl__where { color: var(--accent-2); }
+.tl__fund { color: var(--muted); }
+.tl__meta .icon { width: .95em; height: .95em; flex: none; opacity: .8; margin-top: .18em; }
+.tl__desc { margin: .5rem 0 0; font-size: var(--step--1); }
 /* A rule above the link, as in the reference design: it reads as a card footer
    rather than as one more line of the description. */
 .tl__foot {

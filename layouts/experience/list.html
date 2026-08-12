@@ -10,10 +10,11 @@
 
      Both arrive already ordered (most recent first), so this template only
      formats — it never reorders. The two sections share one loop because the
-     entry shape is neat-cv's and identical across them: title, date,
-     institution, location, description (a string, or a list of bullets). Only
-     three things differ, and they are carried in the section dict: the marker
-     icon, the rail's colour (via the --rail custom property) and the heading.
+     entry shape is identical across them: title, date, location (where it
+     happened, institute first), an optional funder — stated only when it is not
+     that same institute — and a prose description. Only three things differ, and
+     they are carried in the section dict: the marker icon, the rail's colour
+     (via the --rail custom property) and the heading.
 
      Education entries may name `output`: the citation key of the dissertation
      they produced, resolved against data/outputs.json — Zotero stays the one
@@ -36,24 +37,18 @@
     <li class="tl">
       <span class="tl__dot">{{ partial "icon.html" $icon }}</span>
       <div class="tl__card">
-        <div class="tl__head">
-          <div class="tl__who">
-            <h3 class="tl__title">{{ .title }}</h3>
-            {{- with .institution }}<p class="tl__org">{{ . }}</p>{{ end }}
-          </div>
-          <p class="tl__meta">
-            <span class="tl__date">{{ partial "icon.html" "calendar" }}{{ .date }}</span>
-            {{- with .location }}
-            <span class="tl__where">{{ partial "icon.html" "pin" }}{{ . }}</span>
-            {{- end }}
-          </p>
-        </div>
+        <h3 class="tl__title">{{ .title }}</h3>
+        <p class="tl__meta">
+          <span class="tl__date">{{ partial "icon.html" "calendar" }}{{ .date }}</span>
+          {{- with .location }}
+          <span class="tl__where">{{ partial "icon.html" "pin" }}{{ . }}</span>
+          {{- end }}
+          {{- with .funder }}
+          <span class="tl__where tl__fund">{{ partial "icon.html" "funding" }}{{ . }}</span>
+          {{- end }}
+        </p>
         {{- with .description }}
-        {{- if reflect.IsSlice . }}
-        <ul class="tl__bullets">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
-        {{- else }}
         <p class="tl__desc">{{ . }}</p>
-        {{- end }}
         {{- end }}
         {{- with .output }}
         {{- with index (where $data "key" (. | lower)) 0 }}

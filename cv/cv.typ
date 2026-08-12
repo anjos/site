@@ -21,6 +21,8 @@
   contact-info, cv, cv-thin-side, cv-with-side, entry, item-pills,
   item-with-level, publications, social-links, thin-label, thin-metrics,
 )
+// The very version neat-cv imports internally, so no extra package is fetched.
+#import "@preview/fontawesome:0.6.1": fa-icon
 #import "@preview/cetz:0.5.2": canvas, draw
 #import "@preview/cetz-plot:0.1.4": chart
 
@@ -138,6 +140,31 @@
 }
 
 #let records(rs) = for r in rs { record(r) }
+
+// Employment and education carry the place under the title rather than in
+// neat-cv's location column, which is left to the date alone: a pin for where
+// the work happened, and — only when somebody else paid for it — a note of the
+// funder. Everything else here still goes through `record` untouched.
+#let history(rs) = for r in rs {
+  // The two place lines are tinted, half body colour and half of one of the
+  // site's two stops — the accent for where it happened, its teal companion for
+  // who paid. Dark enough to still read as text, not as a link; the website
+  // tints the same two lines outright. The description keeps neat-cv's own font
+  // colour, which is why that value is named here rather than assumed.
+  let body = rgb("#333333")
+  let line(icon, key, tint: body) = if r.at(key, default: "") != "" [
+    #text(fill: tint)[#fa-icon(icon)~#r.at(key)]#linebreak()
+  ]
+  record((
+    title: r.title,
+    date: r.date,
+    description: [
+      #line("location-dot", "location", tint: color.mix((body, 50%), (accent, 50%)))
+      #line("money-bill", "funder", tint: color.mix((body, 50%), (accent-2, 50%)))
+      #r.at("description", default: "")
+    ],
+  ))
+}
 
 // A grant, in ORCID's own words: title, funder, and the years it runs. The
 // funding instrument rides in the funder's parenthesis rather than off in the
@@ -275,10 +302,10 @@
   #item-pills(cvdata.skills.computing)
 ][
   = Professional Experience
-  #records(cvdata.employment)
+  #history(cvdata.employment)
 
   = Education
-  #records(cvdata.education)
+  #history(cvdata.education)
 
   = Research Areas
   #records(gen.projects)
