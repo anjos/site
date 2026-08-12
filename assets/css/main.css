@@ -550,11 +550,30 @@ th { color: var(--muted); font-weight: 600; white-space: nowrap; }
    makes it noticeable without being loud. */
 .scroll-cue {
   position: fixed; right: 1.25rem; bottom: 1rem; z-index: 15;
-  color: var(--accent); opacity: .8; line-height: 0; pointer-events: none;
+  display: grid; place-items: center;
+  width: 2.75rem; height: 2.75rem; border-radius: 999px;
+  /* A dark scrim, not a solid disc: on a narrow screen the cue sits over the
+     text, and this keeps that legible underneath. 50% black is the floor —
+     over a white page it renders as #808080, putting the white chevron at
+     3.9:1; anything lighter drops the chevron under the 3:1 non-text bar.
+     Theme-independent by construction: the scrim is dark in both, so one
+     white chevron works for both (--on-accent would flip dark and vanish). */
+  background: rgb(0 0 0 / .5);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .25);
+  color: #fff; line-height: 0; pointer-events: none;
 }
-.scroll-cue .icon { width: 1.7rem; height: 1.7rem; }
+/* The rule above sets `display`, which would otherwise beat the UA's
+   `[hidden] { display: none }` and pin the cue on screen for ever. */
+.scroll-cue[hidden] { display: none; }
+/* The icon box is already centred by the grid — measured, 8.4px of disc on
+   both sides. What sits high is the ink: the chevron's own bounding box is
+   0.35/24 above centre, and a V is top-heavy, so it reads higher still. 1px
+   down is the optical correction. */
+.scroll-cue .icon { width: 1.7rem; height: 1.7rem; transform: translateY(1px); }
 @media (prefers-reduced-motion: no-preference) {
-  .scroll-cue .icon { animation: scroll-cue-nudge 2.4s ease-in-out infinite; }
+  /* The whole disc nudges, chevron and all — animating the icon alone slid it
+     around inside a circle that stayed put. */
+  .scroll-cue { animation: scroll-cue-nudge 2.4s ease-in-out infinite; }
 }
 @keyframes scroll-cue-nudge {
   0%, 100% { transform: translateY(0); }
