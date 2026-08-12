@@ -1,0 +1,14 @@
+{{- /* The meta line of a thesis card: author · level · university · month year.
+
+       Shared by /theses/ and the "Supervised theses" block on a project page,
+       which show the same cards, so the "Ph.D." / "Master's" wording and the
+       trim of everything after the first comma in a university name exist in
+       exactly one place.
+
+       Input: the thesis Page. Returns the delimited string. */ -}}
+{{- $meta := slice -}}
+{{- with .Params.author }}{{ $meta = $meta | append . }}{{ end -}}
+{{- with .Params.level }}{{ $meta = $meta | append (printf "%s thesis" (cond (eq . "PhD") "Ph.D." (printf "%s's" .))) }}{{ end -}}
+{{- with .Params.university }}{{ $meta = $meta | append (index (split . ",") 0) }}{{ end -}}
+{{- with .Date }}{{ $meta = $meta | append (.Format "January 2006") }}{{ end -}}
+{{- delimit $meta " · " -}}

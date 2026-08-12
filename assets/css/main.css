@@ -65,19 +65,22 @@
   --on-accent: #ffffff;
   --code-bg: #f4f3ef;
   --selection: #d5ddf8;
+  /* Two elevations, and only two: --shadow-rest is what a raised surface sits
+     at, --shadow is what it hovers to. Every card, tile, button and chip on the
+     site uses this pair, so nothing invents its own blur radius. */
+  --shadow-rest: 0 2px 8px rgba(23, 25, 28, .05);
   --shadow: 0 6px 20px rgba(23, 25, 28, .07);
 
   /* ---- The accent knob -------------------------------------------------
      `--accent` is the single source of truth for the site's colour identity.
      Every tint below is derived from it with native color-mix(), so changing
      that one value (here and in the two dark-theme blocks) re-tints the hero
-     field, the pills, the CV button, the card hover glow and the featured
+     field, the pills, the CV button, the card hover border and the featured
      rules together. This is an INTERNAL knob — nothing in the UI exposes it,
      deliberately. No preprocessor and no build step is involved. */
   --accent-wash: color-mix(in oklab, var(--accent)  7%, var(--bg));
   --accent-soft: color-mix(in oklab, var(--accent) 14%, var(--bg));
   --accent-line: color-mix(in oklab, var(--accent) 32%, var(--bg));
-  --accent-glow: color-mix(in oklab, var(--accent) 40%, transparent);
   /* The chip surface, tinted with the teal the hero gradient ends on. Shared by
      the hero's interest pills and the type badges in Research Outputs, so the
      two cannot drift apart. A neutral tint separated from the page by only
@@ -124,6 +127,9 @@
     --on-accent: #0e1620;
     --code-bg: #202224;
     --selection: #1c2a55;
+    /* Mixed far stronger than in light mode: a 5%-black shadow is invisible on
+       a dark page, which is how the hardcoded resting shadows used to vanish. */
+    --shadow-rest: 0 2px 8px rgba(0, 0, 0, .35);
     --shadow: 0 6px 20px rgba(0, 0, 0, .45);
       /* The wash reads darker against a dark page, so it is mixed stronger. */
     --hero-from: color-mix(in oklab, var(--accent)   30%, var(--bg));
@@ -144,6 +150,7 @@
   --on-accent: #0e1620;
   --code-bg: #202224;
   --selection: #1c2a55;
+  --shadow-rest: 0 2px 8px rgba(0, 0, 0, .35);
   --shadow: 0 6px 20px rgba(0, 0, 0, .45);
   /* The wash reads darker against a dark page, so it is mixed stronger. */
   --hero-from: color-mix(in oklab, var(--accent)   30%, var(--bg));
@@ -358,14 +365,15 @@ figure figcaption {
 .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr)); gap: 1rem; margin: var(--space) 0; }
 .gallery a { display: block; border-radius: 8px; overflow: hidden; }
 .gallery img { border-radius: 8px; border: 1px solid var(--border); display: block; width: 100%; }
-/* Same hover language as the cards: lift, accent ring, accent glow. */
+/* Same hover language as the cards: raise to --shadow, tint the edge. */
 .gallery a:hover img, .gallery a:focus-visible img { border-color: var(--accent-line); }
-.gallery a:hover { box-shadow: 0 14px 30px var(--accent-glow); }
-/* A linked figure (the biography portrait) hovers like a gallery tile. The glow
-   sits on the img, not the a: the anchor is inline inside a centred figure, so
-   shadowing it would draw a full-width box instead of hugging the image. */
+.gallery a:hover, .gallery a:focus-visible { box-shadow: var(--shadow); }
+/* A linked figure (the biography portrait) hovers like a gallery tile. The
+   shadow sits on the img, not the a: the anchor is inline inside a centred
+   figure, so shadowing it would draw a full-width box instead of hugging the
+   image. */
 figure a:hover img, figure a:focus-visible img {
-  box-shadow: 0 0 0 1px var(--accent-line), 0 14px 30px var(--accent-glow);
+  box-shadow: 0 0 0 1px var(--accent-line), var(--shadow);
 }
 
 code, pre, kbd { font-family: var(--font-mono); font-size: .875em; }
@@ -406,8 +414,11 @@ th { color: var(--muted); font-weight: 600; white-space: nowrap; }
 }
 /* Cards without a cover span the full width instead of leaving an empty column. */
 .card:not(:has(.card__cover)) { grid-template-columns: 1fr; }
-.card:hover { background: var(--surface); box-shadow: var(--shadow); }
-.card:focus-within { background: var(--surface); }
+/* The row card has no resting surface of its own, so it grows one on hover. The
+   vertical card already has a gradient and keeps it — see .card--vertical. */
+.card:not(.card--vertical):hover,
+.card:not(.card--vertical):focus-within { background: var(--surface); }
+.card:hover, .card:focus-within { box-shadow: var(--shadow); }
 .card__frame {
   overflow: hidden; border-radius: 8px;
   box-shadow: 0 0 0 1px var(--border);   /* hairline that does not affect layout */
@@ -449,21 +460,25 @@ th { color: var(--muted); font-weight: 600; white-space: nowrap; }
   .card:not(.card--vertical) .card__frame { max-width: 12rem; }
 }
 
+/* One elevation gesture for the whole site, the Experience timeline's: a scale
+   so small it reads as a lift, over .18 s. It is deliberately tiny — these cards
+   sit edge to edge in a grid, and anything larger overlaps its neighbours. The
+   timeline keeps its own copy of this below, where the rest of .tl__card is. */
 @media (prefers-reduced-motion: no-preference) {
-  .card { transition: background .3s ease, box-shadow .3s ease, transform .3s ease; }
+  .card, .out-card, .gallery a, .btn, .iconlink, .fund__link {
+    transition: transform .18s ease, box-shadow .18s ease,
+                border-color .18s ease, background-color .18s ease, color .18s ease;
+  }
+  .card:hover, .card:focus-within,
+  .out-card:hover, .out-card:focus-within,
+  .gallery a:hover, .gallery a:focus-visible,
+  .btn--accent:hover, .iconlink:hover, .fund__link:hover { transform: scale(1.012); }
+  /* Not elevation: the cover's slow zoom is its own micro-interaction. */
   .card__cover { transition: transform .45s ease; }
-  .card:hover { transform: translateY(-2px); }
   .card:hover .card__cover { transform: scale(1.04); }
   .card__title a { transition: color .2s ease; }
-  /* Blox lifts its grid cards further than a list row, over 300 ms. */
-  .card--vertical:hover { transform: translateY(-6px); }
-  .btn, .iconlink, .fund__link { transition: box-shadow .3s ease, transform .3s ease, background-color .3s ease, color .3s ease; }
-  .btn--accent:hover { transform: translateY(-2px) scale(1.02); }
-  .iconlink:hover { transform: translateY(-2px); }
-  .out-card, .gallery a { transition: box-shadow .3s ease, transform .3s ease; }
-  .out-card:hover, .gallery a:hover { transform: translateY(-4px); }
-  .gallery img { transition: border-color .3s ease; }
-  figure a img { transition: box-shadow .3s ease; }
+  .gallery img { transition: border-color .18s ease; }
+  figure a img { transition: box-shadow .18s ease; }
 }
 
 /* ---- Section headings with an icon ---------------------------------------- */
@@ -606,19 +621,19 @@ th { color: var(--muted); font-weight: 600; white-space: nowrap; }
 .btn--accent {
   color: var(--on-accent);
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  box-shadow: 0 6px 18px var(--accent-glow);
+  box-shadow: var(--shadow-rest);
 }
-.btn--accent:hover { color: var(--on-accent); text-decoration: none; box-shadow: 0 12px 28px var(--accent-glow); }
+.btn--accent:hover { color: var(--on-accent); text-decoration: none; box-shadow: var(--shadow); }
 
 .iconlinks { display: flex; flex-wrap: wrap; gap: .5rem; }
 .iconlink {
   width: 3rem; height: 3rem; border-radius: 50%;
   display: inline-grid; place-items: center; color: var(--muted); background: var(--bg);
-  box-shadow: 0 0 0 1px var(--border), 0 1px 3px rgba(0, 0, 0, .06);
+  box-shadow: 0 0 0 1px var(--border), var(--shadow-rest);
 }
 .iconlink:hover {
   color: var(--on-accent); background: var(--accent); text-decoration: none;
-  box-shadow: 0 0 0 1px var(--accent), 0 6px 16px var(--accent-glow);
+  box-shadow: 0 0 0 1px var(--accent), var(--shadow);
 }
 .icon { flex: none; }
 /* Explicit, so an <a> that wraps only an image or an icon still shows the hand
@@ -626,16 +641,20 @@ th { color: var(--muted); font-weight: 600; white-space: nowrap; }
 a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
 
 /* ---- Card grid (vertical cards) ------------------------------------------- */
-/* auto-fit + minmax means 3 -> 2 -> 1 columns intrinsically, with no breakpoint;
-   min() keeps a single card from overflowing a 320 px phone. */
+/* auto-fill + minmax means 3 -> 2 -> 1 columns intrinsically, with no
+   breakpoint; min() keeps a single card from overflowing a 320 px phone.
+   auto-FILL, not auto-fit: auto-fit collapses the tracks it has no card for, so
+   a project with one supervised thesis stretched that card across the whole
+   page while the same card sits half-width on /theses/. Keeping the empty
+   tracks makes a card the same size wherever it appears. */
 .card-grid {
   list-style: none; margin: 0 0 1rem; padding: 0;
   display: grid; gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(17rem, 100%), 1fr));
 }
 /* Teaching has exactly four courses, so a wider track gives a 2x2. */
 .card-grid--two {
-  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
 }
 .card--vertical {
   /* stretch, not the `align-items: start` inherited from .card: in a column
@@ -645,18 +664,18 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
   padding: 0; margin-inline: 0; overflow: hidden;
   border-radius: .75rem;
   background: linear-gradient(160deg, var(--bg), var(--accent-wash));
-  box-shadow: 0 0 0 1px var(--border), 0 2px 8px rgba(0, 0, 0, .05);
+  box-shadow: 0 0 0 1px var(--border), var(--shadow-rest);
 }
 .card--vertical .card__frame { border-radius: 0; box-shadow: none; }
 .card--vertical .card__cover { aspect-ratio: 3 / 2; }
 .card--vertical .card__body { padding: 1.15rem 1.25rem 1.35rem; }
 .card--vertical .card__title { font-size: var(--step-1); }
-/* Overrides the flat .card:hover surface: vertical cards lift, glow in the
-   accent, and brighten their border — the Blox treatment. */
+/* Raise to --shadow and tint the hairline, exactly as the Experience timeline
+   does with its rail colour. The resting gradient does not change: the shadow
+   and the edge carry the hover on their own. */
 .card--vertical:hover,
 .card--vertical:focus-within {
-  background: linear-gradient(160deg, var(--bg), var(--accent-soft));
-  box-shadow: 0 0 0 1px var(--accent-line), 0 16px 34px var(--accent-glow);
+  box-shadow: 0 0 0 1px var(--accent-line), var(--shadow);
 }
 
 /* ---- Research-output cards ------------------------------------------------ */
@@ -670,10 +689,10 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
   margin: 0; padding: 1.15rem 1.35rem 1.25rem; border-radius: .75rem;
   border-top: 3px solid var(--accent);
   background: linear-gradient(160deg, var(--bg), var(--accent-wash));
-  box-shadow: 0 0 0 1px var(--border), 0 2px 8px rgba(0, 0, 0, .05);
+  box-shadow: 0 0 0 1px var(--border), var(--shadow-rest);
 }
-.out-card:hover {
-  box-shadow: 0 0 0 1px var(--accent-line), 0 14px 30px var(--accent-glow);
+.out-card:hover, .out-card:focus-within {
+  box-shadow: 0 0 0 1px var(--accent-line), var(--shadow);
 }
 .out-card__type {
   font-family: var(--font-ui); font-size: var(--step--2); letter-spacing: .08em;
@@ -791,7 +810,7 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
 }
 .fund__link:hover {
   color: var(--on-accent); background: var(--accent); text-decoration: none;
-  box-shadow: 0 0 0 1px var(--accent), 0 6px 16px var(--accent-glow);
+  box-shadow: 0 0 0 1px var(--accent), var(--shadow);
 }
 .fund__more > summary {
   cursor: pointer; margin-top: .6rem;
@@ -953,12 +972,13 @@ a, .btn, .iconlink, .gallery a, .card__title a { cursor: pointer; }
   background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
   padding: .8rem 1.1rem .9rem;
 }
-.tl__card:hover { border-color: color-mix(in oklab, var(--rail) 40%, var(--bg)); box-shadow: var(--shadow); }
-/* The zoom of the reference design, kept small: these cards sit edge to edge in
-   a column, so anything larger overlaps its neighbours. */
+.tl__card:hover, .tl__card:focus-within {
+  border-color: color-mix(in oklab, var(--rail) 40%, var(--bg));
+  box-shadow: var(--shadow);
+}
 @media (prefers-reduced-motion: no-preference) {
   .tl__card { transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
-  .tl__card:hover { transform: scale(1.012); }
+  .tl__card:hover, .tl__card:focus-within { transform: scale(1.012); }
 }
 /* Intrinsic rather than a breakpoint flip: the date column takes what it needs
    and drops below the title on its own when there is no room for both. */

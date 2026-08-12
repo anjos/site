@@ -1,7 +1,7 @@
 {{- /* One renderer for the Key publications / Software / Datasets sections, which
        differ only by heading and icon. Input: dict "data" <entries> "groups"
-       <slice of dict "heading" <string> "icon" <name> "items" <slice>>. Publications render above the
-       supervised theses and the other two below, hence the two call sites. */ -}}
+       <slice of dict "heading" <string> "icon" <name> "items" <slice>>. All
+       three render above the supervised theses, so there is one call site. */ -}}
 {{ define "outsections" }}
   {{ $data := .data }}
   {{ range .groups }}
@@ -58,21 +58,21 @@
   {{ end }}
 
   {{ template "outsections" (dict "data" $data "groups" (slice
-      (dict "heading" (.Params.publications_heading | default "Key publications") "icon" "outputs" "items" $pubs))) }}
+      (dict "heading" (.Params.publications_heading | default "Key publications") "icon" "outputs" "items" $pubs)
+      (dict "heading" "Software" "icon" "software" "items" $sw)
+      (dict "heading" "Datasets" "icon" "datasets" "items" $ds))) }}
 
-  {{/* Supervised students linked to this project via `projects: [<id>]` */}}
+  {{/* Supervised students linked to this project via `projects: [<id>]`. Same
+       grid cards as /theses/, so the two listings match and the whole card is
+       the hit area. */}}
   {{ $theses := where (where site.RegularPages "Section" "theses") "Params.projects" "intersect" (slice $id) }}
   {{ with $theses }}
   {{ partial "sec-head.html" (dict "icon" "theses" "text" "Supervised theses") }}
-  <ul class="card-list">
+  <ul class="card-grid card-grid--two">
     {{- range .ByDate.Reverse }}
-    {{- partial "card.html" (dict "page" . "meta" .Params.author) }}
+    {{- partial "card.html" (dict "page" . "meta" (partial "thesis-meta.html" .) "variant" "vertical") }}
     {{- end }}
   </ul>
   {{ end }}
-
-  {{ template "outsections" (dict "data" $data "groups" (slice
-      (dict "heading" "Software" "icon" "software" "items" $sw)
-      (dict "heading" "Datasets" "icon" "datasets" "items" $ds))) }}
 </article>
 {{ end }}

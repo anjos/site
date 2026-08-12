@@ -5,12 +5,7 @@
   {{ with .Pages.ByDate.Reverse }}
   <ul class="card-grid card-grid--two">
     {{- range . }}
-    {{- $meta := slice }}
-    {{- with .Params.author }}{{ $meta = $meta | append . }}{{ end }}
-    {{- with .Params.level }}{{ $meta = $meta | append (printf "%s thesis" (cond (eq . "PhD") "Ph.D." (printf "%s's" .))) }}{{ end }}
-    {{- with .Params.university }}{{ $meta = $meta | append (index (split . ",") 0) }}{{ end }}
-    {{- with .Date }}{{ $meta = $meta | append (.Format "January 2006") }}{{ end }}
-    {{- partial "card.html" (dict "page" . "meta" (delimit $meta " · ") "variant" "vertical") }}
+    {{- partial "card.html" (dict "page" . "meta" (partial "thesis-meta.html" .) "variant" "vertical") }}
     {{- end }}
   </ul>
   {{ end }}
