@@ -69,6 +69,16 @@ def test_hayagriva_omits_what_is_absent():
     assert "serial-number" not in pub and pub["url"] == "https://example/p"
 
 
+def test_the_public_pdf_outranks_the_paper_page():
+    # A DOI-less work may carry both; the CV links the file, not the landing page.
+    both = bcv.hayagriva(article(doi=None, url="https://example/p",
+                                 pdf="https://example/f.pdf"))
+    assert both["url"] == "https://example/f.pdf"
+    # a DOI still outranks either
+    assert "url" not in bcv.hayagriva(article(url="https://example/p",
+                                              pdf="https://example/f.pdf"))
+
+
 def test_patent_number_stands_in_for_pages():
     pub = bcv.hayagriva(article(type="Patent", container=None, pages=None,
                                 number="WO/2019/150254", doi=None))

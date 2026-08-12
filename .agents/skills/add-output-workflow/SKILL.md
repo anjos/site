@@ -80,7 +80,9 @@ Register it now, correct it later — do **not** wait for the DOI.
   point it at the Idiap URL. To surface the Idiap copy, download it and attach it
   with `--public` (`--pdf` takes a path, not a URL).
 - **`--paper-page`** the Idiap record: it is the only public landing page a
-  DOI-less work has, and it renders as the *Homepage* pill.
+  DOI-less work has, and it renders as the *Homepage* pill. On the **CV** the
+  public PDF outranks it — `hayagriva()` in `tools/build-cv.py` prefers DOI, then
+  `pdf`, then `url`, because a CV reader wants the file, not a landing page.
 - **Reference it by citation key**, not DOI, in any `research_outputs:` list.
 - When the proceedings appear:
   ```sh

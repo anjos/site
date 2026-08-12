@@ -186,8 +186,11 @@ def hayagriva(entry: dict) -> dict:
         pub["page-range"] = entry.get("pages") or entry["number"]
     if entry.get("doi"):
         pub["serial-number"] = {"doi": entry["doi"]}
-    elif entry.get("url") or entry.get("pdf"):
-        pub["url"] = entry.get("url") or entry["pdf"]
+    elif entry.get("pdf") or entry.get("url"):
+        # No DOI (typically accepted-but-unpublished): the public PDF is the more
+        # useful link on a CV, so it wins over the paper page, which is only a
+        # landing page for the same file.
+        pub["url"] = entry.get("pdf") or entry["url"]
     return pub
 
 
