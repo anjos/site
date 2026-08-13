@@ -1326,9 +1326,11 @@ def test_clean_bibtex_passes_through_unparseable_input():
 
 
 def test_normalize_bibtex_ignores_reflowing():
-    a = "@misc{k,\n\ttitle = {T},\n}"
-    b = "@misc{k,   title = {T},   }"
-    assert zc.normalize_bibtex(a) != a or True
+    """Two spellings of one entry must compare equal, or ORCID's re-flow would
+    read as drift and every work would be rewritten on every run."""
+    tabbed = "@misc{k,\n\ttitle = {T},\n}"
+    spaced = "@misc{k,   title = {T},   }"
+    assert zc.normalize_bibtex(tabbed) == zc.normalize_bibtex(spaced)
     assert zc.normalize_bibtex("a  b\n\tc") == "a b c"
 
 
@@ -1341,7 +1343,8 @@ def test_attach_bibtex_pairs_on_the_citation_key():
 
 
 def test_field_diffs_flags_a_missing_or_stale_citation():
-    z = zrec(); z["bibtex"] = "@misc{k,\n\ttitle = {T},\n}"
+    z = zrec()
+    z["bibtex"] = "@misc{k,\n\ttitle = {T},\n}"
     absent = owork(citation=None, citation_type=None, language="en")
     assert [f for f, _h, _w in zc.field_diffs(z, absent)] == ["citation"]
 
@@ -1353,21 +1356,24 @@ def test_field_diffs_flags_a_missing_or_stale_citation():
 def test_field_diffs_quiet_when_the_citation_only_differs_in_whitespace():
     """ORCID re-flows what it stores; a re-flow is not drift, and treating it as
     drift would rewrite every work on every run."""
-    z = zrec(); z["bibtex"] = "@misc{k,\n\ttitle = {T},\n}"
+    z = zrec()
+    z["bibtex"] = "@misc{k,\n\ttitle = {T},\n}"
     o = owork(citation="@misc{k,   title = {T}, }", citation_type="bibtex",
               language="en")
     assert zc.field_diffs(z, o) == []
 
 
 def test_field_diffs_flags_a_non_bibtex_citation_type():
-    z = zrec(); z["bibtex"] = "@misc{k,\n\ttitle = {T},\n}"
+    z = zrec()
+    z["bibtex"] = "@misc{k,\n\ttitle = {T},\n}"
     o = owork(citation="Anjos, A. (2024).", citation_type="formatted-apa",
               language="en")
     assert [f for f, _h, _w in zc.field_diffs(z, o)] == ["citation"]
 
 
 def test_field_diffs_ignores_citation_when_not_enriched():
-    z = zrec(); z["bibtex"] = "@misc{k,\n\ttitle = {T},\n}"
+    z = zrec()
+    z["bibtex"] = "@misc{k,\n\ttitle = {T},\n}"
     o = owork(language="en")
     o.pop("citation", None)
     assert zc.field_diffs(z, o) == []
@@ -1388,12 +1394,14 @@ def test_set_citation_leaves_orcid_alone_when_zotero_has_none():
 
 
 def test_new_form_carries_the_citation():
-    z = zrec(); z["bibtex"] = "@misc{k,\n\ttitle = {T},\n}"
+    z = zrec()
+    z["bibtex"] = "@misc{k,\n\ttitle = {T},\n}"
     assert so.new_form(z)["citation"]["citationType"]["value"] == "bibtex"
 
 
 def test_a_citation_update_converges():
-    z = zrec(); z["bibtex"] = "@misc{k,\n\ttitle = {T},\n}"
+    z = zrec()
+    z["bibtex"] = "@misc{k,\n\ttitle = {T},\n}"
     patched = so.patch_form({}, z, [("citation", "—", "bibtex")])
     o = owork(citation=patched["citation"]["citation"]["value"],
               citation_type=patched["citation"]["citationType"]["value"],
@@ -1405,7 +1413,8 @@ def test_attach_bibtex_skips_an_oversized_citation_with_a_reason():
     """Skipping must leave bibtex None as well as recording why: with no
     citation the diff proposes nothing, so the work converges instead of
     failing on every run."""
-    rec = zrec(); rec["key"] = "big_2008"
+    rec = zrec()
+    rec["key"] = "big_2008"
     huge = "@misc{big_2008,\n\tauthor = {" + " and ".join(
         f"Author{i}, A" for i in range(3000)) + "},\n}"
     zc.attach_bibtex([rec], {"big_2008": huge})
@@ -1415,21 +1424,24 @@ def test_attach_bibtex_skips_an_oversized_citation_with_a_reason():
 
 
 def test_a_skipped_citation_proposes_nothing_and_converges():
-    rec = zrec(); rec["key"] = "big_2008"
+    rec = zrec()
+    rec["key"] = "big_2008"
     zc.attach_bibtex([rec], {"big_2008": "@misc{big_2008,\n\ttitle = {" + "x" * 20000 + "},\n}"})
     o = owork(citation=None, citation_type=None, language="en")
     assert zc.field_diffs(rec, o) == [], "a skipped citation must not be flagged"
 
 
 def test_attach_bibtex_reports_a_missing_entry():
-    rec = zrec(); rec["key"] = "absent_2024"
+    rec = zrec()
+    rec["key"] = "absent_2024"
     zc.attach_bibtex([rec], {})
     assert rec["bibtex"] is None
     assert "no BibTeX entry" in rec["bibtex_skipped"]
 
 
 def test_attach_bibtex_clears_the_reason_when_it_succeeds():
-    rec = zrec(); rec["key"] = "ok_2024"
+    rec = zrec()
+    rec["key"] = "ok_2024"
     zc.attach_bibtex([rec], {"ok_2024": "@misc{ok_2024,\n\ttitle = {T},\n}"})
     assert rec["bibtex"].startswith("@misc{ok_2024,")
     assert rec["bibtex_skipped"] is None
@@ -1490,7 +1502,8 @@ def test_patch_form_sanitizes_even_when_authors_are_not_in_the_diff():
         {"creditName": {"content": "Jung Park"},
          "contributorOrcid": {"uri": None, "path": None, "host": None},
          "rolesAndSequences": [{"contributorRole": "conceptualization"}]}]}
-    z = zrec(); z["bibtex"] = "@misc{k,\n\ttitle = {T},\n}"
+    z = zrec()
+    z["bibtex"] = "@misc{k,\n\ttitle = {T},\n}"
     patched = so.patch_form(form, z, [("citation", "—", "bibtex")])
     roles = [r["contributorRole"]
              for g in patched["contributorsGroupedByOrcid"]
