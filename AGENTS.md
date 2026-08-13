@@ -57,7 +57,7 @@ assets/css/main.css    Theme styles (CSS custom properties for both themes)
 assets/fonts/          Self-hosted Source Serif 4 (subset woff2) — see below
 tools/                 zotero_common.py (shared), update-site-outputs.py,
                        update-funding.py, update-interests.py,
-                       update-orcid-outputs.py, add_zotero_output.py,
+                       sync_orcid.py, add_zotero_output.py,
                        edit_zotero_item.py, zotero_pdf.py (read a paper's PDF —
                        public or private — from Zotero), build-cv.py,
                        validate_content.py, tests
@@ -73,8 +73,7 @@ source of truth. The website and the ORCID to-do report are generated from it.
 
 - Add one work:      the **add-zotero-output** skill (or the Zotero GUI)
 - Refresh the site:  `pixi run outputs`   (Zotero public feed → `data/outputs.json`)
-- ORCID to-do:       `pixi run orcid-report`  (writes `orcid-sync-report.md`; you
-  apply it on ORCID by hand — ORCID writes need the paid Member API)
+- ORCID sync:        `pixi run orcid-sync`    (see "Syncing to ORCID" below)
 - Full recipe:       the **add-output-workflow** skill
 
 ### Update or check
@@ -103,6 +102,171 @@ To feature an output on a project (or thesis) page, add its **DOI or citation ke
 to that page's `research_outputs:` list — the template resolves it from
 `data/outputs.json` (any type: papers, datasets, software). If it's not yet in the
 data, add the work to Zotero and run `pixi run outputs`.
+
+### Syncing to ORCID
+
+`pixi run orcid-sync` computes the difference and applies it. One tool, three
+modes — listing, writing Markdown, and writing to ORCID — over one difference
+(`zc.zotero_records` → `zc.diff_against_orcid`), so no two views can disagree
+about what is stale.
+
+```sh
+pixi run orcid-sync                     # dry-run: what it would add and edit
+pixi run orcid-sync --report            # the same, as orcid-sync-report.md
+pixi run orcid-sync --apply             # do it, 1s between writes
+pixi run orcid-sync --apply --limit 1   # one work, for a first live test
+```
+
+**Why a browser and not the API.** ORCID enforces strict source-matching: *only
+the source that created an item may edit or delete it.* Practically this whole
+record (127 of 128 groups) was self-asserted through the website, so a Member
+API client — a different source — could not edit any of it. It could only stack a
+second assertion onto each work and fork the record into two sources. **Buying
+Member API access would not fix this and would make the record worse.** Acting as
+the record holder is the only mechanism that can correct what is already there.
+
+**Runs headless; shows a window only to sign in.** `--apply` starts the browser
+headless, and swaps it for a visible one *only* when the saved session has
+lapsed and a human has to authenticate — Playwright cannot un-hide a running
+context, hence the swap. `--headless` forbids that window and fails in about a
+second instead, which is what a cron job wants; without it there is no window
+unless you are actually needed. A signed-out headless run can never succeed, so
+waiting out the sign-in timeout would be pointless.
+
+**The login is never automated.** Playwright uses its own profile
+(`~/.config/orcid-sync-profile`) and you sign in by hand. That is what
+keeps Cloudflare's bot management on `/signin`, two-factor auth and stored
+credentials out of this entirely. `--delay` (default 1s) paces the writes; raise
+it if ORCID ever starts challenging.
+
+That profile is **separate from your everyday Chrome** and cannot be otherwise:
+Chrome refuses to open a profile directory another process already has open, so
+reusing your normal one would mean quitting Chrome first. Being signed in to
+ORCID in your usual browser therefore does nothing for the sync.
+
+What *does* carry over is the saved jar in `~/.config/orcid-sync-cookies.json`
+(0600 — it holds a live session, as good as the password). ORCID authenticates
+with a **session** cookie, and Chrome discards those when the browser closes, so
+a persistent profile alone still meant signing in on every single run;
+`save_cookies`/`load_cookies` are what make "sign in once" true. If you would
+rather drive your own already-open window, that needs Chrome started with
+`--remote-debugging-port` and `connect_over_cdp` — deliberately not done here,
+since it exposes your whole browser to any local process.
+
+**Authors and language are synced too, and Zotero wins outright.** The author
+list is compared in full, *including order*, and replaced wholesale rather than
+merged — a merge cannot express a reordering or a removal. The language is
+guessed from the title by `zc.detect_language`, over the only three this record
+uses (en/pt/fr); it is deliberately conservative, because English is 134 of 145
+works and a false positive is worse than a miss.
+
+> **This makes Zotero's author data authoritative, mistakes included.** A name
+> reversed or misspelled in Zotero will overwrite a correct one on ORCID, and a
+> Zotero entry crediting only "The ATLAS Collaboration" will replace the named
+> authors ORCID holds. Read the dry-run's `authors:` rows before applying, and
+> fix the *Zotero* item (`tools/edit_zotero_item.py`) rather than ORCID — fixing
+> ORCID directly is undone by the next sync.
+
+Note ORCID's own contributor lists are often `"Anjos, André"` while Zotero yields
+`"André Anjos"`; that difference alone counts as drift and will be rewritten.
+
+Four things worth not rediscovering:
+
+- **Updates are read-modify-write.** `POST /works/work.json` *replaces* the work,
+  so the sync fetches the current form, patches only the fields the diff flagged,
+  and posts the whole thing back. Building a fresh form for an update would
+  silently destroy contributors and abstracts that the diff does not model.
+  `test_orcid_sync.py` guards this.
+- **The BibTeX citation comes from Zotero's own exporter, not from here.**
+  `zc.fetch_public_bibtex` reads the public feed with `format=bibtex`, so the
+  field mapping is Zotero's rather than a re-implementation, and its keys match
+  each item's `citationKey` exactly — which is what lets `zc.attach_bibtex` pair
+  entries to records. `zc.clean_bibtex` then drops `abstract`, `note`, `file`
+  and `urldate`: `note` is where Zotero puts its Extra block, which on this
+  library is purely local bookkeeping (`Homepage:`, `Software:`, `GSCC:`).
+  `copyright` is kept — for software it carries the real licence. Comparison
+  goes through `zc.normalize_bibtex`, and ORCID stores what it is given verbatim
+  (143 of 145 entries came back byte-identical). Grant systems ingest this field,
+  which is why it is synced at all. A citation over
+  `zc.MAX_CITATION_CHARS` is **skipped**, not written: the ATLAS detector paper
+  lists 2048 authors and runs to 32 kB, which is unusable in ORCID's UI and in
+  whatever a funder loads it into. That is our policy, not ORCID's — its column
+  is unbounded `text`. Skipping sets `bibtex` to None *and* records why in
+  `bibtex_skipped`, which the dry-run prints; leaving `bibtex` None is what makes
+  the work converge rather than fail on every run.
+- **Work identifiers carry a `relationship`, and it is load-bearing.** ORCID
+  groups works by their `self` identifiers, so a journal's ISSN written as
+  `self` folds every article in that journal into one group and later ones are
+  refused as duplicates. `zc.work_identifiers` therefore emits **ISSN and ISBN
+  as `part-of`** (they name the container) and DOI, arXiv, SSRN, PMID and `pat`
+  as `self`. `pat` is ORCID's terse name for a patent number. Values are
+  compared through `zc.normalize_identifier`, since one arXiv id lives on this
+  record as `2009.01907`, `abs/2408.16130` *and* `arXiv:1709.00962` — matching
+  raw strings would leave a work carrying two spellings of one identifier. Zotero
+  also repeats the label inside some values ("ISBN 978-3-319-92627-8"), which is
+  stripped before writing. Identifiers ORCID has and Zotero lacks are kept.
+- **Read authors and language from *different* places.** `worksExtendedPage.json`
+  is the only view of the rendered contributor panel, but its `languageCode` is
+  always null — even on works whose public record says `en`. So
+  `zc.enrich_orcid_works` takes authors from the page feed and language from the
+  documented bulk API. Reading either from the other source makes every work look
+  permanently stale and the sync rewrites them forever without converging.
+- **Index ORCID works by DOI and slug into *lists*, never one work per key.**
+  `zc.index_orcid_works` keeps collisions; a dict comprehension hides all but one
+  duplicate, so a second Zotero record finds nothing free, is called "missing",
+  and is re-added on every run. That is how seven copies of the ATLAS DataFlow
+  paper reached the live record. Matching is one-to-one, DOIs resolved first.
+  Among several candidates for one key, `zc.match_score` picks the best fit
+  (exact title, then year, then type) rather than the first: taking feed order
+  cross-matched the two ATLAS works, each proposing to turn the other into its
+  own type and date, and applying that reordered ORCID's date-sorted feed and
+  flipped the pairing straight back. Content-based pairing is order-independent
+  and therefore stable across runs.
+- **"Add yourself as a contributor" is not the same as "Add contributor".** The
+  former attaches `contributorOrcid.path`, which links the work to the profile;
+  the latter leaves a loose credit name. `so.is_self` folds Zotero's spellings
+  ("A. Anjos", "A.R. Anjos", …) via `zc.SELF_NAME`, and only the record holder is
+  ever linked — Zotero holds no co-author iDs, and guessing one would credit the
+  wrong researcher. `field_diffs` carries a `profile link` row so already-synced
+  works get revisited; without it the link would only reach brand-new entries.
+- **A CRediT role in a fetched form makes the save fail outright.** ORCID stores
+  roles from two vocabularies, but `POST /works/work.json` accepts only the
+  eleven legacy ones (`so.LEGACY_CONTRIBUTOR_ROLES`); a work carrying
+  "writing - original draft" comes back as **HTTP 500 with an HTML error page**,
+  no matter what the edit was about — read-modify-write hands ORCID's own stored
+  contributors straight back to it. `so.sanitize_contributors` runs first in
+  `patch_form` and rewrites only out-of-range roles to `author`, keeping names,
+  order and profile links. Bisect a 500 by dropping one field at a time from the
+  fetched form; posting it back **unmodified** is the test that says whether the
+  edit is even involved.
+- **ORCID stores contributors twice, and the two disagree.** `contributors` is
+  what the public v3.0 API serves; **`contributorsGroupedByOrcid` is what the
+  record page renders**, and `WorkForm.toWork()` applies it *last*, so it wins.
+  Write only the flat list and the API reports nine authors while the
+  Contributors panel stays blank — which is exactly what happened, to 121 of 148
+  works. `so.set_contributors` always writes both from the same names, and
+  `zc.ui_work_authors` reads the *grouped* one, so "does ORCID have the authors?"
+  means what a reader would see. Note the grouped credit name is
+  `{"content": …}`, not the `{"value": …}` of every Text field.
+- **Contributors and language are not in the `/works` summary feed**, so
+  `zc.enrich_orcid_works` sweeps `worksExtendedPage.json` — the undocumented
+  endpoint the record page itself calls, key-less for a public record, same class
+  of thing as `featuredWorks.json` in `check_featured.py`. Page size stays at 50;
+  ORCID answers a larger one with an HTML error. `field_diffs` only compares
+  those two fields when the enrichment has run, on purpose: treating an
+  unenriched work as having no authors would propose rewriting every author list
+  on the record.
+- **A group's summaries are not ordered**, and on this record Crossref precedes
+  ours in every co-asserted group — so `zc.pick_work_summary` finds the
+  self-asserted one rather than taking `summaries[0]`. Getting this wrong means
+  editing the wrong put-code. Works that are *not* ours are skipped and reported,
+  because ORCID would refuse the edit.
+- **These are ORCID's internal frontend endpoints**, not a public API, and carry
+  no compatibility promise. Playwright is imported lazily, inside `session()`, so
+  the dry-run and `--report` never open a browser and keep working as the fallback
+  if those endpoints change — which is why one tool covers both jobs rather than
+  two. `orcid-sync` is in no composite gate: applying is a network write needing a
+  human login, like `check-sync`.
 
 ## Funding (ORCID is the source of truth)
 

@@ -40,7 +40,8 @@ the file-hygiene checks automatically; install them once with
 source of truth. `pixi run outputs` refreshes `data/outputs.json` when a Zotero
 API key is configured, and merely *verifies* that it is current when there is
 none — which is how CI checks the data without any credentials. Never hand-edit
-that file. `pixi run orcid-report` writes a to-do list for keeping ORCID in sync.
+that file. `pixi run orcid-sync` reports what ORCID is missing, and applies it
+through a signed-in browser session.
 
 **Grants and research interests** come from the ORCID record — its funding
 section and its Keywords. `pixi run funding` and `pixi run interests` regenerate

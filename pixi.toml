@@ -19,13 +19,25 @@ font-ttf-roboto = "*"
 font-ttf-opensans = "*"
 font-otf-fontawesome = "7.*"
 
+# `orcid-sync` only. ORCID has no write path short of the paid Member API, and
+# that could not edit this record anyway (see "Syncing to ORCID" in AGENTS.md),
+# so the sync drives a signed-in browser session instead. The login is always
+# manual — playwright is here to hold the session, not to type a password.
+#
+# `playwright-python` is the Pythonic API; plain `playwright` is the Node CLI,
+# which it depends on. It needs no browser download — tools/sync_orcid.py prefers
+# the system Chrome and only falls back to `playwright install chromium`.
+playwright-python = "*"
+
 [tasks]
 # Regenerate data/outputs.json from Zotero (source of truth). Needs an API key —
 # without one it falls back to CHECK mode and only verifies. `--help` explains both.
 outputs = "python tools/update-site-outputs.py"
-# Compare Zotero (truth) with ORCID and write orcid-sync-report.md: works missing
-# from ORCID + a field-level "outdated" table. Read-only; never writes to ORCID.
-orcid-report = "python tools/update-orcid-outputs.py"
+# Compare Zotero (truth) with ORCID, and apply the difference through a signed-in
+# browser session. Dry-run by default; `--apply` writes, `--report` writes the
+# difference as Markdown instead. Never in a composite gate — applying is a
+# network *write* and needs a human-established login, like `check-sync`.
+orcid-sync = "python tools/sync_orcid.py"
 # Regenerate data/funding.json from the ORCID record's funding section (its
 # source of truth). Key-less, so `--check` below is the very same code path.
 funding = "python tools/update-funding.py"

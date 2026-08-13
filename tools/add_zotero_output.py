@@ -261,7 +261,7 @@ def main() -> int:
         add_relation(zot, uid, k, item_key)
         print(f"  -> related to {k} ({t[:40]})")
 
-    print("\nDone. Run `pixi run outputs` to refresh the site, then `pixi run orcid-report`.")
+    print("\nDone. Run `pixi run outputs` to refresh the site, then `pixi run orcid-sync`.")
     return 0
 
 

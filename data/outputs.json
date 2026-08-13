@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-12T09:37:12Z",
+  "generated": "2026-08-13T11:34:41Z",
   "source": "zotero:users/5992358/publications",
   "count": 145,
   "entries": [
@@ -421,7 +421,7 @@
     },
     {
       "authors": [
-        "Dilermando Queiroz",
+        "Dilermando Queiroz Neto",
         "Anderson Carlos",
         "Maíra Fatoretto",
         "Luis Filipe Nakayama",
@@ -442,7 +442,7 @@
       "issue": null,
       "pages": null,
       "number": null,
-      "key": "queiroz_does_2024",
+      "key": "queirozneto_does_2024",
       "related": []
     },
     {
@@ -906,6 +906,77 @@
     },
     {
       "authors": [
+        "Ivana Chingovska",
+        "Amir Mohammadi",
+        "André Anjos",
+        "Sébastien Marcel"
+      ],
+      "title": "Evaluation Methodologies for Biometric Presentation Attack Detection",
+      "container": "Handbook of Biometric Anti-Spoofing",
+      "year": 2019,
+      "month": 0,
+      "doi": "10.1007/978-3-319-92627-8_20",
+      "url": null,
+      "pdf": null,
+      "type": "Book Chapter",
+      "typeslug": "chapters",
+      "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "457–480",
+      "number": null,
+      "key": "chingovska_evaluation_2019",
+      "related": []
+    },
+    {
+      "authors": [
+        "André Anjos",
+        "Pedro Tome",
+        "Sébastien Marcel"
+      ],
+      "title": "An Introduction to Vein Presentation Attacks and Detection",
+      "container": "Handbook of Biometric Anti-Spoofing",
+      "year": 2019,
+      "month": 0,
+      "doi": "10.1007/978-3-319-92627-8_18",
+      "url": null,
+      "pdf": null,
+      "type": "Book Chapter",
+      "typeslug": "chapters",
+      "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "419–438",
+      "number": null,
+      "key": "anjos_introduction_2019",
+      "related": []
+    },
+    {
+      "authors": [
+        "Sushil Bhattacharjee",
+        "Amir Mohammadi",
+        "André Anjos",
+        "Sébastien Marcel"
+      ],
+      "title": "Recent Advances in Face Presentation Attack Detection",
+      "container": "Handbook of Biometric Anti-Spoofing",
+      "year": 2019,
+      "month": 0,
+      "doi": "10.1007/978-3-319-92627-8_10",
+      "url": null,
+      "pdf": null,
+      "type": "Book Chapter",
+      "typeslug": "chapters",
+      "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "207–228",
+      "number": null,
+      "key": "bhattacharjee_recent_2019",
+      "related": []
+    },
+    {
+      "authors": [
         "Anjith George",
         "Zohreh Mostaani",
         "David Geissbuhler",
@@ -993,77 +1064,6 @@
     },
     {
       "authors": [
-        "Sushil Bhattacharjee",
-        "Amir Mohammadi",
-        "André Anjos",
-        "Sébastien Marcel"
-      ],
-      "title": "Recent Advances in Face Presentation Attack Detection",
-      "container": "Handbook of Biometric Anti-Spoofing",
-      "year": 2019,
-      "month": 0,
-      "doi": "10.1007/978-3-319-92627-8_10",
-      "url": null,
-      "pdf": null,
-      "type": "Book Chapter",
-      "typeslug": "chapters",
-      "software": null,
-      "volume": null,
-      "issue": null,
-      "pages": "207–228",
-      "number": null,
-      "key": "bhattacharjee_recent_2019",
-      "related": []
-    },
-    {
-      "authors": [
-        "André Anjos",
-        "Pedro Tome",
-        "Sébastien Marcel"
-      ],
-      "title": "An Introduction to Vein Presentation Attacks and Detection",
-      "container": "Handbook of Biometric Anti-Spoofing",
-      "year": 2019,
-      "month": 0,
-      "doi": "10.1007/978-3-319-92627-8_18",
-      "url": null,
-      "pdf": null,
-      "type": "Book Chapter",
-      "typeslug": "chapters",
-      "software": null,
-      "volume": null,
-      "issue": null,
-      "pages": "419–438",
-      "number": null,
-      "key": "anjos_introduction_2019",
-      "related": []
-    },
-    {
-      "authors": [
-        "Ivana Chingovska",
-        "Amir Mohammadi",
-        "André Anjos",
-        "Sébastien Marcel"
-      ],
-      "title": "Evaluation Methodologies for Biometric Presentation Attack Detection",
-      "container": "Handbook of Biometric Anti-Spoofing",
-      "year": 2019,
-      "month": 0,
-      "doi": "10.1007/978-3-319-92627-8_20",
-      "url": null,
-      "pdf": null,
-      "type": "Book Chapter",
-      "typeslug": "chapters",
-      "software": null,
-      "volume": null,
-      "issue": null,
-      "pages": "457–480",
-      "number": null,
-      "key": "chingovska_evaluation_2019",
-      "related": []
-    },
-    {
-      "authors": [
         "Lambert Sonna Momo",
         "Luciano Cerqueira Torres",
         "Sébastien Marcel",
@@ -1096,7 +1096,7 @@
     },
     {
       "authors": [
-        "Marcel Sébastien",
+        "Sébastien Marcel",
         "André Anjos",
         "Philip Abbet"
       ],
@@ -1114,7 +1114,7 @@
       "issue": null,
       "pages": null,
       "number": "US9973503B2",
-      "key": "sebastien_method_2018",
+      "key": "marcel_method_2018",
       "related": []
     },
     {
@@ -4271,7 +4271,7 @@
         "The ATLAS Collaboration"
       ],
       "title": "Expected Performance of the ATLAS Experiment Detector, Trigger, Physics",
-      "container": "CERN Open Documentation",
+      "container": "CERN",
       "year": 2008,
       "month": 0,
       "doi": "10.48550/arxiv.0901.0512",
@@ -4283,7 +4283,7 @@
       "volume": null,
       "issue": null,
       "pages": null,
-      "number": "2008–020",
+      "number": "arXiv:0901.0512",
       "key": "collaboration_expected_2008",
       "related": []
     },

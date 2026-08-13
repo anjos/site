@@ -38,20 +38,25 @@ and never run `pixi run cv` as an extra step. Confirm with
 (`content/projects/<id>/index.md` or `content/theses/<slug>.md`) and re-run the gates —
 it then shows in that page's "Research outputs". See `add-project` / `add-thesis`.
 
-## 3. Reflect to ORCID  (report only — you apply it by hand)
+## 3. Reflect to ORCID
 
 ```sh
-pixi run orcid-report               # writes orcid-sync-report.md
+pixi run orcid-sync                 # dry-run: what it would add and edit
+pixi run orcid-sync --apply         # apply it
 ```
-Open `orcid-sync-report.md` and, on your ORCID record:
-- **§1 Missing on ORCID** — add these works (ORCID: Add works → Add manually, or
-  Search & link by DOI).
-- **§2 Outdated / incomplete** — fix the listed fields (add DOI, add the public-PDF
-  URL, correct the work-type, etc.).
-- **§3 On ORCID, not in Zotero** — review only; the tooling never deletes these.
-  Add them to Zotero if they belong.
 
-ORCID writes need the paid Member API, so this step is intentionally manual.
+The first `--apply` of a session opens a browser: sign in to ORCID by hand and it
+continues on its own. The login is never automated.
+
+Review the dry-run before applying. It reports, but never writes:
+- **Skipped** — works asserted by another source (Crossref, a publisher). ORCID
+  only lets the creating source edit an item, so these need a hand decision.
+- **On ORCID, not in Zotero** — the tooling never deletes these. Add them to
+  Zotero if they belong.
+
+For the field-level detail behind a change, `pixi run orcid-sync --report` writes
+the same difference to `orcid-sync-report.md` as a Markdown table. It touches no
+browser — the fallback if ORCID's frontend changes under the sync.
 
 ## 4. Commit
 
@@ -112,5 +117,5 @@ Register it now, correct it later — do **not** wait for the DOI.
   must be deleted in the Zotero GUI. Check `data/outputs.json` for the title first.
 - Tools: `tools/add_zotero_output.py`, `tools/update-site-outputs.py`
   (`outputs`), `tools/edit_zotero_item.py` (fix an existing item),
-  `tools/update-orcid-outputs.py` (`orcid-report`), shared logic in
+  `tools/sync_orcid.py` (`orcid-sync`), shared logic in
   `tools/zotero_common.py`.

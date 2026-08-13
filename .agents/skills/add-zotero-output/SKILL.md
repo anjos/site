@@ -81,7 +81,7 @@ Writing needs a read-write key in `~/.config/pyzotero.toml` (`api_key` + `user_i
    `--related` targets are reported and skipped (they must already be in the library).
 
 6. **Refresh**: `pixi run outputs` (regenerates `data/outputs.json`, which now
-   includes this work and its generated `key`), then `pixi run orcid-report`. The
+   includes this work and its generated `key`), then `pixi run orcid-sync`. The
    `add-output-workflow` skill runs the whole sequence.
 
 7. **Connect it (ASK).** Does this output belong to a **project**, or come out of a
