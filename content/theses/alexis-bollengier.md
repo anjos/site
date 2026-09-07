@@ -22,6 +22,8 @@ partners:
     country: "Switzerland"
   - name: "Vrije Universiteit Brussel (VUB)"
     country: "Belgium"
+  - name: "Assistance Publique – Hôpitaux de Paris (AP-HP)"
+    country: "France"
 ---
 
 Sleep spindles are the brief oscillatory bursts the thalamocortical circuit produces

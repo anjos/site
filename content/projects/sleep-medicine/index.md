@@ -43,5 +43,21 @@ records. All of it is released through the open-source `sleepless` library, with
 configurations that reproduce the published results, so the cross-clinic comparisons can be
 rerun rather than taken on trust.
 
-Evaluation uses public polysomnography databases, including Sleep-EDF (ST and SC), MASS SS3,
-and the Sleep Heart Health Study.
+The most recent step moves from labelling whole epochs to locating individual events. Sleep
+spindles are second-long bursts whose count, duration and frequency carry clinical signal in
+schizophrenia, depression and apnoea, and marking them demands a temporal precision that a
+foundation model's token grid does not natively offer. Adapting a pretrained sleep encoder to
+that task showed both that the mismatch is real and where it is solved: the pretrained stream
+supplies useful context, but the precision comes from a purpose-built time-frequency branch that
+keeps detail below the token scale, reaching an event-level F1 of 0.80 against a physician's
+annotations and edging past the published BLAST and SUMO detectors under a common protocol. Two
+results deserve to be read alongside that number. A transformer trained from scratch matched the
+frozen foundation encoder at this scale, so pretraining bought context rather than accuracy. And
+on transfer to another annotated corpus, which set of expert annotations the detector had been
+trained on mattered far more than its architecture, F1 falling from 0.65 to as low as 0.10 across
+scorers of the same recordings. That is the staging lesson arriving from a second direction: what
+a model scores at home says little about what it does elsewhere, and here the labels, not the
+architecture, are what travel badly.
+
+Evaluation uses public polysomnography databases, including Sleep-EDF (ST and SC), MASS SS2 and
+SS3, the MODA consensus spindle annotations, and the Sleep Heart Health Study.
