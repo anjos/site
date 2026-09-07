@@ -12,7 +12,7 @@ summary: >-
   distributions so that comparisons come with honest uncertainty.
 projects:
   - "reproducibility"
-report: "https://publidiap.idiap.ch/attachments/reports/2022/Morais_Idiap-Com-01-2023.pdf"
+report: "https://www.idiap.ch/~aanjos/pdfs/theses/antonio-morais.pdf"
 research_outputs:
   - "anjos_credible_2023"
 partners:
