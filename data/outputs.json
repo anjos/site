@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-13T11:34:41Z",
+  "generated": "2026-09-07T14:43:43Z",
   "source": "zotero:users/5992358/publications",
   "count": 145,
   "entries": [
@@ -20,7 +20,7 @@
       "year": 2026,
       "month": 9,
       "doi": null,
-      "url": "https://publications.idiap.ch/publications/show/5886",
+      "url": null,
       "pdf": "https://api.zotero.org/users/5992358/publications/items/AC37PC75/file",
       "type": "Conference Paper",
       "typeslug": "conferences",
@@ -93,6 +93,31 @@
     },
     {
       "authors": [
+        "Roberto Pulvirenti",
+        "Oscar Jimenez-del-Toro",
+        "Mattia Tomasoni",
+        "Florence Hoogewoud",
+        "André Anjos"
+      ],
+      "title": "When Specialization Helps (and Hurts): Cross-Modality Transfer in Ophthalmic Imaging with Foundation Models",
+      "container": "2026 IEEE 23rd International Symposium on Biomedical Imaging",
+      "year": 2026,
+      "month": 4,
+      "doi": "10.1109/isbi61048.2026.11515636",
+      "url": "https://www.idiap.ch/paper/retinal-fm-specialization/",
+      "pdf": null,
+      "type": "Conference Paper",
+      "typeslug": "conferences",
+      "software": "https://gitlab.idiap.ch/medai/software/paper/fm-overspecialization",
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
+      "key": "pulvirenti_when_2026",
+      "related": []
+    },
+    {
+      "authors": [
         "Dilermando Queiroz Neto",
         "Anderson Carlos",
         "André Anjos",
@@ -113,31 +138,6 @@
       "pages": null,
       "number": null,
       "key": "queirozneto_fair_2026",
-      "related": []
-    },
-    {
-      "authors": [
-        "Roberto Pulvirenti",
-        "Oscar Jimenez-del-Toro",
-        "Mattia Tomasoni",
-        "Florence Hoogewoud",
-        "André Anjos"
-      ],
-      "title": "When Specialization Helps (and Hurts): Cross-Modality Transfer in Ophthalmic Imaging with Foundation Models",
-      "container": "2026 IEEE 23rd International Symposium on Biomedical Imaging",
-      "year": 2026,
-      "month": 0,
-      "doi": "10.1109/isbi61048.2026.11515636",
-      "url": "https://www.idiap.ch/paper/retinal-fm-specialization/",
-      "pdf": null,
-      "type": "Conference Paper",
-      "typeslug": "conferences",
-      "software": "https://gitlab.idiap.ch/medai/software/paper/fm-overspecialization",
-      "volume": null,
-      "issue": null,
-      "pages": null,
-      "number": null,
-      "key": "pulvirenti_when_2026",
       "related": []
     },
     {
