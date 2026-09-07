@@ -508,7 +508,7 @@ hooks once with `pixi run prek install --install-hooks`.
 | when | what | cost |
 |---|---|---|
 | **pre-commit** | whitespace/TOML/JSON/YAML hygiene, no submodules, `ruff` on `tools/` | offline, instant |
-| **`pixi run validate`** | `lint` + `test` + `check-content` + `check-outputs` + `check-featured` + `check-funding` + `check-interests` + `check-links` (which builds first) — **exactly what CI runs** | network, ~10 s |
+| **`pixi run validate`** | `lint` + `test` + `check-content` + `check-outputs` + `check-featured` + `check-funding` + `check-interests` + `check-links` + `check-links-idiap` (the first of the two builds first) — **exactly what CI runs** | network, ~10 s |
 
 The order makes failures fast and legible: offline before network, the build last,
 and `test` ahead of both checkers because it covers the code they run
@@ -517,7 +517,21 @@ and `test` ahead of both checkers because it covers the code they run
 as a named assertion rather than as a puzzling content error or Zotero diff.
 
 Each check also runs alone: `check-content`, `check-outputs`, `check-featured`,
-`check-funding`, `check-interests`, `check-links`, `check-sync`, `lint`. `check-links` declares `depends-on = ["build"]`, so it is
+`check-funding`, `check-interests`, `check-links`, `check-links-idiap`,
+`check-sync`, `lint`.
+
+**The link check is two runs, and they partition the site between them.**
+Idiap's GitLab does not answer cloud CI runners, so `lychee.toml` excludes
+`gitlab.idiap.ch` and `check-links-idiap` (`lychee-idiap.toml` +
+`tools/check-links-idiap.sh`) checks exactly that host: fatal on a workstation,
+where a dead repo link is real, and a warning under CI, where a failure says
+nothing about the link. Every link is still checked once — the two runs' "OK"
+counts sum to what the single run reported. A host excluded in `lychee.toml`
+and claimed by neither run is a host nobody checks, so keep the pair in step.
+Note `include` is an allowlist only in a config with **no** `exclude` key; that
+is why this needs a second config file rather than an `--include` flag.
+
+`check-links` declares `depends-on = ["build"]`, so it is
 correct standalone and never link-checks a stale `public/`; `build` in turn
 declares `depends-on = ["cv"]`, which is the whole chain — CV data, CV PDF, site,
 links — in one order that never races. `check-sync` is a

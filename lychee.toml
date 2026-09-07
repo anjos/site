@@ -37,4 +37,11 @@ exclude = [
   # and `/software/bob/` pages were retired differently, and now point at
   # GitLab (`Docs:` in their Zotero items), where they are checked normally.
   "^https://www\\.idiap\\.ch/software/beat/platform/",
+  # Idiap's GitLab does not answer reliably from cloud CI runners (GitHub
+  # Actions), while it is perfectly reachable from Idiap. Excluding it here
+  # keeps `check-links` a hard gate for everything else; the URLs themselves
+  # are still checked by `check-links-idiap`, which uses --include to override
+  # this line and is fatal locally but only warns under CI. Keep the two in
+  # step: a host listed here and nowhere else is a host nobody checks.
+  "gitlab\\.idiap\\.ch",
 ]
