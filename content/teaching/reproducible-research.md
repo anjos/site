@@ -58,7 +58,7 @@ least 5 hours each.
 - Introduction and programming background: the need for reproducibility, how to
   encode databases and protocols, and the tools for reproducible research in the
   wild
-- Python and [Bob](https://www.idiap.ch/software/bob/): building database
+- Python and [Bob](https://gitlab.idiap.ch/bob): building database
   packages, using Python and Bob for basic machine learning, and putting it all
   together
 - Going social with the [BEAT platform](https://www.idiap.ch/software/beat/platform/):

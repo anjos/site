@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-07T14:43:43Z",
+  "generated": "2026-09-07T15:14:35Z",
   "source": "zotero:users/5992358/publications",
   "count": 145,
   "entries": [
@@ -1355,7 +1355,7 @@
       "summary": "A web-based open-science platform for running, sharing, and reusing reproducible machine-learning experiments with secure access to data and code, even when the underlying data cannot be published.",
       "links": {
         "repo": "https://gitlab.idiap.ch/beat",
-        "docs": "https://www.idiap.ch/software/beat/",
+        "docs": "https://gitlab.idiap.ch/groups/beat/-/inactive",
         "pypi": null,
         "conda": null
       },
@@ -1467,7 +1467,7 @@
       "summary": "A free signal-processing and machine-learning toolbox developed at Idiap: a comprehensive, Python-first framework to build, experiment with, and reproduce pattern-recognition and machine-learning workflows.",
       "links": {
         "repo": "https://gitlab.idiap.ch/bob/bob",
-        "docs": "https://www.idiap.ch/software/bob/",
+        "docs": "https://gitlab.idiap.ch/bob",
         "pypi": "https://pypi.org/project/bob/",
         "conda": "https://anaconda.org/conda-forge/bob"
       },

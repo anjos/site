@@ -8,7 +8,7 @@ summary: >-
 ---
 
 This talk leverages experience from the development of
-[Bob](https://www.idiap.ch/software/bob/), a framework for reproducible
+[Bob](https://gitlab.idiap.ch/bob), a framework for reproducible
 research, and the [BEAT platform](https://www.idiap.ch/software/beat/platform/),
 a web platform for the same purpose. It describes how the two are connected, and
 the model they implement for reproducible research in data sciences.

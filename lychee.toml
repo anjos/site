@@ -35,4 +35,11 @@ exclude = [
   # accepts, so no link checker can verify it. The URLs themselves are live
   # (verified with `curl -k`: HTTP 200).
   "publidiap\\.idiap\\.ch",
+  # The BEAT platform keeps its own URL as the canonical reference to the
+  # platform, even though the service is retired and the host now answers 503.
+  # The link is deliberate, so the checker must not fail a deploy over it. Note
+  # this excludes only `/software/beat/platform/`: the bare `/software/beat/`
+  # and `/software/bob/` pages were retired differently, and now point at
+  # GitLab (`Docs:` in their Zotero items), where they are checked normally.
+  "^https://www\\.idiap\\.ch/software/beat/platform/",
 ]
