@@ -88,6 +88,16 @@ A thesis is defined by its links — wire them explicitly:
 - **Project** (`projects:`) — one or more existing project ids (folder names under
   `content/projects/`). The thesis then appears under each project's "Supervised
   theses". If none fits, create one first with `add-project`.
+
+  **Listing the thesis is not the same as accounting for it.** That listing is
+  automatic; the project's "Major achievements" narrative is not, and a thesis that
+  moved the research on leaves that narrative silently out of date. So after writing
+  the page, **re-read `content/projects/<id>/index.md` and decide, explicitly,
+  whether the prose still describes where the project stands.** Extend it when the
+  thesis added a result, a direction, or a limitation the narrative does not carry;
+  say so and leave it alone when the work only confirms what is already written.
+  Keep the project's own voice ("we"), not the thesis page's impersonal one, and
+  update its closing list of evaluation databases if new ones were used.
 - **Research outputs** (`research_outputs:`) — papers, datasets, and **software** that
   came out of the thesis, by DOI or `key`. To add a *new* output, use
   `add-zotero-output` (which can also link it back here), then `pixi run outputs`.
@@ -117,4 +127,6 @@ Keep it scientific but readable for a non-specialist who is looking André up.
 pixi run idiap-push   # only if idiap-public/ changed; must precede the gate
 pixi run validate     # the whole gate: tests, content, build, links
 ```
-Confirm the thesis appears at `/theses/` and under `/projects/<project-id>/`.
+Confirm the thesis appears at `/theses/` and under `/projects/<project-id>/`, and
+that the project's narrative accounts for it (see "Connections" above) rather than
+merely listing it.

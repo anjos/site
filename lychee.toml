@@ -30,9 +30,18 @@ exclude = [
   # Vimeo's embed endpoint 403s any non-browser client (the video is unlisted
   # and embed-restricted). The canonical page vimeo.com/<id> is checked instead.
   "player\\.vimeo\\.com",
-  # Idiap's report repository serves a certificate from Idiap's own private CA
-  # ("Idiap SSL Servers CA 2016", 10-year validity), which no public trust store
-  # accepts, so no link checker can verify it. The URLs themselves are live
-  # (verified with `curl -k`: HTTP 200).
-  "publidiap\\.idiap\\.ch",
+  # The BEAT platform keeps its own URL as the canonical reference to the
+  # platform, even though the service is retired and the host now answers 503.
+  # The link is deliberate, so the checker must not fail a deploy over it. Note
+  # this excludes only `/software/beat/platform/`: the bare `/software/beat/`
+  # and `/software/bob/` pages were retired differently, and now point at
+  # GitLab (`Docs:` in their Zotero items), where they are checked normally.
+  "^https://www\\.idiap\\.ch/software/beat/platform/",
+  # Idiap's GitLab does not answer reliably from cloud CI runners (GitHub
+  # Actions), while it is perfectly reachable from Idiap. Excluding it here
+  # keeps `check-links` a hard gate for everything else; the URLs themselves
+  # are still checked by `check-links-idiap`, which uses --include to override
+  # this line and is fatal locally but only warns under CI. Keep the two in
+  # step: a host listed here and nowhere else is a host nobody checks.
+  "gitlab\\.idiap\\.ch",
 ]

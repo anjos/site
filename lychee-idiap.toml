@@ -1,0 +1,22 @@
+# Link-checker configuration for the gitlab.idiap.ch links ONLY.
+#
+# Companion to lychee.toml, which excludes that host because cloud CI runners
+# cannot reach it. This file checks exactly what that one skips, so the two
+# together still cover every link on the site. Driven by
+# tools/check-links-idiap.sh (`pixi run check-links-idiap`), which decides
+# whether a failure here is fatal.
+#
+# `include` is an allowlist ONLY while there is no `exclude` key in the same
+# config: with both present lychee treats `include` as an override *of* the
+# exclude list and still checks everything else. That is why this is a separate
+# file rather than a --include flag on the main run, and why no `exclude` may
+# be added below. Keep the settings above `include` in step with lychee.toml.
+no_progress = true
+cache = true
+max_cache_age = "2d"
+timeout = 20
+max_retries = 2
+retry_wait_time = 2
+accept = ["200..=206", "429"]
+
+include = ["gitlab\\.idiap\\.ch"]
