@@ -37,6 +37,7 @@ import collections.abc
 import json
 import sys
 import time
+import urllib.parse
 
 import zotero_common as zc
 
@@ -120,6 +121,29 @@ def _self_external_id(detail: dict) -> dict:
     return {}
 
 
+def _project_url(url: str | None) -> str | None:
+    """Migrate legacy Idiap project links to their current public paths.
+
+    Parameters
+    ----------
+    url
+        The official grant URL from ORCID, or None when absent.
+
+    Returns
+    -------
+    str or None
+        Idiap project URLs with the new path and lowercase slug. Other URLs,
+        query strings and fragments are preserved.
+    """
+    if url is None:
+        return None
+    parts = urllib.parse.urlsplit(url)
+    prefix = "/en/scientific-research/projects/"
+    if parts.hostname in ("www.idiap.ch", "idiap.ch") and parts.path.startswith(prefix):
+        parts = parts._replace(path="/en/projects/" + parts.path[len(prefix):].lower())
+    return urllib.parse.urlunsplit(parts)
+
+
 def build_entry(detail: dict) -> dict:
     """Reduce one ORCID funding record to the fields the site renders.
 
@@ -155,8 +179,10 @@ def build_entry(detail: dict) -> dict:
         "currency": amount.get("currency-code"),
         # The grant's official page: ORCID's own `url` when set, else the
         # identifier's resolver (this is where the SNSF grant links come from).
-        "url": ((detail.get("url") or {}) or {}).get("value")
-        or ((eid.get("external-id-url") or {}) or {}).get("value"),
+        "url": _project_url(
+            ((detail.get("url") or {}) or {}).get("value")
+            or ((eid.get("external-id-url") or {}) or {}).get("value")
+        ),
         "grant_number": eid.get("external-id-value"),
         "description": description or None,
     }

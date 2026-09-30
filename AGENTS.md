@@ -289,6 +289,11 @@ by closing date (start date when a grant has no end), the abstract folds into a
 meta line and appear inside that same disclosure, so a grant with an amount but
 no abstract still gets one.
 
+Legacy Idiap project URLs from ORCID are normalised during generation:
+`/en/scientific-research/projects/<NAME>` becomes `/en/projects/<name>`.
+Both UPDATE and CHECK apply this migration, so an old URL on ORCID cannot
+reintroduce the retired path or cause false staleness.
+
 ### Grants you did not lead
 
 There is one exception to "ORCID is the source of truth", and it is deliberate:

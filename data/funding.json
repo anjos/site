@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-30T15:42:09Z",
+  "generated": "2026-09-30T16:04:27Z",
   "source": "orcid:0000-0001-7248-4014/fundings",
   "count": 12,
   "entries": [
@@ -55,7 +55,7 @@
       "end": "2027-02",
       "amount": 99897.0,
       "currency": "CHF",
-      "url": "https://www.idiap.ch/en/scientific-research/projects/DREAM",
+      "url": "https://www.idiap.ch/en/projects/dream",
       "grant_number": null,
       "description": "Project DREAM aims to develop a scalable foundation model for  multi-channel EEG signal analysis, spanning from basic polysomnography  to high-density and intracranial recordings. The goal is to create a  unified AI model capable of adapting to various EEG configurations while maintaining simplicity, interpretability, and computational efficiency. By leveraging convolutional neural networks and attention mechanisms,  the model will extract robust features for diverse tasks, including  sleep stage classification, epilepsy detection, and cognitive function  assessment. Collaborations with leading hospitals will provide  real-world datasets for validation, ensuring the model’s generalization. Ultimately, this project seeks to advance AI-driven biomedical signal  processing, enhancing diagnostic and monitoring capabilities in  neurology and sleep medicine."
     },
@@ -69,7 +69,7 @@
       "end": "2026-06",
       "amount": 115980.0,
       "currency": "CHF",
-      "url": "https://www.idiap.ch/en/scientific-research/projects/VALIDATE-H",
+      "url": "https://www.idiap.ch/en/projects/validate-h",
       "grant_number": null,
       "description": "Can we deploy artificial intelligence (AI) models developed in other countries, e.g. China, in the Valais healthcare system? Through the Cantonal Prevention and Health Promotion Strategy, Horizon 2030, the canton of Valais aims to enhance the effectiveness of prevention and health promotion for the entire population. The initial intersectional focus in PPS2030 addresses the principle of equal opportunities, highlighting the urgent need to include all demographic groups—especially vulnerable populations—in health-related initiatives.\n\nProject VALIDATE-H will develop an evaluation framework for artificial intelligence models in healthcare (AIMH) with two main objectives: 1. Validate and monitor the clinical utility of AIMH, pre-trained with international datasets, in population-specific settings and applications relevant for the Valais healthcare system, and 2. Fine-tune these models to mitigate potential demographic biases in a fair, transparent and accountable way. The project will first select target population groups and applications for AIMH, then, using distribution metrics, fairness criteria and explainability, VALIDATE-H will match local settings to those found on international datasets and models.\n\nVALIDATE-H will allow for a continuous assessment of AIMH, monitoring and updating the knowledge regarding potential barriers that might hinder the adaptation and adoption of artificial intelligence in the Valaisan healthcare system. Our consortium is well-equipped to tackle the objectives mentioned above with complementary expertise on machine learning, computer vision and medical data processing (Idiap), together with distributed and explainable AI, and multi-agent systems (HES-SO). Finally, the expertise from our partner in the Observatoire Valaisan de la Santé (OVS), will ground the direction of the project into concrete applications for the Valais population and cantonal health systems."
     },
@@ -125,7 +125,7 @@
       "end": "2023-11",
       "amount": 200000.0,
       "currency": "CHF",
-      "url": "https://www.idiap.ch/en/scientific-research/projects/CAD4IED",
+      "url": "https://www.idiap.ch/en/projects/cad4ied",
       "grant_number": null,
       "description": "Fluorescein angiography (FA) is a unique tool for the analysis of the retinal vasculature in both its morphology and its function: it is the only clinical method that allows to evaluate the function and integrity of the blood-retinal barrier, providing means for the detection and grading of inflammatory diseases affecting blood vessels in the eye (Vasculitis). FA is an invasive technique involving a non-negligible level of risk for the patient. The interpretation of an angiography is intrinsically challenging, requiring years of clinical experience. The overarching objective of this proposal is to develop and (clinically) validate a system to automatically detect and grade inflammatory eye diseases, with minimal risk, allowing for better patient management and care. This proposal also represents the first attempt to automatically grade angiography images and holds the potential to help doctors in the challenging interpretation of these data, delivering cutting edge machine learning solutions that would support clinicians at our hospitals, and benefit the scientific community at large. To reduce risk for the patient, we will search for novel biomarkers from other ophthalmic imaging modalities, such as fundus images, that would be less invasive, cheaper and safer to acquire, but correlate well with inflammatory diseases. In this pilot project, we propose to establish data, annotations, and develop a prototype grading system (machine learning model), to automatically evaluate inflammatory signs from FA images. A preliminary study on novel biomarkers from alternate modalities will complement this phase of our project. We intend to disseminate our work via scientific articles to be submitted to medical and computational journals. If this pilot is successful, a follow-up project will be submitted."
     },
