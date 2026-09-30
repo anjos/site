@@ -531,6 +531,12 @@ and claimed by neither run is a host nobody checks, so keep the pair in step.
 Note `include` is an allowlist only in a config with **no** `exclude` key; that
 is why this needs a second config file rather than an `--include` flag.
 
+Temporary exception: `check-links` also checks the exact URL
+`https://www.idiap.ch/en/projects/imagin-air` through `lychee-warnings.toml`
+and reports failures as a warning. The correct project URL is currently
+unavailable. Remove its exclusion from `lychee.toml` and its warning allowlist
+entry once the page is available; all other ordinary links remain fatal.
+
 `check-links` declares `depends-on = ["build"]`, so it is
 correct standalone and never link-checks a stale `public/`; `build` in turn
 declares `depends-on = ["cv"]`, which is the whole chain — CV data, CV PDF, site,

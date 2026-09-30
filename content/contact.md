@@ -21,7 +21,7 @@ summary: "How to reach me (in order of preference)."
 
 **Post:**
 André Anjos\
-[Idiap Research Institute](https://www.idiap.ch/en/about/visit-us)\
+[Idiap Research Institute](https://www.idiap.ch/)\
 Rue Marconi 19\
 1920 Martigny\
 Switzerland

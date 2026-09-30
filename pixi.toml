@@ -62,7 +62,7 @@ check-interests = "python tools/update-interests.py --check"
 # Every link in the built site; fails on any dead link. It reads ./public, so it
 # *builds* first — declared, not assumed, so it is correct standalone and in any
 # order inside `validate`. --root-dir resolves root-relative (/foo) links.
-check-links = { cmd = "lychee --config lychee.toml --root-dir \"$PIXI_PROJECT_ROOT/public\" public", depends-on = ["build"] }
+check-links = { cmd = "sh tools/check-links.sh", depends-on = ["build"] }
 # The gitlab.idiap.ch links, which lychee.toml excludes from check-links above
 # because cloud CI runners cannot reach that host. This task checks exactly that
 # host (via lychee-idiap.toml), so the two runs together still cover every link.

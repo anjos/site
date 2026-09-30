@@ -14,6 +14,10 @@ accept = ["200..=206", "429"]
 # Hosts that block automated checkers (return 999/403 to bots) or heavily
 # rate-limit. DOIs are already validated upstream via Crossref/ORCID.
 exclude = [
+  # Temporary: the correct IMAGIN-AIR project URL currently returns 404.
+  # Still checked with a warning by tools/check-links.sh; remove this entry
+  # and lychee-warnings.toml's include entry once the page is available.
+  "^https://www\\.idiap\\.ch/en/projects/imagin-air$",
   # Own domain: canonical/og:url point at the production site, which only
   # resolves post-deploy. Internal links are checked via root-relative paths.
   "^https://anjos\\.ai",
