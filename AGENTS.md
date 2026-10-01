@@ -289,6 +289,11 @@ by closing date (start date when a grant has no end), the abstract folds into a
 meta line and appear inside that same disclosure, so a grant with an amount but
 no abstract still gets one.
 
+Legacy Idiap project URLs from ORCID are normalised during generation:
+`/en/scientific-research/projects/<NAME>` becomes `/en/projects/<name>`.
+Both UPDATE and CHECK apply this migration, so an old URL on ORCID cannot
+reintroduce the retired path or cause false staleness.
+
 ### Grants you did not lead
 
 There is one exception to "ORCID is the source of truth", and it is deliberate:
@@ -521,15 +526,16 @@ Each check also runs alone: `check-content`, `check-outputs`, `check-featured`,
 `check-sync`, `lint`.
 
 **The link check is two runs, and they partition the site between them.**
-Idiap's GitLab does not answer cloud CI runners, so `lychee.toml` excludes
-`gitlab.idiap.ch` and `check-links-idiap` (`lychee-idiap.toml` +
-`tools/check-links-idiap.sh`) checks exactly that host: fatal on a workstation,
-where a dead repo link is real, and a warning under CI, where a failure says
-nothing about the link. Every link is still checked once — the two runs' "OK"
-counts sum to what the single run reported. A host excluded in `lychee.toml`
-and claimed by neither run is a host nobody checks, so keep the pair in step.
-Note `include` is an allowlist only in a config with **no** `exclude` key; that
-is why this needs a second config file rather than an `--include` flag.
+Temporarily, `idiap.ch` and all its subdomains are unstable. `lychee.toml`
+excludes exactly those hosts, and `check-links-idiap` (`lychee-idiap.toml` +
+`tools/check-links-idiap.sh`) checks them and reports failures as warnings,
+both locally and in CI. Other ordinary broken links remain fatal. Every
+Idiap URL is still checked, including GitLab and the IMAGIN-AIR project page.
+
+Keep the main exclusion and the Idiap allowlist in step. `include` is an
+allowlist only in a config with **no** `exclude` key. Once the domain is stable,
+restore strict checks for its public pages and the earlier GitLab policy
+(fatal locally, warnings under CI).
 
 `check-links` declares `depends-on = ["build"]`, so it is
 correct standalone and never link-checks a stale `public/`; `build` in turn

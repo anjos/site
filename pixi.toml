@@ -63,10 +63,8 @@ check-interests = "python tools/update-interests.py --check"
 # *builds* first — declared, not assumed, so it is correct standalone and in any
 # order inside `validate`. --root-dir resolves root-relative (/foo) links.
 check-links = { cmd = "lychee --config lychee.toml --root-dir \"$PIXI_PROJECT_ROOT/public\" public", depends-on = ["build"] }
-# The gitlab.idiap.ch links, which lychee.toml excludes from check-links above
-# because cloud CI runners cannot reach that host. This task checks exactly that
-# host (via lychee-idiap.toml), so the two runs together still cover every link.
-# Fatal locally, a warning under CI — see tools/check-links-idiap.sh for why.
+# Temporary: idiap.ch and its subdomains are unstable. This task checks those
+# URLs with warnings locally and in CI; all other ordinary links remain fatal.
 check-links-idiap = { cmd = "sh tools/check-links-idiap.sh", depends-on = ["build"] }
 # Everything in idiap-public/ is already published. Dry run; fails and names the
 # files if not. Needs SSH, so it is never part of a composite gate and never runs

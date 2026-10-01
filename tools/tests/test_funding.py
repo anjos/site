@@ -175,6 +175,24 @@ def test_url_falls_back_to_the_identifier_resolver():
     assert uf.build_entry(DETAILS[2])["url"] == "https://example.org/fairmi"
 
 
+def test_legacy_idiap_project_url_is_migrated():
+    """ORCID's legacy URLs must produce current project links in both modes."""
+    detail = dict(DETAILS[2], url={"value":
+        "https://www.idiap.ch/en/scientific-research/projects/VALIDATE-H?lang=EN#Overview"})
+    assert uf.build_entry(detail)["url"] == (
+        "https://www.idiap.ch/en/projects/validate-h?lang=EN#Overview")
+
+
+def test_project_url_migration_preserves_other_hosts_and_current_paths():
+    """The migration applies only to legacy project paths on Idiap's host."""
+    for url in (
+        "https://example.org/en/scientific-research/projects/FEDARS",
+        "https://www.idiap.ch/en/projects/fedars",
+        "https://www.idiap.ch/en/research/groups/medical-artificial-intelligence",
+    ):
+        assert uf.build_entry(dict(DETAILS[2], url={"value": url}))["url"] == url
+
+
 # --------------------------------------------------------------------------- #
 # Check mode
 # --------------------------------------------------------------------------- #

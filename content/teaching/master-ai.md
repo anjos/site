@@ -71,10 +71,8 @@ days in general to deliver it.
 
 - [Moodle](https://moodle.fernuni.ch/) hosts the slides and further course
   material for all modules (enrolment required)
-- Assignments and mini-projects are delivered as
-  [Jupyter notebooks](https://jupyter.org) through Idiap's
-  [JupyterHub](https://lab.idiap.ch/devel/hub/jhub/), so no software
-  installation is required on the student's laptop
+- Assignments and mini-projects were delivered as
+  [Jupyter notebooks](https://jupyter.org).
 
 *Cover: [Idiap building](https://commons.wikimedia.org/wiki/File:Idiap_building.jpg)
 by the Idiap Research Institute, used with attribution.*

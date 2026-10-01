@@ -1,31 +1,14 @@
-# Link-checker configuration for the gitlab.idiap.ch links ONLY.
+# SPDX-FileCopyrightText: Copyright © 2026 Idiap Research Institute <contact@idiap.ch>
 #
-# Companion to lychee.toml, which excludes that host because cloud CI runners
-# cannot reach it. This file checks exactly what that one skips, so the two
-# together still cover every link on the site. Driven by
-# tools/check-links-idiap.sh (`pixi run check-links-idiap`), which decides
-# whether a failure here is fatal.
-#
-# `include` is an allowlist ONLY while there is no `exclude` key in the same
-# config: with both present lychee treats `include` as an override *of* the
-# exclude list and still checks everything else. That is why this is a separate
-# file rather than a --include flag on the main run, and why no `exclude` may
-# be added below. Keep the settings above `include` in step with lychee.toml.
+# SPDX-License-Identifier: BSD-3-Clause
+# Temporary warning-only checks for idiap.ch and every subdomain while the
+# domain is unstable. Keep this allowlist in step with lychee.toml's exclusion.
+# No exclude key: include is an allowlist only when exclude is absent.
 no_progress = true
 cache = true
 max_cache_age = "2d"
 accept = ["200..=206", "429"]
-
-# Deliberately far below lychee.toml's 20s/2 retries, because the two runs are
-# waiting for different things. Under CI this host does not answer at all, so
-# every request here burns the full timeout before the warning: at 20s with 2
-# retries that measured 6m40s of dead wall-clock, which is the whole cost of
-# this check on GitHub. From Idiap the host is fast — 0.54s for the slowest of
-# these URLs, 1.9s for the entire uncached run — so 5s is still ~10x headroom
-# and a local failure remains a real one. One retry, not none: a local failure
-# is fatal, so a transient blip should not stop a commit.
 timeout = 5
 max_retries = 1
 retry_wait_time = 1
-
-include = ["gitlab\\.idiap\\.ch"]
+include = ["^https?://([A-Za-z0-9-]+\\.)*idiap\\.ch(:[0-9]+)?(/|$)"]
