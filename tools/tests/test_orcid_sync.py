@@ -302,17 +302,18 @@ def test_patch_form_rejects_an_unknown_diff_field():
     """field_diffs growing a row this tool cannot apply must fail loudly, not
     silently report success while leaving ORCID stale."""
     with pytest.raises(ValueError, match="no patch rule"):
-        so.patch_form({}, zrec(), [("abstract", "—", "something")])
+        so.patch_form({}, zrec(), [("subtitle", "—", "something")])
 
 
 def test_every_field_diffs_row_has_a_patch_rule():
     """The coverage guard: drive field_diffs to emit every row it can, and prove
     patch_form handles all of them."""
     z = zrec(doi="10.1/x", pdf="https://z/p.pdf", orcid_type="software",
-             container="Nature", year=2024)
-    o = owork(doi=None, url=None, type="journal-article", container=None, year=2023)
+             container="Nature", year=2024, abstract="We show a thing.")
+    o = owork(doi=None, url=None, type="journal-article", container=None, year=2023,
+              abstract=None)
     diffs = zc.field_diffs(z, o)
-    assert len(diffs) == 5, "fixture should trigger every rule"
+    assert len(diffs) == 6, "fixture should trigger every rule"
     so.patch_form({"workExternalIdentifiers": []}, z, diffs)  # must not raise
 
 
@@ -1610,3 +1611,13 @@ def test_auto_mode_starts_headless(monkeypatch):
     with so.session(pathlib.Path("/tmp/nope")) as (_ctx, csrf):
         assert csrf == "tok"
     assert launched == [True]
+
+
+def test_abstract_diff_ignores_reflow():
+    """The abstract tracks Zotero, but only an actual change counts as drift."""
+    z = zrec(abstract="One line.\nTwo  lines.")
+    assert zc.field_diffs(z, owork(abstract="One line. Two lines.")) == []
+    rows = zc.field_diffs(z, owork(abstract=None))
+    assert [r[0] for r in rows] == ["abstract"]
+    form = so.patch_form({"workExternalIdentifiers": []}, z, rows)
+    assert form["shortDescription"]["value"] == z["abstract"]

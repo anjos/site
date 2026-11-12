@@ -1088,6 +1088,7 @@ def enrich_orcid_works(works: list[dict]) -> list[dict]:
         detail = details.get(code)
         if detail is not None:
             w["language"] = detail.get("language-code")
+            w["abstract"] = detail.get("short-description")
             citation = detail.get("citation") or {}
             w["citation"] = citation.get("citation-value")
             w["citation_type"] = citation.get("citation-type")
@@ -1109,7 +1110,8 @@ def zotero_records(user_id: str) -> list[dict]:
     Returns
     -------
     list of dict
-        One record per work, with ``title``, ``slug``, ``authors``, ``doi``,
+        One record per work, with ``title``, ``slug``, ``authors``,
+        ``abstract``, ``doi``,
         ``orcid_type``, ``container``, ``year``, ``url`` and ``pdf``. Attachments
         and notes are skipped; a work's first public PDF attachment becomes
         ``pdf``.
@@ -1133,6 +1135,7 @@ def zotero_records(user_id: str) -> list[dict]:
             "slug": slug_title(d.get("title") or ""),
             "key": d.get("citationKey"),
             "authors": authors_of(d),
+            "abstract": (d.get("abstractNote") or "").strip() or None,
             "language": detect_language(d.get("title") or ""),
             "identifiers": work_identifiers(d),
             "doi": doi,
@@ -1385,6 +1388,13 @@ def field_diffs(z: dict, o: dict) -> list[tuple[str, str, str]]:
                      authors_summary(z["authors"])))
     if "language" in o and z.get("language") and z["language"] != o["language"]:
         rows.append(("language", o["language"] or "—", z["language"]))
+    # ORCID's short-description. Whitespace-insensitive, like the citation: a
+    # re-flowed abstract is not drift.
+    if "abstract" in o and z.get("abstract") and (
+        " ".join(z["abstract"].split()) != " ".join((o["abstract"] or "").split())
+    ):
+        rows.append(("abstract", f"{len(o['abstract'])} chars" if o["abstract"] else "—",
+                     f"{len(z['abstract'])} chars"))
     for ident in missing_identifiers(z, o):
         rows.append(("identifier", "—",
                      f"{ident['type']}: {ident['value']} ({ident['relationship']})"))

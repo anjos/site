@@ -82,6 +82,11 @@ pixi run portal-entry <citation key>   # the form: fields + proposed project/pro
    pass. Its `WARN:` lines name older records that lack a project or a main
    program; fix them on publidiap while you are there.
 
+**The abstract belongs in Zotero.** If the form says it was borrowed from
+OpenAlex or Semantic Scholar, store it in Zotero with the printed
+`edit_zotero_item.py` command. Then run `pixi run outputs` and
+`pixi run orcid-sync --apply`, so ORCID carries it too.
+
 `portal-entry` warns at the top if the work is already on the portal: edit that
 record instead of creating a duplicate.
 

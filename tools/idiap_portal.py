@@ -296,15 +296,16 @@ def _lookup(entry: dict) -> dict[str, object]:
     Returns
     -------
     dict[str, object]
-        ``abstracts`` (a list of ``(source, text)``, OpenAlex first) and
-        ``alternates`` (other names Semantic Scholar knows the venue by).
+        ``abstracts`` (a list of ``(source, text)``, OpenAlex first),
+        ``keywords`` (OpenAlex's, most relevant first) and ``alternates``
+        (other names Semantic Scholar knows the venue by).
     """
     import requests
 
     doi, title = entry.get("doi"), entry.get("title") or ""
     slug = zotero_common.slug_title(title)
     headers = {"User-Agent": zotero_common.USER_AGENT}
-    out: dict[str, object] = {"abstracts": [], "alternates": []}
+    out: dict[str, object] = {"abstracts": [], "keywords": [], "alternates": []}
 
     def get(url: str, **params) -> dict:
         r = requests.get(url, params=params, headers=headers, timeout=30)
@@ -320,6 +321,8 @@ def _lookup(entry: dict) -> dict[str, object]:
         text = abstract_from_index(work.get("abstract_inverted_index"))
         if text:
             out["abstracts"].append(("OpenAlex", text))
+        ranked = sorted(work.get("keywords") or [], key=lambda k: -k.get("score", 0))
+        out["keywords"] = [k["display_name"] for k in ranked if k.get("display_name")]
     except Exception:  # best effort — the form then says where to look
         pass
     try:
@@ -357,8 +360,8 @@ def prepare(
     zotero
         Zotero's BibTeX export, ``{citation key: entry}``.
     lookup
-        What :func:`_lookup` found elsewhere, filling in an abstract Zotero
-        lacks and a short name the venue title does not carry.
+        What :func:`_lookup` found elsewhere, filling in an abstract or keywords
+        Zotero lacks, and a short name the venue title does not carry.
 
     Returns
     -------
@@ -379,6 +382,8 @@ def prepare(
     short = short_name(venue, lookup.get("alternates")) if entry["type"] == "Conference Paper" else None
     found = [("Zotero", bib["abstract"])] if bib.get("abstract") else []
     source, abstract = (found + list(lookup.get("abstracts") or []) + [(None, None)])[0]
+    tags = _split(bib.get("keywords"))
+    keywords = ("Zotero", tags) if tags else ("OpenAlex", lookup.get("keywords") or [])
     first = (bib.get("author", "").split(" and ")[0].split(",")[0] or "Author").strip("{} ")
     first = unicodedata.normalize("NFKD", first).encode("ascii", "ignore").decode()  # Idiap keys are ASCII
     pages, counts = propose(entry, entries, records)
@@ -402,6 +407,12 @@ def prepare(
         ("Pages", entry.get("pages") or ""),
         ("DOI", entry.get("doi") or ""),
         ("URL", entry.get("url") or ""),
+        (
+            "Keywords",
+            f"{', '.join(keywords[1])}  (from {keywords[0]})"
+            if keywords[1]
+            else "— none in Zotero or OpenAlex; take them from the paper",
+        ),
         ("PDF", entry.get("pdf") or "— none public in Zotero; attach the accepted version"),
         ("Projects", top("projects")),
         ("Main program", top("mainresearchprogram")),
@@ -419,6 +430,17 @@ def prepare(
         "",
         f"Abstract (from {source}):" if source else "Abstract:",
         "  " + (" ".join(abstract.split()) if abstract else "— none in Zotero, OpenAlex or Semantic Scholar; copy it from the paper"),
+        "",
+        *(
+            [
+                "  ↳ Zotero has no abstract. Add it there, so the next `orcid-sync` carries it",
+                "    to ORCID too: pixi run python tools/edit_zotero_item.py "
+                + (f"--doi {entry['doi']}" if entry.get("doi") else "--key <ITEM_KEY>")
+                + ' --set "abstractNote=…"',
+            ]
+            if source != "Zotero"
+            else []
+        ),
         "",
         "Zotero BibTeX:",
         zotero.get(key, "— not found").strip(),
