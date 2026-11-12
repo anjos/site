@@ -70,6 +70,14 @@ check-links-idiap = { cmd = "sh tools/check-links-idiap.sh", depends-on = ["buil
 # files if not. Needs SSH, so it is never part of a composite gate and never runs
 # in CI — invoke it by hand after `idiap-push`.
 check-sync = "sh tools/check-idiap-sync.sh"
+# Every journal/conference/chapter paper of the last five years is on Idiap's
+# public publication portal; warns on records there with no project or main
+# research program. Key-less and VPN-less, but never in a composite gate: a new
+# paper is missing until entered by hand on publidiap and synced (hourly), and
+# that must not block a deploy.
+check-portal = "python tools/idiap_portal.py"
+# Print the publidiap form for one work: `pixi run portal-entry <citation key>`.
+portal-entry = "python tools/idiap_portal.py --prepare"
 # File hygiene only: whitespace, TOML/JSON/YAML, ruff, no submodules. Every
 # project-specific check is a pixi task in `validate`, never a prek hook, so
 # nothing is defined in two places.

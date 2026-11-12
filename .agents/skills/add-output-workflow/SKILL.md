@@ -1,6 +1,6 @@
 ---
 name: add-output-workflow
-description: End-to-end workflow to add a new research output to André's system — into Zotero (source of truth), then reflected to the website and reported for ORCID. Use when the user wants to fully add/publish a new output across all channels.
+description: End-to-end workflow to add a new research output to André's system — into Zotero (source of truth), then reflected to the website, ORCID and Idiap's publication portal. Use when the user wants to fully add/publish a new output across all channels.
 ---
 
 # Add-a-publication workflow
@@ -58,7 +58,34 @@ For the field-level detail behind a change, `pixi run orcid-sync --report` write
 the same difference to `orcid-sync-report.md` as a Markdown table. It touches no
 browser — the fallback if ORCID's frontend changes under the sync.
 
-## 4. Commit
+## 4. Mirror on Idiap's publication portal  (funding attribution)
+
+Idiap's funding reports read its own publication database, so every
+journal, conference and chapter paper of the last five years must also be there,
+with its **funding project** and **research programs** selected.
+
+```sh
+pixi run portal-entry <citation key>   # the form: fields + proposed project/programs
+```
+
+1. Bring up the VPN with the `idiap-vpn` fish function. It asks for the local
+   sudo password and then the Idiap one, so **the user runs it**, not the agent.
+2. Sign in to <https://publidiap.idiap.ch> with the Idiap login and create the
+   item from the printed fields. The status is *Published* when there is a DOI,
+   *Accepted* otherwise. Use the Idiap-style citation (`Lastname_VENUE_YEAR`),
+   and attach the PDF if one is allowed.
+3. **Project and programs**: the tool proposes what the work's sibling papers,
+   on the same site project page, already carry on the portal, with counts.
+   Confirm them against the grant that actually funded the work. A brand-new
+   grant has no siblings yet.
+4. The public copy refreshes hourly. Afterwards `pixi run check-portal` must
+   pass. Its `WARN:` lines name older records that lack a project or a main
+   program; fix them on publidiap while you are there.
+
+`portal-entry` warns at the top if the work is already on the portal: edit that
+record instead of creating a duplicate.
+
+## 5. Commit
 
 Branch first (`<verb>-<object>`, no slashes), then `wt step commit` — never
 hand-write the message (AGENTS.md). Commit `data/outputs.json` plus any
@@ -117,5 +144,6 @@ Register it now, correct it later — do **not** wait for the DOI.
   must be deleted in the Zotero GUI. Check `data/outputs.json` for the title first.
 - Tools: `tools/add_zotero_output.py`, `tools/update-site-outputs.py`
   (`outputs`), `tools/edit_zotero_item.py` (fix an existing item),
-  `tools/sync_orcid.py` (`orcid-sync`), shared logic in
+  `tools/sync_orcid.py` (`orcid-sync`), `tools/idiap_portal.py`
+  (`check-portal`, `portal-entry`), shared logic in
   `tools/zotero_common.py`.
