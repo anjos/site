@@ -381,7 +381,7 @@ def new_form(z: dict) -> dict:
         "workType": _text(z["orcid_type"]),
         "workExternalIdentifiers": [],
         "url": _text(z["pdf"] or z["url"]),
-        "shortDescription": _text(None),
+        "shortDescription": _text(z.get("abstract")),
         "languageCode": _text(z.get("language")),
         "visibility": {"visibility": "PUBLIC"},
     }
@@ -450,6 +450,8 @@ def patch_form(current: dict, z: dict, diffs: list[tuple[str, str, str]]) -> dic
             set_citation(form, z["bibtex"])
         elif field == "language":
             form["languageCode"] = _text(z["language"])
+        elif field == "abstract":
+            form["shortDescription"] = _text(z["abstract"])
         else:
             raise ValueError(
                 f"no patch rule for diff field {field!r} — add one here when "

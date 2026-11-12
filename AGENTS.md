@@ -57,7 +57,7 @@ assets/css/main.css    Theme styles (CSS custom properties for both themes)
 assets/fonts/          Self-hosted Source Serif 4 (subset woff2) — see below
 tools/                 zotero_common.py (shared), update-site-outputs.py,
                        update-funding.py, update-interests.py,
-                       sync_orcid.py, add_zotero_output.py,
+                       sync_orcid.py, idiap_portal.py, add_zotero_output.py,
                        edit_zotero_item.py, zotero_pdf.py (read a paper's PDF —
                        public or private — from Zotero), build-cv.py,
                        validate_content.py, tests
@@ -153,7 +153,9 @@ rather drive your own already-open window, that needs Chrome started with
 `--remote-debugging-port` and `connect_over_cdp` — deliberately not done here,
 since it exposes your whole browser to any local process.
 
-**Authors and language are synced too, and Zotero wins outright.** The author
+**Authors, language and abstract are synced too, and Zotero wins outright.**
+Zotero's `abstractNote` becomes ORCID's short description, compared without
+regard to whitespace; it is read from the documented API, like the language. The author
 list is compared in full, *including order*, and replaced wholesale rather than
 merged — a merge cannot express a reordering or a removal. The language is
 guessed from the title by `zc.detect_language`, over the only three this record
@@ -267,6 +269,50 @@ Four things worth not rediscovering:
   if those endpoints change — which is why one tool covers both jobs rather than
   two. `orcid-sync` is in no composite gate: applying is a network write needing a
   human login, like `check-sync`.
+
+### Mirroring on Idiap's publication portal
+
+Idiap's funding reports are built from its own publication database, so every
+recent paper must also be entered there, **with its funding project and
+research programs selected**. That is what attributes it. The database has two
+faces: **publidiap.idiap.ch**, which is editable, intranet-only (bring up the VPN
+with the `idiap-vpn` fish function) and takes the Idiap login, and
+**publications.idiap.ch**, a public read-only copy refreshed from it once an
+hour.
+
+```sh
+pixi run check-portal                 # every paper of the last 5 years is there?
+pixi run portal-entry <citation key>  # the publidiap form, ready to copy
+```
+
+Both read only the public copy, through its BibTeX export for author 921, so
+neither needs the VPN. The rules `tools/idiap_portal.py` applies:
+
+- **Scope is journal, conference and chapter papers of the CV's five-year
+  window** (`RECENT_YEARS`, as in `tools/build-cv.py`). Software, datasets,
+  patents, preprints and pre-Idiap work are exempt.
+- **Matching is by DOI, then by normalised title.** Most portal records carry no
+  DOI, and some write it as a `https://doi.org/` URL. A portal *techreport* never
+  counts as the paper, because an Idiap-RR shares the paper's title and would
+  hide a paper that was never entered.
+- **A missing paper fails; missing attribution only warns.** A recent record
+  with no `projects` or no `mainresearchprogram` is reported, not fatal.
+- **The proposed project and programs come from the portal itself.** The site
+  has no table from its projects to Idiap's. `portal-entry` therefore counts
+  what the work's *siblings*, the other outputs on the same
+  `content/projects/<id>/` page, already carry on the portal. Read the counts
+  before ticking them: a new grant will not show up there yet.
+- **The form always carries an abstract, keywords and, for a conference paper,
+  a short name.** Zotero comes first. A gap is filled from OpenAlex (abstract,
+  keywords), then Semantic Scholar (abstract), looked up by DOI or, for a DOI-less work, by exact normalised title.
+  The short name is the venue's own `(ACRONYM)`, else the shortest all-capitals
+  alternate name Semantic Scholar lists. The form names each borrowed value's
+  source. A borrowed abstract also comes with the `edit_zotero_item.py` command
+  that stores it in Zotero, where it belongs: the abstract is Zotero's, and
+  `orcid-sync` copies it to ORCID.
+- **It is in no composite gate.** A new paper is missing until a human enters it
+  and the hourly sync runs, and that must not block a deploy. An unreachable
+  portal warns and passes.
 
 ## Funding (ORCID is the source of truth)
 
@@ -523,7 +569,7 @@ as a named assertion rather than as a puzzling content error or Zotero diff.
 
 Each check also runs alone: `check-content`, `check-outputs`, `check-featured`,
 `check-funding`, `check-interests`, `check-links`, `check-links-idiap`,
-`check-sync`, `lint`.
+`check-sync`, `check-portal`, `lint`.
 
 **The link check is two runs, and they partition the site between them.**
 Temporarily, `idiap.ch` and all its subdomains are unstable. `lychee.toml`
