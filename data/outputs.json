@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-12T17:16:23Z",
+  "generated": "2026-11-12T17:35:19Z",
   "source": "zotero:users/5992358/publications",
   "count": 146,
   "entries": [
@@ -279,6 +279,46 @@
     },
     {
       "authors": [
+        "Victor Amiot",
+        "Oscar Jimenez–del–Toro",
+        "Yan Guex–Crosier",
+        "Muriel Ott",
+        "Teodora-Elena Bogaciu",
+        "Shalini Banerjee",
+        "Jeremy Howell",
+        "Christoph Amstutz",
+        "Christophe Chiquet",
+        "Ciara Bergin",
+        "Ilenia Meloni",
+        "Mattia Tomasoni",
+        "Florence Hoogewoud",
+        "André Anjos"
+      ],
+      "title": "Automatic transformer-based grading of multiple retinal inflammatory signs in uveitis on fluorescein angiography",
+      "container": "Computers in Biology and Medicine",
+      "year": 2025,
+      "month": 0,
+      "doi": "10.1016/j.compbiomed.2025.110327",
+      "url": null,
+      "pdf": "https://api.zotero.org/users/5992358/publications/items/GZA9BUEB/file",
+      "type": "Journal Article",
+      "typeslug": "journals",
+      "software": null,
+      "volume": "193",
+      "issue": null,
+      "pages": "110327",
+      "number": null,
+      "key": "amiot_automatic_2025",
+      "related": [
+        {
+          "type": "Preprint",
+          "doi": "10.2139/ssrn.4960069",
+          "href": "https://api.zotero.org/users/5992358/publications/items/EQQW46FE/file"
+        }
+      ]
+    },
+    {
+      "authors": [
         "André Anjos"
       ],
       "title": "fairical",
@@ -359,46 +399,6 @@
     },
     {
       "authors": [
-        "Victor Amiot",
-        "Oscar Jimenez–del–Toro",
-        "Yan Guex–Crosier",
-        "Muriel Ott",
-        "Teodora-Elena Bogaciu",
-        "Shalini Banerjee",
-        "Jeremy Howell",
-        "Christoph Amstutz",
-        "Christophe Chiquet",
-        "Ciara Bergin",
-        "Ilenia Meloni",
-        "Mattia Tomasoni",
-        "Florence Hoogewoud",
-        "André Anjos"
-      ],
-      "title": "Automatic transformer-based grading of multiple retinal inflammatory signs in uveitis on fluorescein angiography",
-      "container": "Computers in Biology and Medicine",
-      "year": 2025,
-      "month": 0,
-      "doi": "10.1016/j.compbiomed.2025.110327",
-      "url": null,
-      "pdf": "https://api.zotero.org/users/5992358/publications/items/GZA9BUEB/file",
-      "type": "Journal Article",
-      "typeslug": "journals",
-      "software": null,
-      "volume": "193",
-      "issue": null,
-      "pages": "110327",
-      "number": null,
-      "key": "amiot_automatic_2025",
-      "related": [
-        {
-          "type": "Preprint",
-          "doi": "10.2139/ssrn.4960069",
-          "href": "https://api.zotero.org/users/5992358/publications/items/EQQW46FE/file"
-        }
-      ]
-    },
-    {
-      "authors": [
         "Özgür Acar Güler",
         "Manuel Günther",
         "André Anjos"
@@ -471,27 +471,61 @@
     },
     {
       "authors": [
-        "André Anjos"
+        "Thibaud Mautuit",
+        "Pierre Cunnac",
+        "Frédéric Truffer",
+        "André Anjos",
+        "Rebecca Dufrane",
+        "Gilbert Maître",
+        "Martial Geiser",
+        "Christophe Chiquet"
       ],
-      "title": "mednet",
-      "container": null,
+      "title": "Absolute retinal blood flow in healthy eyes and in eyes with retinal vein occlusion",
+      "container": "Microvascular Research",
       "year": 2024,
       "month": 0,
-      "doi": null,
+      "doi": "10.1016/j.mvr.2023.104648",
       "url": null,
       "pdf": null,
-      "type": "Software",
-      "typeslug": "software",
-      "license": "GPL-3.0",
-      "summary": "A framework for developing and analysing deep neural network architectures for medical data (2D/3D images and signals), with ready access to many public medical-imaging datasets and extensible model architectures.",
-      "links": {
-        "repo": "https://gitlab.idiap.ch/medai/software/mednet",
-        "docs": "https://mednet.readthedocs.io/",
-        "pypi": "https://pypi.org/project/mednet/",
-        "conda": "https://anaconda.org/conda-forge/mednet"
-      },
-      "archived": false,
-      "key": "anjos_mednet_2024",
+      "type": "Journal Article",
+      "typeslug": "journals",
+      "software": null,
+      "volume": "152",
+      "issue": null,
+      "pages": "104648",
+      "number": null,
+      "key": "mautuit_absolute_2024",
+      "related": []
+    },
+    {
+      "authors": [
+        "Oscar Jimenez-del-Toro",
+        "Christoph Aberle",
+        "Roger Schaer",
+        "Michael Bach",
+        "Kyriakos Flouris",
+        "Ender Konukoglu",
+        "Bram Stieltjes",
+        "Markus M. Obmann",
+        "André Anjos",
+        "Henning Müller",
+        "Adrien Depeursinge"
+      ],
+      "title": "Comparing Stability and Discriminatory Power of Hand-crafted Versus Deep Radiomics: A 3D-Printed Anthropomorphic Phantom Study",
+      "container": "2024 12th European Workshop on Visual Information Processing (EUVIP)",
+      "year": 2024,
+      "month": 0,
+      "doi": "10.1109/euvip61797.2024.10772813",
+      "url": null,
+      "pdf": null,
+      "type": "Conference Paper",
+      "typeslug": "conferences",
+      "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": null,
+      "number": null,
+      "key": "jimenez-del-toro_comparing_2024",
       "related": []
     },
     {
@@ -536,6 +570,31 @@
     },
     {
       "authors": [
+        "André Anjos"
+      ],
+      "title": "mednet",
+      "container": null,
+      "year": 2024,
+      "month": 0,
+      "doi": null,
+      "url": null,
+      "pdf": null,
+      "type": "Software",
+      "typeslug": "software",
+      "license": "GPL-3.0",
+      "summary": "A framework for developing and analysing deep neural network architectures for medical data (2D/3D images and signals), with ready access to many public medical-imaging datasets and extensible model architectures.",
+      "links": {
+        "repo": "https://gitlab.idiap.ch/medai/software/mednet",
+        "docs": "https://mednet.readthedocs.io/",
+        "pypi": "https://pypi.org/project/mednet/",
+        "conda": "https://anaconda.org/conda-forge/mednet"
+      },
+      "archived": false,
+      "key": "anjos_mednet_2024",
+      "related": []
+    },
+    {
+      "authors": [
         "Jung Park",
         "André Anjos"
       ],
@@ -558,23 +617,20 @@
     },
     {
       "authors": [
-        "Oscar Jimenez-del-Toro",
-        "Christoph Aberle",
-        "Roger Schaer",
-        "Michael Bach",
-        "Kyriakos Flouris",
-        "Ender Konukoglu",
-        "Bram Stieltjes",
-        "Markus M. Obmann",
+        "Victor Amiot",
+        "Oscar Jimenez-Del-Toro",
+        "Pauline Eyraud",
+        "Yan Guex-Crosier",
+        "Ciara Bergin",
         "André Anjos",
-        "Henning Müller",
-        "Adrien Depeursinge"
+        "Florence Hoogewoud",
+        "Mattia Tomasoni"
       ],
-      "title": "Comparing Stability and Discriminatory Power of Hand-crafted Versus Deep Radiomics: A 3D-Printed Anthropomorphic Phantom Study",
-      "container": "2024 12th European Workshop on Visual Information Processing (EUVIP)",
-      "year": 2024,
+      "title": "Fully Automatic Grading of Retinal Vasculitis on Fluorescein Angiography Time-lapse from Rheumatologic Uveitis",
+      "container": "2023 IEEE 36th International Symposium on Computer-Based Medical Systems (CBMS)",
+      "year": 2023,
       "month": 0,
-      "doi": "10.1109/euvip61797.2024.10772813",
+      "doi": "10.1109/cbms58004.2023.00301",
       "url": null,
       "pdf": null,
       "type": "Conference Paper",
@@ -584,35 +640,36 @@
       "issue": null,
       "pages": null,
       "number": null,
-      "key": "jimenez-del-toro_comparing_2024",
+      "key": "amiot_fully_2023",
       "related": []
     },
     {
       "authors": [
-        "Thibaud Mautuit",
-        "Pierre Cunnac",
-        "Frédéric Truffer",
+        "C. Geric",
+        "Z. Z. Qin",
+        "C. M. Denkinger",
+        "S. V. Kik",
+        "B. Marais",
         "André Anjos",
-        "Rebecca Dufrane",
-        "Gilbert Maître",
-        "Martial Geiser",
-        "Christophe Chiquet"
+        "P-M. David",
+        "F. Ahmad Khan",
+        "A. Trajman"
       ],
-      "title": "Absolute retinal blood flow in healthy eyes and in eyes with retinal vein occlusion",
-      "container": "Microvascular Research",
-      "year": 2024,
+      "title": "The rise of artificial intelligence reading of chest X-rays for enhanced TB diagnosis and elimination",
+      "container": "The International Journal of Tuberculosis and Lung Disease",
+      "year": 2023,
       "month": 0,
-      "doi": "10.1016/j.mvr.2023.104648",
+      "doi": "10.5588/ijtld.22.0687",
       "url": null,
       "pdf": null,
       "type": "Journal Article",
       "typeslug": "journals",
       "software": null,
-      "volume": "152",
+      "volume": null,
       "issue": null,
-      "pages": "104648",
+      "pages": null,
       "number": null,
-      "key": "mautuit_absolute_2024",
+      "key": "geric_rise_2023",
       "related": []
     },
     {
@@ -688,63 +745,6 @@
       },
       "archived": false,
       "key": "anjos_autointersphinx_2023",
-      "related": []
-    },
-    {
-      "authors": [
-        "C. Geric",
-        "Z. Z. Qin",
-        "C. M. Denkinger",
-        "S. V. Kik",
-        "B. Marais",
-        "André Anjos",
-        "P-M. David",
-        "F. Ahmad Khan",
-        "A. Trajman"
-      ],
-      "title": "The rise of artificial intelligence reading of chest X-rays for enhanced TB diagnosis and elimination",
-      "container": "The International Journal of Tuberculosis and Lung Disease",
-      "year": 2023,
-      "month": 0,
-      "doi": "10.5588/ijtld.22.0687",
-      "url": null,
-      "pdf": null,
-      "type": "Journal Article",
-      "typeslug": "journals",
-      "software": null,
-      "volume": null,
-      "issue": null,
-      "pages": null,
-      "number": null,
-      "key": "geric_rise_2023",
-      "related": []
-    },
-    {
-      "authors": [
-        "Victor Amiot",
-        "Oscar Jimenez-Del-Toro",
-        "Pauline Eyraud",
-        "Yan Guex-Crosier",
-        "Ciara Bergin",
-        "André Anjos",
-        "Florence Hoogewoud",
-        "Mattia Tomasoni"
-      ],
-      "title": "Fully Automatic Grading of Retinal Vasculitis on Fluorescein Angiography Time-lapse from Rheumatologic Uveitis",
-      "container": "2023 IEEE 36th International Symposium on Computer-Based Medical Systems (CBMS)",
-      "year": 2023,
-      "month": 0,
-      "doi": "10.1109/cbms58004.2023.00301",
-      "url": null,
-      "pdf": null,
-      "type": "Conference Paper",
-      "typeslug": "conferences",
-      "software": null,
-      "volume": null,
-      "issue": null,
-      "pages": null,
-      "number": null,
-      "key": "amiot_fully_2023",
       "related": []
     },
     {
