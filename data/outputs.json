@@ -1,7 +1,7 @@
 {
-  "generated": "2026-09-07T15:14:35Z",
+  "generated": "2026-11-12T07:31:12Z",
   "source": "zotero:users/5992358/publications",
-  "count": 145,
+  "count": 146,
   "entries": [
     {
       "authors": [
@@ -54,6 +54,30 @@
       "pages": null,
       "number": null,
       "key": "ozbulak_lossconditioned_2026",
+      "related": []
+    },
+    {
+      "authors": [
+        "Maíra Fatoretto",
+        "Marcos Medeiros Raimundo",
+        "André Anjos",
+        "Lilian Berton"
+      ],
+      "title": "A Dual-Constraint Optimization Approach for Algorithmic Fairness",
+      "container": "2026 IEEE Congress on Evolutionary Computation (CEC)",
+      "year": 2026,
+      "month": 6,
+      "doi": "10.1109/cec69861.2026.11727425",
+      "url": null,
+      "pdf": null,
+      "type": "Conference Paper",
+      "typeslug": "conferences",
+      "software": null,
+      "volume": null,
+      "issue": null,
+      "pages": "1-6",
+      "number": null,
+      "key": "fatoretto_dualconstraint_2026",
       "related": []
     },
     {
