@@ -300,6 +300,12 @@ neither needs the VPN. The rules `tools/idiap_portal.py` applies:
   what the work's *siblings*, the other outputs on the same
   `content/projects/<id>/` page, already carry on the portal. Read the counts
   before ticking them: a new grant will not show up there yet.
+- **The form always carries an abstract and, for a conference paper, a short
+  name.** Zotero comes first. A gap is filled from OpenAlex, then Semantic
+  Scholar, looked up by DOI or, for a DOI-less work, by exact normalised title.
+  The short name is the venue's own `(ACRONYM)`, else the shortest all-capitals
+  alternate name Semantic Scholar lists. The form names the abstract's source,
+  and says so when none of the three has one.
 - **It is in no composite gate.** A new paper is missing until a human enters it
   and the hourly sync runs, and that must not block a deploy. An unreachable
   portal warns and passes.

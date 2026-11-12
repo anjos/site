@@ -38,6 +38,7 @@ import html
 import json
 import re
 import sys
+import unicodedata
 
 import validate_content
 import zotero_common
@@ -238,7 +239,111 @@ def propose(entry: dict, entries: list[dict], records: list[dict[str, str]]):
     return pages, counts
 
 
-def prepare(key: str, entries: list[dict], records: list[dict[str, str]], zotero: dict[str, str]) -> str:
+def short_name(venue: str, alternates: list[str] | None = None) -> str | None:
+    """A conference's short name: ``(ACRONYM)`` in its title, else a listed one.
+
+    Parameters
+    ----------
+    venue
+        The proceedings title, e.g. "2026 IEEE Congress on Evolutionary
+        Computation (CEC)".
+    alternates
+        Other names for the venue, as Semantic Scholar lists them; the shortest
+        all-capitals one is taken.
+
+    Returns
+    -------
+    str | None
+        The short name, or None when neither source has one.
+    """
+    m = re.search(r"\(([A-Z][A-Za-z0-9-]+)\)", venue or "")
+    if m:
+        return m.group(1)
+    caps = [a for a in alternates or [] if re.fullmatch(r"[A-Z][A-Z0-9-]{1,15}", a)]
+    return min(caps, key=len) if caps else None
+
+
+def abstract_from_index(index: dict[str, list[int]] | None) -> str | None:
+    """Rebuild a plain abstract from OpenAlex's ``abstract_inverted_index``.
+
+    Parameters
+    ----------
+    index
+        ``{word: [positions]}``, as OpenAlex stores abstracts.
+
+    Returns
+    -------
+    str | None
+        The abstract, or None if there is none.
+    """
+    if not index:
+        return None
+    return " ".join(w for _, w in sorted((p, w) for w, ps in index.items() for p in ps))
+
+
+def _lookup(entry: dict) -> dict[str, object]:
+    """Abstract and venue names for one work from OpenAlex and Semantic Scholar.
+
+    Both are key-less and are looked up by DOI, or by title for a DOI-less work
+    (accepted only when the normalised title matches exactly). Each source is
+    best effort: a failure just leaves its fields out.
+
+    Parameters
+    ----------
+    entry
+        One entry of ``data/outputs.json``.
+
+    Returns
+    -------
+    dict[str, object]
+        ``abstracts`` (a list of ``(source, text)``, OpenAlex first) and
+        ``alternates`` (other names Semantic Scholar knows the venue by).
+    """
+    import requests
+
+    doi, title = entry.get("doi"), entry.get("title") or ""
+    slug = zotero_common.slug_title(title)
+    headers = {"User-Agent": zotero_common.USER_AGENT}
+    out: dict[str, object] = {"abstracts": [], "alternates": []}
+
+    def get(url: str, **params) -> dict:
+        r = requests.get(url, params=params, headers=headers, timeout=30)
+        r.raise_for_status()
+        return r.json()
+
+    try:
+        if doi:
+            work = get(f"https://api.openalex.org/works/doi:{doi}")
+        else:
+            hits = get("https://api.openalex.org/works", filter=f"title.search:{title}")["results"]
+            work = next((w for w in hits if zotero_common.slug_title(w.get("title") or "") == slug), {})
+        text = abstract_from_index(work.get("abstract_inverted_index"))
+        if text:
+            out["abstracts"].append(("OpenAlex", text))
+    except Exception:  # best effort — the form then says where to look
+        pass
+    try:
+        fields = "title,abstract,publicationVenue"
+        if doi:
+            paper = get(f"https://api.semanticscholar.org/graph/v1/paper/DOI:{doi}", fields=fields)
+        else:
+            hits = get("https://api.semanticscholar.org/graph/v1/paper/search/match", query=title, fields=fields)
+            paper = next((p for p in hits.get("data", []) if zotero_common.slug_title(p.get("title") or "") == slug), {})
+        if paper.get("abstract"):
+            out["abstracts"].append(("Semantic Scholar", paper["abstract"]))
+        out["alternates"] = (paper.get("publicationVenue") or {}).get("alternate_names") or []
+    except Exception:
+        pass
+    return out
+
+
+def prepare(
+    key: str,
+    entries: list[dict],
+    records: list[dict[str, str]],
+    zotero: dict[str, str],
+    lookup: dict[str, object] | None = None,
+) -> str:
     """The portal form for one work, as text to copy from.
 
     Parameters
@@ -251,6 +356,9 @@ def prepare(key: str, entries: list[dict], records: list[dict[str, str]], zotero
         Portal records.
     zotero
         Zotero's BibTeX export, ``{citation key: entry}``.
+    lookup
+        What :func:`_lookup` found elsewhere, filling in an abstract Zotero
+        lacks and a short name the venue title does not carry.
 
     Returns
     -------
@@ -267,8 +375,12 @@ def prepare(key: str, entries: list[dict], records: list[dict[str, str]], zotero
         raise KeyError(f"{key} is not in data/outputs.json — run `pixi run outputs`?")
     bib = (parse_bibtex(zotero.get(key, "")) or [{}])[0]
     venue = entry.get("container") or ""
-    acronym = re.search(r"\(([A-Z][A-Za-z0-9-]+)\)", venue)
+    lookup = lookup or {}
+    short = short_name(venue, lookup.get("alternates")) if entry["type"] == "Conference Paper" else None
+    found = [("Zotero", bib["abstract"])] if bib.get("abstract") else []
+    source, abstract = (found + list(lookup.get("abstracts") or []) + [(None, None)])[0]
     first = (bib.get("author", "").split(" and ")[0].split(",")[0] or "Author").strip("{} ")
+    first = unicodedata.normalize("NFKD", first).encode("ascii", "ignore").decode()  # Idiap keys are ASCII
     pages, counts = propose(entry, entries, records)
 
     def top(field: str) -> str:
@@ -278,10 +390,11 @@ def prepare(key: str, entries: list[dict], records: list[dict[str, str]], zotero
     rows = [
         ("Type", PAPER_TYPES.get(entry["type"], f"{entry['type']} — not a paper type this check requires")),
         ("Status", "Published" if entry.get("doi") else "Accepted"),
-        ("Citation", f"{first}_{acronym.group(1) if acronym else '<VENUE>'}_{entry['year']}"),
+        ("Citation", f"{first}_{short or '<VENUE>'}_{entry['year']}"),
         ("Title", entry["title"]),
         ("Authors", "; ".join(a.strip() for a in bib.get("author", "").split(" and ")) or ", ".join(entry["authors"])),
         ("Journal" if entry["type"] == "Journal Article" else "Booktitle", venue),
+        ("Short name", (short or "— not found; take it from the call for papers") if entry["type"] == "Conference Paper" else ""),
         ("Year", str(entry["year"])),
         ("Month", calendar.month_name[entry["month"]] if entry.get("month") else "— unknown"),
         ("Volume", entry.get("volume") or ""),
@@ -302,7 +415,14 @@ def prepare(key: str, entries: list[dict], records: list[dict[str, str]], zotero
         f"Proposals from the portal records of sibling papers on: {', '.join(pages) or 'no project page'}.",
     ]
     body = [f"  {name + ':':<14}{value}" for name, value in rows if value]
-    tail = ["", "Abstract:", "  " + (bib.get("abstract") or "— none in Zotero"), "", "Zotero BibTeX:", zotero.get(key, "— not found").strip()]
+    tail = [
+        "",
+        f"Abstract (from {source}):" if source else "Abstract:",
+        "  " + (" ".join(abstract.split()) if abstract else "— none in Zotero, OpenAlex or Semantic Scholar; copy it from the paper"),
+        "",
+        "Zotero BibTeX:",
+        zotero.get(key, "— not found").strip(),
+    ]
     return "\n".join([h for h in head if h] + [""] + body + tail)
 
 
@@ -335,7 +455,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.prepare:
         try:
             zotero = zotero_common.fetch_public_bibtex(zotero_common.read_user_id())
-            print(prepare(args.prepare, _entries(), records, zotero))
+            entries = _entries()
+            entry = next((e for e in entries if e["key"] == args.prepare), {})
+            print(prepare(args.prepare, entries, records, zotero, _lookup(entry) if entry else None))
         except KeyError as e:
             print(f"  ✗ {e.args[0]}", file=sys.stderr)
             return 1

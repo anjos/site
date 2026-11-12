@@ -62,3 +62,16 @@ def test_check_matches_and_reports():
     assert len(fatal) == 1 and fatal[0].startswith("ozbulak ")
     # Amiot has projects and a main program; the RR is not attribution-checked.
     assert [e for e in errors if e.startswith("WARN:")] == []
+
+
+def test_short_name():
+    """The venue's own (ACRONYM) wins; else the shortest all-caps alternate."""
+    assert idiap_portal.short_name("2026 IEEE Congress on Evolutionary Computation (CEC)") == "CEC"
+    assert idiap_portal.short_name("Congress", ["IEEE Congr Evol Comput", "CEC", "IEEECEC"]) == "CEC"
+    assert idiap_portal.short_name("Some Workshop", ["Some Workshop"]) is None
+
+
+def test_abstract_from_index():
+    """OpenAlex's inverted index reads back in word order."""
+    assert idiap_portal.abstract_from_index({"fair": [1], "A": [0], "model.": [2]}) == "A fair model."
+    assert idiap_portal.abstract_from_index(None) is None
