@@ -9,6 +9,7 @@ summary: >-
 partners:
   - "Federal University of São Paulo (UNIFESP)"
 research_outputs:
+  - "10.1109/CEC69861.2026.11727425"
   - "ozbulak_lossconditioned_2026"
   - "10.1145/3793542"
   - "10.59275/j.melba.2025-ab9a"
